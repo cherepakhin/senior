@@ -36,21 +36,21 @@
             src="media/editors/tinymce/plugins/emoticons/img/smiley-laughing.gif" alt="laughing"/> , не всегда нужен результат обработки запроса прямо сейчас. Как то забывается частенько. Иногда, достаточно по-быстрому проверить корректность вх.параметров, отправить в очередь запрос, отдать Ок, и "забить" на него. Вроде тривиально, а все равно вокруг одни RESTы при обмене между микросервисами и никаких вариантов. <br/><br/> Многопроектный проект в idea. Если пишешь один, то супер. Если в команде - засада (имхо). Исключение - karaf.</span>
 </p>
 <h3><b>Тестирование</b></h3>
-            <strong>
+<strong>
                 <span
                     style="font-weight: 400;"></span><span style="font-weight: 400;"> Интеграционные тестирование чаще ручное, хотя есть <span
-                        style="color: #3366ff;"><strong><span style="text-decoration: underline;"><a
-                                    style="color: #3366ff; text-decoration: underline;"
-                                    href="https://pypi.org/project/pytest/" target="_blank"
-                                    rel="noopener noreferrer">pytest</a></span></strong></span> и скрипты pytest. Утилита <span
-                        style="text-decoration: underline; color: #3366ff;"><strong><a
-                                style="color: #3366ff; text-decoration: underline;" title="behave"
-                                href="https://behave.readthedocs.io/en/stable/" target="_blank"
-                                rel="noopener noreferrer">behave</a></strong></span>
+            style="color: #3366ff;"><strong><span style="text-decoration: underline;"><a
+                        style="color: #3366ff; text-decoration: underline;"
+                        href="https://pypi.org/project/pytest/" target="_blank"
+                        rel="noopener noreferrer">pytest</a></span></strong></span> и скрипты pytest. Утилита <span
+            style="text-decoration: underline; color: #3366ff;"><strong><a
+                    style="color: #3366ff; text-decoration: underline;" title="behave"
+                    href="https://behave.readthedocs.io/en/stable/" target="_blank"
+                    rel="noopener noreferrer">behave</a></strong></span>
                     вообще волшебная штука для интеграционных тестов. И не надо уточнять детали запроса. Все есть в тесте.
                     Особенно с выводом результатов в формате allure. Отдельный репозиторий для тестов, доступный всем разработчикам.
                 </span>
-            </strong>
+</strong>
 <p><span style="font-weight: 400;"> <img class="pull-center" src="images/allure5.png"
                                          alt=""/></span></p>
 <p><span style="font-weight: 400;"> <img class="pull-center" src="images/allure6.png"
@@ -82,7 +82,8 @@
                         rel="noopener noreferrer">yandex-tank.
                     </a>
                     <a style="text-decoration: underline; color: #3366ff;" title="yandex-tank"
-                       href="https://github.com/cherepakhin/lot4/blob/master/doc/load.md" target="_blank"
+                       href="https://github.com/cherepakhin/lot4/blob/master/doc/load.md"
+                       target="_blank"
                        rel="noopener noreferrer">(Пример)</a>
                 </strong>
             </span>
@@ -115,9 +116,11 @@
     точно надо тут? Масса лит-ры на эту тему.</p>
 <h3>Марк, постреляем?</h3>
 <p>Я о devops. Марк - это король devops-а, с которым мне повезло работать. "Постреляем" это про
-    нагрузочные испытания <strong><a style="text-decoration: underline; color: #3366ff;" title="yandex-tank"
-                             href="https://github.com/yandex/yandex-tank" target="_blank"
-                             rel="noopener noreferrer">yandex-tank</a></strong>. Хотя я не только про них
+    нагрузочные испытания <strong><a style="text-decoration: underline; color: #3366ff;"
+                                     title="yandex-tank"
+                                     href="https://github.com/yandex/yandex-tank" target="_blank"
+                                     rel="noopener noreferrer">yandex-tank</a></strong>. Хотя я не
+    только про них
     (испытания).</p>
 <p>Иногда случается, что devops инженеры как-то за скобками команды. Вам повезло, если разработчики
     в контакте с devops инженером. С нормальным devops инженером есть о чем поговорить.</p>
@@ -145,7 +148,8 @@
     к новому сотруднику. Вход в новый проект, в другую команду. Тут и подключение через vpn, и
     знакомство с ресурсами, и людьми, с самим проектом и т.п. Лениво так какую-то <b>левую</b>
     ссылочку кинут на jira(не на раздел проекта, а просто на корень jira), после 10-го обращения,
-    если повезет то и на репозитории. Или тупо: посмотри в jira, к которой <b>нет доступа</b>, т.к. не дали
+    если повезет то и на репозитории. Или тупо: посмотри в jira, к которой <b>нет доступа</b>, т.к.
+    не дали
     vpn, и куда за ним бежать неизвестно. И за куратором приходится побегать.</p>
 <p>Решение очень простое. В jira задача: "Довести нового сотрудника до 2-3 push в репу" (как-то
     неоднозначно звучит. В чью репу push? <img
@@ -154,7 +158,13 @@
     выбирает куратор или даже специально создает. 2-3 задачи никак ни на что не влияют. Тут цель -
     освоиться, отмазки типа "новичок тупой" в топку.</p>
 <h3>Команда</h3>
-<p>Не жалеть времени на общение бек-эндера с бек-эндером. Глаз замыливается. Даже <b>отдельный</b>
+<p>
+    <a style="text-decoration: underline; color: #3366ff;"
+               title="Идеальная команда"
+               href="http://v.perm.ru/main/index.php/notes/29-idealnaya-komanda" target="_blank"
+               rel="noopener noreferrer">Идеальная команда</a>.
+    Не жалеть времени на общение бек-эндера с бек-эндером. Глаз замыливается. Даже <b>отдельный</b>
+
     дейлик для бек-эндеров, даже если их всего двое. Апрувим друг-друга. Вопросы для дейлика
     размещать прямо в коде в виде "todo?".
     Todo помогает переварить речь перед обсуждением (и не только
@@ -189,6 +199,16 @@
             src="media/editors/tinymce/plugins/emoticons/img/smiley-laughing.gif"
             alt="laughing"/></span></p>
 <hr/>
-<p><span style="font-weight: 400;"><strong style="font-weight: 400;"><b>PS</b></strong><br/> Еще бы не забыть:<br/><br/> Черкнуть пару слов в отдельной статье, подробно и с примерами, о бессмысленности использования, причин возникновения, сопровождения и ухода от такого <b>"чуда"</b> как karaf в микросервисе kubernetes. Модульный karaf в микросервисе. Мозг в трубочку. А че не кубер в bundle карафа, да чего там мелочиться, лучше сразу windows в bundle, в которые запущен docker <img
-            src="media/editors/tinymce/plugins/emoticons/img/smiley-laughing.gif" alt="laughing"/>. Стоп! Stackoverflow. Короче, гнать karaf из микросервиса кубера. Накувыркался уже. Какая-то необъяснимая тяга к модульной java.Я и сам болел этим делом. Использование maven-зависимостей или отдельного микросервиса гораздо жестче и надежнее решает эту задачу. Уже пара проектов за плечами по "убийству" karaf в kubernetes. Надо в резюме уже писать "Убиваю karaf в кубере. Дорого." Как же легче становится писать. <br/> <br/> Swagger! Как всегда. По традиции. Из серии "С понедельника обязательно начну делать зарядку и писать доки." <br/><br/> Перечитал утром. Ну, я крут! <br/> <br/> Отдельная тема <b>восстановление после перерыва</b>. Отпуска, болезни. Короткий рецепт: писать, писать и писать. Свои мелкие проекты, но писать.<br/> <br/> </span>
+<p><span style="font-weight: 400;"><strong style="font-weight: 400;"><b>PS</b></strong><br/> Еще бы не забыть:<br/><br/>
+        Черкнуть пару слов в отдельной статье, подробно и с примерами, о бессмысленности использования,
+        причин возникновения, сопровождения и ухода от такого <b>"чуда"</b> как karaf в микросервисе kubernetes.
+        Модульный karaf в микросервисе. Мозг в трубочку.
+        А че не кубер в bundle карафа, да чего там мелочиться, лучше сразу windows в bundle, в которые запущен docker
+        <img src="media/editors/tinymce/plugins/emoticons/img/smiley-laughing.gif" alt="laughing"/>.
+        Стоп! Stackoverflow. Короче, гнать karaf из микросервиса кубера. Накувыркался уже. Какая-то необъяснимая тяга к модульной java.
+        Я и сам болел этим делом.
+        Использование maven-зависимостей или отдельного микросервиса гораздо жестче и надежнее решает эту задачу. Уже пара проектов за плечами по "убийству" karaf в kubernetes. Надо в резюме уже писать "Убиваю karaf в кубере. Дорого." Как же легче становится писать. <br/> <br/> Swagger! Как всегда. По традиции. Из серии "С понедельника обязательно начну делать зарядку и писать доки." <br/><br/> Перечитал утром. Ну, я крут! <br/> <br/>
+        Отдельная тема <b>восстановление после перерыва</b>. Отпуска, болезни.
+        Короткий рецепт: писать, писать и писать. Свои мелкие проекты, но писать.<br/> <br/>
+    </span>
 </p>
