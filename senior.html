@@ -30,7 +30,12 @@
     2. Держим в курсе этих дел тестировщиков(они сразу уже могут начать писать сценарии
     тестирования).<br/> 3. Идем работать.</p>
 <p><span style="font-weight: 400;">Внутри бэка </span><b>возможно</b><span
-        style="font-weight: 400;"> использование отдельного слоя DTO для обмена между микросервисами, т.к. внешние DTO регламентированы, а Entity завязаны на базу. Внутренние DTO под свой вкус можно наделать.</span>
+        style="font-weight: 400;"> использование отдельного слоя DTO для обмена между микросервисами, т.к. внешние DTO регламентированы, а Entity завязаны на базу. Внутренние DTO под свой вкус можно наделать.
+        Для конвертации в/из DTO использовал <a
+            style="color: #3366ff; text-decoration: underline;"
+            href="https://mapstruct.org/" target="_blank"
+            rel="noopener noreferrer">mapstruct</a>. ModelMapper тоже использовал (описать почему выбрал mapstruct).</span>
+
 </p>
 <p><span style="font-weight: 400;"> Обмен между микросервисами может быть не только через REST, но и через очереди, не всегда нужен результат обработки запроса прямо сейчас. Как то забывается частенько. Иногда, достаточно по-быстрому проверить корректность вх.параметров, отправить в очередь запрос, отдать Ок, и "забить" на него. Вроде тривиально, а все равно вокруг одни RESTы при обмене между микросервисами и никаких вариантов. <br/><br/> Многопроектный проект в idea. Если пишешь один, то супер. Если в команде - засада (имхо). Исключение - karaf.</span>
 </p>
@@ -61,16 +66,25 @@
                             style="text-decoration: underline; color: #3366ff;"> <a
                                 style="text-decoration: underline; color: #3366ff;"
                                 href="https://httpie.io/" target="_blank" rel="noopener noreferrer">httpie</a> </span> </strong>. И не нужно мучаться через web интерфейс с ручным вводом. Бек-эндеры могут помочь тестировщикам в этом деле. Что бывает <span
-                        style="text-decoration: underline;">психологически(?) </span> сложно принять для тестировщиков. "Я тут через браузер все руками попробовал и я уверен, а ты мне какую-то левую утилиту подсовываешь". </span> <span
-                    style="font-weight: 400;"><br/></span> </strong> <span
-                style="font-weight: 400;"> Для нагрузочных испытаний, есть классная утилита <span
-                    style="text-decoration: underline; color: #3366ff;"><strong> <a
+                        style="text-decoration: underline;">психологически(?) </span> сложно принять для тестировщиков. "Я тут через браузер все руками попробовал и я уверен, а ты мне какую-то левую утилиту подсовываешь".
+                </span>
+                <br/>
+                </strong>
+            <span
+                style="font-weight: 400;"> Для нагрузочных испытаний, есть классная утилита
+                <span style="text-decoration: underline; color: #3366ff;">
+                    <strong> <a
                             style="text-decoration: underline; color: #3366ff;" title="yandex-tank"
                             href="https://github.com/yandex/yandex-tank" target="_blank"
                             rel="noopener noreferrer">yandex-tank. </a> <a
                             style="text-decoration: underline; color: #3366ff;" title="yandex-tank"
                             href="https://github.com/cherepakhin/lot4/blob/master/doc/load.md"
-                            target="_blank" rel="noopener noreferrer">(Пример)</a> </strong> </span> </span></span></span>
+                            target="_blank" rel="noopener noreferrer">(Пример).</a>
+                    </strong>
+                </span>
+            </span>
+        </span>
+    </span>
 </p>
 <p><span style="font-weight: 400;">Для создания отчетов покрытия тестами использовал jacoco.</span>
 </p>
