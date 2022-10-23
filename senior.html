@@ -34,7 +34,10 @@
         Для конвертации в/из DTO использовал <a
             style="color: #3366ff; text-decoration: underline;"
             href="https://mapstruct.org/" target="_blank"
-            rel="noopener noreferrer">mapstruct</a>. ModelMapper тоже использовал (описать почему выбрал mapstruct).</span>
+            rel="noopener noreferrer">mapstruct</a>. <a
+            style="color: #3366ff; text-decoration: underline;"
+            href="http://modelmapper.org/" target="_blank"
+            rel="noopener noreferrer">ModelMapper</a> тоже хорош (описать почему выбрал mapstruct).</span>
 
 </p>
 <p><span style="font-weight: 400;"> Обмен между микросервисами может быть не только через REST, но и через очереди, не всегда нужен результат обработки запроса прямо сейчас. Как то забывается частенько. Иногда, достаточно по-быстрому проверить корректность вх.параметров, отправить в очередь запрос, отдать Ок, и "забить" на него. Вроде тривиально, а все равно вокруг одни RESTы при обмене между микросервисами и никаких вариантов. <br/><br/> Многопроектный проект в idea. Если пишешь один, то супер. Если в команде - засада (имхо). Исключение - karaf.</span>
