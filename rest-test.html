@@ -5,8 +5,16 @@
        href="https://github.com/cherepakhin/animals"
        target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/animals</a>
 </p>
+<p><b>А чем, собственно, проблема?</b></p>
 <hr id="system-readmore"/>
-
+На тех проектах, где работал, тестировщики в основном использовали <b>ручное</b> тестирование.
+И даже больше - интеграционное тестирование backend как-то не очень-то и проводится.
+Тут и философия scrum "помогает" не тратить много время на тестирование,
+когда каждый релиз выпускается с какими-то оговорками. И, с другой стороны, ограничения службы безопасности и т.д. и т.п.
+Мне, как разработчику backend, интересно протестировать сервис, а конкретно REST, со стороны backend.
+И unit тесты тут не помогут. Ручное тестирование (Postman, httpie) только для каких-то разовых операций.
+Нужно автоматизированное тестирование REST.
+<br/>
 <p><b>Простое тестирование JUnit5 с выводом результатов в Allure</b></p>
 Для общения с Rest можно использовать н.п. RestTemplate.
 Примеры тестирования <a style="text-decoration: underline; color: #3366ff;"
@@ -42,8 +50,9 @@ mvn clean test allure:report</code>
    href="https://github.com/cherepakhin/..."
    target="_blank" rel="noopener noreferrer">Пример использования</a>
 <br/>
-<p>Описание...</p>
-
+<p>Первый МОЩНЫЙ инструмент, который нашел, и в котором было все, что нужно. Но Python.
+Тестировщик должен его знать и корпоративные условия (секьюрность, сам python, библиотеки) должны позволять его использовать.</p>
+А сам инструмент фантастика! Понятно, что появились наследники.
 <p><b>JBehave</b></p>
 <a style="text-decoration: underline; color: #3366ff;"
    title="https://jbehave.org/"
@@ -64,20 +73,21 @@ mvn clean test allure:report</code>
    target="_blank" rel="noopener noreferrer">https://rest-assured.io/</a>
 <br/>
 <a style="text-decoration: underline; color: #3366ff;"
-   title="https://github.com/cherepakhin/..."
-   href="https://github.com/cherepakhin/..."
+   title="https://github.com/cherepakhin/animals-rest-assured-test"
+   href="https://github.com/cherepakhin/animals-rest-assured-test"
    target="_blank" rel="noopener noreferrer">Пример использования</a>
 <br/>
 <p>Описание...</p>
 
-<p><b>Вопросы:</b></p>
+<hr/>
+<p><b>Вопросы на ктр. не очень-то и отработаны (МНОЙ!):</b></p>
 <p>Это не UNIT тесты, это интеграционные тесты. При обычном UNIT тестировании,
-можно откатить, например, состояние базы данных (установить режим транзакций). </p>
-<p>Всегда-ли возможно установить состояние базы данных в состояние на ктр. расчитывает тест (что-то типа "mvn flyway:migrate")?
+можно откатить, например, состояние базы данных установкой режима транзакций. Но интеграционное тестирование это не только база данных.</p>
+<p>И всегда-ли возможно установить состояние базы данных в состояние на ктр. расчитывает тест (что-то типа "mvn flyway:migrate")?
     И что такое начальное состояние БД для конкретного теста?</p>
 <p>Другие внешние ресурсы (очереди, авторизация, др. смежные сервисы). Как-то бы мокать все эти дела или использовать <b>@Before..</b>/<b>@After..</b></p>
 <p>Похож на предыдущий пункт - тестирование бизнес ПРОЦЕССОВ и уже УСТАНОВЛЕНОГО ГДЕ-ТО СОСТОЯНИЯ процесса.</p>
-<p>Нужен будет валидатор JSON схемы. Например, такой
+<p>Всякие мелочи типа валидатора JSON схемы и т.п. (Конкретно, для JSON, например, есть такой
 <a style="text-decoration: underline; color: #3366ff;"
    title="https://github.com/networknt/json-schema-validator"
    href="https://github.com/networknt/json-schema-validator"
@@ -85,7 +95,8 @@ mvn clean test allure:report</code>
 
 Пример использования
 <a style="text-decoration: underline; color: #3366ff;"
-   title="https://www.baeldung.com/introduction-to-json-schema-in-java"
+   title="Пример использования"
    href="https://www.baeldung.com/introduction-to-json-schema-in-java"
    target="_blank" rel="noopener noreferrer">https://www.baeldung.com/introduction-to-json-schema-in-java/</a>
+)
 </p>
