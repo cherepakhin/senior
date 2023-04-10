@@ -15,39 +15,26 @@
 И unit тесты тут не помогут. Ручное тестирование (Postman, httpie) только для каких-то разовых операций.
 Нужно автоматизированное тестирование REST.
 <br/>
+
+Для общения с Rest можно использовать н.п. RestTemplate или FeignClient.
+
+<p><b>RestTemplate</b></p>
+<br/>
+<p>Описание...</p>
+
+<p><b>Feight client</b></p>
+<br/>
+<p>Описание...</p>
+
 <p><b>Behave-restful (Python!)</b></p>
 <a style="text-decoration: underline; color: #3366ff;"
    title="https://github.com/behave-restful/behave-restful"
    href="https://github.com/behave-restful/behave-restful"
    target="_blank" rel="noopener noreferrer">https://github.com/behave-restful/behave-restful</a>
 <br/>
-<p>Первый МОЩНЫЙ инструмент, который нашел, и в котором было все, что нужно. Но Python.
-    Тестировщик должен его знать и корпоративные условия (секьюрность, сам python, библиотеки) должны позволять его использовать.</p>
-А сам инструмент фантастика! Понятно, что появились наследники.
-
-<p><b>Простое тестирование JUnit5 с выводом результатов в Allure</b></p>
-Для общения с Rest можно использовать н.п. RestTemplate.
-Примеры тестирования <a style="text-decoration: underline; color: #3366ff;"
-                        title="https://javabydeveloper.com/junit-5-with-allure-reports-example/"
-                        href="https://javabydeveloper.com/junit-5-with-allure-reports-example/"
-                        target="_blank" rel="noopener noreferrer">https://javabydeveloper.com/junit-5-with-allure-reports-example/</a>.
-В примере очень подробно описана работа с Allure, с различными группировками и прочими возможностями.
-<br/>
-<p>Проведение тестов:</p>
-<pre class="language-shell">
-<code>git clone https://github.com/javabydeveloper/Junit-5-tutorials-master/tree/master/junit5-allure-report-example
-cd junit5-allurreport-example
-mvn clean test allure:report</code>
-</pre>
-<br/>
-<p><i>Необходимое замечание</i></p>
-Нужно обеспечить начальное состояние теста и восстановить состояние после любого исхода теста. В самом простом случае можно установить его прямо в тесте. Или, лучше, воспользоваться средствами JUnit5:
-<ul>
-    <li>@BeforeAll - выполняется ПЕРЕД выполнением ВСЕХ методов класса теста</li>
-    <li>@BeforeEach - выполняется ПЕРЕД выполнением КАЖДОГО метода класса теста</li>
-    <li>@AfterEach - выполняется ПОСЛЕ выполнением КАЖДОГО метода класса теста</li>
-    <li>@AfterAll - выполняется ПОСЛЕ выполнением ВСЕХ методов класса теста</li>
-</ul>
+<p>А это уже комбайн! Первый МОЩНЫЙ инструмент, и в котором было все, что нужно. Но Python.
+    Тестировщик должен его знать и корпоративные условия (секьюрность, сам python, библиотеки) должны позволять его использовать.
+А сам инструмент фантастика! Понятно, что появились наследники.</p>
 
 <p><b>JBehave</b></p>
 <a style="text-decoration: underline; color: #3366ff;"
@@ -101,7 +88,13 @@ mvn clean test allure:report</code>
 <br/>
 
 <p>
-Если RestTemplate или RestAssured чем-то не устроит, то,возможно, пригодится другая библиотека для создания REST запросов:
+Если RestTemplate или RestAssured чем-то не устроит, то, возможно, пригодится другая библиотека для создания REST запросов
+    <a style="text-decoration: underline; color: #3366ff;"
+       title="https://square.github.io/retrofit/"
+       href="https://square.github.io/retrofit/"
+       target="_blank" rel="noopener noreferrer">https://square.github.io/retrofit/</a>
+    <br/>
+Примеры:<br/>
 <a style="text-decoration: underline; color: #3366ff;"
    title="https://www.vogella.com/tutorials/Retrofit/article.html"
    href="https://www.vogella.com/tutorials/Retrofit/article.html"

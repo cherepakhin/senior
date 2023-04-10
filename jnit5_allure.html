@@ -1,0 +1,21 @@
+Примеры тестирования <a style="text-decoration: underline; color: #3366ff;"
+                        title="https://javabydeveloper.com/junit-5-with-allure-reports-example/"
+                        href="https://javabydeveloper.com/junit-5-with-allure-reports-example/"
+                        target="_blank" rel="noopener noreferrer">https://javabydeveloper.com/junit-5-with-allure-reports-example/</a>.
+В примере очень подробно описана работа с Allure, с различными группировками и прочими возможностями. Что будет протестировано, Rest или что-то другое, не важно.
+<br/>
+<p>Проведение тестов:</p>
+<pre class="language-shell">
+<code>git clone https://github.com/javabydeveloper/Junit-5-tutorials-master/tree/master/junit5-allure-report-example
+cd junit5-allurreport-example
+mvn clean test allure:report</code>
+</pre>
+<br/>
+<p><i>Необходимое замечание</i></p>
+Нужно обеспечить начальное состояние теста и восстановить состояние после любого исхода теста. В самом простом случае можно установить его прямо в тесте. Или, лучше, воспользоваться средствами JUnit5:
+<ul>
+    <li>@BeforeAll - выполняется ПЕРЕД выполнением ВСЕХ методов класса теста</li>
+    <li>@BeforeEach - выполняется ПЕРЕД выполнением КАЖДОГО метода класса теста</li>
+    <li>@AfterEach - выполняется ПОСЛЕ выполнением КАЖДОГО метода класса теста</li>
+    <li>@AfterAll - выполняется ПОСЛЕ выполнением ВСЕХ методов класса теста</li>
+</ul>
