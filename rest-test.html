@@ -16,15 +16,19 @@
 Нужно автоматизированное тестирование REST.
 <br/>
 
-Для общения с Rest можно использовать н.п. RestTemplate или FeignClient.
-
 <p><b>RestTemplate</b></p>
 <br/>
-<p>Описание...</p>
+<p>Смысл простой: через RestTemplate обращаться к целевому сервису и полученный как-то проверять (JSONPath, Vert.x). </p>
 
-<p><b>Feight client</b></p>
+<p><b>Feign client</b></p>
 <br/>
-<p>Описание...</p>
+<p>
+    Другой клиент для обращения к Rest, но сразу-же можно получать Java объекты. Т.е. проверяются не "голые" JSON, а объекты Java.
+    <a style="text-decoration: underline; color: #3366ff;"
+       title="https://www.baeldung.com/intro-to-feign"
+       href="https://www.baeldung.com/intro-to-feign"
+       target="_blank" rel="noopener noreferrer">https://www.baeldung.com/intro-to-feign</a>
+</p>
 
 <p><b>Behave-restful (Python!)</b></p>
 <a style="text-decoration: underline; color: #3366ff;"
