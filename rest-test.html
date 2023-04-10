@@ -18,7 +18,8 @@
 
 <p><b>RestTemplate</b></p>
 <br/>
-<p>Смысл простой: через RestTemplate обращаться к целевому сервису и полученный как-то проверять (JSONPath, Vert.x). </p>
+<p>Смысл простой: через RestTemplate обращаться к целевому сервису и полученный как-то проверять (JSONPath, Vert.x).
+Или с помощью ObjectMapper конвертировать JSON в Java class и там уже использовать обычные Java тесты.</p>
 
 <p><b>Feign client</b></p>
 <br/>
@@ -28,6 +29,7 @@
        title="https://www.baeldung.com/intro-to-feign"
        href="https://www.baeldung.com/intro-to-feign"
        target="_blank" rel="noopener noreferrer">https://www.baeldung.com/intro-to-feign</a>
+    NOTE: Не может работать с binary данными (загрузка, получение файлов).
 </p>
 
 <p><b>Behave-restful (Python!)</b></p>
