@@ -1,4 +1,4 @@
-<p>В заметке описаны инструменты автоматизированного BDD тестирования REST и примеры использования.
+<p>В заметке описаны инструменты BDD тестирования REST и примеры использования.
     Тесты проведены на простом REST сервисе
     <a style="text-decoration: underline; color: #3366ff;"
        title="https://github.com/cherepakhin/animals"
@@ -15,40 +15,60 @@
 И unit тесты тут не помогут. Ручное тестирование (Postman, httpie) только для каких-то разовых операций.
 Нужно автоматизированное тестирование REST.
 <br/>
-
-<p><b>RestTemplate</b></p>
-<br/>
-<p>Смысл простой: через RestTemplate обращаться к целевому сервису и полученный как-то проверять (JSONPath, Vert.x).
-Или с помощью ObjectMapper конвертировать JSON в Java class и там уже использовать обычные Java тесты.</p>
-
-<p><b>Feign client</b></p>
-<br/>
-<p>
-    Другой клиент для обращения к Rest, но сразу-же можно получать Java объекты. Т.е. проверяются не "голые" JSON, а объекты Java.
-    <a style="text-decoration: underline; color: #3366ff;"
-       title="https://www.baeldung.com/intro-to-feign"
-       href="https://www.baeldung.com/intro-to-feign"
-       target="_blank" rel="noopener noreferrer">https://www.baeldung.com/intro-to-feign</a>
-    NOTE: Не может работать с binary данными (загрузка, получение файлов).
-</p>
-
-<p><b>Behave-restful (Python!)</b></p>
+<hr/>
+<p><h3>Тестирование Python инструментами</h3></p>
+<p><b>Behave-restful</b></p>
 <a style="text-decoration: underline; color: #3366ff;"
    title="https://github.com/behave-restful/behave-restful"
    href="https://github.com/behave-restful/behave-restful"
    target="_blank" rel="noopener noreferrer">https://github.com/behave-restful/behave-restful</a>
 <br/>
-<p>А это уже комбайн! Первый МОЩНЫЙ инструмент, и в котором было все, что нужно. Но Python.
+<p>Первый ОЧЕНЬ МОЩНЫЙ инструмент, и в котором есть все, что нужно. Но Python.
     Тестировщик должен его знать и корпоративные условия (секьюрность, сам python, библиотеки) должны позволять его использовать.
 А сам инструмент фантастика! Понятно, что появились наследники.</p>
+<hr/>
+<p><h3>Тестирование Java инструментами</h3></p>
+Схема тестирования: создать отдельный проект с тестами, и с помощью maven/gradle проводить тестирование сервисов.
+<br/>
+<p><b>RestTemplate</b></p>
+<p>Смысл простой: через RestTemplate обращаться к целевому сервису и полученный как-то проверять (JSONPath, Vert.x).
+    Или с помощью ObjectMapper конвертировать JSON в Java class и там уже использовать обычные Java тесты.</p>
 
+<p><b>OkHttp</b></p>
+<p>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="OkHttp"
+   href="https://square.github.io/okhttp/"
+   target="_blank" rel="noopener noreferrer">https://square.github.io/okhttp/</a>
+</p>
+<p><b>Feign client</b></p>
+<p>
+    Другой клиент для обращения к Rest, но сразу-же можно получать Java объекты. Т.е. проверяются не "голые" JSON, а объекты Java.
+    <a style="text-decoration: underline; color: #3366ff;"
+       title="https://www.baeldung.com/intro-to-feign"
+       href="https://www.baeldung.com/intro-to-feign"
+       target="_blank" rel="noopener noreferrer">https://www.baeldung.com/intro-to-feign</a><br/>
+    NOTE: Не может работать с binary данными (загрузка, получение файлов).
+</p>
 <p><b>JBehave</b></p>
 <a style="text-decoration: underline; color: #3366ff;"
    title="https://jbehave.org/"
    href="https://jbehave.org/"
    target="_blank" rel="noopener noreferrer">https://jbehave.org/</a>
 <br/>
-<p>Описание...</p>
+
+<p><b>Retrofit</b></p>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://square.github.io/retrofit/"
+   href="https://square.github.io/retrofit/"
+   target="_blank" rel="noopener noreferrer">https://square.github.io/retrofit/</a>
+<p>Примеры:<br/>
+    <a style="text-decoration: underline; color: #3366ff;"
+       title="https://www.vogella.com/tutorials/Retrofit/article.html"
+       href="https://www.vogella.com/tutorials/Retrofit/article.html"
+       target="_blank" rel="noopener noreferrer">https://www.vogella.com/tutorials/Retrofit/article.html</a>
+
+</p>
 
 <p><b>RestAssured</b></p>
 <a style="text-decoration: underline; color: #3366ff;"
@@ -61,16 +81,17 @@
    href="https://github.com/cherepakhin/animals-rest-assured-test"
    target="_blank" rel="noopener noreferrer">Пример использования</a>
 <br/>
-<p>Описание...</p>
 
 <hr/>
-<p><b>Вопросы на ктр. не очень-то и отработаны (МНОЙ!):</b></p>
+<p><b>Вопросы</b></p>
 <p>Это не UNIT тесты, это интеграционные тесты. При обычном UNIT тестировании,
-можно откатить, например, состояние базы данных установкой режима транзакций. Но интеграционное тестирование это не только база данных.</p>
+    можно откатить, например, состояние базы данных установкой режима транзакций. Но интеграционное тестирование это не только база данных.</p>
 <p>И всегда-ли возможно установить состояние базы данных в состояние на ктр. расчитывает тест (что-то типа "mvn flyway:migrate")?
     И что такое начальное состояние БД для конкретного теста?</p>
-<p>Другие внешние ресурсы (очереди, авторизация, др. смежные сервисы). Как-то бы мокать все эти дела или использовать <b>@Before..</b>/<b>@After..</b></p>
-<p>Похож на предыдущий пункт - тестирование бизнес ПРОЦЕССОВ и уже УСТАНОВЛЕНОГО ГДЕ-ТО СОСТОЯНИЯ процесса.</p>
+<p>Другие внешние ресурсы (очереди, др. смежные сервисы). Как-то бы мокать все эти дела или использовать <b>@Before..</b>/<b>@After..</b></p>
+<p>Авторизация</p>
+<p>Тестирование бизнес ПРОЦЕССОВ и уже УСТАНОВЛЕНОГО ГДЕ-ТО СОСТОЯНИЯ процесса. Да и где они, эти бизнес процессы? На одном из проектов удалось внедрить Camunda, но чего это стоило...</p>
+<p><b>Еще материалы</b></p>
 <p>Всякие мелочи типа валидатора JSON схемы и т.п. (Конкретно, для JSON, например, есть такой
 <a style="text-decoration: underline; color: #3366ff;"
    title="https://github.com/networknt/json-schema-validator"
@@ -92,17 +113,3 @@
    target="_blank" rel="noopener noreferrer">https://github.com/allure-examples</a>
 
 <br/>
-
-<p>
-Если RestTemplate или RestAssured чем-то не устроит, то, возможно, пригодится другая библиотека для создания REST запросов
-    <a style="text-decoration: underline; color: #3366ff;"
-       title="https://square.github.io/retrofit/"
-       href="https://square.github.io/retrofit/"
-       target="_blank" rel="noopener noreferrer">https://square.github.io/retrofit/</a>
-    <br/>
-Примеры:<br/>
-<a style="text-decoration: underline; color: #3366ff;"
-   title="https://www.vogella.com/tutorials/Retrofit/article.html"
-   href="https://www.vogella.com/tutorials/Retrofit/article.html"
-   target="_blank" rel="noopener noreferrer">https://www.vogella.com/tutorials/Retrofit/article.html</a>
-</p>
