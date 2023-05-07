@@ -1,0 +1,42 @@
+<p>Интересно было узнать о возможностях CompletableFeature.<br /> Проект и описание находится тут <a style="text-decoration: underline; color: #3366ff;" title="https://github.com/cherepakhin/completablefeature_many_benchmark" href="https://github.com/cherepakhin/completablefeature_many_benchmark" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/completablefeature_many_benchmark</a> <br /> Тут описал только итоги.</p>
+<div dir="auto">
+    <p dir="auto">Нагрузка во всех вариантах 500rps</p>
+</div>
+<table style="float: right;" border="1" cellpadding="5">
+    <tbody>
+    <tr>
+        <td><strong>Схема кэширования</strong></td>
+        <td><strong>Среднее время ответа (мс)</strong></td>
+        <td><strong>К-во тредов (шт)</strong></td>
+        <td><strong>Память (Мб)</strong></td>
+    </tr>
+    <tr>
+        <td>Без CompletableFeature</td>
+        <td style="text-align: right;">5 000</td>
+        <td style="text-align: right;">229</td>
+        <td style="text-align: right;">150</td>
+    </tr>
+    <tr>
+        <td>С CompletableFeature Executors.newCachedThreadPool()</td>
+        <td style="text-align: right;">1 000</td>
+        <td style="text-align: right;">847</td>
+        <td style="text-align: right;">~230</td>
+    </tr>
+    <tr>
+        <td>Кол-во выделяемых сервисом тредов меньше нагрузки (нагрузка 500 rps, а тредов выделено 100) . CompletableFeature executorService = Executors.newFixedThreadPool(100)</td>
+        <td style="text-align: right;">&gt;10 000</td>
+        <td style="text-align: right;">188</td>
+        <td style="text-align: right;">200-350</td>
+    </tr>
+    </tbody>
+</table>
+<p> </p>
+<div dir="auto">
+    <p dir="auto">С CompletableFeature время ответа сократилось аж в 5 раз! Но, увеличился расход памяти. Неоднозначные результаты в третьей строке (Кол-во выделяемых сервисом тредов меньше нагрузки).</p>
+</div>
+<div dir="auto">
+    <p dir="auto">И все таки насколько ценен CompletableFeature? Какую проблему мы решаем, используя это решение? Может быть лучшие результаты даст кеш или оптимизация самих сервисов? По своему опыту скажу, что разработка, тестирование с CompletableFeature, мягко говоря, очень специфична. Возвращая CompletableFeature в методе, вы принуждаете клиента его обрабатывать и перекладывете проблему дальше, и кому-то все-равно придется ее разрулить. Если уж решили использовать CompletableFeature, то сам его тут же и разруливай. Грубо говоря, это локальное(техническое) решение, на уровне приватных методов класса. Остальные классы не должны быть замешаны в эту кашу.</p>
+</div>
+<div dir="auto">
+    <p dir="auto">O CompletableFeature<a href="https://www.baeldung.com/java-completablefuture" rel="nofollow">https://www.baeldung.com/java-completablefuture</a></p>
+</div>
