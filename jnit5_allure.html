@@ -1,3 +1,15 @@
+Предупреждение: я знаю, что JUnit для UNIT тестов. Речь о применении JUnit в ИНТЕГРАЦИОННЫХ тестах.
+И с другой стороны, на тех проектах, где мне приходилось работать, интеграционное тестирование проводилось <u>вручную</u>.
+Можно это дело автоматизировать.
+<br/>
+Сами интеграционные тесты должны быть в отдельном проекте, не вместе с проектом/проектами.
+Что будет использовано в самих тестах решать самим (н.п. применить JUnit для тестирования REST, используя RestTemplate
+<a style="text-decoration: underline; color: #3366ff;"
+   title="http://v.perm.ru/main/index.php/34-behave-testirovanie"
+   href="http://v.perm.ru/main/index.php/34-behave-testirovanie"
+   target="_blank" rel="noopener noreferrer">http://v.perm.ru/main/index.php/34-behave-testirovanie/</a>
+
+).<br/><br/>
 Примеры тестирования <a style="text-decoration: underline; color: #3366ff;"
                         title="https://javabydeveloper.com/junit-5-with-allure-reports-example/"
                         href="https://javabydeveloper.com/junit-5-with-allure-reports-example/"
@@ -25,11 +37,9 @@ mvn clean test allure:report</code>
 <pre>
 <code>
 plugins {
-	id 'org.springframework.boot' version '2.5.6'
-	id 'io.spring.dependency-management' version '1.1.0'
-	id 'org.jetbrains.kotlin.jvm' version '1.7.22'
-	id 'org.jetbrains.kotlin.plugin.spring' version '1.7.22'
+...
 	id 'io.qameta.allure' version '2.10.0' // version 2.10.0 WORK! NO WARNINGS for generate allure report
+...
 }
 ...
 dependencies {
