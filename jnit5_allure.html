@@ -11,7 +11,7 @@ cd junit5-allurreport-example
 mvn clean test allure:report</code>
 </pre>
 <br/>
-<p><i>Необходимое замечание</i></p>
+<p><i><b>Необходимое замечание</b></i></p>
 Нужно обеспечить начальное состояние теста и восстановить состояние после любого исхода теста. В самом простом случае можно установить его прямо в тесте. Или, лучше, воспользоваться средствами JUnit5:
 <ul>
     <li>@BeforeAll - выполняется ПЕРЕД выполнением ВСЕХ методов класса теста</li>
@@ -19,3 +19,28 @@ mvn clean test allure:report</code>
     <li>@AfterEach - выполняется ПОСЛЕ выполнением КАЖДОГО метода класса теста</li>
     <li>@AfterAll - выполняется ПОСЛЕ выполнением ВСЕХ методов класса теста</li>
 </ul>
+<p><i><b>О warning Allure</b></i></p>
+При генерации отчета может быть получен warning от allure типа "java.lang.NoSuchMethodError when run test with Junit 5...".
+Для решения нужно согласовать версию allure и JUnit. Использовать allure 2.10.0. Решение для gradle:
+<pre>
+<code>
+plugins {
+	id 'org.springframework.boot' version '2.5.6'
+	id 'io.spring.dependency-management' version '1.1.0'
+	id 'org.jetbrains.kotlin.jvm' version '1.7.22'
+	id 'org.jetbrains.kotlin.plugin.spring' version '1.7.22'
+	id 'io.qameta.allure' version '2.10.0' // version 2.10.0 WORK! NO WARNINGS for generate allure report
+}
+...
+dependencies {
+    ...
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter'
+    ...
+}
+</code>
+</pre>
+Работающий пример:
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/cherepakhin/kotlin_in_action/"
+   href="https://github.com/cherepakhin/kotlin_in_action/"
+   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/kotlin_in_action</a>
