@@ -19,13 +19,19 @@
    href="https://github.com/behave-restful/behave-restful"
    target="_blank" rel="noopener noreferrer">https://github.com/behave-restful/behave-restful</a>
 <br/>
-<p>Первый ОЧЕНЬ МОЩНЫЙ инструмент, с которым я встретился, и в котором есть все, что нужно. Но Python.
+<p>Первый ОЧЕНЬ МОЩНЫЙ инструмент, с которым я встретился, и в котором есть все, что нужно. Но <b>Python</b>.
     Тестировщик должен его знать и корпоративные условия (секьюрность, сам python, библиотеки) должны позволять его использовать.
 А сам инструмент фантастика! Понятно, что появились наследники идеи (см. ниже JBehave и позже RestAssured).</p>
 <hr/>
 <p><h3>Тестирование Java инструментами</h3></p>
 Схема тестирования: создать отдельный проект с тестами, и с помощью maven/gradle проводить тестирование сервисов.
 <br/>
+<p><b>JUnit</b></p>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="http://v.perm.ru/main/index.php/41-prostoe-testirovanie-junit5-s-vyvodom-rezultatov-v-allure"
+   href="http://v.perm.ru/main/index.php/41-prostoe-testirovanie-junit5-s-vyvodom-rezultatov-v-allure"
+   target="_blank" rel="noopener noreferrer">Интеграционное тестирование JUnit5 с выводом результатов в Allure</a>
+
 <p><b>RestTemplate</b></p>
 <p>Смысл простой: через RestTemplate обращаться к целевому сервису и полученный ответ как-то проверять (JSONPath, Vert.x).
     Или с помощью ObjectMapper конвертировать JSON в Java class и там уже использовать обычные Java тесты.</p>
@@ -149,4 +155,5 @@ public void lotto_resource_returns_200_with_expected_id_and_winners() {
    title="https://allure-framework.github.io/allure-demo/5/"
    href="https://allure-framework.github.io/allure-demo/5/"
    target="_blank" rel="noopener noreferrer">https://allure-framework.github.io/allure-demo/5/</a>
-
+<br/>
+<br/>
