@@ -114,7 +114,11 @@ public void lotto_resource_returns_200_with_expected_id_and_winners() {
 организовывать тестирование, как бы, взглядом тестировщика,
 и тогда тестировщик должен вести свой слой DTO, согласно постановке задачи, как он ее видит.
     </li>
-<li>Разделение на тесты и перенос полученных значений одного теста в другой тест.</li>
+<li>Разделение на тесты и перенос полученных значений одного теста в другой тест. Одно из решений с помощью RestAssured:
+    <a style="text-decoration: underline; color: #3366ff;"
+       title="https://www.codingninjas.com/codestudio/library/rest-assured--how-to-pass-value-from-one-api-to-another-api-using-testng--itestcontext"
+       href="https://www.codingninjas.com/codestudio/library/rest-assured--how-to-pass-value-from-one-api-to-another-api-using-testng--itestcontext"
+       target="_blank" rel="noopener noreferrer">Pass Value From One API to Another</a>
 <li>Это не UNIT тесты, это интеграционные тесты. При обычном UNIT тестировании,
     можно откатить, например, состояние базы данных установкой режима транзакций. Но интеграционное тестирование это не только база данных.</li>
 <li>И всегда-ли возможно установить состояние базы данных в состояние на которое рассчитывает тест (что-то типа "mvn flyway:migrate")?
