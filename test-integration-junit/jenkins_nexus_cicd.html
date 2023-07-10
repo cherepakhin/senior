@@ -1,0 +1,74 @@
+<p>
+    <a title="Sonatype Nexus Repository"
+       style="text-decoration: underline; color: #3366ff;"
+       href="https://www.sonatype.com/products/sonatype-nexus-repository"
+       target="_blank"
+       rel="noopener noreferrer">
+        Sonatype Nexus Repository</a> - внешний репозиторий проектов, артефактов, зависимостей maven/gradle и т.п.
+    <br />
+    <a title="Jenkins" href="https://www.jenkins.io/"
+       style="text-decoration: underline; color: #3366ff;"
+       target="_blank"
+       rel="noopener noreferrer">
+        Jenkins</a> - инструмент тестирования, сборки и публикация(deploy) проектов, модулей.
+
+</p>
+<h3 dir="auto">Sonatype Nexus Repository</h3>
+<p>Установка</p>
+<p>Пример секции в pom.xml для deploy в местный Sonatype Nexus Repository:</p>
+<div>
+<pre class="language-xml"><code>&lt;distributionManagement&gt;
+  &lt;repository&gt;
+    &lt;id&gt;ru.perm.v&lt;/id&gt;
+    &lt;name&gt;My Repository&lt;/name&gt;
+    &lt;url&gt;http://192.168.1.20:8881/repository/ru.perm.v/&lt;/url&gt;
+  &lt;/repository&gt;
+&lt;/distributionManagement&gt;
+</code></pre><br/>
+Для deploy выполнить:
+<pre class="language-shell">
+<code>./mvnw deploy
+</code>
+</pre><br/>
+Пример использования
+<a title="Пример использования"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank"
+   href="https://github.com/cherepakhin/animals#cicd"
+   rel="noopener noreferrer">
+   https://github.com/cherepakhin/animals</a>
+</div><br/>
+<a title="Локальный NEXUS"
+   style="text-decoration: underline; color: #3366ff;"
+   href="http://192.168.1.20:8881/#browse/browse:ru.perm.v"
+   target="_blank"
+   rel="noopener noreferrer">
+    http://192.168.1.20:8881/#browse/browse:ru.perm.v</a>
+
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="nexus_demo" src="images/nexus_proj.png"
+        alt="nexus_demo" width="762" height="426"/></p>
+
+<p>Запуск Jenkins</p>
+<pre class="language-shell">
+<code>docker run -d --name jenkins -
+    -user root -p 8880:8080 -p 58000:50000
+    -v jenkins_home:/var/jenkins_home
+    -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins:lts-jdk11
+</code>
+</pre><br/>
+
+<a style="text-decoration: underline; color: #3366ff;"
+   title="http://192.168.1.20:8880/job/animals_package/"
+   href="http://192.168.1.20:8880/job/animals_package/"
+   target="_blank" rel="noopener noreferrer">http://192.168.1.20:8880/job/animals_package/</a>
+
+
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="jenkins_demo" src="images/jenkins.png"
+        alt="jenkins_demo" width="762" height="426"/></p>
+
+<hr/>
+<h3>Ссылки:</h3>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://habr.com/ru/articles/677142/"
+   href="https://habr.com/ru/articles/677142/"
+   target="_blank" rel="noopener noreferrer">Домашний CICD: Docker, Jenkins и Nexus3 (коллега тоже озаботился этим вопросом)</a>

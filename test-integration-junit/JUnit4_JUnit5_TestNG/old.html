@@ -1,0 +1,17 @@
+<p><a title="Sonatype Nexus Repository" href="https://www.sonatype.com/products/sonatype-nexus-repository" target="_blank" rel="noopener noreferrer"> <strong>Sonatype Nexus Repository</strong></a> - внешний репозиторий проектов, артефактов, зависимостей maven/gradle и т.п. <br /> <a title="Jenkins" href="https://www.jenkins.io/" target="_blank" rel="noopener noreferrer"> <strong>Jenkins</strong></a> - инструмент тестирования, сборки и публикация(deploy) проектов, модулей.</p>
+<p>Пример секции в pom.xml для deploy в местный Sonatype Nexus Repository:</p>
+<div>
+<pre class="language-xml"><code>&lt;distributionManagement&gt;
+  &lt;repository&gt;
+    &lt;id&gt;ru.perm.v&lt;/id&gt;
+    &lt;name&gt;My Repository&lt;/name&gt;
+    &lt;url&gt;http://v.perm.ru:8881/repository/ru.perm.v/&lt;/url&gt;
+  &lt;/repository&gt;
+&lt;/distributionManagement&gt;
+</code></pre>
+    <br /> Для deploy выполнить:
+    <pre class="language-shell"><code>./mvnw deploy
+</code></pre>
+    <br /> Пример использования <a title="Пример использования" href="https://github.com/cherepakhin/animals#cicd" target="_blank" rel="noopener noreferrer"> <strong>https://github.com/cherepakhin/animals</strong></a></div>
+<p><br /> <a title="Локальный NEXUS" href="http://v.perm.ru:8881/#browse/browse:ru.perm.v" target="_blank" rel="noopener noreferrer"> <strong>http://v.perm.ru:8881/#browse/browse:ru.perm.v</strong></a></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="nexus_demo" src="images/nexus_proj.png" alt="nexus_demo" width="762" height="426" /></p>
