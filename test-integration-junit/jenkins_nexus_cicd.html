@@ -97,10 +97,35 @@ stage("Prepare container") {
 
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="jenkins_demo" src="images/jenkins.png"
         alt="jenkins_demo" width="762" height="426"/></p>
-Pipeline:<br>
+Пример другой настройки pipeline. В отличие от "проектного" Jenkinsfile, можно задавать параметры сборки <b>проекта</b> в самом Jenkins:<br>
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="jenkins_demo" src="images/jenkins_pipeline.png"
         alt="jenkins_demo" width="1306" height="568"/></p>
 <br>
+Содержимое секции "Script":<br/>
+<pre>
+pipeline {
+    agent any
+    stages {
+        stage('test') {
+            steps {
+                // Get some code from a GitHub repository
+                git url: 'https://github.com/cherepakhin/animals.git', branch: 'dev'
+
+                sh "mvn test"
+            }
+        }
+        stage('package') {
+            steps {
+                // Get some code from a GitHub repository
+                git url: 'https://github.com/cherepakhin/animals.git', branch: 'dev'
+
+                sh "mvn package"
+            }
+        }
+    }
+}
+</pre>
+
 Результаты сборки:<br>
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="jenkins_results" src="images/jenkins_pipeline_result.png"
      alt="jenkins_results" width="1003" height="599"/></p>
