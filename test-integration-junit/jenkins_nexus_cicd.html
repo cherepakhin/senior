@@ -49,6 +49,7 @@
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="nexus_demo" src="images/nexus_proj.png"
         alt="nexus_demo" width="762" height="426"/></p>
 
+<h3 dir="auto">Jenkins</h3>
 <p>Запуск Jenkins</p>
 <pre class="language-shell">
 <code>docker run -d --name jenkins -
@@ -58,10 +59,41 @@
 </code>
 </pre><br/>
 
+Пример Jenkinsfile:<br>
+<pre class="language-xml">
+stage("Prepare container") {
+  agent {
+    docker {
+      image 'openjdk:11.0.5-slim'
+      args '-v $HOME/.m2:/root/.m2'
+    }
+  }
+  stages {
+    stage('Build') {
+      steps {
+        checkout scm
+        sh './mvnw compile'
+      }
+    }
+    stage('Test') {
+      steps {
+        sh './mvnw test'
+        junit '**/target/surefire-reports/TEST-*.xml'
+      }
+    }
+    stage('Package') {
+      steps {
+        sh './mvnw package -DskipTests'
+      }
+    }
+  }
+}
+</pre>
+
 <a style="text-decoration: underline; color: #3366ff;"
-   title="http://192.168.1.20:8880/job/animals_package/"
-   href="http://192.168.1.20:8880/job/animals_package/"
-   target="_blank" rel="noopener noreferrer">http://192.168.1.20:8880/job/animals_package/</a>
+   title="http://192.168.1.20:8080/job/animal/"
+   href="http://192.168.1.20:8080/job/animal/"
+   target="_blank" rel="noopener noreferrer">Jenkins для проекта http://192.168.1.20:8080/job/animal/</a>
 
 
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="jenkins_demo" src="images/jenkins.png"
@@ -70,6 +102,11 @@
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="jenkins_results" src="images/jenkins_pipeline_result.png"
      alt="jenkins_results" width="1003" height="599"/></p>
 <br/>
+
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/cherepakhin/animals/tree/dev"
+   href="https://github.com/cherepakhin/animals/tree/dev"
+   target="_blank" rel="noopener noreferrer">Пример настройки проекта для Jenkins</a>
 <hr/>
 <h3>Ссылки:</h3>
 <a style="text-decoration: underline; color: #3366ff;"
