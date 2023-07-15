@@ -112,6 +112,12 @@ pipeline {
                 sh "mvn test"
             }
         }
+        stage('package') {
+            steps {
+                git url: 'https://github.com/cherepakhin/animals.git', branch: 'dev'
+                sh "mvn package"
+            }
+        }
         stage('deploy') {
             steps {
                 git url: 'https://github.com/cherepakhin/animals.git', branch: 'dev'
