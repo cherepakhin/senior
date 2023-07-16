@@ -21,7 +21,7 @@
   &lt;repository&gt;
     &lt;id&gt;ru.perm.v&lt;/id&gt;
     &lt;name&gt;My Repository&lt;/name&gt;
-    &lt;url&gt;http://192.168.1.20:8881/repository/ru.perm.v/&lt;/url&gt;
+    &lt;url&gt;http://192.168.1.20:8081/repository/ru.perm.v/&lt;/url&gt;
   &lt;/repository&gt;
 &lt;/distributionManagement&gt;
 </code></pre><br/>
@@ -40,10 +40,10 @@
 </div><br/>
 <a title="Локальный NEXUS"
    style="text-decoration: underline; color: #3366ff;"
-   href="http://192.168.1.20:8881/#browse/browse:ru.perm.v"
+   href="http://192.168.1.20:8081/#browse/browse:ru.perm.v"
    target="_blank"
    rel="noopener noreferrer">
-    http://192.168.1.20:8881/#browse/browse:ru.perm.v</a>
+    http://192.168.1.20:8081/#browse/browse:ru.perm.v</a>
 
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="nexus_demo" src="images/nexus_proj.png"
         alt="nexus_demo" width="762" height="426"/></p>
@@ -52,7 +52,7 @@
 <p>Запуск Jenkins</p>
 <pre class="language-shell">
 <code>docker run -d --name jenkins -
-    -user root -p 8880:8080 -p 58000:50000
+    -user root -p 8080:8080 -p 58000:50000
     -v jenkins_home:/var/jenkins_home
     -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins:lts-jdk11
 </code>
