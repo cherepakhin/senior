@@ -143,12 +143,12 @@ Jenkins имя/пароль для deploy в Nexus берет из /var/lib/jenk
 $ ls  /var/lib/jenkins/workspace
 animal               kotlin_up_gradle_spring279                 show_variable_os
 animals@script       shop_kotlin_pipe                           show_variable_os@tmp
-animal@tmp           shop_kotlin_pipeline                       test_username_pass
+animal@tmp           <b>shop_kotlin_pipeline</b>                       test_username_pass
 Jenkins_example      shop_kotlin_pipeline@tmp                   test_username_pass@tmp
 Jenkins_example@tmp
 </pre>
 <pre>
-$ ls /var/lib/jenkins/workspace/shop_kotlin_pipeline
+$ ls /var/lib/jenkins/workspace/<b>shop_kotlin_pipeline</b>
 build             docker_build.sh  gradle.properties  gradle.zip   README.md
 build.gradle.kts  Dockerfile       gradlew            Jenkinsfile  settings.gradle.kts
 doc               gradle           gradlew.bat        log          src
