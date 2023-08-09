@@ -138,6 +138,21 @@ pipeline {
 Jenkins имя/пароль для deploy в Nexus берет из /var/lib/jenkins/.m2/settings.xml того компьютера, где запущен
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="nexus_demo" src="images/nexus_deploy_settings.png"
         alt="nexus_demo" width="980" height="324"/></p>
+Проекты jenkins находятся в /var/lib/jenkins/workspace<br>
+<pre>
+$ ls  /var/lib/jenkins/workspace
+animal               kotlin_up_gradle_spring279                 show_variable_os
+animals@script       shop_kotlin_pipe                           show_variable_os@tmp
+animal@tmp           shop_kotlin_pipeline                       test_username_pass
+Jenkins_example      shop_kotlin_pipeline@tmp                   test_username_pass@tmp
+Jenkins_example@tmp
+</pre>
+<pre>
+$ ls /var/lib/jenkins/workspace/shop_kotlin_pipeline
+build             docker_build.sh  gradle.properties  gradle.zip   README.md
+build.gradle.kts  Dockerfile       gradlew            Jenkinsfile  settings.gradle.kts
+doc               gradle           gradlew.bat        log          src
+</pre>
 <hr/>
 <h3>Ссылки:</h3>
 <a style="text-decoration: underline; color: #3366ff;"
