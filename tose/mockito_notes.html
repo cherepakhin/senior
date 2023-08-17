@@ -1,16 +1,19 @@
-https://for-each.dev/lessons/b/-java-spring-mockito-mock-mockbean
+<a
+        style="text-decoration: underline; color: #3366ff;" title="yandex-tank"
+        href="https://for-each.dev/lessons/b/-java-spring-mockito-mock-mockbean" target="_blank" rel="noopener noreferrer">https://for-each.dev/lessons/b/-java-spring-mockito-mock-mockbean</a>
 
-В чем различия между Mockito.mock(), @Mock и @MockBean?
 
-1. Mockito.mock() (ЭТО МЕТОД)
+<p>В чем различия между Mockito.mock(), @Mock и @MockBean?</p>
+<hr id="system-readmore"/>
+
+<b>1. Mockito.mock() (ЭТО МЕТОД)</b><br/>
 Метод Mockito.mock() позволяет нам создать фиктивный объект класса или интерфейса.
 Мы сами мокируем объект по желанию.
 Затем мы можем использовать макет, чтобы заглушить возвращаемые значения.
 Применим когда не хочу использовать АННОТАЦИЮ @Mock.
 Т.е. ИСПОЛЬЗОВАТЬ ПО МЕСТУ, в каком-то ЧАСТНОМ СЛУЧАЕ и не нужна как какая-то общая переменная теста (класса)
 Создаем сами ВРУЧНУЮ. Не нужна аннотация @RunWith(MockitoJUnitRunner.class) над junit-классом
-
-@Test
+<pre class="language-java"><code>@Test
 public void givenCountMethodMocked_WhenCountInvoked_ThenMockedValueReturned() {
     UserRepository localMockRepository = Mockito.mock(UserRepository.class);
     Mockito.when(localMockRepository.count()).thenReturn(111L);
@@ -20,16 +23,15 @@ public void givenCountMethodMocked_WhenCountInvoked_ThenMockedValueReturned() {
     Assert.assertEquals(111L, userCount);
     Mockito.verify(localMockRepository).count();
 }
-
-2. @Mock (АННОТАЦИЯ)
-Является СОКРАЩЕНИЕМ для метода Mockito.mock()
-
+</code></pre>
+<b>2. @Mock (АННОТАЦИЯ)</b><br/>
+Является СОКРАЩЕНИЕМ для метода Mockito.mock()<br/>
 В отличие от МЕТОДА mock() , нам нужно включить аннотации Mockito, чтобы использовать эту аннотацию так:
 @RunWith(MockitoJUnitRunner.class) или либо явным вызовом метода MockitoAnnotations.initMocks() .
 
-Уже не нужен вызов (!!!) UserRepository localMockRepository = Mockito.mock(UserRepository.class);
+Уже не нужен вызов (!!!) <pre class="language-java"><code>UserRepository localMockRepository = Mockito.mock(UserRepository.class);</code></pre>
 Т.к. Mockito сам его создаст
-
+<pre class="language-java"><code>
 @RunWith(MockitoJUnitRunner.class)
 public class MockAnnotationUnitTest {
 
@@ -48,12 +50,10 @@ public class MockAnnotationUnitTest {
         Mockito.verify(mockRepository).count();
     }
 }
-
-3. @MockBean (для Spring окружения)
-
-Мы можем использовать @MockBean для добавления фиктивных объектов в контекст приложения Spring(!!!SPRING!!!. Это отличие от Mock что ли?). @MockBean заменит любой существующий bean-компонент того же типа в SPRING-КОНТЕКСТЕ ПРИЛОЖЕНИЯ и IntegrationTest.
-
-@RunWith(SpringRunner.class)
+</code></pre><br/>
+<b>3. @MockBean (для Spring окружения)</b><br/>
+Мы можем использовать @MockBean для добавления фиктивных объектов в контекст приложения Spring(!!!SPRING!!!. Это отличие от Mock). @MockBean заменит любой существующий bean-компонент того же типа в SPRING-КОНТЕКСТЕ ПРИЛОЖЕНИЯ и IntegrationTest.
+<pre class="language-java"><code>@RunWith(SpringRunner.class)
 public class MockBeanAnnotationIntegrationTest {
 
     @MockBean
@@ -73,11 +73,11 @@ public class MockBeanAnnotationIntegrationTest {
         Mockito.verify(mockRepository).count();
     }
 }
+</code></pre><br/>
+<b>4. @InjectMocks (???)</b><br/>
 
-4. @InjectMocks (???)
-
-5. Ошибка "... available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: ..."
-@ExtendWith(SpringExtension::class)
+<b>5. Ошибка "... available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: ..."</b><br/>
+<pre class="language-kotlin"><code>@ExtendWith(SpringExtension::class)
 @WebMvcTest(ProductRest::class)
 class ProductRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
 
@@ -95,4 +95,4 @@ class ProductRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
             .andReturn()
         Assertions.assertEquals("ECHO_MESSAGE", mes.response.contentAsString)
     }
-}
+}</code></pre><br/>
