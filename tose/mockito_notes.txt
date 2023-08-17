@@ -1,0 +1,98 @@
+https://for-each.dev/lessons/b/-java-spring-mockito-mock-mockbean
+
+В чем различия между Mockito.mock(), @Mock и @MockBean?
+
+1. Mockito.mock() (ЭТО МЕТОД)
+Метод Mockito.mock() позволяет нам создать фиктивный объект класса или интерфейса.
+Мы сами мокируем объект по желанию.
+Затем мы можем использовать макет, чтобы заглушить возвращаемые значения.
+Применим когда не хочу использовать АННОТАЦИЮ @Mock.
+Т.е. ИСПОЛЬЗОВАТЬ ПО МЕСТУ, в каком-то ЧАСТНОМ СЛУЧАЕ и не нужна как какая-то общая переменная теста (класса)
+Создаем сами ВРУЧНУЮ. Не нужна аннотация @RunWith(MockitoJUnitRunner.class) над junit-классом
+
+@Test
+public void givenCountMethodMocked_WhenCountInvoked_ThenMockedValueReturned() {
+    UserRepository localMockRepository = Mockito.mock(UserRepository.class);
+    Mockito.when(localMockRepository.count()).thenReturn(111L);
+
+    long userCount = localMockRepository.count();
+
+    Assert.assertEquals(111L, userCount);
+    Mockito.verify(localMockRepository).count();
+}
+
+2. @Mock (АННОТАЦИЯ)
+Является СОКРАЩЕНИЕМ для метода Mockito.mock()
+
+В отличие от МЕТОДА mock() , нам нужно включить аннотации Mockito, чтобы использовать эту аннотацию так:
+@RunWith(MockitoJUnitRunner.class) или либо явным вызовом метода MockitoAnnotations.initMocks() .
+
+Уже не нужен вызов (!!!) UserRepository localMockRepository = Mockito.mock(UserRepository.class);
+Т.к. Mockito сам его создаст
+
+@RunWith(MockitoJUnitRunner.class)
+public class MockAnnotationUnitTest {
+
+    // mock вынесен в переменную класса. Не нужен вызов (!!!)
+    // UserRepository localMockRepository = Mockito.mock(UserRepository.class);
+    @Mock
+    UserRepository mockRepository;
+
+    @Test
+    public void givenCountMethodMocked_WhenCountInvoked_ThenMockValueReturned() {
+        Mockito.when(mockRepository.count()).thenReturn(123L);
+
+        long userCount = mockRepository.count();
+
+        Assert.assertEquals(123L, userCount);
+        Mockito.verify(mockRepository).count();
+    }
+}
+
+3. @MockBean (для Spring окружения)
+
+Мы можем использовать @MockBean для добавления фиктивных объектов в контекст приложения Spring(!!!SPRING!!!. Это отличие от Mock что ли?). @MockBean заменит любой существующий bean-компонент того же типа в SPRING-КОНТЕКСТЕ ПРИЛОЖЕНИЯ и IntegrationTest.
+
+@RunWith(SpringRunner.class)
+public class MockBeanAnnotationIntegrationTest {
+
+    @MockBean
+    UserRepository mockRepository;
+
+    @Autowired
+    ApplicationContext context;
+
+    @Test
+    public void givenCountMethodMocked_WhenCountInvoked_ThenMockValueReturned() {
+        Mockito.when(mockRepository.count()).thenReturn(123L);
+
+        UserRepository userRepoFromContext = context.getBean(UserRepository.class);
+        long userCount = userRepoFromContext.count();
+
+        Assert.assertEquals(123L, userCount);
+        Mockito.verify(mockRepository).count();
+    }
+}
+
+4. @InjectMocks (???)
+
+5. Ошибка "... available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: ..."
+@ExtendWith(SpringExtension::class)
+@WebMvcTest(ProductRest::class)
+class ProductRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
+
+    // Нужно использовать "@MockBean" для исправления ошибки:
+    // "... available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: ..."
+    @MockBean
+    private lateinit var mockRepository: ProductRepository
+
+    @Test
+    fun echoMessage() {
+        val mes = mockMvc.perform(
+            MockMvcRequestBuilders.get("/product/echo/ECHO_MESSAGE")
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andReturn()
+        Assertions.assertEquals("ECHO_MESSAGE", mes.response.contentAsString)
+    }
+}
