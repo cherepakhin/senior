@@ -1,13 +1,11 @@
 <a
-        style="text-decoration: underline; color: #3366ff;" title="yandex-tank"
+        style="text-decoration: underline; color: #3366ff;" title="java-spring-mockito-mock-mockbean"
         href="https://for-each.dev/lessons/b/-java-spring-mockito-mock-mockbean" target="_blank" rel="noopener noreferrer">https://for-each.dev/lessons/b/-java-spring-mockito-mock-mockbean</a>
-
-
-<p>В чем различия между Mockito.mock(), @Mock и @MockBean?</p>
-<hr id="system-readmore"/>
-
+<br/>
+<br/>
 <b>1. Mockito.mock() (ЭТО МЕТОД)</b><br/>
 Метод Mockito.mock() позволяет нам создать фиктивный объект класса или интерфейса.
+<hr id="system-readmore"/>
 Мы сами мокируем объект по желанию.
 Затем мы можем использовать макет, чтобы заглушить возвращаемые значения.
 Применим когда не хочу использовать АННОТАЦИЮ @Mock.
@@ -23,14 +21,14 @@ public void givenCountMethodMocked_WhenCountInvoked_ThenMockedValueReturned() {
     Assert.assertEquals(111L, userCount);
     Mockito.verify(localMockRepository).count();
 }
-</code></pre>
+</code></pre><br/>
 <b>2. @Mock (АННОТАЦИЯ)</b><br/>
 Является СОКРАЩЕНИЕМ для метода Mockito.mock()<br/>
 В отличие от МЕТОДА mock() , нам нужно включить аннотации Mockito, чтобы использовать эту аннотацию так:
 @RunWith(MockitoJUnitRunner.class) или либо явным вызовом метода MockitoAnnotations.initMocks() .
 
 Уже не нужен вызов (!!!) <pre class="language-java"><code>UserRepository localMockRepository = Mockito.mock(UserRepository.class);</code></pre>
-Т.к. Mockito сам его создаст
+Т.к. Mockito сам его создаст. Пример:
 <pre class="language-java"><code>
 @RunWith(MockitoJUnitRunner.class)
 public class MockAnnotationUnitTest {
@@ -75,9 +73,9 @@ public class MockBeanAnnotationIntegrationTest {
 }
 </code></pre><br/>
 <b>4. @InjectMocks (???)</b><br/>
-
+<br/>
 <b>5. Ошибка "... available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: ..."</b><br/>
-<pre class="language-kotlin"><code>@ExtendWith(SpringExtension::class)
+<pre class="language-java"><code>@ExtendWith(SpringExtension::class)
 @WebMvcTest(ProductRest::class)
 class ProductRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
 
