@@ -1,4 +1,5 @@
 <p><i>"Никто не знает, что ему предстоит сделать, но надо быть всегда к этому готовым."</i> (где-то услышал)</p>
+<p><i>"Нужно бежать со всех ног, чтобы только оставаться на месте, а чтобы куда-то попасть, надо бежать как минимум вдвое быстрее!"</i>(Алиса в стране чудес)</p>
 <p>Вообще кто такой сеньор? Знания java? Или знания проекта? Или "по жизни"? Нет ответа. И все таки - <b>косяки</b>
     которые в сфере сеньора, как я это дело понимаю. Тезисно написал, т.к. ни разу не писатель.
     И с другой стороны, как сеньора оценили(!) на одном из последних проектов, но там я действительно вел весь проект, и backend, и фронт направлял, и с аналитиками плотно работал.</p>
@@ -62,7 +63,7 @@
 </p>
 <h3><b>CI/CD</b></h3>
 <a style="color: #3366ff; text-decoration: underline;" href="http://v.perm.ru/main/index.php/50-organizatsiya-sobstvennogo-ci-cd" target="_blank"
- rel="noopener noreferrer">Использование собственного CI/CD</a>
+   rel="noopener noreferrer">Использование собственного CI/CD</a>
 <h3><b>Тестирование</b></h3>
 <p><span style="font-weight: 400;"> При создании отчетов о покрытии тестами использовал jacoco.</span></p>
 <p><strong> <span style="font-weight: 400;"> Интеграционные тестирование чаще ручное, хотя есть <span
@@ -78,14 +79,14 @@
 <p><span style="font-weight: 400;"> <img class="pull-center" src="images/allure6.png" alt=""/></span></p>
 <p>Результат отработки тестовых скриптов behave.</p>
 <p>С помощью behave даже удавалось АВТОМАТИЧЕСКИ тестировать целый бизнес процесс из нескольких этапов.<br/>
-Подробнее:
-    <ul>
-        <li><a style="text-decoration: underline; color: #3366ff;"
-               href="http://v.perm.ru/main/index.php/34-behave-testirovanie" target="_blank"
-               rel="noopener noreferrer">Интеграционное тестирование</a></li>
-        <li><a style="text-decoration: underline; color: #3366ff;" href="http://v.perm.ru/main/index.php/41-prostoe-testirovanie-junit5-s-vyvodom-rezultatov-v-allure" target="_blank"
-               rel="noopener noreferrer">Интеграционное тестирование JUnit5 с выводом результатов в Allure</a></li>
-    </ul>
+    Подробнее:
+<ul>
+    <li><a style="text-decoration: underline; color: #3366ff;"
+           href="http://v.perm.ru/main/index.php/34-behave-testirovanie" target="_blank"
+           rel="noopener noreferrer">Интеграционное тестирование</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="http://v.perm.ru/main/index.php/41-prostoe-testirovanie-junit5-s-vyvodom-rezultatov-v-allure" target="_blank"
+           rel="noopener noreferrer">Интеграционное тестирование JUnit5 с выводом результатов в Allure</a></li>
+</ul>
 <p><span style="font-weight: 400;">В конце концов, скрипты <span
         style="text-decoration: underline; color: #3366ff;"> <a style="text-decoration: underline; color: #3366ff;"
                                                                 href="https://httpie.io/" target="_blank"
@@ -111,8 +112,8 @@
 <h3>Бумажка</h3>
 <p>Реально зашли такие графические средства как <span style="text-decoration: underline;"> <span
         style="color: #3366ff;"><a style="color: #3366ff; text-decoration: underline;" title="Пример"
-                                           href="https://miro.com/" target="_blank"
-                                           rel="noopener noreferrer">miro.com</a></span> </span>, <span
+                                   href="https://miro.com/" target="_blank"
+                                   rel="noopener noreferrer">miro.com</a></span> </span>, <span
         style="text-decoration: underline;"> <span style="color: #3366ff;"> <a
         style="color: #3366ff; text-decoration: underline;" href="https://app.diagrams.net/" target="_blank"
         rel="noopener noreferrer">diagrams.net </a> </span> </span>. Именно как инструмент <strong>взаимодействия
@@ -128,23 +129,23 @@
 <h3>Марк, постреляем?</h3>
 <p>Я о devops. Марк - это король devops-а, с которым мне повезло работать. "Постреляем" это про нагрузочные испытания
     <a style="text-decoration: underline; color: #3366ff;" title="yandex-tank"
-               href="https://github.com/yandex/yandex-tank" target="_blank"
-               rel="noopener noreferrer">yandex-tank</a>. Хотя я не только про них (испытания).</p>
+       href="https://github.com/yandex/yandex-tank" target="_blank"
+       rel="noopener noreferrer">yandex-tank</a>. Хотя я не только про них (испытания).</p>
 <p>Иногда случается, что devops инженеры как-то за скобками команды. Вам повезло, если разработчики в контакте с devops
     инженером. С нормальным devops инженером есть о чем поговорить.</p>
 <ul>
-        <li>Он пришлет вам результаты тестирования и развертывания.</li>
-        <li>Проведет нагрузочные испытания.</li>
-        <li>Укажет чего вы там забыли чего-то задокументировать и понятно и логично отразит изменения в разных wiki
-            системах (в которых часто каша).
-        </li>
-        <li>Вытащит условия возникновения ошибки на prode (хотя сами виноваты, когда отмахнулись в виде
-            e.printStackTrace ()). От пользователей, в этом случае, чаще мало толку ("Я работала как обычно, нажала эту
-            кнопочку и вдруг все пропало" или "Ничего не работает").
-        </li>
-        <li>Организует версионирование в понятной схеме.</li>
-        <li>Покажет где и что не протестировано.</li>
-        <li>Укажет на перерасход ресурсов. А то и поделится опытом, как оптимизировать (база, очереди, кеши).</li>
+    <li>Он пришлет вам результаты тестирования и развертывания.</li>
+    <li>Проведет нагрузочные испытания.</li>
+    <li>Укажет чего вы там забыли чего-то задокументировать и понятно и логично отразит изменения в разных wiki
+        системах (в которых часто каша).
+    </li>
+    <li>Вытащит условия возникновения ошибки на prode (хотя сами виноваты, когда отмахнулись в виде
+        e.printStackTrace ()). От пользователей, в этом случае, чаще мало толку ("Я работала как обычно, нажала эту
+        кнопочку и вдруг все пропало" или "Ничего не работает").
+    </li>
+    <li>Организует версионирование в понятной схеме.</li>
+    <li>Покажет где и что не протестировано.</li>
+    <li>Укажет на перерасход ресурсов. А то и поделится опытом, как оптимизировать (база, очереди, кеши).</li>
 </ul>
 <p>И много чего еще. В общем это источник порядка и подотрет вам сопельки.</p>
 <h3>Новичок в команде</h3>
@@ -207,7 +208,7 @@
 <p><span style="font-weight: 400;"><strong style="font-weight: 400;"><b>PS</b></strong><br/> Еще бы не забыть:<br/><br/>
     Черкнуть пару слов в отдельной статье, подробно и с примерами,
     о причинах возникновения, сопровождения и ухода от <a
-        style="text-decoration: underline; color: #3366ff;" title="такого чуда"
-        href="http://v.perm.ru/main/index.php/36-karaf-v-mikroservise-kuber" target="_blank" rel="noopener noreferrer">karaf в микросервисе kubernetes</a>.
+            style="text-decoration: underline; color: #3366ff;" title="такого чуда"
+            href="http://v.perm.ru/main/index.php/36-karaf-v-mikroservise-kuber" target="_blank" rel="noopener noreferrer">karaf в микросервисе kubernetes</a>.
     Модульный karaf в микросервисе. Какая-то необъяснимая тяга к модульной java. Я и сам болел этим делом. Уже пара проектов за плечами перехода от karaf в "чистые" микросервисы kubernetes. Как же легче становится писать. <br/><br/> Отдельная тема <b>восстановление после перерыва</b>. Вариантов нет - писать код) Свои мелкие проекты от rest до базы.<br/> <br/> </span>
 </p>
