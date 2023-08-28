@@ -5,9 +5,9 @@
     private Long id = 0L;
     private String name = "";
 
-    public static String staticString = ""; // идиотский вопрос с собеса см. ForIdiotStaticTest
+    public static String staticString = ""; // Идиотский вопрос с собеса см. ForIdiotStaticTest. Это переменная класса.
 
-    // еще и в конструктор засунули, тем самым ОБЯЗЫВАЮТ менять и ломать ВСЮ логику
+    // еще и в конструктор засунули, тем самым ОБЯЗЫВАЮТ менять переменную класса и ломать ВСЮ логику
     public AnimalDto(Long id, String name, String s) {
         staticString = s;
         this.id = id;
