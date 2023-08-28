@@ -72,7 +72,35 @@ public class MockBeanAnnotationIntegrationTest {
     }
 }
 </code></pre><br/>
-<b>4. @InjectMocks (???)</b><br/>
+<b>4. @InjectMocks</b><br/>
+Пример:<br/>
+Определение ProductRest:
+<pre class="language-kotlin"><code>
+class ProductRest(val productService: ProductService) {
+    ...
+}
+</code></pre>
+Тест:
+<pre class="language-kotlin"><code>@ExtendWith(MockitoExtension::class)
+internal class ProductRestTest {
+
+    @Mock
+    private lateinit var mockProductService: ProductService
+
+    @InjectMocks
+    // Сообщает, что в тестируемый productRest будет инъектирован mockProductService,
+    // т.к. конструктор ProductRest требует ProductService
+    private lateinit var productRest: ProductRest
+
+    @Test
+    fun getCountOfProductNames() {
+        val count = 5L
+        Mockito.`when`(mockProductService.getCountOfProductNames()).thenReturn(count)
+        assertEquals(5L, productRest.getCountOfProductNames())
+    }
+    ...
+}
+</code></pre><br/>
 <br/>
 <b>5. Ошибка "... available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: ..."</b><br/>
 <pre class="language-java"><code>@ExtendWith(SpringExtension::class)
