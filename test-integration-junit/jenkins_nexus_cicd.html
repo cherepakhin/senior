@@ -191,3 +191,9 @@ doc               gradle           gradlew.bat        log          src
     -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins:lts-jdk11
 </code>
 </pre><br/>
+
+Возможно понадобиться перезаписывать уже задеплоенные артефакты в Nexus.
+Для этого в настройках Nexus репозитория установить разрешение Administration/Repository/Repositories: Hosted/Deployment policy:<br/>
+
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="history_project_jenkins" src="images/allow_redeploy.png"
+        alt="jenkins_results" width="842" height="533"/></p>
