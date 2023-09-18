@@ -1,0 +1,21 @@
+Установка node, npm в vue/node_npm.txt
+
+Пример на Vue:
+/home/vasi/temp/vue_example/vue-project
+vasi-note:~/temp/vue_example/pr1$ npm run dev
+
+Кредитный калькулятор на Vue:
+vasi-note:~/prog/calc/calculator-vue/frontend
+vasi-note:~/prog/calc/calculator-vue/backend
+
+Пример на React:
+http://v.perm.ru/bank/index.html
+
+Ссылки:
+https://v3.vuex.vuejs.org/ru/guide/mutations.html#вызов-мутации-в-компонентах
+https://router.vuejs.org/
+https://vuejs.org/guide/quick-start.html#creating-a-vue-application
+https://www.pierrefay.com/vuejs-training/helloworld-tutorial-vuejs.html
+https://morioh.com/a/f98df40e9c1a/using-kotlin-spring-boot-and-vuejs-to-make-a-crud-app (okta!)
+https://learn.microsoft.com/ru-ru/windows/dev-environment/javascript/vue-beginners-tutorial
+
