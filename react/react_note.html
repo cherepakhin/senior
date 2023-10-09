@@ -1,4 +1,5 @@
-<h3>bind</h3>
+Рассмотрено на простой задаче отправки простой строки на REST сервис и получения этой же строки в ответе (echo сервис).
+<h3>bind()</h3>
 О bind тут
 <a style="text-decoration: underline; color: #3366ff;"
    title="https://webformyself.com/react-ispolzovanie-bind/"
@@ -68,7 +69,6 @@ outerDisplay(); // "ЛЕВОЕ name"</code>
 }
 </code></pre>
 <br/>
-
 <h3>Маппинг глобального значения state.message к локальному </h3>
 <pre class="language-javascript"><code>const mapStateToProps = function (state) {
     return { ...state };
@@ -92,7 +92,13 @@ outerDisplay(); // "ЛЕВОЕ name"</code>
 <pre class="language-javascript"><code>const ConnectedEchoScreen = connect(mapStateToProps, mapDispatchToProps)(EchoScreen);
 </code></pre>
 <br/>
-
+<h3>Передача сообщения в redux (н.п. для отправки на сервер)</h3>
+Функция showEcho(msg) привязана к Button.onClick() (см.выше <b>render()</b>)
+<pre class="language-javascript"><code>showEcho(msg) {
+    this.props.actions.sendMessage(msg);
+}
+</code></pre>
+<br/>
 <h3>В конце компонента не забывать про export</h3>
 <pre class="language-javascript"><code>export { EchoScreen, ConnectedEchoScreen };
 </code></pre>
