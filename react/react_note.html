@@ -69,9 +69,11 @@ outerDisplay(); // "ЛЕВОЕ name"</code>
 </code></pre>
 <br/>
 
-<h3>Маппинг глобального значения state.message к локальному message</h3>
+<h3>Маппинг глобального значения state.message к локальному </h3>
 <pre class="language-javascript"><code>const mapStateToProps = function (state) {
     return { ...state };
+    // либо так return { ...state.props_for_this_component };
+    // либо более сложное конструирование return {p1: state.p1, p2: state.p2}
 };</code>
 </pre>
 <br/>
