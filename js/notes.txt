@@ -8,12 +8,6 @@ vasi-note:~/temp/vue_example/pr1$ npm run dev
 vasi-note:~/prog/calc/calculator-vue/frontend
 vasi-note:~/prog/calc/calculator-vue/backend
 
-Примеры на React:
-http://v.perm.ru/bank/index.html
-
-https://github.com/cherepakhin/bank-ui
-https://github.com/cherepakhin/best-react-bs
-
 Ссылки:
 https://v3.vuex.vuejs.org/ru/guide/mutations.html#вызов-мутации-в-компонентах
 https://router.vuejs.org/
