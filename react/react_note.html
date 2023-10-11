@@ -92,7 +92,7 @@ outerDisplay(); // "ЛЕВОЕ name"</code>
 <pre class="language-javascript"><code>const ConnectedEchoScreen = connect(mapStateToProps, mapDispatchToProps)(EchoScreen);
 </code></pre>
 <br/>
-<h3>Передача сообщения в redux (н.п. для отправки на сервер)</h3>
+<h3>Передача сообщения в redux (для отправки на сервер)</h3>
 Функция showEcho(msg) привязана к Button.onClick() (см.выше <b>render()</b>)
 <pre class="language-javascript"><code>showEcho(msg) {
     this.props.actions.sendMessage(msg);

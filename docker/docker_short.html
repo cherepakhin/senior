@@ -1,10 +1,13 @@
 Тестовый запуск:<br/>
-
 <pre class="language-shell"><code>docker run -d -p 8000:80 docker/getting-started
 </code></pre>
-
 <br/>
-<b>docker/getting-started</b> - имя docker image в хранилище Docker.
+<b>docker/getting-started</b> - имя docker image в хранилище Docker.<br/>
+<b>8000</b> - порт для доступа снаружи<br/>
+<b>80</b> - порт внутри docker<br/>
+<b>-p 8000:80</b> - запросы снаружи на порт 8000 перенаправлются на 80 порт программы внутри docker<br/>
+<b>-d</b> - detach режим запуска. После запуска будет вернемся ОС. Но образ будет работать внутри Docker.<br/>
+
 
 Будет доступен ресурс в браузере:
 <a style="text-decoration: underline; color: #3366ff;"
@@ -17,4 +20,61 @@
        alt="jenkins_demo" width="1143" height="457"/></p>       
 <hr id="system-readmore"/>
 
+Список контайнеров:<br/>
+<pre class="language-shell">
+<code>$ docker container ls
+</code>
+</pre>
+Список images:<br/>
+<pre class="language-shell">
+<code>$ docker image ls
+REPOSITORY               TAG         IMAGE ID       CREATED          SIZE
+getting-started          latest      894e2caf6b10   11 minutes ago   378MB
+ubuntu                   latest      3565a89d9e81   2 weeks ago      77.8MB (на этом тренируюсь)
+prom/prometheus          latest      9c703d373f61   4 weeks ago      245MB
+python                   3.9         49d20c6af9a6   6 weeks ago      997MB
+node                     18-alpine   50c7e33a9de1   2 months ago     176MB
+alpine                   latest      7e01a0d0a1dc   2 months ago     7.34MB
+docker/getting-started   latest      3e4394f6b72f   9 months ago     47MB
+node                     12-alpine   bb6d28039b8c   18 months ago    91MB
+</code>
+</pre>
+
+Запуск image по имени:
+<pre class="language-shell">
+<code>$ docker run -it ubuntu
+</code>
+</pre>
+
+Запуск image по номеру:
+<pre class="language-shell">
+<code>$ docker run -it 356
+</code>
+</pre>
+
+Удаление image по имени:
+<pre class="language-shell">
+<code>$ docker rmi ubuntu
+</code>
+</pre>
+
+Удаление container по id:
+<pre class="language-shell">
+<code>$ docker rm 3e1
+</code>
+</pre>
+
+Удаление всех image:
+<pre class="language-shell">
+<code>$ docker image prune -a
+</code>
+</pre>
+
+
+<br/>
+<b>Ссылки:</b><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="Шпаргалка с командами Docker"
+   href="https://habr.com/ru/companies/flant/articles/336654/"
+   target="_blank" rel="noopener noreferrer">https://habr.com/ru/companies/flant/articles/336654/</a></br>
 
