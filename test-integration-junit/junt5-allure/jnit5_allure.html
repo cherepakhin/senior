@@ -1,9 +1,6 @@
 Предупреждение: я знаю, что JUnit для UNIT тестов и цена им небольшая. Речь о применении JUnit в ИНТЕГРАЦИОННЫХ тестах.
 И с другой стороны, на тех проектах, где мне приходилось работать, интеграционное тестирование проводилось <u>вручную</u>.
 Можно это дело автоматизировать.
-<p><img style="display: block; margin-left: auto; margin-right: auto;" title="прапор" src="images/vorotnik_junit.png"
-        alt="прапор"/></p>
-
 <hr id="system-readmore"/>
 <br/>
 Сами интеграционные тесты должны быть в отдельном проекте, не вместе с проектом/проектами.
@@ -27,7 +24,11 @@ cd junit5-allurreport-example
 mvn clean test allure:report</code>
 </pre>
 <br/>
-<p><i><b>Необходимое замечание</b></i></p>
+<p><i><b>Необходимое замечание об интеграционных тестах</b></i></p>
+JUnit для UNIT тестов и цена им небольшая. Речь о применении JUnit в ИНТЕГРАЦИОННЫХ тестах.
+На тех проектах, где мне приходилось работать, интеграционное тестирование проводилось <u>вручную</u>.
+Можно это дело автоматизировать.
+
 Нужно обеспечить начальное состояние теста и восстановить состояние после любого исхода теста. В самом простом случае можно установить его прямо в тесте. Или, лучше, воспользоваться средствами JUnit5:
 <ul>
     <li>@BeforeAll - выполняется ПЕРЕД выполнением ВСЕХ методов класса теста</li>
@@ -62,3 +63,38 @@ dependencies {
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Результаты тестирования" src="images/allure_results.png"
         alt="Результаты тестирования"/></p>
 Наглядно и красиво!
+<br/>
+<br/>
+<b>Прогон конкретного теста</b>:
+
+<pre class="language-java">
+<code>./gradlew test --tests '*AssumptionsTest'
+./gradlew test --tests ru.perm.v.project.AssumptionsTest
+./gradlew test --tests 'ru.perm.v.project.MyTestClass*'
+./gradlew test --tests '*Assumptions*'
+</code>
+</pre>
+
+<b>Разные варианты тестирования:</b>
+
+<pre class="language-java">
+<code>./gradlew test --tests '*SomeTest.someSpecificFeature'
+./gradlew test --tests '*SomeSpecificTest'
+./gradlew test --tests '*IntegTest'
+./gradlew test --tests '*IntegTest*ui*'
+./gradlew test --tests '*IntegTest.singleMethod'
+</code>
+</pre>
+
+<b>Пример тестирования с базой данных:</b>
+
+В проекте используется
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://java.testcontainers.org/"
+   href="https://java.testcontainers.org/"
+   target="_blank" rel="noopener noreferrer">https://java.testcontainers.org/</a>
+
+Проведение тестов :
+<pre class="language-java">
+<code>./mvnw test</code>
+</pre>

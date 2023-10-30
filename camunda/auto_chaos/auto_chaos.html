@@ -97,6 +97,35 @@
     <li>Тестирование БП</li>
     <li>С devops инженерами обсудить размещение в Kubernetes. В конкретном проекте, Camunda с бизнес-процессами были выделены отдельный микросервис. Но может работать как application в Tomcat.</li>
     <li>При накате новых версий схем бизнес-процессов, все предыдущие процессы должны быть завершены. Или новую версию bpmn схемы разместить по новому пути (???).</li>
+    <li>Есть такая штука Software development lifecycle (SDLC). Картинка пояснит суть лучше слов:<br/><br/>
+        <img class="pull-center" src="images/sdlc" alt=""/><br/><br/>
+        Ничего нового. Но удерживая картинку перед глазами (не только своими), есть план разговора при обсуждении задач, оценки на какой стадии задача. А самое главное, прикинуть что нужно для решения задачи,
+        сколько времени займет внедрение той или иной фичи. Пример:<br/><br/>
+        <table border="1" cellpadding="5">
+            <tbody>
+            <tr>
+                <td>Анализ требований, понятна ли задача</td>
+                <td>1ч-1д</td>
+            </tr>
+            <tr>
+                <td>Прикинуть дизайн</td>
+                <td>1-2ч</td>
+            </tr>
+            <tr>
+                <td>Собственно разработка + unit тесты</td>
+                <td>по результатам п 1,2</td>
+            </tr>
+            <tr>
+                <td>Интеграционное тестирование</td>
+                <td>1д</td>
+            </tr>
+            <tr>
+                <td>Деплой в пререлиз</td>
+                <td>В конце спринта (в идеале)</td>
+            </tr>
+            </tbody>
+        </table>
+    </li>
 </ul>
 
 
@@ -105,7 +134,7 @@
 <a style="text-decoration: underline; color: #3366ff;"
    title="Как я тащил проект или MVC для kubernetes"
    href="http://v.perm.ru/main/index.php/33-istoriya-odnogo-proekta"
-   target="_blank" rel="noopener noreferrer">MVC для kubernetes</a>
+   target="_blank" rel="noopener noreferrer">Camunda+Kubernetes+SDLC</a>
 <br/>
 <a style="text-decoration: underline; color: #3366ff;"
    title="Простенький пример реализации"
