@@ -35,7 +35,7 @@ public class MockAnnotationUnitTest {
     }
 }
 </code></pre>
-<p><br /> <b>3. @MockBean (для Spring окружения)</b><br /> Мы можем использовать @MockBean для добавления фиктивных объектов в контекст приложения Spring(!!!SPRING!!!. Это отличие от Mock). @MockBean заменит любой существующий bean-компонент того же типа в SPRING-КОНТЕКСТЕ ПРИЛОЖЕНИЯ и IntegrationTest.</p>
+<p><br /> <b>3. @MockBean мокирование бина из Spring окружения</b><br /> Мы можем использовать @MockBean для добавления фиктивных объектов в контекст приложения Spring(!!!SPRING!!!. Это отличие от Mock). @MockBean заменит любой существующий bean-компонент того же типа в SPRING-КОНТЕКСТЕ ПРИЛОЖЕНИЯ и IntegrationTest.</p>
 <pre class="language-java"><code>@RunWith(SpringRunner.class)
 public class MockBeanAnnotationIntegrationTest {
 
