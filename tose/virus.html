@@ -1,0 +1,17 @@
+При установке jenkins словил поганку (похоже, скачал с какого-то левого сайта). Маскируется под процессы /usr/sbin/docker-proxy, /usr/sbin/docker-compose.
+Висят в памяти и отжирают 100% CPU. Процессы можно убить, но они снова запускаются. Файлы не удаляются:
+<pre class="language-shell">
+<code>$ sudo rm -f docker-cache
+rm: невозможно удалить 'docker-cache': Операция не позволена</code>
+</pre>
+
+<b>Лечение:</b>
+<pre class="language-shell">
+<code>$ sudo chattr -i -a docker-cache
+$ sudo rm -f docker-cache</code>
+</pre>
+
+Рецепт отсюда: <a style="text-decoration: underline; color: #3366ff;"
+                  title="https://unix.stackexchange.com/questions/29902/unable-to-delete-file-even-when-running-as-root"
+                  href="https://unix.stackexchange.com/questions/29902/unable-to-delete-file-even-when-running-as-root"
+                  target="_blank" rel="noopener noreferrer">https://unix.stackexchange.com/questions/29902/unable-to-delete-file-even-when-running-as-root</a>
