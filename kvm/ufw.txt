@@ -1,3 +1,4 @@
+запустить win10 на v.perm.ru в "Менеджер виртуальных столов QUMU/KVM" (Virtual Machine Manager)
 v main # sudo ufw status
 Состояние: активен
 
