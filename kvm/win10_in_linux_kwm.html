@@ -1,0 +1,39 @@
+<p><b>Цель:</b> Комфортно работать из Linux с Windows 10.
+На разных местах работы различные инфраструктуры (системы безопасности, сетевое окружение и т.п.).
+Работодатель, обычно, предоставляет рабочий компьютер, но иногда требуется что-то проверить и нужна третья машина с Windows с какими-то особенными настройками.
+Здесь описано одно из решений.</p>
+<b>Дано:</b> Домашний сервер с Linux, подключенный к интернет, и рабочий ноутбук с Linux.
+<hr id="system-readmore"/>
+<b>Схема решения:</b><br/>
+С ноутбука с Linux через клиент уд.раб.стола Remmina подключаться к <u>удаленному рабочему столу</u> Windows10, запущенной в системе виртуальных машин Virtual Machine Manager(QUEMU/KVM) на сервере.
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Virtual Machine Manager" src="images/about_virtual_machine_manager.png"
+        alt="Virtual Machine Manager" width="325" height="261"/></p>
+
+Основное окно программы Virtual Machine Manager (сервер ip=192.168.1.20, linux):
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Main window Virtual Machine Manager" src="images/kvm_manager.png"
+        alt="Main window Virtual Machine Manager" width="1272" height="776"/></p>
+
+Основное окно программы клиента удаленного рабочего стола Remmina (ноутбук ip=192.168.1.57, linux):
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Main window Remmina" src="images/remmina_main_window.png"
+        alt="Main window Remmina" width="465" height="239"/></p>
+
+В w10 используется встроенный сервис "Удаленных рабочих столов".<br/>
+<br/>
+<b>Итоговая схема:</b>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Result KVM" src="images/result_kvm.png"
+        alt="Result KVM" width="1163" height="450"/></p>
+Окно удаленного рабочего стола на клиентской машине с linux:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Result W10 from linux notebook" src="images/w10_screen_from_note.png"
+        alt="Result KVM" width="1163" height="450"/></p>
+
+Маршруты на Server(Linux):<br/>
+<pre class="language-shell">
+<code>vasi@v ~ $ route -n
+Таблица маршутизации ядра протокола IP
+Destination Gateway Genmask Flags Metric Ref Use Iface
+0.0.0.0         0.0.0.0         0.0.0.0         U     0      0        0 ppp0
+10.10.1.0       0.0.0.0         255.255.255.0   U     0      0        0 kuberbr42
+192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 enp4s0
+</code></pre>
+<hr/>
+TODO: Описать настройки ufw на Server(Linux).
