@@ -35,7 +35,115 @@ Destination Gateway Genmask Flags Metric Ref Use Iface
 10.10.1.0       0.0.0.0         255.255.255.0   U     0      0        0 kuberbr42
 192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 enp4s0
 </code></pre>
+<b>Firewall</b><br/>
+Используется пакет ufw. В компьютере 3 сетевых интерфейса:
+<ul>
+    <li><b>enp3s0</b> - аппаратный интерфейс, используется для выхода интернет. Через этот интерфейс поднимается ppp0. IP адрес не назначен.</li>
+    <li><b>enp4s0</b> - аппаратный интерфейс, 192.168.1.20 интерфейс внутренней сети.</li>
+    <li><b>kuberbr42</b> - 10.10.1.1 виртуальный интерфейс для сети виртуальной машины.</li>
+    <li><b>ppp0</b> - интернет интерфейс.</li>
+</ul>
+Другие адреса:<br/>
+<ul>
+    <li><b>10.10.1.10</b> - адрес windows машины</li>
+    <li><b>192.168.1.57</b> - адрес рабочего ноутбука, с него работаю.</li>
+    <li><b>8.8.8.8</b> - DNS сервер.</li>
+</ul>
+<pre class="language-shell"><code>vasi@v ~ $ route -n
+enp3s0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+    ether 30:85:a9:96:31:b7  txqueuelen 1000  (Ethernet)
 
+enp4s0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+    inet 192.168.1.20  netmask 255.255.255.0  broadcast 192.168.1.255
+    ether 00:11:95:5b:fe:7d  txqueuelen 1000  (Ethernet)
+
+ppp0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST>  mtu 1492
+    inet 46.146.232.50  netmask 255.255.255.255  destination 10.95.254.254
+    ppp  txqueuelen 3  (Протокол PPP (Point-to-Point Protocol))
+
+kuberbr42: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.10.1.1  netmask 255.255.255.0  broadcast 10.10.1.255
+</code></pre><br/>
+Итоговая настройка:<br/>
+<pre class="language-shell">
+<code>
+@v ~ $ route -n
+Таблица маршутизации ядра протокола IP
+Destination     Gateway         Genmask Flags   Metr Ref     Use      Iface
+0.0.0.0         0.0.0.0         0.0.0.0         U     0      0        0 ppp0
+10.10.1.0       0.0.0.0         255.255.255.0   U     0      0        0 kuberbr42
+172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 docker0
+192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 enp4s0
+...
+</code></pre><br/>
+<pre class="language-shell"><code>
+$ sudo ufw status numbered
+Состояние: активен
+     В                          Действие    Из
+     -                          --------    --
+[ 1] 443 on enp4s0              ALLOW IN    Anywhere
+[ 2] 53 on enp4s0               ALLOW IN    Anywhere
+[ 3] Anywhere                   ALLOW IN    10.10.1.10
+[ 4] 5432/tcp                   ALLOW IN    10.10.1.10
+[ 5] 53/tcp                     ALLOW IN    10.10.1.10
+[ 6] 53/udp                     ALLOW IN    192.168.1.57
+[ 7] 443/udp                    ALLOW IN    192.168.1.57
+[ 8] 8.8.8.8 443/udp            ALLOW IN    192.168.1.57
+[ 9] 8.8.8.8 443/udp            ALLOW IN    192.168.1.0/24
+[10] 8.8.8.8 53/udp             ALLOW IN    192.168.1.0/24
+[11] 8.8.8.8 53/tcp             ALLOW IN    192.168.1.0/24
+[12] 3389 on enp4s0             ALLOW IN    Anywhere
+[13] 4000 on enp4s0             ALLOW IN    Anywhere
+[14] 22 on kuberbr42            ALLOW IN    Anywhere
+[15] 8888 on enp4s0             ALLOW IN    Anywhere
+[16] 8082 on enp4s0             ALLOW IN    Anywhere
+[17] 5432 on ppp0               DENY IN     Anywhere
+[18] 5432 on enp4s0             ALLOW IN    Anywhere
+[19] 80 on ppp0                 ALLOW IN    Anywhere
+[20] 80 on enp4s0               ALLOW IN    Anywhere
+[21] 22 on ppp0                 DENY IN     Anywhere
+[22] 22 on enp4s0               ALLOW IN    Anywhere
+[23] 21 on ppp0                 DENY IN     Anywhere
+[24] 21 on enp4s0               ALLOW IN    Anywhere
+[25] 3389 on ppp0               DENY IN     Anywhere
+[26] 1521 on ppp0               DENY IN     Anywhere
+[27] 8888 on ppp0               DENY IN     Anywhere
+[28] 8888 on enp3s0             DENY IN     Anywhere
+[29] Anywhere                   ALLOW IN    10.10.1.15
+[30] Anywhere                   ALLOW IN    192.168.1.57
+[31] 8.8.8.8 80/tcp             ALLOW IN    192.168.1.0/24
+[32] 8.8.8.8 443/tcp            ALLOW IN    192.168.1.0/24
+[35] 443                        ALLOW IN    Anywhere
+</code></pre><br/>
+Используемые порты:
+<ul>
+    <li>21 - ftp</li>
+    <li>22 - ssh</li>
+    <li>53 - DNS</li>
+    <li>80 - web сервер</li>
+    <li>5432 - PostgreSQL</li>
+    <li>3389 - Удаленный рабочий стол Windows</li>
+    <li>4000 - Удаленный рабочий Nomachine сервиса</li>
+    <li>8082, 8888 - для демо проектов</li>
+</ul>
+В Windows:<br/>
+<pre class="language-shell"><code> ipconfig
+
+Настройка протокола IP для Windows
+
+Адаптер Ethernet Ethernet:
+
+DNS-суффикс подключения . . . . . :
+Локальный IPv6-адрес канала . . . : fe80::cf41:2634:a793:aae1%5
+IPv4-адрес. . . . . . . . . . . . : 10.10.1.10
+Маска подсети . . . . . . . . . . : 255.255.255.0
+Основной шлюз. . . . . . . . . : 10.10.1.1
+</code></pre><br/>
+Управление правилами:
+<pre class="language-shell"><code>
+ufw insert 1 deny in on ppp0 to any port 22 // запретить ssh из Интернета
+ufw insert 2 allow in on enp4s0 to any port 22 // разрешить ssh из внутренней сети
+</code></pre><br/>
 <b>Примечания:</b><br/>
 1. В версии Windows Home удаленного рабочего стола НЕТ(!), только удаленный помощник. В Стандартной версии есть.<br/>
 2. Памяти нужно много! В Server(Linux) установлено 12Gb. Для w10 отдал 4Gb. Удивительно, но win10 живет с 4Gb. Приходится некоторые особо жадные сервисы(jenkins, nexus) в хостовой машине (ServerLinux) выгружать.<br/>
