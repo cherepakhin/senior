@@ -1,0 +1,64 @@
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Grafana demo" src="images/prometheus/grafana_2app_with_down.png"
+        alt="Grafana demo" width="1999" height="1214"/></p>
+<a title="Prometheus" href="https://micrometer.io/docs/registry/prometheus#_installing"
+   target="_blank" rel="noopener noreferrer">
+    <strong>Prometheus</strong>
+</a> - инструмент сбора метрик приложений.<br/>
+<hr id="system-readmore"/>
+<a title="Grafana" href="https://grafana.com/"
+   target="_blank" rel="noopener noreferrer"/> - отображения собранных статистических данных о работе приложений.<br/>
+На картинке выше отображены результат работы двух приложений, расположенных на разных хостах.<br/>
+Запущенный процесс Prometheus:
+<pre class="language-shell">
+<code>1289 ?        Ssl    2:41 /usr/bin/prometheus-node-exporter --collector.diskstats.ignored-devices=^(ram|loop|fd|(h|s|v|xv)d[a-z]|nvmed+nd+p)d+$ --collector.filesystem.ignored-mount-points=^/(sys|proc|dev|run)($|/) --collector.netdev.ignored-devices=^lo$ --collector.textfile.directory=/var/lib/prometheus/node-exporter
+10331 pts/1    S+     0:00 grep --color=auto prometh
+21144 ?        Ssl    3:02 /usr/bin/prometheus --config.file /etc/prometheus/prometheus.yml --storage.tsdb.path /var/lib/prometheus/
+</code>
+</pre>
+
+<h3 dir="auto">Просмотр Prometheus.</h3>
+
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Prometheus" src="images/prometheus/prometheus_1_20.png"
+        alt="Prometheus" width="1035" height="677"/></p>
+
+<b>Grafana</b> - инструмент мониторинга приложений. Получение метрик из spring-boot приложения делается с помощью
+<a style="text-decoration: underline; color: #3366ff;"
+   title="io.spring.dependency-management"
+   href="https://mvnrepository.com/artifact/io.spring.dependency-management/io.spring.dependency-management.gradle.plugin"
+   target="_blank" rel="noopener noreferrer">io.spring.dependency-management</a>.
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="Пример проекта shop_kotlin"
+   href="https://github.com/cherepakhin/shop_kotlin"
+   target="_blank" rel="noopener noreferrer">Пример проекта shop_kotlin</a>
+
+<hr id="system-readmore"/>
+<b>Установка Grafana</b><br/>
+Загрузить Grafana с <a title="https://grafana.com/grafana/download" href="https://grafana.com/grafana/download"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://grafana.com/grafana/download</strong>
+</a>
+<br/>
+или так:
+<pre class="language-shell"><code>sudo apt-get install -y adduser libfontconfig1
+wget https://dl.grafana.com/enterprise/release/grafana-enterprise_10.1.0_amd64.deb
+sudo dpkg -i grafana-enterprise_10.1.0_amd64.deb
+</code></pre>
+<br/>
+
+<b>TODO:</b><br/>
+<ul>
+    <li>Обстрелять <b>yandex-tank</b>ом проект shop_kotlin</li>
+</ul>
+
+Ссылки:<br/>
+<a title="Set up and observe a Spring Boot application with Grafana Cloud, Prometheus, and OpenTelemetry" href="https://grafana.com/blog/2022/04/26/set-up-and-observe-a-spring-boot-application-with-grafana-cloud-prometheus-and-opentelemetry/"
+   target="_blank" rel="noopener noreferrer">
+    <strong>Set up and observe a Spring Boot application with Grafana Cloud, Prometheus, and OpenTelemetry</strong>
+</a>
+<br/>
+<a title="Установка prometheus" href="https://micrometer.io/docs/registry/prometheus#_installing"
+   target="_blank" rel="noopener noreferrer">
+    <strong>Установка prometheus</strong>
+</a>
+
