@@ -1,0 +1,38 @@
+Сначала запустить zookeeper:<br/>
+Параметры настроить zookeeper в config/zookeeper.properties (<a title="https://github.com/cherepakhin/senior/kafka/zookeeper.properties" href="https://github.com/cherepakhin/senior/kafka/zookeeper.properties"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://github.com/cherepakhin/kafka/senior/zookeeper.properties</strong></a>).<br/>
+Содержимое файла:<br/>
+<pre class="language-shell">
+<code>dataDir=/tmp/zookeeper
+clientPort=2181
+maxClientCnxns=0
+admin.enableServer=true
+admin.serverPort=9080
+</code>
+</pre>
+Скрипт запуска zookeeper:<br/>
+<a title="https://github.com/cherepakhin/senior/kafka/zookeeper-server-start.sh" href="https://github.com/cherepakhin/senior/kafka/zookeeper-server-start.sh"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://github.com/cherepakhin/kafka/zookeeper-server-start.sh</strong>
+</a>
+
+
+
+
+
+<br/>
+Проверка работы:<br/>
+<a title="http://127.0.0.1:9080/commands" href="http://127.0.0.1:9080/commands"
+   target="_blank" rel="noopener noreferrer">
+    <strong>http://127.0.0.1:9080/commands</strong>
+</a>
+
+
+Затем запустить kafka:
+
+<pre class="language-shell">
+<code>$ /home/vasi/tools/kafka/bin/kafka-server-start.sh /home/vasi/tools/kafka/config/server.properties
+</code>
+</pre>
+
