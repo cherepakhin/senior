@@ -31,7 +31,7 @@ admin.serverPort=9080
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Zookeeper_commands" src="images/kafka/zookeeper_commands.png"
         alt="zookeeper_commands" width="234" height="456"/></p><br/>
 
-<h3>Запуск Kafka</h3><br/>
+<h3>Запуск Kafka</h3>
 <pre class="language-shell"><code>$ ~/tools/kafka/bin/kafka-server-start.sh /home/vasi/tools/kafka/config/server.properties
 </code></pre>
 
@@ -48,22 +48,21 @@ INFO [BrokerToControllerChannelManager broker=0 name=alterPartition]: Recorded n
 </code></pre>
 
 <h3>Проверка работы из консоли</h3>
-Создание топика "samples":<br/>
-<pre class="language-shell"><code>
-$ ~/tools/kafka/bin $ kafka-topics.sh --bootstrap-server 192.168.1.20:9092 --create --topic samples --partitions 1 --replication-factor 1
-</code></pre>
+Создание топика "samples":
+<pre class="language-shell">
+<code>$ ~/tools/kafka/bin $ kafka-topics.sh --bootstrap-server 192.168.1.20:9092 --create --topic samples --partitions 1 --replication-factor 1
+</code>
+</pre>
 
-Отправка сообщения в топик "samples":<br/>
-<pre class="language-shell"><code>
-$~/tools/kafka/bin./kafka-console-producer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
+Отправка сообщения в топик "samples":<br/><pre class="language-shell">
+<code>$~/tools/kafka/bin./kafka-console-producer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
 >test1
 >test2
 >
 </code></pre>
 
-Подключение к топику "samples" и просмотр сообщений:<br/>
-<pre class="language-shell"><code>
-$ ~/tools/kafka/bin $ kafka-console-consumer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
+Подключение к топику "samples" и просмотр сообщений:<br/><pre class="language-shell">
+<code>$ ~/tools/kafka/bin $ kafka-console-consumer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
 test1
 test2
 </code></pre>
