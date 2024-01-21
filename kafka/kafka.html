@@ -1,8 +1,9 @@
+<h3>Zookeeper</h3>
 Сначала запустить zookeeper:<br/>
-Параметры настроить zookeeper в config/zookeeper.properties (<a title="https://github.com/cherepakhin/senior/kafka/zookeeper.properties" href="https://github.com/cherepakhin/senior/kafka/zookeeper.properties"
+Параметры настроить zookeeper в config/zookeeper.properties (<a title="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper.properties" href="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper.properties"
    target="_blank" rel="noopener noreferrer">
-    <strong>https://github.com/cherepakhin/kafka/senior/zookeeper.properties</strong></a>).<br/>
-Содержимое файла:<br/>
+    <strong>https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper.properties</strong></a>).<br/>
+Основное в файле:<br/>
 <pre class="language-shell">
 <code>dataDir=/tmp/zookeeper
 clientPort=2181
@@ -12,25 +13,19 @@ admin.serverPort=9080
 </code>
 </pre>
 Скрипт запуска zookeeper:<br/>
-<a title="https://github.com/cherepakhin/senior/kafka/zookeeper-server-start.sh" href="https://github.com/cherepakhin/senior/kafka/zookeeper-server-start.sh"
+<a title="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh" href="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh"
    target="_blank" rel="noopener noreferrer">
-    <strong>https://github.com/cherepakhin/kafka/zookeeper-server-start.sh</strong>
-</a>
-
-
-
-
-
-<br/>
-Проверка работы:<br/>
-<a title="http://127.0.0.1:9080/commands" href="http://127.0.0.1:9080/commands"
+    <strong>https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh</strong>
+</a><br/>
+Проверка и просмотр работы zookeeper:<br/>
+<a title="http://192.168.1.20:9080/commands" href="http://192.168.1.20:9080/commands"
    target="_blank" rel="noopener noreferrer">
-    <strong>http://127.0.0.1:9080/commands</strong>
+    <strong>http://192.168.1.20:9080/commands</strong>
 </a>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Суслика видишь?" src="images/kafka/zookeeper_commands.png"
+        alt="zookeeper_commands" width="234" height="456"/></p><br/>
 
-
-Затем запустить kafka:
-
+<h3>Запуск Kafka</h3>
 <pre class="language-shell">
 <code>$ /home/vasi/tools/kafka/bin/kafka-server-start.sh /home/vasi/tools/kafka/config/server.properties
 </code>
