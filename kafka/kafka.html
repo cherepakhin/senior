@@ -13,22 +13,62 @@ admin.enableServer=true
 admin.serverPort=9080
 </code>
 </pre>
-Скрипт запуска zookeeper:<br/>
-<a title="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh" href="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh"
+Скрипт запуска zookeeper(<a title="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh"
+   href="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh"
    target="_blank" rel="noopener noreferrer">
-    <strong>https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh</strong>
-</a><br/>
+   <strong>https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh</strong></a>)<br/>
+<pre class="language-shell"><code>$ /home/vasi/tools/kafka/bin/zookeeper-server-start.sh /home/vasi/tools/kafka/config/zookeeper.properties
+</code></pre>
+
+<b>/home/vasi</b> - каталог пользователя<br/>
+<b>tools/kafka</b> - каталог со скриптами kafka<br/>
+
 Проверка и просмотр работы zookeeper:<br/>
 <a title="http://192.168.1.20:9080/commands" href="http://192.168.1.20:9080/commands"
    target="_blank" rel="noopener noreferrer">
     <strong>http://192.168.1.20:9080/commands</strong>
 </a>
-<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Суслика видишь?" src="images/kafka/zookeeper_commands.png"
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Zookeeper_commands" src="images/kafka/zookeeper_commands.png"
         alt="zookeeper_commands" width="234" height="456"/></p><br/>
 
-<h3>Запуск Kafka</h3>
-<pre class="language-shell">
-<code>$ /home/vasi/tools/kafka/bin/kafka-server-start.sh /home/vasi/tools/kafka/config/server.properties
-</code>
-</pre>
+<h3>Запуск Kafka</h3><br/>
+<pre class="language-shell"><code>$ ~/tools/kafka/bin/kafka-server-start.sh /home/vasi/tools/kafka/config/server.properties
+</code></pre>
 
+Log:
+<pre class="language-shell"><code>....
+INFO [KafkaServer id=0] started (kafka.server.KafkaServer)
+INFO [BrokerToControllerChannelManager broker=0 name=alterPartition]: Recorded new controller,
+    from now on will use node 192.168.1.20:9092 (id: 0 rack: null)
+    (kafka.server.BrokerToControllerRequestThread)
+[2024-01-21 18:29:10,389] INFO [BrokerToControllerChannelManager broker=0 name=forwarding]:
+    Recorded new controller, from now on will use node 192.168.1.20:9092 (id: 0 rack: null)
+    (kafka.server.BrokerToControllerRequestThread)
+````
+</code></pre>
+
+<h3>Проверка работы из консоли</h3>
+Создание топика "samples":<br/>
+<pre class="language-shell"><code>
+$ ~/tools/kafka/bin $ kafka-topics.sh --bootstrap-server 192.168.1.20:9092 --create --topic samples --partitions 1 --replication-factor 1
+</code></pre>
+
+Отправка сообщения в топик "samples":<br/>
+<pre class="language-shell"><code>
+$~/tools/kafka/bin./kafka-console-producer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
+>test1
+>test2
+>
+</code></pre>
+
+Подключение к топику "samples" и просмотр сообщений:<br/>
+<pre class="language-shell"><code>
+$ ~/tools/kafka/bin $ kafka-console-consumer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
+test1
+test2
+</code></pre>
+<b>Ссылки:</b><br/>
+<a title="https://russianblogs.com/article/77121686470/"
+   href="https://russianblogs.com/article/77121686470/"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://russianblogs.com/article/77121686470/</strong></a><br/>
