@@ -1,10 +1,10 @@
 <h3>Zookeeper</h3>
 Сначала запустить zookeeper:<br/>
 <hr id="system-readmore"/>
-Параметры настроить zookeeper в config/zookeeper.properties (<a title="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper.properties" href="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper.properties"
+Параметры zookeeper настроить в ~/tools/kafka/config/zookeeper.properties (<a title="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper.properties" href="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper.properties"
    target="_blank" rel="noopener noreferrer">
-    <strong>https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper.properties</strong></a>).<br/>
-Основное в файле:<br/>
+    <strong>https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper.properties</strong></a>).
+Основные параметры в zookeeper.properties:<br/>
 <pre class="language-shell">
 <code>dataDir=/tmp/zookeeper
 clientPort=2181
@@ -13,6 +13,7 @@ admin.enableServer=true
 admin.serverPort=9080
 </code>
 </pre>
+
 Скрипт запуска zookeeper(<a title="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh"
    href="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh"
    target="_blank" rel="noopener noreferrer">
@@ -54,14 +55,14 @@ INFO [BrokerToControllerChannelManager broker=0 name=alterPartition]: Recorded n
 </pre>
 
 Отправка сообщения в топик "samples":<br/><pre class="language-shell">
-<code>$ ~/tools/kafka/bin./kafka-console-producer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
+<code>$ ~/tools/kafka/bin/kafka-console-producer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
 >test1
 >test2
 >
 </code></pre>
 
 Подключение к топику "samples" и просмотр сообщений:<br/><pre class="language-shell">
-<code>$ ~/tools/kafka/bin $ kafka-console-consumer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
+<code>$ ~/tools/kafka/bin/kafka-console-consumer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
 test1
 test2
 </code></pre>
