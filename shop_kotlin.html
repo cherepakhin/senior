@@ -1,59 +1,124 @@
 <p>Дополнительные к чему? К текстовому редактору)</p>
-<p>Проект: <a style="text-decoration: underline; color: #3366ff;" title="https://github.com/cherepakhin/shop_kotlin" href="https://github.com/cherepakhin/shop_kotlin" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/shop_kotlin</a> <a id="target"></a></p>
+Проект и описание находится тут:
+<a title="https://github.com/cherepakhin/shop_kotlin" href="https://github.com/cherepakhin/shop_kotlin"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/shop_kotlin</a>
 <hr id="system-readmore" />
-<h3>Оглавление</h3>
-<h4>Анализаторы кода</h4>
+<h2>Анализаторы кода</h2>
 <ul>
-    <li><a href="#">Статический анализатор Idea Analizer</a></li>
-    <li><a href="#">Статический анализатор SonarCube</a></li>
+    <li><a href="#idea_analizer">Статический анализатор Idea Analyzer</a></li>
+    <li><a href="#sonarcube_analizer">Статический анализатор SonarCube</a></li>
 </ul>
 <ul>
-    <li><a href="#">Замечание о JPA Entity классах с Kotlin</a></li>
+    <li><a href="#jpa">Замечание о JPA Entity классах с Kotlin</a></li>
 </ul>
 <ul>
-    <li><a href="#">Spring profiles</a></li>
+    <li><a href="#profiles">Spring profiles</a></li>
 </ul>
-<h4>Тестирование</h4>
+<h2>Тестирование</h2>
 <ul>
-    <li><a href="#">Unit тестирование</a></li>
-    <li><a href="#">Покрытие тестами</a></li>
-    <li><a href="#">Интеграционное тестирование</a></li>
-    <li><a href="#">Примеры тестов httpie</a></li>
-    <li><a href="#">DataJpa tests</a></li>
-    <li><a href="#">RestAssured tests</a></li>
-    <li><a href="#">Нагрузочное тестирование</a></li>
+    <li><a href="#unit">Unit тестирование</a></li>
+    <li><a href="#test_coverage">Покрытие тестами</a></li>
+    <li><a href="#integration_tests">Интеграционное тестирование</a></li>
+    <li><a href="#httpie_tests">Примеры тестов httpie</a></li>
+    <li><a href="#jpa_tests">DataJpa tests</a></li>
+    <li><a href="#restassured_tests">RestAssured tests</a></li>
+    <li><a href="#load_tests">Нагрузочное тестирование</a></li>
 </ul>
-<h4>Документирование</h4>
+<h2>Документирование</h2>
 <ul>
-    <li><a href="#">Swagger</a></li>
-    <li><a href="#">Spring Actuator</a></li>
+    <li><a href="#swagger">Swagger</a></li>
+    <li><a href="#actuator">Spring Actuator</a></li>
 </ul>
-<h4>CI/CD</h4>
+<h2>CI/CD</h2>
 <ul>
-    <li><a href="#">Prometheus</a></li>
-    <li><a href="#">Пример просмотра использования CPU в Prometheus</a></li>
-    <li><a href="#">Запуск prometheus в docker</a></li>
-    <li><a href="#">Просмотр ресурсов с помощью Grafana</a></li>
-    <li><a href="#">Просмотр ресурсов с помощью Java Mission Control</a></li>
+    <li><a href="#prometheus">Prometheus</a></li>
+    <li><a href="#cpu_usage">Пример просмотра использования CPU в Prometheus</a></li>
+    <li><a href="#run_prometheus_in_docker">Запуск prometheus в docker</a></li>
+    <li><a href="#grafana">Просмотр ресурсов с помощью Grafana</a></li>
+    <li><a href="#jmc">Просмотр ресурсов с помощью Java Mission Control</a></li>
 </ul>
 <ul>
-    <li><a href="#">Сборка Jenkins</a></li>
-    <li><a href="#">Nexus</a></li>
+    <li><a href="#jenkins">Сборка Jenkins</a></li>
+    <li><a href="#nexus">Nexus</a></li>
 </ul>
-<h4>Инструменты</h4>
+<h2>Инструменты</h2>
 <ul>
-    <li><a href="#">Docker</a></li>
-    <li><a href="#">Кеширование</a></li>
-    <li><a href="#">Логирование</a></li>
+    <li><a href="#docker">Docker</a></li>
+    <li><a href="#caching">Кеширование</a></li>
+    <li><a href="#logging">Логирование</a></li>
 </ul>
-<h4>Использование ChatGPT</h4>
+<h2>Использование ChatGPT</h2>
 <ul>
-    <li><a href="#">Использование "ChatGPT-EasyCode" в Idea</a></li>
-    <li><a href="#">Использование "ChatGPT-EasyCode" в VSCode</a></li>
+    <li><a href="#easycode_idea">ChatGPT-EasyCode в Idea</a></li>
+    <li><a href="#easycode_vscode">ChatGPT-EasyCode в VSCode</a></li>
 </ul>
 <hr/>
 <ul>
-    <li><a href="#">TODO</a></li>
-    <li><a href="#">Примечания</a></li>
-    <li><a href="#">Ссылки</a></li>
+    <li><a href="#todo">TODO</a></li>
+    <li><a href="#other">Примечания</a></li>
+    <li><a href="#links">Ссылки</a></li>
 </ul>
+<hr/>
+<h3>Анализаторы кода</h3>
+<a id="idea_analizer"></a>
+<h3 dir="auto">Статический анализатор Idea Analyzer</h3>
+Проверка кода. Вызывается из контекстного меню <b>Analyze - Inspect Code</b>
+<a id="sonarcube_analizer"></a>
+<h3 dir="auto">Статический анализатор SonarCube</h3>
+Взято отсюда <a title="https://russianblogs.com/article/7201801081/" href="https://russianblogs.com/article/7201801081/">https://russianblogs.com/article/7201801081/</a><br/>
+Коротко: в области Project правый клик на src/main/kotlin выбрать "Analize with SonarLint". Отчет будет в "Report".
+<a id="jpa"></a>
+<h3 dir="auto">Замечание о JPA Entity классах с Kotlin</h3>
+Источник: <a title="https://habr.com/ru/companies/haulmont/articles/572574/" href="https://habr.com/ru/companies/haulmont/articles/572574/">https://habr.com/ru/companies/haulmont/articles/572574/</a><br/>
+Примеры из источника: <a title="https://github.com/Klimenkoob/spring-kotlin-hibernate" href="https://github.com/Klimenkoob/spring-kotlin-hibernate">https://github.com/Klimenkoob/spring-kotlin-hibernate</a><br/>
+<a id="profiles"></a>
+<h3 dir="auto">Spring profiles</h3>
+<a id="unit"></a>
+<h3 dir="auto">Unit тестирование</h3>
+<a id="test_coverage"></a>
+<h3 dir="auto">Покрытие тестами</h3>
+<a id="integration_tests"></a>
+<h3 dir="auto">Интеграционное тестирование</h3>
+<a id="httpie_tests"></a>
+<h3 dir="auto">Примеры тестов httpie</h3>
+<a id="jpa_tests"></a>
+<h3 dir="auto">DataJpa tests</h3>
+<a id="restassured_tests"></a>
+<h3 dir="auto">RestAssured tests</h3>
+<a id="load_tests"></a>
+<h3 dir="auto">Нагрузочное тестирование</h3>
+<a id="swagger"></a>
+<h3 dir="auto">Swagger</h3>
+<a id="actuator"></a>
+<h3 dir="auto">Spring Actuator</h3>
+<a id="prometheus"></a>
+<h3 dir="auto">Prometheus</h3>
+<a id="cpu_usage"></a>
+<h3 dir="auto">Пример просмотра использования CPU в Prometheus</h3>
+<a id="run_prometheus_in_docker"></a>
+<h3 dir="auto">Запуск prometheus в docker</h3>
+<a id="grafana"></a>
+<h3 dir="auto">Просмотр ресурсов с помощью Grafana</h3>
+<a id="jmc"></a>
+<h3 dir="auto">Просмотр ресурсов с помощью Java Mission Control</h3>
+<a id="jenkins"></a>
+<h3 dir="auto">Сборка Jenkins</h3>
+<a id="nexus"></a>
+<h3 dir="auto">Nexus</h3>
+<a id="docker"></a>
+<h3 dir="auto">Docker</h3>
+<a id="caching"></a>
+<h3 dir="auto">Кеширование</h3>
+<a id="logging"></a>
+<h3 dir="auto">Логирование</h3>
+<a id="easycode_idea"></a>
+<h3 dir="auto">ChatGPT-EasyCode в Idea</h3>
+<a id="easycode_vscode"></a>
+<h3 dir="auto">ChatGPT-EasyCode в VSCode</h3>
+<a id="todo"></a>
+<h3 dir="auto">TODO</h3>
+<a id="other"></a>
+<h3 dir="auto">Примечания</h3>
+<a id="links"></a>
+<h3 dir="auto">Ссылки</h3>
