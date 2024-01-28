@@ -1,61 +1,59 @@
-<p dir="auto" tabindex="-1"><span style="font-size: 12pt; font-family: arial, helvetica, sans-serif;">Проект: <a title="Источник" href="https://github.com/cherepakhin/shop_kotlin">https://github.com/cherepakhin/shop_kotlin</a></span></p>
-<h3>Оглавление:</h3>
+<p>Дополнительные к чему? К текстовому редактору)</p>
+<p>Проект: <a style="text-decoration: underline; color: #3366ff;" title="https://github.com/cherepakhin/shop_kotlin" href="https://github.com/cherepakhin/shop_kotlin" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/shop_kotlin</a> <a id="target"></a></p>
+<hr id="system-readmore" />
+<h3>Оглавление</h3>
+<h4>Анализаторы кода</h4>
 <ul>
-    <li><a href="#Target">Цель</a></li>
-    <li><a href="#jpa_kotlin">JPA Entity классы с Kotlin</a></li>
-    <li><a href="#idea_analize">Статический анализатор Idea Analize</a></li>
-    <li><a href="#sonarcube_analize">Статический анализатор SonarCube</a></li>
+    <li><a href="#">Статический анализатор Idea Analizer</a></li>
+    <li><a href="#">Статический анализатор SonarCube</a></li>
 </ul>
-
-<hr id="system-readmore"/>
-Проект:
-<a title="https://github.com/cherepakhin/shop_kotlin" href="https://github.com/cherepakhin/shop_kotlin"
-   style="text-decoration: underline; color: #3366ff;"
-   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/shop_kotlin</a>
-
-<a id="Target"></a>
-<h3 dir="auto" tabindex="-1" data-react-autofocus="true"><a id="user-content-цель" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin?tab=readme-ov-file#%D1%86%D0%B5%D0%BB%D1%8C"></a>Цель</h3>
-<p dir="auto">Cоздать небольшое приложение на <b>Kotlin</b> с использованием <b>Spring Boot</b>. Справочник товаров со следующими типами:</p>
-<ul dir="auto">
-    <li>Настольные компьютеры</li>
-    <li>Ноутбуки</li>
-    <li>Мониторы</li>
-    <li>Жесткие диски</li>
+<ul>
+    <li><a href="#">Замечание о JPA Entity классах с Kotlin</a></li>
 </ul>
-<p>Каждый товар имеет следующие свойства:</p>
-<ul dir="auto">
-    <li>номер серии</li>
-    <li>производитель</li>
-    <li>цена</li>
-    <li>количество единиц продукции на складе</li>
+<ul>
+    <li><a href="#">Spring profiles</a></li>
 </ul>
-<p dir="auto">Дополнительные свойства:</p>
-<ul dir="auto">
-    <li>Настольные компьютеры имеют форм-фактор: десктопы, неттопы, моноблоки</li>
-    <li>Ноутбуки подразделяются по размеру: 13, 14, 15, 17 дюймовые</li>
-    <li>Мониторы имеют диагональ</li>
-    <li>Жесткие диски имеют объем</li>
+<h4>Тестирование</h4>
+<ul>
+    <li><a href="#">Unit тестирование</a></li>
+    <li><a href="#">Покрытие тестами</a></li>
+    <li><a href="#">Интеграционное тестирование</a></li>
+    <li><a href="#">Примеры тестов httpie</a></li>
+    <li><a href="#">DataJpa tests</a></li>
+    <li><a href="#">RestAssured tests</a></li>
+    <li><a href="#">Нагрузочное тестирование</a></li>
 </ul>
-<p>Необходимо реализовать back-end приложение, которое имеет RESTful HTTP методы выполняющие:</p>
-<ul dir="auto">
-    <li>Добавление товара</li>
-    <li>Редактирование товара</li>
-    <li>Просмотр всех существующих товаров по типу</li>
-    <li>Просмотр товара по идентификатору</li>
+<h4>Документирование</h4>
+<ul>
+    <li><a href="#">Swagger</a></li>
+    <li><a href="#">Spring Actuator</a></li>
 </ul>
-В качестве базы данных использовать in memory database, например H2.<br/>
-<a id="jpa_kotlin"></a>
-<h3 dir="auto">JPA Entity классы с Kotlin</h3>
-<p dir="auto">Источник:<a href="https://habr.com/ru/companies/haulmont/articles/572574/" rel="nofollow">https://habr.com/ru/companies/haulmont/articles/572574/</a><br />Примеры из источника: <a href="https://github.com/Klimenkoob/spring-kotlin-hibernate">https://github.com/Klimenkoob/spring-kotlin-hibernate</a></p>
-<p dir="auto">Рекомендации:</p>
-<ol dir="auto">
-    <li><strong>Data class not recommended for JPA Entity</strong> . Warning in Idea. Почему не использовать Data-классы? Потому что они финальны сами по себе, имеют по всем полям определенные equals, hashCode и toString. А это недопустимо в связке с Hibernate.</li>
-    <li>Явно помечать ключевым словом <strong>open</strong> все Entity. Согласно спецификации JPA, все классы и свойства, связанные с JPA, не должны быть <strong>final</strong>. В отличие от Java, в Kotlin классы, свойства и методы по умолчанию final. Поэтому их нужно явно помечать ключевым словом <strong>open</strong>.</li>
-    <li><strong>Явно определять</strong> hashCode(), equals(), toString(). При определении внимание на <strong>lazy</strong> поля (как и в Java).</li>
-    <li>Добавить <strong>nullable = false</strong></li>
-</ol>
-<div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
-<pre class="language-shell"><code>@ManyToOne(fetch = FetchType.LAZY, optional = false)
-   @JoinColumn(name = "client_id", nullable = false)
-   lateinit var client: Client </code></pre>
-</div>
+<h4>CI/CD</h4>
+<ul>
+    <li><a href="#">Prometheus</a></li>
+    <li><a href="#">Пример просмотра использования CPU в Prometheus</a></li>
+    <li><a href="#">Запуск prometheus в docker</a></li>
+    <li><a href="#">Просмотр ресурсов с помощью Grafana</a></li>
+    <li><a href="#">Просмотр ресурсов с помощью Java Mission Control</a></li>
+</ul>
+<ul>
+    <li><a href="#">Сборка Jenkins</a></li>
+    <li><a href="#">Nexus</a></li>
+</ul>
+<h4>Инструменты</h4>
+<ul>
+    <li><a href="#">Docker</a></li>
+    <li><a href="#">Кеширование</a></li>
+    <li><a href="#">Логирование</a></li>
+</ul>
+<h4>Использование ChatGPT</h4>
+<ul>
+    <li><a href="#">Использование "ChatGPT-EasyCode" в Idea</a></li>
+    <li><a href="#">Использование "ChatGPT-EasyCode" в VSCode</a></li>
+</ul>
+<hr/>
+<ul>
+    <li><a href="#">TODO</a></li>
+    <li><a href="#">Примечания</a></li>
+    <li><a href="#">Ссылки</a></li>
+</ul>
