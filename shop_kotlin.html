@@ -94,8 +94,23 @@ lateinit var client: Client
   application:
     name: shop_kotlin
 </code></pre>
+Запуск с указанием профиля: <pre class="language-java">
+<code>java -D"spring.profiles.active=dev" -jar app.jar</code></pre>
+Запуск с gradle: <pre class="language-java">
+<code>./gradlew bootRun -Dspring.profiles.active='dev'</code></pre>
+или установить env переменную: <pre class="language-java">
+<code>SPRING_PROFILES_ACTIVE=dev ./gradlew clean bootRun
+</code></pre>
 <a id="unit"></a>
 <h3 dir="auto">Unit тестирование</h3>
+<pre class="language-java">
+<code>./gradlew test</code></pre>
+Примеры отбора тестов:<pre class="language-java"><code>./gradlew test --tests '*EntityTest'
+./gradlew test --tests '*Rest*'
+./gradlew test --tests ProductDTOTest
+./gradlew test --tests '*TestIntegration'
+./gradlew test --tests '*MockMvcTest'
+</code></pre>
 <a id="test_coverage"></a>
 <h3 dir="auto">Покрытие тестами</h3>
 <a id="integration_tests"></a>
