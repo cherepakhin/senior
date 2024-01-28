@@ -67,11 +67,23 @@
 <a id="sonarcube_analizer"></a>
 <h3 dir="auto">Статический анализатор SonarCube</h3>
 Взято отсюда <a title="https://russianblogs.com/article/7201801081/" href="https://russianblogs.com/article/7201801081/">https://russianblogs.com/article/7201801081/</a><br/>
-Коротко: в области Project правый клик на src/main/kotlin выбрать "Analize with SonarLint". Отчет будет в "Report".
+Коротко: в области Project правый клик на src/main/kotlin выбрать <b>"Analize with SonarLint"</b>. Отчет будет в "Report".
 <a id="jpa"></a>
 <h3 dir="auto">Замечание о JPA Entity классах с Kotlin</h3>
 Источник: <a title="https://habr.com/ru/companies/haulmont/articles/572574/" href="https://habr.com/ru/companies/haulmont/articles/572574/">https://habr.com/ru/companies/haulmont/articles/572574/</a><br/>
 Примеры из источника: <a title="https://github.com/Klimenkoob/spring-kotlin-hibernate" href="https://github.com/Klimenkoob/spring-kotlin-hibernate">https://github.com/Klimenkoob/spring-kotlin-hibernate</a><br/>
+Рекомендации:<br/>
+<ul>
+    <li>Data class not recommended for JPA Entity . Warning in Idea. Почему не использовать Data-классы? Потому что они финальны сами по себе, имеют по всем полям определенные equals, hashCode и toString. А это недопустимо в связке с Hibernate.</li>
+    <li>Явно помечать ключевым словом open все Entity. Согласно спецификации JPA, все классы и свойства, связанные с JPA, не должны быть final. В отличие от Java, в Kotlin классы, свойства и методы по умолчанию final. Поэтому их нужно явно помечать ключевым словом open.</li>
+    <li>Явно определять hashCode(), equals(), toString(). При определении внимание на lazy поля (как и в Java).</li>
+    <li>Добавить nullable = false. <pre class="language-java">
+<code>@ManyToOne(fetch = FetchType.LAZY, optional = false)
+@JoinColumn(name = "client_id", nullable = false)
+lateinit var client: Client
+</code></pre></li>
+</ul>
+
 <a id="profiles"></a>
 <h3 dir="auto">Spring profiles</h3>
 <a id="unit"></a>
