@@ -86,6 +86,14 @@ lateinit var client: Client
 
 <a id="profiles"></a>
 <h3 dir="auto">Spring profiles</h3>
+Общие параметры для обоих профилей в application.yml. В этом же файле указан профиль по умолчанию (active: dev):
+<pre class="language-java">
+<code>spring:
+  profiles:
+    active: dev
+  application:
+    name: shop_kotlin
+</code></pre>
 <a id="unit"></a>
 <h3 dir="auto">Unit тестирование</h3>
 <a id="test_coverage"></a>
