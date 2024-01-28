@@ -101,6 +101,7 @@ lateinit var client: Client
 или установить env переменную: <pre class="language-java">
 <code>SPRING_PROFILES_ACTIVE=dev ./gradlew clean bootRun
 </code></pre>
+
 <a id="unit"></a>
 <h3 dir="auto">Unit тестирование</h3>
 <pre class="language-java">
@@ -111,8 +112,16 @@ lateinit var client: Client
 ./gradlew test --tests '*TestIntegration'
 ./gradlew test --tests '*MockMvcTest'
 </code></pre>
+
 <a id="test_coverage"></a>
 <h3 dir="auto">Покрытие тестами</h3>
+Использован <a title="https://www.eclemma.org/jacoco/" href="https://www.eclemma.org/jacoco/">jacoco</a>.
+Отчет формируется при прогоне тестов:<pre class="language-java"><code>./gradlew test jacocoTestReport</code></pre>
+Отчет будет в папке build/reports/jacoco/test/html:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Jacoco report" src="images/shop_kotlin/jacoco_report.png"
+        alt="Example" width="1096" height="220"/></p>
+В отчете НЕТ информации о результатах тестирования, только протестирован участок кода или нет.
+
 <a id="integration_tests"></a>
 <h3 dir="auto">Интеграционное тестирование</h3>
 <a id="httpie_tests"></a>
