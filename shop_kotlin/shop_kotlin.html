@@ -294,7 +294,23 @@ class GroupProductRestTest {
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Allure error report" src="images/shop_kotlin/allure_result_test_error.png"
         alt="Example" width="1328" height="566"/></p>
 <a id="load_tests"></a>
-<h3 dir="auto">Нагрузочное тестирование</h3>
+<h3 dir="auto">Нагрузочное тестирование с помощью yandex-tank</h3>
+Находятся в отдельном репозитории <a title="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test"
+                                     href="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test"
+                                     target="_blank">https://github.com/cherepakhin/shop_kotlin_yandex_tank_test</a><br/>
+Нагрузочное тестирование часто не проводят и метрики получают уже на prod c помощью средств мониторинга (н.п. Grafana).
+Вопросы типа "Что будет при возросшей нагрузке?" остаются в стороне. И с другой стороны нагрузочное тестирование может показать узкие места при различных сценариях.
+Кратко один из сценариев теста с помощью Yandex-tank. Сам yandex-tank крутится в Docker.
+Скрипт для проведения теста <a title="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test/blob/master/tank_run_shop_kotlin.sh"
+                               href="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test/blob/master/tank_run_shop_kotlin.sh"
+                               target="_blank">./tank_run_shop_kotlin.sh</a>:
+<pre class="language-java"><code>docker run --entrypoint yandex-tank \
+-v $(pwd):/var/loadtest \
+-v $SSH_AUTH_SOCK:/ssh-agent -e SSH_AUTH_SOCK=/ssh-agent \
+--net host \
+-it direvius/yandex-tank
+</code></pre>
+
 <a id="swagger"></a>
 <h3 dir="auto">Swagger</h3>
 <a id="actuator"></a>
