@@ -5,6 +5,7 @@
    target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/shop_kotlin</a>
 <hr id="system-readmore" />
 <h2>Анализаторы кода</h2>
+Используются для автоматической проверки кода на "чистоту".
 <ul>
     <li><a href="#idea_analizer">Статический анализатор Idea Analyzer</a></li>
     <li><a href="#sonarcube_analizer">Статический анализатор SonarCube</a></li>
@@ -63,7 +64,7 @@
 <h3>Анализаторы кода</h3>
 <a id="idea_analizer"></a>
 <h3 dir="auto">Статический анализатор Idea Analyzer</h3>
-Проверка кода. Вызывается из контекстного меню <b>Analyze - Inspect Code</b>
+Idea Analyzer вызывается из основного меню "Code" -> "Inspect code...". Или из контекстного меню в панели <b>Project</b>, выбрать класс и выбрать меню <b>Analyze -> Inspect Code</b>
 <a id="sonarcube_analizer"></a>
 <h3 dir="auto">Статический анализатор SonarCube</h3>
 Взято отсюда <a title="https://russianblogs.com/article/7201801081/" href="https://russianblogs.com/article/7201801081/">https://russianblogs.com/article/7201801081/</a><br/>
@@ -121,9 +122,10 @@ lateinit var client: Client
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Jacoco report" src="images/shop_kotlin/jacoco_report.png"
         alt="Example" width="1096" height="220"/></p>
 Пример отчета по конкретному классу:
-В отчете НЕТ информации о результатах тестирования, только протестирован участок кода или нет.
+В отчете НЕТ информации о результатах тестирования, только протестирован участок кода или нет. Пример:
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Jacoco report" src="images/shop_kotlin/jacoco_example.png"
         alt="Example" width="766" height="420"/></p>
+Красным или желтым выделены непротестированные участки кода, зеленым протестировано.
 <a id="integration_tests"></a>
 <h3 dir="auto">Интеграционное тестирование</h3>
 <a id="httpie_tests"></a>
