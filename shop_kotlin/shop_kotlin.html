@@ -87,7 +87,7 @@ lateinit var client: Client
 
 <a id="profiles"></a>
 <h3 dir="auto">Spring profiles</h3>
-Общие параметры для обоих профилей в <a title="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application.yaml" href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application.yaml" target="_blank">application.yaml</a>. В этом же файле указан профиль по умолчанию (active: dev):
+Общие параметры для обоих профилей в <a title="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application.yaml" href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application.yml" target="_blank">application.yml</a>. В этом же файле указан профиль по умолчанию (active: dev):
 <pre class="language-java">
 <code>spring:
   profiles:
@@ -95,8 +95,8 @@ lateinit var client: Client
   application:
     name: shop_kotlin
 </code></pre>
-Профили для dev: <a title="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-dev.yaml" href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-dev.yaml" target="_blank">application-dev.yaml</a>
-и prod: <a title="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-prod.yaml" href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-prod.yaml" target="_blank">application-prod.yaml</a><br/>
+Профили для dev: <a title="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-dev.yaml" href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-dev.yml" target="_blank">application-dev.yml</a>
+и prod: <a title="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-prod.yaml" href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-prod.yml" target="_blank">application-prod.yml</a><br/>
 Запуск с указанием профиля: <pre class="language-java">
 <code>java -D"spring.profiles.active=dev" -jar app.jar</code></pre>
 Запуск с gradle: <pre class="language-java">
