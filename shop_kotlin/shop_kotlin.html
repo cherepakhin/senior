@@ -294,8 +294,11 @@ class GroupProductRestTest {
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Allure error report" src="images/shop_kotlin/allure_result_test_error.png"
         alt="Example" width="1328" height="566"/></p>
 <a id="load_tests"></a>
-<h3 dir="auto">Нагрузочное тестирование с помощью yandex-tank</h3>
-Находятся в отдельном репозитории <a title="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test"
+<h3 dir="auto">Нагрузочное тестирование с помощью <a title="https://yandextank.readthedocs.io/en/latest/"
+                                                     href="https://yandextank.readthedocs.io/en/latest/"
+                                                     target="_blank">yandex-tank</a></h3>
+
+Тесты предназначены для оценки использования ресурсов (CPU, RAM, NETWORK и т.п.) и находятся в отдельном репозитории <a title="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test"
                                      href="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test"
                                      target="_blank">https://github.com/cherepakhin/shop_kotlin_yandex_tank_test</a><br/>
 Нагрузочное тестирование часто не проводят и метрики получают уже на prod c помощью средств мониторинга (н.п. Grafana).
@@ -310,7 +313,41 @@ class GroupProductRestTest {
 --net host \
 -it direvius/yandex-tank
 </code></pre>
-
+Описание теста описано в двух файлах load.yaml и ammo-uri.txt.<br/>
+<br/>
+<a title="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test/blob/master/load.yaml"
+   href="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test/blob/master/load.yaml"
+   target="_blank">load.yaml</a> описывает куда и чем "стрелять":
+<pre class="language-java">
+<code>
+overload:
+    enabled: true
+    package: yandextank.plugins.DataUploader
+    token_file: "token.txt"
+phantom:
+    address: 192.168.1.20:8980           # адрес тестируемого сервиса
+    load_profile:                        # описание нагрузки
+        load_type: rps                   # тип нагрузки: "rps" - количество запросов в секунду
+        schedule: const(600, 180s)       # нагрузка постоянная (const) 600 rps в течении 3 минут
+    ammofile: /var/loadtest/ammo-uri.txt # В ammo-uri.txt описано по какому REST стреляем
+    ammo_type: uri
+console:
+    enabled: true
+telegraf:
+    config: monitoring.xml
+    enabled: true
+    kill_old: false
+    package: yandextank.plugins.Telegraf
+    ssh_timeout: 5s
+</code></pre>
+(комментарии # в целевом файле нужно убрать.)<br/>
+<br/>
+Содержимое <a title="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test/blob/master/ammo-uri.txt"
+   href="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test/blob/master/ammo-uri.txt"
+   target="_blank">ammo-uri.txt</a> (тестируемый запрос к API):
+<pre class="language-java"><code>/shop_kotlin/api/group_product/find?name=Notebooks
+</code></pre>
+Это только очень примитивный "hello world" пример. Возможности yandex-tank <b>ОЧЕНЬ</b> широкие.
 <a id="swagger"></a>
 <h3 dir="auto">Swagger</h3>
 <a id="actuator"></a>
