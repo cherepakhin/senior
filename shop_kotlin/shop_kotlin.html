@@ -21,9 +21,12 @@
     <li><a href="#unit">Unit тестирование</a></li>
     <li><a href="#test_coverage">Покрытие тестами</a></li>
     <li><a href="#integration_tests">Интеграционное тестирование</a></li>
-    <li><a href="#httpie_tests">Примеры тестов httpie</a></li>
-    <li><a href="#jpa_tests">DataJpa tests</a></li>
-    <li><a href="#restassured_tests">RestAssured tests</a></li>
+        <ul>
+            <li><a href="#httpie_tests">Ручные тесты с httpie</a></li>
+            <li><a href="#auto_integration_tests">Автоматические интеграционные тесты</a></li>
+            <li><a href="#data_jpa_tests">DataJpa tests</a></li>
+            <li><a href="#restassured_tests">RestAssured tests</a></li>
+        </ul>
     <li><a href="#load_tests">Нагрузочное тестирование</a></li>
 </ul>
 <h2>Документирование</h2>
@@ -203,10 +206,18 @@ POST запрос на изменение Product:
 <pre class="language-text">
 <code>http POST :8980/shop_kotlin/api/product/ < ./src/test/json_test/product.json
 </code></pre>
-<a title="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/test/json_test/product.json" href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/test/json_test/product.json" target="_blank">product.json</a><br/>
+<a title="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/test/json_test/product.json" href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/test/json_test/product.json" target="_blank">https://github.com/cherepakhin/shop_kotlin/blob/dev/src/test/json_test/product.json</a><br/>
 
-<a id="jpa_tests"></a>
+<a id="auto_integration_tests"></a>
+<h3 dir="auto">Автоматические интеграционные тесты</h3>
+Два варианта тестирование - c Spring @DataJpaTest и через RestAssured (это bdd тестирование). Совершенно разные тесты, для совершенно разных целей. DataJpaTest на уровне БД, RestAssured - сквозное тестирование от rest до БД.
+<a id="data_jpa_tests"></a>
 <h3 dir="auto">DataJpa tests</h3>
+Тестируется работа с базой данных с использованием @DataJpaTest.
+Находятся в пакете ru.perm.v.shopkotlin.datajpatest
+<a title="https://github.com/cherepakhin/shop_kotlin/tree/dev/src/test/kotlin/ru/perm/v/shopkotlin/datajpatest"
+   href="https://github.com/cherepakhin/shop_kotlin/tree/dev/src/test/kotlin/ru/perm/v/shopkotlin/datajpatest"
+   target="_blank">ru.perm.v.shopkotlin.datajpatest</a><br/>
 <a id="restassured_tests"></a>
 <h3 dir="auto">RestAssured tests</h3>
 <a id="load_tests"></a>
