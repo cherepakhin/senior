@@ -139,7 +139,7 @@ lateinit var client: Client
 <code>./gradlew clean test --tests *TestIntegration*
 ./gradlew clean test --tests *TestIntegration
 </code></pre>
-В проекте <b>shop_kotlin</b> включено специальное протоколирование прохождения тестов в файле <i>build.gradle.kts</i>:
+В проекте <b>shop_kotlin</b> включено специальное протоколирование прохождения тестов в файле <a title="https://github.com/cherepakhin/shop_kotlin/blob/dev/build.gradle.kts" href="https://github.com/cherepakhin/shop_kotlin/blob/dev/build.gradle.kts" target="_blank">build.gradle.kts</a><br/>:
 <pre class="language-java">
 <code>...
 tasks.withType<Test> {
@@ -167,7 +167,7 @@ BUILD SUCCESSFUL in 3m
 <h3 dir="auto">Примеры тестов httpie</h3>
 Echo запрос для простой проверки работоспособности (:8980/shop_kotlin/ - базовый путь проекта):
 <pre class="language-text">
-<code>http :8980/shop_kotlin/api/echo/aaa
+<code>http :8980/shop_kotlin/api/echo/TEST_MESSAGE
 
 HTTP/1.1 200
 Connection: keep-alive
@@ -176,8 +176,33 @@ Content-Type: text/plain;charset=UTF-8
 Date: Thu, 15 Jun 2023 07:30:38 GMT
 Keep-Alive: timeout=60
 
-aaa
+TEST_MESSAGE
 </code></pre>
+Поиск по имени Product:
+<pre class="language-text">
+<code>http :8980/shop_kotlin/api/group_product/find?name='Comp'
+
+[
+    {
+        "haveChilds": true,
+        "id": 2,
+        "name": "Computers",
+        "parentId": 1
+    },
+    {
+        "haveChilds": false,
+        "id": 3,
+        "name": "Desktop Computers",
+        "parentId": 2
+    }
+]
+</code></pre>
+POST запрос на изменение Product:
+<pre class="language-text">
+<code>http POST :8980/shop_kotlin/api/product/ < ./src/test/json_test/product.json
+</code></pre>
+<a title="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/test/json_test/product.json" href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/test/json_test/product.json" target="_blank">product.json</a><br/>
+
 <a id="jpa_tests"></a>
 <h3 dir="auto">DataJpa tests</h3>
 <a id="restassured_tests"></a>
