@@ -214,8 +214,7 @@ POST запрос на изменение Product:
 <a id="data_jpa_tests"></a>
 <h3 dir="auto">DataJpa tests</h3>
 Тестируется работа с базой данных с использованием @DataJpaTest.
-Находятся в пакете ru.perm.v.shopkotlin.datajpatest
-<a title="https://github.com/cherepakhin/shop_kotlin/tree/dev/src/test/kotlin/ru/perm/v/shopkotlin/datajpatest"
+Находятся в пакете <a title="https://github.com/cherepakhin/shop_kotlin/tree/dev/src/test/kotlin/ru/perm/v/shopkotlin/datajpatest"
    href="https://github.com/cherepakhin/shop_kotlin/tree/dev/src/test/kotlin/ru/perm/v/shopkotlin/datajpatest"
    target="_blank">ru.perm.v.shopkotlin.datajpatest</a><br/>
 Пример:
@@ -238,6 +237,55 @@ class PriceRepositoryDataJpaTestIntegration {
 
 <a id="restassured_tests"></a>
 <h3 dir="auto">RestAssured tests</h3>
+Находятся в отдельном репозитории <a title="https://github.com/cherepakhin/shop_kotlin_restassured_test"
+                                     href="https://github.com/cherepakhin/shop_kotlin_restassured_test"
+                                     target="_blank">https://github.com/cherepakhin/shop_kotlin_restassured_test</a><br/>
+Там же более подробное описание методики и особенностей.
+Пример: <pre class="language-java">
+<code>....
+@DisplayName("Products tests /product")
+class ProductRestTest {
+    val mapper = ObjectMapper()
+
+    @Test
+    @DisplayName("GET count_names of products is status=200")
+    fun getNumberOfProductNames_HttpStatusIsOK() {
+        RestAssured.given().`when`().get(PRODUCT_PATH + "count_names").then()
+            .statusCode(HttpStatus.SC_OK)
+    }
+....
+}
+....
+@DisplayName("Group products tests")
+class GroupProductRestTest {
+....
+    @Test
+    @Epic("REST API getAll()")
+    @DisplayName("TEST GET Request GroupProductRest.all() check dtos")
+    fun getAll_check_DTO() {
+        val json: String = given().get(CONSTS.GROUP_PATH).asString()
+        val groups: List<GroupProductDTO> = mapper.readValue(json, object : TypeReference<List<GroupProductDTO>>() {})
+        assertEquals(7, groups.size)
+
+        val g0 = groups.get(0)
+        assertEquals(1, g0.n)
+        assertEquals(GroupProductDTO(1, "IT products", true, -1), groups.get(0))
+        assertEquals(GroupProductDTO(2, "Computers", true, 1), groups.get(1))
+        assertEquals(GroupProductDTO(3, "Desktop Computers", false, 2), groups.get(2))
+    }
+....
+}
+</code></pre>
+
+Отчет о результатах тестирования выведен в виде Allure Report (<a title="https://allurereport.org/"
+   href="https://allurereport.org/")
+   target="_blank">https://allurereport.org/</a>
+Результат тестирования:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Allure report" src="images/shop_kotlin/allure_result_test.png"
+        alt="Example" width="841" height="565"/></p>
+Результат тестирования с ошибкой:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Allure error report" src="images/shop_kotlin/allure_result_test_error.png"
+        alt="Example" width="1328" height="566"/></p>
 <a id="load_tests"></a>
 <h3 dir="auto">Нагрузочное тестирование</h3>
 <a id="swagger"></a>
