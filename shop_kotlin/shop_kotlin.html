@@ -506,6 +506,9 @@ ENTRYPOINT ["java","-jar","/app.jar"]</code></pre>
 Шпаргалка по Docker <a href="http://v.perm.ru/main/index.php/homepage/56-shpargalka-po-docker">http://v.perm.ru/main/index.php/homepage/56-shpargalka-po-docker</a><br/>
 <a id="caching"></a>
 <h3 dir="auto">Кеширование</h3>
+Использован <a title="https://spring-projects.ru/guides/caching/"
+               href="https://spring-projects.ru/guides/caching/"
+               target="_blank">org.springframework.cache</a>.
 Кеширование сделано для *RestController. Пример:
 <a title="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/kotlin/ru/perm/v/shopkotlin/rest/GroupProductRest.kt"
    href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/kotlin/ru/perm/v/shopkotlin/rest/GroupProductRest.kt"
@@ -519,8 +522,21 @@ fun getById(@Parameter(description = "ID of GroupProduct.") @PathVariable n: Lon
     ...
 }
 </code></pre>
+
 <a id="logging"></a>
 <h3 dir="auto">Логирование</h3>
+Настройка сделана в application.yaml в секции logging:
+<a title="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-dev.yml"
+   href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-dev.yml"
+   target="_blank">https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-dev.yml</a><br/>
+<pre class="language-java"><code>logging:
+  level:
+    root: info
+  file:
+    path: log/
+</code></pre>
+Лог файлы будут в log/spring.log.
+
 <a id="easycode_idea"></a>
 <h3 dir="auto">ChatGPT-EasyCode в Idea</h3>
 <a id="easycode_vscode"></a>
