@@ -447,12 +447,63 @@ scrape_configs:
 (пример запроса: <a href="http://192.168.1.20:3000/d/rpfmFFz7z/shop-kotlin-board?orgId=1&viewPanel=16&from=1706615648160&to=1706616060818)" target="_blank">http://192.168.1.20:3000/d/rpfmFFz7z/shop-kotlin-board?orgId=1&viewPanel=16&from=1706615648160&to=1706616060818)</a><br/>
 <a id="jmc"></a>
 <h3 dir="auto">Просмотр ресурсов с помощью Java Mission Control</h3>
+Java Mission Control - утилита просмотра используемых ресурсов <a href="https://www.oracle.com/java/technologies/javase/products-jmc8-downloads.html" target="_blank">https://www.oracle.com/java/technologies/javase/products-jmc8-downloads.html</a>.<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="prometheus_use" src="images/shop_kotlin/jmc_monitor.png"
+        alt="prometheus_use" width="1356" height="575"/></p>
 <a id="jenkins"></a>
-<h3 dir="auto">Сборка Jenkins</h3>
+<h3 dir="auto">Сборка проекта с помощью Jenkins</h3>
+Описано тут <a href="http://v.perm.ru/main/index.php/50-organizatsiya-sobstvennogo-ci-cd">http://v.perm.ru/main/index.php/50-organizatsiya-sobstvennogo-ci-cd</a>.<br/>
+Jenkinsfile сборки проекта: <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/Jenkinsfile" target="_blank">https://github.com/cherepakhin/shop_kotlin/blob/dev/Jenkinsfile</a><br/>
+<pre class="language-bash"><code>pipeline {
+    agent any
+    options {
+        durabilityHint 'MAX_SURVIVABILITY'
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Unit tests') {
+            steps {
+                sh './gradlew clean test --tests *Test'
+            }
+        }
+        stage('Integration tests') {
+            steps {
+                sh './gradlew clean test --tests *TestIntegration'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh './gradlew build'
+            }
+        }
+        stage('Publish to Nexus') {
+            environment {
+                NEXUS_CRED = credentials('nexus_admin')
+            }
+            steps {
+                sh './gradlew publish'
+            }
+        }
+    }
+}</code></pre>
 <a id="nexus"></a>
 <h3 dir="auto">Nexus</h3>
+Описано тут <a href="http://v.perm.ru/main/index.php/50-organizatsiya-sobstvennogo-ci-cd">http://v.perm.ru/main/index.php/50-organizatsiya-sobstvennogo-ci-cd</a><br/>
+и тут <a href="http://v.perm.ru/main/index.php/homepage/53-realizatsiya-ci-cd-dlya-proekta-na-kotlin">
+    http://v.perm.ru/main/index.php/homepage/53-realizatsiya-ci-cd-dlya-proekta-na-kotlin</a>.<br/>
 <a id="docker"></a>
 <h3 dir="auto">Docker</h3>
+<a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/Dockerfile" target="_blank">Dockerfile</a>
+<pre class="language-bash"><code>FROM eclipse-temurin:11
+VOLUME /tmp
+ARG JAR_FILE
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]</code></pre>
+Шпаргалка по Docker <a href="http://v.perm.ru/main/index.php/homepage/56-shpargalka-po-docker">http://v.perm.ru/main/index.php/homepage/56-shpargalka-po-docker</a><br/>
 <a id="caching"></a>
 <h3 dir="auto">Кеширование</h3>
 <a id="logging"></a>
