@@ -358,10 +358,23 @@ telegraf:
 Необходимо сказать, что это не только инструмент, но и СЕРВИС. Результаты тестирования отправляются в этот сервис, в котором предусмотрено множество самых разных отчетов.
 <a id="swagger"></a>
 <h3 dir="auto">Swagger</h3>
+Swagger используется для документирования приложения. Пример описания Swagger API:
+<pre class="language-java"><code>...
+@GetMapping("/{mes}")
+@ApiOperation("echo message")
+fun echoStr(
+    @PathVariable("mes")
+    @ApiParam(name = "mes", value = "any string") mes: String
+): String {
+...
+
+</code></pre>
+Аннотации @ApiOperation, @ApiParam используются для описания Swagger API.<br/>
 При <b>запущенном</b> приложении Swagger доступен по адресу:
 <a href="http://127.0.0.1:8980/shop_kotlin/api/swagger-ui/" target="_blank">http://127.0.0.1:8980/shop_kotlin/api/swagger-ui/</a><br/><br/>
-<p><img style="display: block; margin-left: auto; margin-right: auto;" title="swagger" src="images/shop_kotlin/swagger.png"
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="swagger" src="images/shop_kotlin/swagger_echo.png"
         alt="swagger" width="1344" height="612"/></p>
+
 <a id="actuator"></a>
 <h3 dir="auto">Spring Actuator</h3>
 <a id="prometheus"></a>
