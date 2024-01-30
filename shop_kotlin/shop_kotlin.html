@@ -437,12 +437,14 @@ scrape_configs:
 <h3 dir="auto">Пример просмотра использования CPU в Prometheus</h3>
 Меню "Graph", "Expression" = "system_cpu_usage", вкладка "Graph".
 Запрос к Prometheus: <a href="http://192.168.1.20:9090/graph?g0.range_input=5m&g0.step_input=5&g0.stacked=0&g0.expr=system_cpu_usage&g0.tab=0" target="_blank">http://192.168.1.20:9090/graph?g0.range_input=5m&g0.step_input=5&g0.stacked=0&g0.expr=system_cpu_usage&g0.tab=0</a><br/><br/>
-<p><img style="display: block; margin-left: auto; margin-right: auto;" title="prometheus_use" src="images/shop_kotlin/prometheus_use.png"
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="prometheus_use" src="images/shop_kotlin/prometheus_1_20_9090.png"
         alt="prometheus_use" width="1335" height="618"/></p>
-<a id="run_prometheus_in_docker"></a>
-<h3 dir="auto">Запуск prometheus в docker</h3>
 <a id="grafana"></a>
 <h3 dir="auto">Просмотр ресурсов с помощью Grafana</h3>
+Настройка Grafana описана в <a href="http://v.perm.ru/main/index.php/64-nastrojka-i-ispolzovanie-prometheus-grafana">http://v.perm.ru/main/index.php/64-nastrojka-i-ispolzovanie-prometheus-grafana</a>.<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="prometheus_use" src="images/shop_kotlin/grafana_use.png"
+        alt="prometheus_use" width="1296" height="592"/></p>
+(пример запроса: <a href="http://192.168.1.20:3000/d/rpfmFFz7z/shop-kotlin-board?orgId=1&viewPanel=16&from=1706615648160&to=1706616060818)" target="_blank">http://192.168.1.20:3000/d/rpfmFFz7z/shop-kotlin-board?orgId=1&viewPanel=16&from=1706615648160&to=1706616060818)</a><br/>
 <a id="jmc"></a>
 <h3 dir="auto">Просмотр ресурсов с помощью Java Mission Control</h3>
 <a id="jenkins"></a>
