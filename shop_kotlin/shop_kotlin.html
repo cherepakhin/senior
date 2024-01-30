@@ -377,6 +377,34 @@ fun echoStr(
 
 <a id="actuator"></a>
 <h3 dir="auto">Spring Actuator</h3>
+Spring Actuator предназначен для получения информации о работающем приложении - статус приложения (жив/нет),
+использовании памяти, cpu и т.п.. Поключен по адресу
+<a href="http://127.0.0.1:8988/shop_kotlin/api/actuator" target="_blank">http://127.0.0.1:8988/shop_kotlin/api/actuator</a><br/>
+Порт указан в application.yaml:
+<pre class="language-yaml"><code>management:
+  ...
+  server:
+    port: 8988
+</code></pre>
+Использование из командной строки:
+(использован <a href="https://httpie.io/" target="_blank">https://httpie.io/</a>)
+<pre class="language-bash"><code>$ http http://127.0.0.1:8988/shop_kotlin/api/actuator
+{
+    "_links": {
+        "beans": {
+            "href": "http://127.0.0.1:8988/shop_kotlin/api/actuator/beans",
+            "templated": false
+        },
+        "caches": {
+            "href": "http://127.0.0.1:8988/shop_kotlin/api/actuator/caches",
+            "templated": false
+        },
+        "caches-cache": {
+            "href": "http://127.0.0.1:8988/shop_kotlin/api/actuator/caches/{cache}",
+            "templated": true
+        },
+....
+</code></pre>
 <a id="prometheus"></a>
 <h3 dir="auto">Prometheus</h3>
 <a id="cpu_usage"></a>
