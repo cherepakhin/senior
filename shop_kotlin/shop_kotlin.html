@@ -506,6 +506,19 @@ ENTRYPOINT ["java","-jar","/app.jar"]</code></pre>
 Шпаргалка по Docker <a href="http://v.perm.ru/main/index.php/homepage/56-shpargalka-po-docker">http://v.perm.ru/main/index.php/homepage/56-shpargalka-po-docker</a><br/>
 <a id="caching"></a>
 <h3 dir="auto">Кеширование</h3>
+Кеширование сделано для *RestController. Пример:
+<a title="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/kotlin/ru/perm/v/shopkotlin/rest/GroupProductRest.kt"
+   href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/kotlin/ru/perm/v/shopkotlin/rest/GroupProductRest.kt"
+   target="_blank">https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/kotlin/ru/perm/v/shopkotlin/rest/GroupProductRest.kt</a><br/>
+
+Отрывок из кода:
+<pre class="language-java"><code>@GetMapping("/{n}")
+@Cacheable("group_products")
+@ApiOperation("Get GroupProduct by ID")
+fun getById(@Parameter(description = "ID of GroupProduct.") @PathVariable n: Long): GroupProductDTO {
+    ...
+}
+</code></pre>
 <a id="logging"></a>
 <h3 dir="auto">Логирование</h3>
 <a id="easycode_idea"></a>
