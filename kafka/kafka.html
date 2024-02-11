@@ -47,13 +47,16 @@ INFO [BrokerToControllerChannelManager broker=0 name=alterPartition]: Recorded n
 ````
 </code></pre>
 
-<h3>Проверка работы из консоли</h3>
+<h2>Проверка работы из консоли</h2>
+
+<h3>Создание топика</h3>
 Создание топика "samples":
 <pre class="language-shell">
 <code>$ ~/tools/kafka/bin $ kafka-topics.sh --bootstrap-server 192.168.1.20:9092 --create --topic samples --partitions 1 --replication-factor 1
 </code>
 </pre>
 
+<h3>Отправка сообщения в топик</h3>
 Отправка сообщения в топик "samples":<br/><pre class="language-shell">
 <code>$ ~/tools/kafka/bin/kafka-console-producer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
 >test1
@@ -61,6 +64,7 @@ INFO [BrokerToControllerChannelManager broker=0 name=alterPartition]: Recorded n
 >
 </code></pre>
 
+<h3>Прием сообщения из топика</h3>
 Подключение к топику "samples" и просмотр сообщений:<br/><pre class="language-shell">
 <code>$ ~/tools/kafka/bin/kafka-console-consumer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
 test1
