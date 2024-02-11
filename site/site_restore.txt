@@ -6,3 +6,5 @@ mysql> use j3;
 // RESTORE
 mysql> source /mnt/sdb1/backup/site/j3_dump.sql
 
+copy to https://drive.google.com/drive/folders/1n1DnNOieCw6Ah5HaCGBE8BuxYSN5GmhE (site v.perm.ru)
+https://drive.google.com/drive/folders/1n1DnNOieCw6Ah5HaCGBE8BuxYSN5GmhE?usp=drive_link
