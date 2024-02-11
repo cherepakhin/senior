@@ -1,0 +1,8 @@
+/mnt/sdb1/backup/site $ mysql -u root -p
+>pass: b-o
+mysql> drop database j3;
+mysql> create database j3;
+mysql> use j3;
+// RESTORE
+mysql> source /mnt/sdb1/backup/site/j3_dump.sql
+
