@@ -66,6 +66,17 @@ INFO [BrokerToControllerChannelManager broker=0 name=alterPartition]: Recorded n
 test1
 test2
 </code></pre>
+
+<h3>Удаление топика</h3>
+<pre class="language-shell">
+<code>~/tools/kafka/bin/kafka-topics.sh --zookeeper 192.168.1.20:2181 --delete --topic product_ext_dto_topic
+>Topic product_ext_dto_topic is marked for deletion.
+>Note: This will have no impact if delete.topic.enable is not set to true.
+</code></pre>
+Установить в конфигурационном файле server.properties свойство delete.topic.enable = true<br/>
+<pre class="language-shell">
+<code>delete.topic.enable = true
+</code></pre>
 <b>Ссылки:</b><br/>
 <a title="https://russianblogs.com/article/77121686470/"
    href="https://russianblogs.com/article/77121686470/"
