@@ -6,6 +6,9 @@
 <hr id="system-readmore"/>
 <pre class="language-shell">
 <code>$ mysqldump -v -h127.0.0.1 -uroot -p j3 > /tmp/j3_dump.sql
+cd /tmp
+zip j3_dump.sql.zip j3_dump.sql
+rm j3_dump.sql
 </code>
 </pre>
 <h3>Restore:</h3>
