@@ -5,13 +5,13 @@
 <h3>Backup:</h3>
 <hr id="system-readmore"/>
 <pre class="language-shell">
-<code>mysqldump -v -h127.0.0.1 -uroot -p j3 > /tmp/j3_dump.sql
+<code>$ mysqldump -v -h127.0.0.1 -uroot -p j3 > /tmp/j3_dump.sql
 </code>
 </pre>
 <h3>Restore:</h3>
 База данных <b>j3</b>
 <pre class="language-shell">
-<code>$ /mnt/sdb1/backup/site $ mysql -u root -p
+<code>$ mysql -u root -p
 >pass: ***
 mysql> drop database j3;
 mysql> create database j3;
