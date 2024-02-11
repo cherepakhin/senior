@@ -1,0 +1,21 @@
+<p>Описано backup и restore БД MySql в linux</p>
+
+<b>j3</b> - имя базы данных<br/>
+<b>root</b> - имя пользователя<br/>
+<h3>Backup:</h3>
+<pre class="language-shell">
+<code>mysqldump -v -h127.0.0.1 -uroot -p j3 > /tmp/j3_dump.sql
+</code>
+</pre>
+<h3>Restore:</h3>
+База данных <b>j3</b>
+<pre class="language-shell">
+<code>$ /mnt/sdb1/backup/site $ mysql -u root -p
+>pass: ***
+mysql> drop database j3;
+mysql> create database j3;
+mysql> use j3;
+mysql> source /mnt/sdb1/backup/site/j3_dump.sql
+</code>
+</pre>
+
