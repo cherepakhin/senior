@@ -1,5 +1,5 @@
 <p>Описан сеанс восстановление диска в Linux</p>
-
+<hr id="system-readmore"/>
 <pre class="language-shell">
 <code>vasi@v ~ $ sudo e2fsck /dev/sda5
 e2fsck 1.44.1 (24-Mar-2018)
@@ -47,8 +47,11 @@ e2fsck 1.44.1 (24-Mar-2018)
 vasi@v ~ $ sudo e2fsck -y /dev/sda5
 e2fsck 1.44.1 (24-Mar-2018)
 /dev/sda5: clean, 2225557/17080320 files, 64498945/68295680 blocks
-
-vasi@v ~ $ sudo shutdown -r 0
+</code>
+</pre>
+и рестарт:<br/>
+<pre class="language-shell">
+<code>vasi@v ~ $ sudo shutdown -r 0
 Shutdown scheduled, use 'shutdown -c' to cancel.
 </code>
 </pre>
