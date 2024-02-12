@@ -915,43 +915,20 @@ pipeline {
     <li>
         <p dir="auto">Если появилась ошибка: "./gradlew: строка 2: $'\r': команда не найдена", то выполнить:</p>
     </li>
-</ul>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>shop_kotlin$ gradle wrapper
-</code></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<p dir="auto">Похоже, при расшаривании папки для Windows и работе в Windows изменился символ конца строки.</p>
-<ul dir="auto">
-    <li>Смена версии gradlew: в ./gragle/wrapper/gradle-wrapper.properties</li>
-</ul>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>distributionUrl=https\://services.gradle.org/distributions/gradle-7.6.1-bin.zip
-</code></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<p dir="auto">Тесты проходят (из idea и из shell):</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>./gradlew test
-</code></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<ul dir="auto">
+    <li><p dir="auto">Похоже, при расшаривании папки для Windows и работе в Windows изменился символ конца строки.</p></li>
+    <li>Смена версии gradlew: в ./gragle/wrapper/gradle-wrapper.properties <pre class="notranslate"><code>distributionUrl=https\://services.gradle.org/distributions/gradle-7.6.1-bin.zip</code></pre></li>
+    <li>Тесты проходят (из idea и из shell)</li>
     <li>Jetty рекомендуют, как более оптимизированный контейнер:
         <div class="highlight highlight-source-yaml notranslate position-relative overflow-auto" dir="auto">
-<pre><span class="pl-s">dependencies {</span>
-  <span class="pl-s">implementation("org.springframework.boot:spring-boot-starter-web") {</span>
-    <span class="pl-s">exclude("org.springframework.boot:spring-boot-starter-tomcat")</span>
-  <span class="pl-s">}</span>
-  <span class="pl-s">implementation("org.springframework.boot:spring-boot-starter-jetty") // jetty uses less memory</span>
-<span class="pl-s">}</span></pre>
-            <div class="zeroclipboard-container"> </div>
-        </div>
+<pre class="notranslate"><code>dependencies {
+  implementation("org.springframework.boot:spring-boot-starter-web") {
+  exclude("org.springframework.boot:spring-boot-starter-tomcat")
+  }
+  implementation("org.springframework.boot:spring-boot-starter-jetty") // jetty uses less memory
+</code></pre></div>
     </li>
-</ul>
-<ul dir="auto">
-    <li>Data class. </strong><a href="https://kotlinlang.ru/docs/reference/data-classes.html" rel="nofollow">https://kotlinlang.ru/docs/reference/data-classes.html</a>.
-        "Классы данных не могут быть абстрактными, open, sealed или inner. Компилятор автоматически формирует следующие члены данного класса из <strong>свойств</strong>,
+    <li>Описание Data class: <a href="https://kotlinlang.ru/docs/reference/data-classes.html" rel="nofollow">https://kotlinlang.ru/docs/reference/data-classes.html</a>.
+        "Классы данных <b>не могут быть абстрактными, open, sealed или inner</b>. Компилятор автоматически формирует следующие члены данного класса из <strong>свойств</strong>,
         объявленных <strong>в основном конструкторе</strong>: equals()/hashCode(), toString() в форме "User(name=John, age=42)", компонентные функции componentN(),
         которые соответствуют свойствам, в соответствии с порядком их объявления. Основной конструктор должен иметь как минимум один параметр.
         Все параметры основного конструктора должны быть отмечены, как val или var."</li>
