@@ -17,10 +17,10 @@
     <a href="#publish_fat-jar">Publishing SpringBoot "FAT" jar</a>
 </p>
 <p dir="auto">
-    <a href="https://github.com/cherepakhin/shop_kotlin#integration_test_local">Интеграционное тестирование</a><br />
-    <a href="https://github.com/cherepakhin/shop_kotlin#httpie">Примеры тестов httpie</a><br />
-    <a href="https://github.com/cherepakhin/shop_kotlin#datajpatest_test">DataJpa tests</a><br />
-    <a href="https://github.com/cherepakhin/shop_kotlin#restassured">RestAssured tests</a><br />
+    <a href="#datajpa_restassured_test">Интеграционное тестирование</a><br />
+    <a href="#httpie">Примеры тестов httpie</a><br />
+    <a href="#datajpatest_test">DataJpa tests</a><br />
+    <a href="#restassured">RestAssured tests</a><br />
     <a href="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test">Нагрузочное тестирование</a>
 </p>
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin#swagger">Swagger</a><br />
@@ -319,7 +319,11 @@ shop_kotlin/build/libs$ java -Xmx256M -jar shop_kotlin-0.1.20.jar</pre>
 </div>
 <p dir="auto"><a href="https://stackoverflow.com/questions/64062905/unable-to-publish-jar-to-gitlab-package-registry-with-gradle" rel="nofollow">https://stackoverflow.com/questions/64062905/unable-to-publish-jar-to-gitlab-package-registry-with-gradle</a></p>
 <p dir="auto"> </p>
-<h3 dir="auto" tabindex="-1"><a id="user-content-примеры-тестов-httpie" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B-%D1%82%D0%B5%D1%81%D1%82%D0%BE%D0%B2-httpie"></a>Примеры тестов <a href="https://httpie.io/" rel="nofollow">httpie</a></h3>
+
+<a id="httpie"></a>
+<h3 dir="auto" tabindex="-1">
+    <a id="user-content-примеры-тестов-httpie" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B-%D1%82%D0%B5%D1%81%D1%82%D0%BE%D0%B2-httpie"></a>Примеры тестов <a href="https://httpie.io/" rel="nofollow">httpie</a>
+</h3>
 <p dir="auto">Echo запрос для простой проверки работоспособности (:8980/shop_kotlin/ базовый путь проекта):</p>
 <div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
 <pre>http :8980/shop_kotlin/api/echo/aaa
@@ -359,7 +363,11 @@ aaa </pre>
     <div class="zeroclipboard-container"> </div>
 </div>
 <p dir="auto"> </p>
-<h3 dir="auto" tabindex="-1"><a id="user-content-интеграционное-тестирование" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%BE%D0%B5-%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5"></a>Интеграционное тестирование</h3>
+
+<a id="datajpa_restassured_test"></a>
+<h3 dir="auto" tabindex="-1">
+    <a id="user-content-интеграционное-тестирование" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%BE%D0%B5-%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5"></a>Интеграционное тестирование
+</h3>
 <p dir="auto">Два варианта тестирования - cо Spring @DataJpaTest и через RestAssured (это bdd тестирование). Совершенно разные тесты, для совершенно разных целей. DataJpaTest на уровне БД, RestAssured - сквозное тестирование от rest до БД.</p>
 <p dir="auto"> </p>
 <h4 dir="auto" tabindex="-1"><a id="user-content-datajpatest" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#datajpatest"></a>DataJpaTest</h4>
@@ -368,7 +376,8 @@ aaa </pre>
 <h4 dir="auto" tabindex="-1"><a id="user-content-restassured" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#restassured"></a>RestAssured</h4>
 <p dir="auto">Для этих тестов сделан отдельный проект <a href="https://github.com/cherepakhin/shop_kotlin_reastassured_test">https://github.com/cherepakhin/shop_kotlin_reastassured_test</a></p>
 <p dir="auto">Результат тестов:</p>
-<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/result_bdd_test.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/result_bdd_test.png" alt="result_bdd_test" /></a></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="allure_result_test" src="images/shop_kotlin/allure_result_test.png"
+        alt="allure_result_test" width="841" height="565"/></p>
 <p dir="auto"> </p>
 <h3 dir="auto" tabindex="-1"><a id="user-content-docker" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#docker"></a>Docker</h3>
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/Dockerfile">Dockerfile</a></p>
