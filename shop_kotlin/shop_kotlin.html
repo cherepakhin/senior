@@ -28,7 +28,7 @@
     <a href="#spring_actuator">Spring Actuator</a>
 </p>
 <p dir="auto">
-    <a href="https://github.com/cherepakhin/shop_kotlin#prometheus">Prometheus</a><br />
+    <a href="#prometheus">Prometheus</a><br />
     <a href="https://github.com/cherepakhin/shop_kotlin#show_cpu_prometheus">Пример просмотра использования CPU в Prometheus</a><br />
     <a href="https://github.com/cherepakhin/shop_kotlin#prometheus_docker">Запуск prometheus в docker</a>
 </p>
@@ -545,7 +545,9 @@ aaa
     <div class="zeroclipboard-container"> </div>
 </div>
 <p dir="auto">Нагрузочные тесты показали следующие результаты: 64M - приложение выпадает с OutOfMemory 128M - тесты проходят</p>
+
 <p dir="auto"> </p>
+<a id="prometheus"></a>
 <h3 dir="auto" tabindex="-1"><a id="user-content-prometheus" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#prometheus"></a>Prometheus</h3>
 <p dir="auto">На моем сервере запущен Prometheus. Prometheus <strong>ОПРАШИВАЕТ</strong> приложение, согласно заданию (ниже yaml), и собирает метрики (metrics_path+targets). Пример задания для опроса в файле <a href="https://github.com/cherepakhin/shop_kotlin/doc/prometheus/prometheus.yml">doc/prometheus/prometheus.yml</a>. Содержимое <a href="https://github.com/cherepakhin/shop_kotlin/doc/prometheus/prometheus.yml">doc/prometheus/prometheus.yml</a> поместить в настройки prometheus. Пример задания:</p>
 <div class="highlight highlight-source-yaml notranslate position-relative overflow-auto" dir="auto">
@@ -639,10 +641,7 @@ ts=2023-09-11T13:13:17.850Z caller=manager.go:1009 level=info component="rule ma
 <p dir="auto"><a href="http://192.168.1.20:3000/explore?orgId=1&amp;left=%7B%22datasource%22:%22grafana%22,%22queries%22:%5B%7B%22queryType%22:%22randomWalk%22,%22refId%22:%22A%22,%22datasource%22:%7B%22type%22:%22datasource%22,%22uid%22:%22grafana%22%7D%7D%5D,%22range%22:%7B%22from%22:%22now-6h%22,%22to%22:%22now%22%7D%7D" rel="nofollow">Пример запроса</a></p>
 <p dir="auto">user(pass): admin/admin</p>
 <p dir="auto">Подробнее о нагрузочном тестировании и метриках в этом проекте <a href="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test">https://github.com/cherepakhin/shop_kotlin_yandex_tank_test</a></p>
-<p dir="auto"> </p>
-<h3 dir="auto" tabindex="-1"><a id="user-content-swagger-1" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#swagger-1"></a>Swagger</h3>
-<p dir="auto">Адрес <a href="http://127.0.0.1:8980/shop_kotlin/api/swagger-ui/" rel="nofollow">http://127.0.0.1:8980/shop_kotlin/api/swagger-ui/</a></p>
-<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/swagger.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/swagger.png" alt="swagger" /></a></p>
+
 <p dir="auto"> </p>
 <h3 dir="auto" tabindex="-1"><a id="user-content-кеширование" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%BA%D0%B5%D1%88%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5"></a>Кеширование</h3>
 <p dir="auto">Кеширование сделано для RestController:</p>
