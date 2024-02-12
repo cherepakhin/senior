@@ -30,11 +30,11 @@
 <p dir="auto">
     <a href="#prometheus">Prometheus</a><br />
     <a href="#show_cpu_prometheus">Пример просмотра использования CPU в Prometheus</a><br />
-    <a href="https://github.com/cherepakhin/shop_kotlin#prometheus_docker">Запуск prometheus в docker</a>
+    <a href="#prometheus_docker">Запуск prometheus в docker</a>
 </p>
 <p dir="auto">
     <a href="#docker">Docker</a><br />
-    <a href="https://github.com/cherepakhin/shop_kotlin#grafana">Grafana</a><br />
+    <a href="#grafana">Grafana</a><br />
     <a href="https://github.com/cherepakhin/shop_kotlin#cache">Кеширование</a><br />
     <a href="https://github.com/cherepakhin/shop_kotlin#jenkins">Сборка Jenkins</a><br />
     <a href="https://github.com/cherepakhin/shop_kotlin#nexus">Nexus</a>
@@ -599,8 +599,10 @@ jvm_threads_daemon_threads 13.0
 </ol>
 <p dir="auto">Итоговый запрос: <a href="http://192.168.1.20:9090/graph?g0.range_input=15m&amp;g0.expr=system_cpu_usage&amp;g0.tab=0" rel="nofollow">http://192.168.1.20:9090/graph?g0.range_input=15m&amp;g0.expr=system_cpu_usage&amp;g0.tab=0</a></p>
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/prometheus/prometheus_system_cpu_usage.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/prometheus/prometheus_system_cpu_usage.png" alt="prometheus_system_cpu_usage" /></a></p>
+
 <p dir="auto"> </p>
-<h4 dir="auto" tabindex="-1"><a id="user-content-запуск-prometheus-в-docker" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA-prometheus-%D0%B2-docker"></a>Запуск prometheus в docker:</h4>
+<a id="prometheus_docker"></a>
+<h3 dir="auto">Запуск prometheus в docker:</h3>
 <div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
     <pre>docker run -d -p 9090:9090 -v <span class="pl-s"><span class="pl-pds">"</span>/<span class="pl-pds">$(</span>pwd<span class="pl-pds">)</span>/for_prometheus/prometheus.yml<span class="pl-pds">"</span></span>:/etc/prometheus/prometheus.yml prom/prometheus</pre>
     <div class="zeroclipboard-container"> </div>
@@ -626,8 +628,11 @@ ts=2023-09-11T13:13:17.850Z caller=manager.go:1009 level=info component="rule ma
 </code></pre>
     <div class="zeroclipboard-container"> </div>
 </div>
+
 <p dir="auto"> </p>
-<h3 dir="auto" tabindex="-1"><a id="user-content-grafana" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#grafana"></a>Grafana</h3>
+<a id="grafana"></a>
+<h3 dir="auto">
+    <a id="user-content-grafana" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#grafana"></a>Grafana</h3>
 <p dir="auto">Graphana отображает метрики, собранные Prometheus. На домашнем сервере развернута Grafana:</p>
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/grafana.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/grafana.png" alt="grafana" /></a></p>
 <p dir="auto">Запуск grafana:</p>
