@@ -937,22 +937,34 @@ pipeline {
     <div class="zeroclipboard-container"> </div>
 </div>
 <ul dir="auto">
-    <li>Jetty рекомендуют, как более оптимизированный контейнер. Л сделана так:</li>
-</ul>
-<div class="highlight highlight-source-yaml notranslate position-relative overflow-auto" dir="auto">
+    <li>Jetty рекомендуют, как более оптимизированный контейнер:
+        <div class="highlight highlight-source-yaml notranslate position-relative overflow-auto" dir="auto">
 <pre><span class="pl-s">dependencies {</span>
   <span class="pl-s">implementation("org.springframework.boot:spring-boot-starter-web") {</span>
     <span class="pl-s">exclude("org.springframework.boot:spring-boot-starter-tomcat")</span>
   <span class="pl-s">}</span>
   <span class="pl-s">implementation("org.springframework.boot:spring-boot-starter-jetty") // jetty uses less memory</span>
 <span class="pl-s">}</span></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+            <div class="zeroclipboard-container"> </div>
+        </div>
+    </li>
+</ul>
+<ul dir="auto">
+    <li>Data class. </strong><a href="https://kotlinlang.ru/docs/reference/data-classes.html" rel="nofollow">https://kotlinlang.ru/docs/reference/data-classes.html</a>.
+        "Классы данных не могут быть абстрактными, open, sealed или inner. Компилятор автоматически формирует следующие члены данного класса из <strong>свойств</strong>,
+        объявленных <strong>в основном конструкторе</strong>: equals()/hashCode(), toString() в форме "User(name=John, age=42)", компонентные функции componentN(),
+        которые соответствуют свойствам, в соответствии с порядком их объявления. Основной конструктор должен иметь как минимум один параметр.
+        Все параметры основного конструктора должны быть отмечены, как val или var."</li>
+</ul>
+
 <p dir="auto"> </p>
 <a id="links"></a>
-<h3 dir="auto" tabindex="-1"><a id="user-content-ссылки" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D1%81%D1%81%D1%8B%D0%BB%D0%BA%D0%B8"></a>Ссылки:</h3>
-<p dir="auto"><a href="index.php/34-behave-testirovanie" rel="nofollow">Интеграционное тестирование REST</a><br /><a href="index.php/64-nastrojka-i-ispolzovanie-prometheus-grafana" rel="nofollow">Настройка и использование Prometheus, Grafana</a><br /><a href="index.php/homepage/56-shpargalka-po-docker" rel="nofollow">Шпаргалка по Docker</a><br /><a href="index.php/homepage/60-set-java-version" rel="nofollow">Set java version</a><br /><a href="index.php/50-organizatsiya-sobstvennogo-ci-cd" rel="nofollow">Установка и настройка домашнего Nexus/Jenkins</a></p>
-<h4 dir="auto" tabindex="-1"><a id="user-content-todo-1" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#todo-1"></a>TODO</h4>
-<ul dir="auto">
-    <li>Data class. <a href="https://kotlinlang.ru/docs/reference/data-classes.html" rel="nofollow">https://kotlinlang.ru/docs/reference/data-classes.html</a>.<br />Классы данных не могут быть абстрактными, open, sealed или inner. Компилятор автоматически формирует следующие члены данного класса из <strong>свойств</strong>, объявленных <strong>в основном конструкторе</strong>: equals()/hashCode(), toString() в форме "User(name=John, age=42)", компонентные функции componentN(), которые соответствуют свойствам, в соответствии с порядком их объявления. Основной конструктор должен иметь как минимум один параметр. Все параметры основного конструктора должны быть отмечены, как val или var.</li>
+<h3 dir="auto" tabindex="-1">Ссылки:</h3>
+<p dir="auto">
+<ul>
+    <li><a href="index.php/34-behave-testirovanie" rel="nofollow">Интеграционное тестирование REST</a></li>
+    <li><a href="index.php/64-nastrojka-i-ispolzovanie-prometheus-grafana" rel="nofollow">Настройка и использование Prometheus, Grafana</a></li>
+    <li><a href="index.php/homepage/56-shpargalka-po-docker" rel="nofollow">Шпаргалка по Docker</a></li>
+    <li><a href="index.php/homepage/60-set-java-version" rel="nofollow">Set java version</a></li>
+    <li><a href="index.php/50-organizatsiya-sobstvennogo-ci-cd" rel="nofollow">Установка и настройка домашнего Nexus/Jenkins</a></li>
 </ul>
