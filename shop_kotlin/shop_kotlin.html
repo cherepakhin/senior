@@ -21,7 +21,7 @@
     <a href="#httpie">Примеры тестов httpie</a><br />
     <a href="#datajpa_test">DataJpa tests</a><br />
     <a href="#restassured_test">RestAssured tests</a><br />
-    <a href="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test">Нагрузочное тестирование</a>
+    <a href="#yandex_tank_test">Нагрузочное тестирование</a>
 </p>
 <p dir="auto">
     <a href="#swagger">Swagger</a><br />
@@ -37,10 +37,10 @@
     <a href="#grafana">Grafana</a><br />
     <a href="#caching">Кеширование</a><br />
     <a href="#jenkins">Сборка Jenkins</a><br />
-    <a href="https://github.com/cherepakhin/shop_kotlin#nexus">Nexus</a>
+    <a href="#nexus">Nexus</a>
 </p>
 <p dir="auto">
-    <a href="https://github.com/cherepakhin/shop_kotlin#jmc">Просмотр ресурсов с помощью Java Mission Control</a><br />
+    <a href="#jmc">Просмотр ресурсов с помощью Java Mission Control</a><br />
     <a href="https://github.com/cherepakhin/shop_kotlin#logging">Логирование</a>
 </p>
 <p dir="auto">
@@ -687,6 +687,10 @@ ts=2023-09-11T13:13:17.850Z caller=manager.go:1009 level=info component="rule ma
     <pre>org.gradle.jvmargs=-Xmx512M</pre>
     <div class="zeroclipboard-container"> </div>
 </div>
+
+<p dir="auto"> </p>
+<a id="nexus"></a>
+<h3 dir="auto" tabindex="-1">Nexus</h3>
 <p dir="auto">В проекте используется внешняя зависимость из домашнего NEXUS репозитория <a href="https://github.com/cherepakhin/shop_kotlin_extdto">https://github.com/cherepakhin/shop_kotlin_extdto</a>:</p>
 <div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
     <pre>implementation(<span class="pl-s"><span class="pl-pds">"</span>ru.perm.v:shop_kotlin_extdto:0.0.3<span class="pl-pds">"</span></span>)</pre>
@@ -738,7 +742,8 @@ $ <span class="pl-k">export</span> NEXUS_CRED_PSW=pass</pre>
     <div class="zeroclipboard-container"> </div>
 </div>
 <p dir="auto"> </p>
-<h3 dir="auto" tabindex="-1"><a id="user-content-просмотр-ресурсов-с-помощью-java-mission-control" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%BF%D1%80%D0%BE%D1%81%D0%BC%D0%BE%D1%82%D1%80-%D1%80%D0%B5%D1%81%D1%83%D1%80%D1%81%D0%BE%D0%B2-%D1%81-%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E-java-mission-control"></a>Просмотр ресурсов с помощью Java Mission Control</h3>
+<a id="jmc"></a>
+<h3 dir="auto" tabindex="-1">Просмотр ресурсов с помощью Java Mission Control</h3>
 <p dir="auto"><a href="https://www.oracle.com/cis/javase/jmc/" rel="nofollow">Java Mission Control</a></p>
 <div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
     <pre>jmc-8.3.1_linux-x64/JDK Mission Control$ jmc</pre>
