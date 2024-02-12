@@ -6,9 +6,10 @@
     <a href="#jpa_kotlin">JPA Entity классы с Kotlin</a>
 </p>
 <p dir="auto">
-    <a href="https://github.com/cherepakhin/shop_kotlin#unit_test">Unit тестирование</a><br />
-    <a href="https://github.com/cherepakhin/shop_kotlin#coverage_test">Покрытие тестами</a><br />
-    <a href="https://github.com/cherepakhin/shop_kotlin#spring_profiles">Spring profiles</a>
+    <a href="#unit_test">Unit тестирование</a><br />
+    <a href="#integration_test">Интеграционное тестирование в проекте</a><br />
+    <a href="#coverage_test">Покрытие тестами</a><br />
+    <a href="#spring_profiles">Spring profiles</a><br />
     <a href="https://github.com/cherepakhin/shop_kotlin#run">Тестовый запуск</a>
 </p>
 <p dir="auto">
@@ -102,7 +103,9 @@
 <h3 dir="auto" tabindex="-1">
     <a id="user-content-jpa-entity-классы-с-kotlin" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#jpa-entity-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D1%8B-%D1%81-kotlin"></a>JPA Entity классы с Kotlin
 </h3>
-<p dir="auto">Источник: <a href="https://habr.com/ru/companies/haulmont/articles/572574/" rel="nofollow">https://habr.com/ru/companies/haulmont/articles/572574/</a><br />Примеры из источника: <a href="https://github.com/Klimenkoob/spring-kotlin-hibernate">https://github.com/Klimenkoob/spring-kotlin-hibernate</a></p>
+<p dir="auto">
+    Источник: <a href="https://habr.com/ru/companies/haulmont/articles/572574/" rel="nofollow">https://habr.com/ru/companies/haulmont/articles/572574/</a><br />Примеры из источника: <a href="https://github.com/Klimenkoob/spring-kotlin-hibernate">https://github.com/Klimenkoob/spring-kotlin-hibernate</a>
+</p>
 <p dir="auto">Рекомендации:</p>
 <ol dir="auto">
     <li><strong>Data class not recommended for JPA Entity</strong> . Warning in Idea. Почему не использовать Data-классы? Потому что они финальны сами по себе, имеют по всем полям определенные equals, hashCode и toString. А это недопустимо в связке с Hibernate.</li>
@@ -132,7 +135,10 @@ allopen {
     <div class="zeroclipboard-container"> </div>
 </div>
 <p dir="auto"> </p>
-<h3 dir="auto" tabindex="-1"><a id="user-content-unit-тестирование" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#unit-%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5"></a>Unit тестирование</h3>
+<a id="unit_test"></a>
+<h3 dir="auto" tabindex="-1">
+    <a id="user-content-unit-тестирование" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#unit-%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5"></a>Unit тестирование
+</h3>
 <div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
     <pre>./gradlew <span class="pl-c1">test</span></pre>
     <div class="zeroclipboard-container"> </div>
@@ -147,7 +153,10 @@ allopen {
     <div class="zeroclipboard-container"> </div>
 </div>
 <p dir="auto"> </p>
-<h3 dir="auto" tabindex="-1"><a id="user-content-интеграционное-тестирование-в-проекте" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%BE%D0%B5-%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B5"></a>Интеграционное тестирование в проекте</h3>
+<a id="integration_test"></a>
+<h3 dir="auto" tabindex="-1">
+    <a id="user-content-интеграционное-тестирование-в-проекте" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%BE%D0%B5-%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B5"></a>Интеграционное тестирование в проекте
+</h3>
 <p dir="auto">Вообще, интеграционные тесты должны быть в отдельном проекте (см. <a href="https://github.com/cherepakhin/shop_kotlin_restassured_test">https://github.com/cherepakhin/shop_kotlin_restassured_test</a>). В этом проекте оставил только тесты работы с базой данных. Имена интеграционных тестов должны заканчиваться ..TestIntegration. Прогнать все, кроме интеграционных (включены только *Test, исключены *TestIntegration):</p>
 <div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
 <pre>./gradlew clean <span class="pl-c1">test</span> --tests <span class="pl-k">*</span>Test
@@ -198,7 +207,10 @@ ProductServiceIntegrationTest &gt; checkSortByName_ByDslFilterByName() PASSED
 </div>
 <p dir="auto">с events("standardOut", "started", "passed", "skipped", "failed") логируется вывод в консоль.</p>
 <p dir="auto"> </p>
-<h3 dir="auto" tabindex="-1"><a id="user-content-покрытие-тестами" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%BF%D0%BE%D0%BA%D1%80%D1%8B%D1%82%D0%B8%D0%B5-%D1%82%D0%B5%D1%81%D1%82%D0%B0%D0%BC%D0%B8"></a>Покрытие тестами</h3>
+<a id="coverage_test"></a>
+<h3 dir="auto" tabindex="-1">
+    <a id="user-content-покрытие-тестами" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%BF%D0%BE%D0%BA%D1%80%D1%8B%D1%82%D0%B8%D0%B5-%D1%82%D0%B5%D1%81%D1%82%D0%B0%D0%BC%D0%B8"></a>Покрытие тестами
+</h3>
 <p dir="auto">Использован <a href="https://www.eclemma.org/jacoco/" rel="nofollow">jacoco</a>. Отчет формируется при прогоне тестов</p>
 <div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
     <pre>./gradlew <span class="pl-c1">test</span> jacocoTestReport</pre>
@@ -211,8 +223,15 @@ ProductServiceIntegrationTest &gt; checkSortByName_ByDslFilterByName() PASSED
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/jacoco_class.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/jacoco_class.png" alt="jacoco_class" /></a></p>
 <p dir="auto">Красным или желтым выделены непротестированные участки кода, зеленым протестировано.</p>
 <p dir="auto"> </p>
-<h3 dir="auto" tabindex="-1"><a id="user-content-spring-profiles" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#spring-profiles"></a>Spring profiles</h3>
-<p dir="auto">Настроены два Spring профиля: <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-prod.yml" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/src/main/resources/application-prod.yml" alt="prod" /></a> и <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-dev.yml" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/src/main/resources/application-dev.yml" alt="dev" /></a>. Общие параметры для обоих профилей в <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application.yml" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/src/main/resources/application.yml" alt="application.yml" /></a>. В этом же файле указан профиль по умолчанию:</p>
+<a id="spring_profiles"></a>
+<h3 dir="auto" tabindex="-1">
+    <a id="user-content-spring-profiles" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#spring-profiles"></a>Spring profiles
+</h3>
+<p dir="auto">Настроены два Spring профиля:
+    <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-prod.yml" target="_blank" rel="noopener noreferrer"><u>application-prod.yml</u></a>
+         и
+    <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-dev.yml" target="_blank" rel="noopener noreferrer"><u>application-dev.yml</u></a>
+    В этом же файле указан профиль по умолчанию:</p>
 <div class="highlight highlight-source-yaml notranslate position-relative overflow-auto" dir="auto">
 <pre><span class="pl-ent">spring</span>:
   <span class="pl-ent">profiles</span>:
