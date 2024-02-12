@@ -10,11 +10,11 @@
     <a href="#integration_test">Интеграционное тестирование в проекте</a><br />
     <a href="#coverage_test">Покрытие тестами</a><br />
     <a href="#spring_profiles">Spring profiles</a><br />
-    <a href="https://github.com/cherepakhin/shop_kotlin#run">Тестовый запуск</a>
+    <a href="#test_run">Тестовый запуск</a>
 </p>
 <p dir="auto">
-    <a href="https://github.com/cherepakhin/shop_kotlin#create_runable">Создание запускаемого файла и его запуск</a><br />
-    <a href="https://github.com/cherepakhin/shop_kotlin#publishing-springboot-fat-jar">Publishing SpringBoot "FAT" jar</a>
+    <a href="#bootjar">Создание запускаемого файла и его запуск</a><br />
+    <a href="#publish_fat-jar">Publishing SpringBoot "FAT" jar</a>
 </p>
 <p dir="auto">
     <a href="https://github.com/cherepakhin/shop_kotlin#integration_test_local">Интеграционное тестирование</a><br />
@@ -261,14 +261,16 @@ ProductServiceIntegrationTest &gt; checkSortByName_ByDslFilterByName() PASSED
     <div class="zeroclipboard-container"> </div>
 </div>
 <p dir="auto"> </p>
-<h3 dir="auto" tabindex="-1"><a id="user-content-тестовый-запуск" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D1%82%D0%B5%D1%81%D1%82%D0%BE%D0%B2%D1%8B%D0%B9-%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA"></a>Тестовый запуск</h3>
-<p dir="auto">запуск:</p>
+
+<a id="test_run"></a>
+<h3>Тестовый запуск</h3>
 <div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
     <pre>./gradlew bootRun</pre>
     <div class="zeroclipboard-container"> </div>
 </div>
 <p dir="auto"> </p>
-<h3 dir="auto" tabindex="-1"><a id="user-content-создание-запускаемого-файла-и-его-запуск" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B0%D0%B5%D0%BC%D0%BE%D0%B3%D0%BE-%D1%84%D0%B0%D0%B9%D0%BB%D0%B0-%D0%B8-%D0%B5%D0%B3%D0%BE-%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA"></a>Создание запускаемого файла и его запуск</h3>
+<a id="bootjar"></a>
+<h3 dir="auto">Создание запускаемого файла и его запуск</h3>
 <p dir="auto">Создание:</p>
 <div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
     <pre>./gradlew bootJar</pre>
@@ -287,8 +289,11 @@ ProductServiceIntegrationTest &gt; checkSortByName_ByDslFilterByName() PASSED
 shop_kotlin/build/libs$ java -Xmx256M -jar shop_kotlin-0.1.20.jar</pre>
     <div class="zeroclipboard-container"> </div>
 </div>
+
 <p dir="auto"> </p>
-<h3 dir="auto" tabindex="-1"><a id="user-content-publishing-springboot-fat-jar" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#publishing-springboot-fat-jar"></a>Publishing SpringBoot "FAT" jar</h3>
+<a id="publish_fat-jar"></a>
+<h3 dir="auto" tabindex="-1">
+    <a id="user-content-publishing-springboot-fat-jar" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#publishing-springboot-fat-jar"></a>Publishing SpringBoot "FAT" jar</h3>
 <p dir="auto">Настройка:</p>
 <div class="highlight highlight-source-yaml notranslate position-relative overflow-auto" dir="auto">
 <pre><span class="pl-s">publishing {</span>
