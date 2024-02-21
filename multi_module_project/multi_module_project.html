@@ -9,7 +9,7 @@
 include 'library'
 include 'application'
 </code></pre>
-
+В Idea выглядит так:
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="idea_multi_module" src="images/multi_module/idea_multi_module.png"
         alt="allure_result_test" width="415" height="447"/></p>
 
@@ -48,3 +48,9 @@ Module <b>Library</b>:
     <li>Test Module <b>Application</b></li>
     <li>Test Module <b>Library</b></li>
 </ul>
+
+Раздельная сборка модулей:<br/>
+<pre class="language-shell">
+<code>$ ./gradlew :application:publish
+$ ./gradlew :library:publish
+</code></pre>
