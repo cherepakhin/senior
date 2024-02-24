@@ -49,6 +49,9 @@
     <a href="#easycode_vscode">Использование "ChatGPT-EasyCode" в VSCode</a>
 </p>
 <p dir="auto">
+    <a href="#add_param_to_application_yaml">Частный параметер конфигурации в application.yaml</a><br />
+</p>
+<p dir="auto">
     <a href="#todo">TODO</a><br />
     <a href="#tose">Примечания</a><br />
     <a href="#links">Ссылки</a>
@@ -785,6 +788,23 @@ $ <span class="pl-k">export</span> NEXUS_CRED_PSW=pass</pre>
 В IntelliJ IDEA 2023.3.2 (Community Edition):<br/>
 <img style="display: block; margin-left: auto; margin-right: auto;" title="gigacode" src="images/chatgpt/gigacode.png"
      alt="gigacode" width="402" height="47"/>
+
+<a id="add_param_to_application_yaml"></a>
+<h3 dir="auto">Частный параметер конфигурации в application.yaml</h3>
+<p dir="auto">Бывает нужно добавить <b>СВОЙ</b> параметр конигурации в application.yaml для удобства тестирования, разработки, развертывания.
+Пример описан в проекте:
+<a class="anchor" tabindex="-1" href="https://github.com/cherepakhin/camel_rest">https://github.com/cherepakhin/camel_rest</a> в разделе "Дополнительно".
+В application.yaml добавлен <b>ЧАСТНЫЙ</b> параметр конфигурации "myconfig":
+<pre>myconfig:
+    testDirectory: file:~/temp/testarea
+</pre>
+Использование:
+<div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
+<pre>@ConfigurationProperties("myconfig")
+@ConstructorBinding
+data class MyConfig(val testDirectory: String)</pre>
+    <div class="zeroclipboard-container"> </div>
+
 <a id="todo"></a>
 <p dir="auto"> </p>
 <h3 dir="auto" tabindex="-1"><a id="user-content-todo" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#todo"></a>TODO</h3>
