@@ -794,16 +794,33 @@ $ <span class="pl-k">export</span> NEXUS_CRED_PSW=pass</pre>
 <p dir="auto">Бывает нужно добавить <b>СВОЙ</b> параметр конигурации в <b>application.yaml</b> для удобства тестирования, разработки, развертывания.
 Пример описан в проекте:
 <a class="anchor" tabindex="-1" href="https://github.com/cherepakhin/camel_rest">https://github.com/cherepakhin/camel_rest</a> в разделе "Дополнительно".
-    В <b>application.yaml</b> добавлен <b>ЧАСТНЫЙ</b> параметр конфигурации <b>"myconfig"</b>:
-<pre>myconfig:
-    testDirectory: file:~/temp/testarea
-</pre>
-Использование:
+    В <b>application.yaml</b> добавлен <b>ЧАСТНЫЙ</b> параметр конфигурации <b>"myconfig"</b>.<br/>
+<br/>
+Описание:<br/>
 <div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
 <pre>@ConfigurationProperties("myconfig")
 @ConstructorBinding
-data class MyConfig(val testDirectory: String)</pre>
-    <div class="zeroclipboard-container"> </div>
+data class MyConfig(val testDirectory: String)
+</pre>
+
+Объявление в application.yaml:<br/>
+<pre>myconfig:
+    testDirectory: file:~/temp/testarea
+</pre>
+Использование:<br/>
+<pre><code lang="kotlin">@RestController
+class ParamCtrl {
+
+    @Autowired
+    lateinit var myConfig: MyConfig
+
+    @GetMapping("/test_directory")
+    fun getTestDirectory(): String? {
+        logger.info("GET param test_directory=${myConfig.testDirectory}")
+        return myConfig.testDirectory
+    }
+}
+</code></pre>
 
 <a id="todo"></a>
 <p dir="auto"> </p>
