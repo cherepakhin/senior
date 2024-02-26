@@ -203,3 +203,12 @@ doc               gradle           gradlew.bat        log          src
 <hr/>
 <b><u>КСТАТИ!</u></b><br/>
 <u>НАРВАЛСЯ НА ТРОЯН В ОБРАЗЕ, СКАЧЕННОМ С https://hub.docker.com/.</u>
+<hr/>
+<b><u>Память!</u></b><br/>
+Настройка лимитов выделяемой памяти для Nexus в "/mnt/sdb1/tools/nexus/nexus-3.60.0-02/bin/nexus.vmoptions", где "/mnt/sdb1/tools/" каталог установки Nexus.
+
+<pre class="language-shell">
+<code>-Xms256m
+-Xmx384m
+-XX:MaxDirectMemorySize=256m</code>
+</pre><br/>
