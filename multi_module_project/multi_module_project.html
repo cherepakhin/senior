@@ -53,7 +53,6 @@ Module <b>Library</b>:
 <pre class="language-shell">
 <code>$ ./gradlew :library:test
 </code></pre>
-
 Сборка отдельного модуля:<br/>
 <pre class="language-shell">
 <code>$ ./gradlew :application:publish
@@ -63,3 +62,9 @@ $ ./gradlew :library:publish
 Результат:<br/><br/>
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="nexus_multi_module" src="images/multi_module/nexus_multi_module.png"
         alt="nexus_multi_module" width="930" height="644"/></p>
+
+Пересборка модуля после deploy зависимого модуля:<br/>
+<pre class="language-shell">
+<code>$./gradlew --refresh-dependencies :office:compileJava
+</code></pre>
+
