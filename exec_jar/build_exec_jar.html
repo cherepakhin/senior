@@ -1,0 +1,70 @@
+Оглавление:<br/>
+<ul>
+    <li><a href="#maven-assembly-plugin">maven-assembly-plugin</a></li>
+    <li><a href="#other_example">Другие примеры</a></li>
+    <li><a href="#links">Ссылки</a></li>
+</ul>
+<hr id="system-readmore"/>
+<a id="maven-assembly-plugin"></a>
+<h3 dir="auto">maven-assembly-plugin</h3>
+Пример в <a title="https://github.com/cherepakhin/camel_spring" href="https://github.com/cherepakhin/camel_spring"
+           style="text-decoration: underline; color: #3366ff;"
+           target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/camel_spring</a>
+<xmp>
+    <?xml version="1.0" encoding="ISO-8859-1"?>
+      <!-- fat jar -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>ru.perm.v.camelinaction.ch2.GreetMain</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.6.0</version>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+        <executions>
+          <execution>
+            <id>assemble-all</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+    </build>
+</xmp>
+Сборка:
+<pre class="language-shell"><code>$ mvn package</code></pre>
+Собранный файл будет в ./target/{artifactId+version}-jar-with-dependencies.jar
+<br/>
+<a id="other_example"></a>
+<h3 dir="auto">Другие примеры:</h3>
+<a title="http://v.perm.ru/main/index.php/homepage/71-modulnyj-proekt-gradle" href="http://v.perm.ru/main/index.php/homepage/71-modulnyj-proekt-gradle"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">Многомодульный проект Gradle</a>
+<br/>
+<a title="http://v.perm.ru/main/index.php/homepage/69-prostoj-proekt-na-kotlin-i-spring-boot#bootjar" href="http://v.perm.ru/main/index.php/homepage/69-prostoj-proekt-na-kotlin-i-spring-boot#bootjar"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">Дополнительные инструменты для проекта на Kotlin и Spring Boot#Создание запускаемого файла и его запуск</a>
+<a id="links"></a>
+<h3 dir="auto">Ссылки:</h3>
+<a title="https://habr.com/ru/articles/716554/" href="https://habr.com/ru/articles/716554/"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">https://habr.com/ru/articles/716554/</a>
+<br/>
+
+
