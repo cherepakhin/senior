@@ -50,6 +50,7 @@
 </p>
 <p dir="auto">
     <a href="#add_param_to_application_yaml">Частный параметр конфигурации в application.yaml</a><br />
+    <a href="#set_var_application_yaml">Переопределение значения переменных application.yaml</a><br />
 </p>
 <p dir="auto">
     <a href="#todo">TODO</a><br />
@@ -820,6 +821,17 @@ class ParamCtrl {
         return myConfig.testDirectory
     }
 }
+</code></pre>
+
+<a id="set_var_application_yaml"></a>
+<h3 dir="auto">Переопределение значения переменных application.yaml</h3>
+<p dir="auto">Можно задать значения переменных application.yaml через специальную переменную <b>SPRING_APPLICATION_JSON</b>. Пример замены порта приложения на 8960
+(в application.yaml "server:  port=8980):</p>
+<pre><code lang="kotlin">$ export SPRING_APPLICATION_JSON='{"server":{"port":8960}}'
+$ java -jar build/libs/spring_config_k-0.0.1-SNAPSHOT.jar
+....
+INFO 23327 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8960 (http)
+....
 </code></pre>
 
 <a id="todo"></a>
