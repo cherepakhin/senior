@@ -793,23 +793,23 @@ $ <span class="pl-k">export</span> NEXUS_CRED_PSW=pass</pre>
 <a id="add_param_to_application_yaml"></a>
 <h3 dir="auto">Частный параметр конфигурации в application.yaml</h3>
 <p dir="auto">Бывает нужно добавить <b>СВОЙ</b> параметр конигурации в <b>application.yaml</b> для удобства тестирования, разработки, развертывания.
-Пример описан в проекте:
-<a class="anchor" tabindex="-1" href="https://github.com/cherepakhin/camel_rest">https://github.com/cherepakhin/camel_rest</a> в разделе "Дополнительно".
+    Пример описан в проекте:
+    <a class="anchor" tabindex="-1" href="https://github.com/cherepakhin/camel_rest">https://github.com/cherepakhin/camel_rest</a> в разделе "Дополнительно".
     В <b>application.yaml</b> добавлен <b>ЧАСТНЫЙ</b> параметр конфигурации <b>"myconfig"</b>.<br/>
-<br/>
-Описание:<br/>
+    <br/>
+    Описание:<br/>
 <div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
 <pre>@ConfigurationProperties("myconfig")
 @ConstructorBinding
 data class MyConfig(val testDirectory: String)
 </pre>
 
-Объявление в application.yaml:<br/>
-<pre>myconfig:
+    Объявление в application.yaml:<br/>
+    <pre>myconfig:
     testDirectory: file:~/temp/testarea
 </pre>
-Использование:<br/>
-<pre><code lang="kotlin">@RestController
+    Использование:<br/>
+    <pre><code lang="kotlin">@RestController
 class ParamCtrl {
 
     @Autowired
@@ -823,58 +823,58 @@ class ParamCtrl {
 }
 </code></pre>
 
-<a id="set_var_application_yaml"></a>
-<h3 dir="auto">Переопределение значения переменных application.yaml</h3>
-<p dir="auto">Можно задать значения переменных application.yaml через специальную переменную <b>SPRING_APPLICATION_JSON</b>. Пример замены порта приложения на 8960
-(в application.yaml "server:  port=8980):</p>
-<pre><code lang="kotlin">$ export SPRING_APPLICATION_JSON='{"server":{"port":8960}}'
+    <a id="set_var_application_yaml"></a>
+    <h3 dir="auto">Переопределение значения переменных application.yaml</h3>
+    <p dir="auto">Можно задать значения переменных application.yaml через специальную переменную <b>SPRING_APPLICATION_JSON</b>. Пример замены порта приложения на <b>8960</b>
+        (в application.yaml server:  port=<b>8980</b>):</p>
+    <pre><code lang="kotlin">$ export SPRING_APPLICATION_JSON='{"server":{"port":<b>8960</b>}}'
 $ java -jar build/libs/spring_config_k-0.0.1-SNAPSHOT.jar
 ....
-INFO 23327 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8960 (http)
+INFO 23327 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): <b>8960</b> (http)
 ....
 </code></pre>
 
-<a id="todo"></a>
-<p dir="auto"> </p>
-<h3 dir="auto" tabindex="-1"><a id="user-content-todo" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#todo"></a>TODO</h3>
-<ul dir="auto">
-    <li><del>cache on rest (сделано)</del></li>
-    <li><del>RestAssured tests (сделано)</del> (<a href="https://github.com/cherepakhin/shop_kotlin_reastassured_test">https://github.com/cherepakhin/shop_kotlin_reastassured_test</a>)</li>
-    <li><del>by lazy (сделано)</del></li>
-    <li><del>Docker (сделано)</del></li>
-    <li><del>Swagger (сделано)</del></li>
-    <li><del>Actuator (сделано)</del></li>
-    <li><del>flyway (использована БД в памяти url: jdbc:h2:mem:easybotdb). Миграции не требуются.</del></li>
-    <li>webmvc тесты (ProductRestMockMvcTest)</li>
-    <li><del>тесты service слоя с СУБД @DataJpaTest (сделано)</del></li>
-    <li>вертикальные БД (?)</li>
-    <li><del>Различные SQL запросы через native Sql и Spring JPA(order by, group by) (сделано)</del></li>
-    <li>Pagination</li>
-    <li><del>Grafana (сделано)</del></li>
-    <li>ElasticSearch</li>
-    <li>Авторизация</li>
-</ul>
+    <a id="todo"></a>
+    <p dir="auto"> </p>
+    <h3 dir="auto" tabindex="-1"><a id="user-content-todo" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#todo"></a>TODO</h3>
+    <ul dir="auto">
+        <li><del>cache on rest (сделано)</del></li>
+        <li><del>RestAssured tests (сделано)</del> (<a href="https://github.com/cherepakhin/shop_kotlin_reastassured_test">https://github.com/cherepakhin/shop_kotlin_reastassured_test</a>)</li>
+        <li><del>by lazy (сделано)</del></li>
+        <li><del>Docker (сделано)</del></li>
+        <li><del>Swagger (сделано)</del></li>
+        <li><del>Actuator (сделано)</del></li>
+        <li><del>flyway (использована БД в памяти url: jdbc:h2:mem:easybotdb). Миграции не требуются.</del></li>
+        <li>webmvc тесты (ProductRestMockMvcTest)</li>
+        <li><del>тесты service слоя с СУБД @DataJpaTest (сделано)</del></li>
+        <li>вертикальные БД (?)</li>
+        <li><del>Различные SQL запросы через native Sql и Spring JPA(order by, group by) (сделано)</del></li>
+        <li>Pagination</li>
+        <li><del>Grafana (сделано)</del></li>
+        <li>ElasticSearch</li>
+        <li>Авторизация</li>
+    </ul>
 
-<a id="tose"></a>
-<p dir="auto"> </p>
-<h3 dir="auto" tabindex="-1"><a id="user-content-примечания" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D1%8F"></a>Примечания:</h3>
-<p dir="auto">В программе не используются слои controller и service, т.к. проект сделан только для демонстрации Kotlin, и не планируется какая-либо бизнес-логика. Конвертация в DTO сделана в REST контроллерах.</p>
-<p dir="auto">Поля в <strong>entity</strong> классах д.б. обозначены <strong>"open"</strong> (н.п. <strong>open</strong> val name: String = ""). В Kotlin используется следующий подход - можно наследовать от суперклассов и переопределять их свойства и функции только в том случае, если они снабжены префиксом <strong>"open"</strong>.</p>
-<p dir="auto">Имя для "id" поля в entity классах названы "n". Причины:</p>
-<ul dir="auto">
-    <li>В некоторых БД "id" ключевое слово</li>
-    <li>В interface repository есть отдельные методы repository.getById(), repository.findById(). Имеется ввиду поиск по primary key. Это путает.</li>
-</ul>
-<p dir="auto">Правила использования модификатора <strong>lateinit</strong>:</p>
-<ul dir="auto">
-    <li>используется только совместно с ключевым словом var;</li>
-    <li>свойство может быть объявлено только внутри тела класса (не в основном конструкторе);</li>
-    <li>тип свойства не может быть нулевым и примитивным;</li>
-    <li>у свойства не должно быть пользовательских геттеров и сеттеров;</li>
-    <li>с версии Kotlin 1.2 можно применять к свойствам верхнего уровня и локальным переменным.</li>
-    <li>сообщает что инициализация будет как-то сделана (в примере ниже аннотациями @Mock, @InjectMocks). @Mock mockProductService будут инжектированы в @InjectMocks productRest. Пример:</li>
-</ul>
-<div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
+    <a id="tose"></a>
+    <p dir="auto"> </p>
+    <h3 dir="auto" tabindex="-1"><a id="user-content-примечания" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D1%8F"></a>Примечания:</h3>
+    <p dir="auto">В программе не используются слои controller и service, т.к. проект сделан только для демонстрации Kotlin, и не планируется какая-либо бизнес-логика. Конвертация в DTO сделана в REST контроллерах.</p>
+    <p dir="auto">Поля в <strong>entity</strong> классах д.б. обозначены <strong>"open"</strong> (н.п. <strong>open</strong> val name: String = ""). В Kotlin используется следующий подход - можно наследовать от суперклассов и переопределять их свойства и функции только в том случае, если они снабжены префиксом <strong>"open"</strong>.</p>
+    <p dir="auto">Имя для "id" поля в entity классах названы "n". Причины:</p>
+    <ul dir="auto">
+        <li>В некоторых БД "id" ключевое слово</li>
+        <li>В interface repository есть отдельные методы repository.getById(), repository.findById(). Имеется ввиду поиск по primary key. Это путает.</li>
+    </ul>
+    <p dir="auto">Правила использования модификатора <strong>lateinit</strong>:</p>
+    <ul dir="auto">
+        <li>используется только совместно с ключевым словом var;</li>
+        <li>свойство может быть объявлено только внутри тела класса (не в основном конструкторе);</li>
+        <li>тип свойства не может быть нулевым и примитивным;</li>
+        <li>у свойства не должно быть пользовательских геттеров и сеттеров;</li>
+        <li>с версии Kotlin 1.2 можно применять к свойствам верхнего уровня и локальным переменным.</li>
+        <li>сообщает что инициализация будет как-то сделана (в примере ниже аннотациями @Mock, @InjectMocks). @Mock mockProductService будут инжектированы в @InjectMocks productRest. Пример:</li>
+    </ul>
+    <div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
 <pre><span class="pl-k">internal</span> <span class="pl-k">class</span> <span class="pl-en">ProductRestTest</span> {
     @Mock
     <span class="pl-k">private</span> <span class="pl-k">lateinit</span> <span class="pl-k">var</span> mockProductService<span class="pl-k">:</span> <span class="pl-en">ProductService</span>
@@ -885,27 +885,27 @@ INFO 23327 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomc
 }
 
 </pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<p dir="auto"><strong>byLazy</strong></p>
-<div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
-    <pre><span class="pl-k">val</span> catName<span class="pl-k">:</span> <span class="pl-c1">String</span> by lazy { getName() }</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<p dir="auto">свойство объявлено как <strong>VAL</strong>, но присвоение будет выполнено при <strong>первом использовании</strong> и потом уже не будет инициализироваться.</p>
-<p dir="auto"><strong>Ссылки о lazy и lateinit:</strong></p>
-<ul dir="auto">
-    <li><a href="https://github.com/cherepakhin/kotlin_in_action">https://github.com/cherepakhin/kotlin_in_action</a></li>
-    <li><a href="https://developer.alexanderklimov.ru/android/kotlin/lateinit.php" rel="nofollow">https://developer.alexanderklimov.ru/android/kotlin/lateinit.php</a></li>
-    <li><a href="https://www.baeldung.com/kotlin/lazy-initialization" rel="nofollow">https://www.baeldung.com/kotlin/lazy-initialization</a></li>
-    <li><a href="https://bimlibik.github.io/posts/kotlin-lateinit-and-lazy/" rel="nofollow">https://bimlibik.github.io/posts/kotlin-lateinit-and-lazy/</a></li>
-</ul>
-<p dir="auto"><strong>Статические члены и компаньон объекты в Kotlin:</strong></p>
-<p dir="auto">Как правило объекты-компаньоны используются для объявления переменных и функций, к которым требуется обращаться без создания экземпляра класса. Либо для объявления констант. По сути они своего рода замена статическим членам класса (в отличие от Java, в Kotlin нет статики).</p>
-<ul dir="auto">
-    <li>Как бы static:</li>
-</ul>
-<div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
+        <div class="zeroclipboard-container"> </div>
+    </div>
+    <p dir="auto"><strong>byLazy</strong></p>
+    <div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
+        <pre><span class="pl-k">val</span> catName<span class="pl-k">:</span> <span class="pl-c1">String</span> by lazy { getName() }</pre>
+        <div class="zeroclipboard-container"> </div>
+    </div>
+    <p dir="auto">свойство объявлено как <strong>VAL</strong>, но присвоение будет выполнено при <strong>первом использовании</strong> и потом уже не будет инициализироваться.</p>
+    <p dir="auto"><strong>Ссылки о lazy и lateinit:</strong></p>
+    <ul dir="auto">
+        <li><a href="https://github.com/cherepakhin/kotlin_in_action">https://github.com/cherepakhin/kotlin_in_action</a></li>
+        <li><a href="https://developer.alexanderklimov.ru/android/kotlin/lateinit.php" rel="nofollow">https://developer.alexanderklimov.ru/android/kotlin/lateinit.php</a></li>
+        <li><a href="https://www.baeldung.com/kotlin/lazy-initialization" rel="nofollow">https://www.baeldung.com/kotlin/lazy-initialization</a></li>
+        <li><a href="https://bimlibik.github.io/posts/kotlin-lateinit-and-lazy/" rel="nofollow">https://bimlibik.github.io/posts/kotlin-lateinit-and-lazy/</a></li>
+    </ul>
+    <p dir="auto"><strong>Статические члены и компаньон объекты в Kotlin:</strong></p>
+    <p dir="auto">Как правило объекты-компаньоны используются для объявления переменных и функций, к которым требуется обращаться без создания экземпляра класса. Либо для объявления констант. По сути они своего рода замена статическим членам класса (в отличие от Java, в Kotlin нет статики).</p>
+    <ul dir="auto">
+        <li>Как бы static:</li>
+    </ul>
+    <div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
 <pre><span class="pl-k">class</span> <span class="pl-en">Someclass</span> {
   <span class="pl-k">..</span>.
   <span class="pl-k">object</span> AsStaticObject {
@@ -919,12 +919,12 @@ INFO 23327 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomc
 <span class="pl-k">..</span>.
 
 <span class="pl-k">val</span> someClass <span class="pl-k">=</span> <span class="pl-en">SomeClass</span>.<span class="pl-en">AsStaticObject</span>.create()</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<ul dir="auto">
-    <li>Companion Object (вложенный объект. Метод create() принадлежит родительскому классу):</li>
-</ul>
-<div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
+        <div class="zeroclipboard-container"> </div>
+    </div>
+    <ul dir="auto">
+        <li>Companion Object (вложенный объект. Метод create() принадлежит родительскому классу):</li>
+    </ul>
+    <div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
 <pre><span class="pl-k">class</span> <span class="pl-en">SomeClass</span> {
 
   <span class="pl-k">companion</span> <span class="pl-k">object</span> {
@@ -935,24 +935,24 @@ INFO 23327 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomc
 <span class="pl-k">..</span>.
 
 <span class="pl-k">val</span> someClass <span class="pl-k">=</span> <span class="pl-en">SomeClass</span>.create()</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<p dir="auto"><strong>Различия между val и const val в Kotlin</strong></p>
-<div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
+        <div class="zeroclipboard-container"> </div>
+    </div>
+    <p dir="auto"><strong>Различия между val и const val в Kotlin</strong></p>
+    <div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
 <pre><span class="pl-k">val</span> <span class="pl-en">MY_VAL</span> <span class="pl-k">=</span> <span class="pl-c1">1</span>
 <span class="pl-k">const</span> <span class="pl-k">val</span> <span class="pl-en">MY_CONST_VAL</span> <span class="pl-k">=</span> <span class="pl-c1">2</span></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<ul dir="auto">
-    <li>Обе эти переменные немодифицируемые</li>
-    <li><strong>MY_VAL</strong> станет приватной переменной, для доступа к которой будет создан геттер</li>
-    <li><strong>MY_CONST_VAL</strong> будет заинлайнена, то есть компилятор заменит все полученные значения этой переменной на само значение</li>
-    <li><a href="https://www.baeldung.com/kotlin/const-var-and-val-keywords" rel="nofollow">Kotlin const, var, and val Keywords</a></li>
-</ul>
-<p dir="auto"><strong>Ошибка "ERROR: Cannot resume build because FlowNode 19"</strong></p>
-<p dir="auto">Ответ тут <a href="https://community.jenkins.io/t/error-cannot-resume-build-because-flownode-19/9477/3" rel="nofollow">https://community.jenkins.io/t/error-cannot-resume-build-because-flownode-19/9477/3</a></p>
-<p dir="auto">В двух словах: добавить в Jenkinsfile "максмальную выживаемость"</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
+        <div class="zeroclipboard-container"> </div>
+    </div>
+    <ul dir="auto">
+        <li>Обе эти переменные немодифицируемые</li>
+        <li><strong>MY_VAL</strong> станет приватной переменной, для доступа к которой будет создан геттер</li>
+        <li><strong>MY_CONST_VAL</strong> будет заинлайнена, то есть компилятор заменит все полученные значения этой переменной на само значение</li>
+        <li><a href="https://www.baeldung.com/kotlin/const-var-and-val-keywords" rel="nofollow">Kotlin const, var, and val Keywords</a></li>
+    </ul>
+    <p dir="auto"><strong>Ошибка "ERROR: Cannot resume build because FlowNode 19"</strong></p>
+    <p dir="auto">Ответ тут <a href="https://community.jenkins.io/t/error-cannot-resume-build-because-flownode-19/9477/3" rel="nofollow">https://community.jenkins.io/t/error-cannot-resume-build-because-flownode-19/9477/3</a></p>
+    <p dir="auto">В двух словах: добавить в Jenkinsfile "максмальную выживаемость"</p>
+    <div class="snippet-clipboard-content notranslate position-relative overflow-auto">
 <pre class="notranslate"><code>...
 pipeline {
 
@@ -962,42 +962,42 @@ pipeline {
     }
 ...
 </code></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<ul dir="auto">
-    <li>
-        <p dir="auto">В Windows на сетевом диске компилировалось с проблемами <strong>query-dsl</strong>. После переноса на <strong>диск C:</strong> проблемы ушли.</p>
-    </li>
-    <li>
-        <p dir="auto">Если появилась ошибка: "./gradlew: строка 2: $'\r': команда не найдена", то выполнить:</p>
-    </li>
-    <li><p dir="auto">Похоже, при расшаривании папки для Windows и работе в Windows изменился символ конца строки.</p></li>
-    <li>Смена версии gradlew: в ./gragle/wrapper/gradle-wrapper.properties <pre class="notranslate"><code>distributionUrl=https\://services.gradle.org/distributions/gradle-7.6.1-bin.zip</code></pre></li>
-    <li>Тесты проходят (из idea и из shell)</li>
-    <li>Jetty рекомендуют, как более оптимизированный контейнер:
-        <div class="highlight highlight-source-yaml notranslate position-relative overflow-auto" dir="auto">
+        <div class="zeroclipboard-container"> </div>
+    </div>
+    <ul dir="auto">
+        <li>
+            <p dir="auto">В Windows на сетевом диске компилировалось с проблемами <strong>query-dsl</strong>. После переноса на <strong>диск C:</strong> проблемы ушли.</p>
+        </li>
+        <li>
+            <p dir="auto">Если появилась ошибка: "./gradlew: строка 2: $'\r': команда не найдена", то выполнить:</p>
+        </li>
+        <li><p dir="auto">Похоже, при расшаривании папки для Windows и работе в Windows изменился символ конца строки.</p></li>
+        <li>Смена версии gradlew: в ./gragle/wrapper/gradle-wrapper.properties <pre class="notranslate"><code>distributionUrl=https\://services.gradle.org/distributions/gradle-7.6.1-bin.zip</code></pre></li>
+        <li>Тесты проходят (из idea и из shell)</li>
+        <li>Jetty рекомендуют, как более оптимизированный контейнер:
+            <div class="highlight highlight-source-yaml notranslate position-relative overflow-auto" dir="auto">
 <pre class="notranslate"><code>dependencies {
   implementation("org.springframework.boot:spring-boot-starter-web") {
   exclude("org.springframework.boot:spring-boot-starter-tomcat")
   }
   implementation("org.springframework.boot:spring-boot-starter-jetty") // jetty uses less memory
 </code></pre></div>
-    </li>
-    <li>Описание Data class: <a href="https://kotlinlang.ru/docs/reference/data-classes.html" rel="nofollow">https://kotlinlang.ru/docs/reference/data-classes.html</a>.
-        "Классы данных <b>не могут быть абстрактными, open, sealed или inner</b>. Компилятор автоматически формирует следующие члены данного класса из <strong>свойств</strong>,
-        объявленных <strong>в основном конструкторе</strong>: equals()/hashCode(), toString() в форме "User(name=John, age=42)", компонентные функции componentN(),
-        которые соответствуют свойствам, в соответствии с порядком их объявления. Основной конструктор должен иметь как минимум один параметр.
-        Все параметры основного конструктора должны быть отмечены, как val или var."</li>
-</ul>
+        </li>
+        <li>Описание Data class: <a href="https://kotlinlang.ru/docs/reference/data-classes.html" rel="nofollow">https://kotlinlang.ru/docs/reference/data-classes.html</a>.
+            "Классы данных <b>не могут быть абстрактными, open, sealed или inner</b>. Компилятор автоматически формирует следующие члены данного класса из <strong>свойств</strong>,
+            объявленных <strong>в основном конструкторе</strong>: equals()/hashCode(), toString() в форме "User(name=John, age=42)", компонентные функции componentN(),
+            которые соответствуют свойствам, в соответствии с порядком их объявления. Основной конструктор должен иметь как минимум один параметр.
+            Все параметры основного конструктора должны быть отмечены, как val или var."</li>
+    </ul>
 
-<p dir="auto"> </p>
-<a id="links"></a>
-<h3 dir="auto" tabindex="-1">Ссылки:</h3>
-<p dir="auto">
-<ul>
-    <li><a href="index.php/34-behave-testirovanie" rel="nofollow">Интеграционное тестирование REST</a></li>
-    <li><a href="index.php/64-nastrojka-i-ispolzovanie-prometheus-grafana" rel="nofollow">Настройка и использование Prometheus, Grafana</a></li>
-    <li><a href="index.php/homepage/56-shpargalka-po-docker" rel="nofollow">Шпаргалка по Docker</a></li>
-    <li><a href="index.php/homepage/60-set-java-version" rel="nofollow">Set java version</a></li>
-    <li><a href="index.php/50-organizatsiya-sobstvennogo-ci-cd" rel="nofollow">Установка и настройка домашнего Nexus/Jenkins</a></li>
-</ul>
+    <p dir="auto"> </p>
+    <a id="links"></a>
+    <h3 dir="auto" tabindex="-1">Ссылки:</h3>
+    <p dir="auto">
+    <ul>
+        <li><a href="index.php/34-behave-testirovanie" rel="nofollow">Интеграционное тестирование REST</a></li>
+        <li><a href="index.php/64-nastrojka-i-ispolzovanie-prometheus-grafana" rel="nofollow">Настройка и использование Prometheus, Grafana</a></li>
+        <li><a href="index.php/homepage/56-shpargalka-po-docker" rel="nofollow">Шпаргалка по Docker</a></li>
+        <li><a href="index.php/homepage/60-set-java-version" rel="nofollow">Set java version</a></li>
+        <li><a href="index.php/50-organizatsiya-sobstvennogo-ci-cd" rel="nofollow">Установка и настройка домашнего Nexus/Jenkins</a></li>
+    </ul>
