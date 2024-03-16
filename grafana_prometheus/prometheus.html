@@ -40,3 +40,8 @@ metrics_path: '/actuator/prometheus'
 # http://192.168.1.10:8788/actuator/prometheus
 static_configs:
 - targets: ['192.168.1.10:8788']
+
+# Очистка Prometheus
+
+/var/lib/prometheus# sudo rm -r -rf *
+/var/lib/prometheus# systemctl restart prometheus.service
