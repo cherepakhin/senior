@@ -1,0 +1,59 @@
+<ul>
+    <li><a href="#kafka_drop">Kafka Drop</a></li>
+    <li><a href="#kafka_ui">Kafka UI</a></li>
+    <li><a href="#simple_proj">Простой проект для тестов</a></li>
+</ul>
+
+<a id="kafka_drop"></a>
+<h3><b>Kafka Drop</b></h3>
+<a title="https://github.com/obsidiandynamics/kafdrop"
+   href="https://github.com/obsidiandynamics/kafdrop"
+   target="_blank" rel="noopener noreferrer">
+Статья про Kafka Drop из "Русские Блоги": <a title="https://russianblogs.com/article/92143148179/" href="https://russianblogs.com/article/92143148179/"
+    style="text-decoration: underline; color: #3366ff;"
+    target="_blank" rel="noopener noreferrer">https://russianblogs.com/article/92143148179/</a>
+
+Нужна JAVA 17. Расположена в <b>v.perm.ru:/home/vasi/tools/kafka_drop/</b>
+
+Запуск UI Kafdrop:
+<pre class="language-xml"><code>vasi@v ~/tools/kafka_drop$ /usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar target/kafdrop-4.0.2-SNAPSHOT.jar --kafka.brokerConnect=192.168.1.20:9092</code></pre>
+(run.sh)
+Доступ из браузера: <a title="http://192.168.1.20:9000" href="http://192.168.1.20:9000"
+   target="_blank" rel="noopener noreferrer">
+    <strong>http://192.168.1.20:9000</strong></a>
+Основной экран:<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="allure_result_test" src="images/kafka/kafka_drop.png"
+        alt="allure_result_test" width="631" height="917"/></p>
+Просмотр топика product_ext_dto:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="allure_result_test" src="images/kafka/kafka_drop.png"
+    alt="allure_result_test" width="610" height="927"/></p>
+
+<a id="kafka_ui"></a>
+<h3><b>Kafka UI</b></h3>
+
+[https://github.com/provectus/kafka-ui](https://github.com/provectus/kafka-ui)
+
+Запуск Kafka UI:
+
+````shell
+vasi@v ~/tools/kafka_ui $ ./start.sh
+````
+
+Доступ из браузера:
+
+<a title="Kafka UI"
+   href="http://192.168.1.20:8960/ui/clusters/local/all-topics?perPage=25"
+   target="_blank" rel="noopener noreferrer">
+    <strong>http://192.168.1.20:8960/ui/clusters/local/all-topics?perPage=25</strong></a>
+
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="allure_result_test" src="images/kafka_ui/kafka_ui.png"
+        alt="kafka_ui" width="1351" height="427"/></p>
+
+<pre class="notranslate" lang="text"><code>vasi@v ~/tools/kafka_ui $ ./start.sh
+</code></pre>
+
+<h3><b>Простой проект для тестов:</b></h3>
+<a title="https://github.com/cherepakhin/camel_kafka_consumer_extdto"
+   href="https://github.com/cherepakhin/camel_kafka_consumer_extdto"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://github.com/cherepakhin/camel_kafka_consumer_extdto</strong></a>

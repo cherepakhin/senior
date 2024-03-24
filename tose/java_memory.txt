@@ -1,0 +1,31 @@
+https://www.baeldung.com/java-stack-heap
+https://java-ru-blog.blogspot.com/2019/12/jvm-options.html
+
+Heap
+    куча (Xms - начальное значение, Xmx - макс. значение. пример: Xmx2048m)
+    Хранятся созданные объекты
+    OutOfMemory
+
+Stack
+   (Xss, default 1Mb, -Xss1m, -Xss1024k):
+   Примитивы, static
+   вызовы функций и ссылки на Heap
+   Значение для нового потока (new Thread())
+   StackOverFlow
+
+    public class Foo {
+        public static void main(String[] args) {
+            foo();
+        }
+        private static void foo() {
+            foo();
+        }
+    }
+    -Xss=128k выдает ~ 444 строки, в то время как 256k дает ~ 1025 строк.
+
+5. Распечатать GC (Garbage Collector)
+
+-verbose:gc - регистрирует, запуски сборщика мусора и сколько времени они занимают.
+-XX:+PrintGCDetails - включает в себя данные из -verbose:gc, но также добавляет информацию о размере нового поколения и более точных временных параметрах.
+-XX:-PrintGCTimeStamps - печатать метки времени при сборке мусора.
+
