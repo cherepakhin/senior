@@ -1,0 +1,29 @@
+Node должен быть согласован с версией linux.
+<hr id="system-readmore"/>
+На Linux:
+<pre class="language-shell">
+<code>$ uname -a
+Linux vasi-note 5.4.0-150-generic #167~18.04.1-Ubuntu SMP Wed May 24 00:51:42 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux
+</code></pre>
+
+<b>версия v20.0.0 выдает ОШИБКУ:</b>
+<pre class="language-shell"><code>$ /home/vasi/.nvm/versions/node/v20.0.0/bin/node --version
+/home/vasi/.nvm/versions/node/v20.0.0/bin/node: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.28' not found (required by /home/vasi/.nvm/versions/node/v20.0.0/bin/node)
+</code></pre>
+<br/>
+<b>версия v16.15.1 РАБОТАЕТ:</b>
+<pre class="language-shell"><code>$ /home/vasi/.nvm/versions/node/v16.15.1/bin/node --version
+v16.15.1
+</code></pre>
+
+<pre class="language-shell"><code>/usr/share/yarn/bin/yarn --version
+1.22.5
+</code></pre>
+
+Соответственно нужно подстроить пути на node:
+<pre class="language-shell"><code>$ whereis node
+/home/vasi/.nvm/versions/node/v16.15.1/bin/node
+
+$ npm --version
+8.11.0
+</code></pre>
