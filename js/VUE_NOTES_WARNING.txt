@@ -20,4 +20,4 @@ https://learn.microsoft.com/ru-ru/windows/dev-environment/javascript/vue-beginne
 Заготовка для Vue проета:
 https://github.com/Dedal378/vue3-template
 
-Mterial UI: https://arco.design/en-US
+Material UI: https://arco.design/en-US
