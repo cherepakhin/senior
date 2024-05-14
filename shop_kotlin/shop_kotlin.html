@@ -305,7 +305,7 @@ shop_kotlin/build/libs$ java -Xmx256M -jar shop_kotlin-0.1.20.jar</pre>
 <pre><span class="pl-s">publishing {</span>
   <span class="pl-s">repositories {</span>
       <span class="pl-s">maven {</span>
-          <span class="pl-s">url = uri("http://v.perm.ru:8082/repository/ru.perm.v/")</span>
+          <span class="pl-s">url = uri("https://v.perm.ru:8082/repository/ru.perm.v/")</span>
           <span class="pl-s">isAllowInsecureProtocol = true</span>
           <span class="pl-s">//  for publish to nexus "./gradlew publish"</span>
           <span class="pl-s">// export NEXUS_CRED_USR=admin</span>
@@ -686,7 +686,7 @@ ts=2023-09-11T13:13:17.850Z caller=manager.go:1009 level=info component="rule ma
 <p dir="auto">Сборка происходит в Jenkins, развернутом на домашнем сервере. Pipeline для Jenkins описан в файле <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/Jenkinsfile">./Jenkinsfile</a></p>
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/jenkins_build_4_step.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/jenkins_build_4_step.png" alt="jenkins" /></a></p>
 <blockquote>
-    <p dir="auto">Установка и настройка домашнего Jenkins описана в <a href="index.php/50-organizatsiya-sobstvennogo-ci-cd" rel="nofollow">http://v.perm.ru/main/index.php/50-organizatsiya-sobstvennogo-ci-cd</a></p>
+    <p dir="auto">Установка и настройка домашнего Jenkins описана в <a href="index.php/50-organizatsiya-sobstvennogo-ci-cd" rel="nofollow">https://v.perm.ru/main/index.php/50-organizatsiya-sobstvennogo-ci-cd</a></p>
 </blockquote>
 <p dir="auto">Для ограничения памяти при сборке Gradle, добавлен параметр в gradle.properties:</p>
 <div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
@@ -712,7 +712,7 @@ ts=2023-09-11T13:13:17.850Z caller=manager.go:1009 level=info component="rule ma
 </div>
 <p dir="auto">Путь к репозиторию установлен в build.gradle.kts:</p>
 <div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>url = uri(<span class="pl-s"><span class="pl-pds">"</span>http://v.perm.ru:8082/repository/ru.perm.v/<span class="pl-pds">"</span></span>)</pre>
+    <pre>url = uri(<span class="pl-s"><span class="pl-pds">"</span>https://v.perm.ru:8082/repository/ru.perm.v/<span class="pl-pds">"</span></span>)</pre>
     <div class="zeroclipboard-container"> </div>
 </div>
 <p dir="auto">Для установки переменных доступа к Nexus repository выполнить в shell:</p>
@@ -727,7 +727,7 @@ $ <span class="pl-k">export</span> NEXUS_CRED_PSW=pass</pre>
 <pre>publishing {
     repositories {
         maven {
-            url = uri(<span class="pl-s"><span class="pl-pds">"</span>http://v.perm.ru:8082/repository/ru.perm.v/<span class="pl-pds">"</span></span>)
+            url = uri(<span class="pl-s"><span class="pl-pds">"</span>https://v.perm.ru:8082/repository/ru.perm.v/<span class="pl-pds">"</span></span>)
             isAllowInsecureProtocol = <span class="pl-c1">true</span>
             //  publish в nexus <span class="pl-s"><span class="pl-pds">"</span>./gradlew publish<span class="pl-pds">"</span></span> из ноута и Jenkins проходит
             // <span class="pl-k">export</span> NEXUS_CRED_USR=admin
