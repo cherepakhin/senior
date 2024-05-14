@@ -42,9 +42,8 @@
    style="text-decoration: underline; color: #3366ff;"
    href="http://192.168.1.20:8081/#browse/browse:ru.perm.v"
    target="_blank"
-   rel="noopener noreferrer">
-    http://192.168.1.20:8081/#browse/browse:ru.perm.v</a>
-
+   rel="noopener noreferrer">http://192.168.1.20:8081/#browse/browse:ru.perm.v</a>
+<br/><br/>
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="nexus_demo" src="images/nexus_proj.png"
         alt="nexus_demo" width="762" height="426"/></p>
 
@@ -85,15 +84,15 @@ stage("Prepare container") {
    title="http://192.168.1.20:8080/job/animal/"
    href="http://192.168.1.20:8080/job/animal/"
    target="_blank" rel="noopener noreferrer">Jenkins для проекта http://192.168.1.20:8080/job/animal/</a>
-
-
+<br/>
+<br/>
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="jenkins_demo" src="images/jenkins.png"
         alt="jenkins_demo" width="762" height="426"/></p>
-Пример <b>другой настройки</b> pipeline. В отличие от "проектного" Jenkinsfile, можно задавать параметры сборки <b>проекта</b> в самом Jenkins:<br>
+Пример <b>другой настройки</b> pipeline. В отличие от "проектного" Jenkinsfile, можно задавать параметры сборки <b>проекта</b> в самом Jenkins:<br><br/>
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="jenkins_demo" src="images/jenkins_pipeline.png"
         alt="jenkins_demo" width="1306" height="568"/></p>
 <br>
-Содержимое секции "Script":<br/>
+Содержимое секции "Script":<br/><br/>
 <pre>
 pipeline {
     agent any
@@ -120,7 +119,7 @@ pipeline {
 }
 </pre>
 
-Результаты сборки:<br>
+Результаты сборки:<br><br/>
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="jenkins_results" src="images/jenkins_pipeline_result.png"
      alt="jenkins_results" width="1003" height="599"/></p>
 <br/>
@@ -131,7 +130,7 @@ pipeline {
    target="_blank" rel="noopener noreferrer">Пример настройки проекта для Jenkins</a>
 <br/>
 <br/>
-История сборок:<br>
+История сборок:<br><br/>
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="history_project_jenkins" src="images/history_project_jenkins.png"
         alt="jenkins_results" width="867" height="563"/></p>
 
@@ -161,13 +160,13 @@ doc               gradle           gradlew.bat        log          src
    target="_blank" rel="noopener noreferrer">Домашний CICD: Docker, Jenkins и Nexus3 (коллега тоже озаботился этим вопросом)</a>
 <br/>
 <a style="text-decoration: underline; color: #3366ff;"
-   title="http://v.perm.ru/main/index.php/homepage/53-realizatsiya-ci-cd-dlya-proekta-na-kotlin"
-   href="http://v.perm.ru/main/index.php/homepage/53-realizatsiya-ci-cd-dlya-proekta-na-kotlin"
+   title="https://v.perm.ru/main/index.php/homepage/53-realizatsiya-ci-cd-dlya-proekta-na-kotlin"
+   href="https://v.perm.ru/main/index.php/homepage/53-realizatsiya-ci-cd-dlya-proekta-na-kotlin"
    target="_blank" rel="noopener noreferrer">Настройка CI/CD для gradle проекта на Kotlin</a>
 <br/>
 <a style="text-decoration: underline; color: #3366ff;"
-   title="http://v.perm.ru/main/index.php/52-nastrojka-credentials-v-jenkins"
-   href="http://v.perm.ru/main/index.php/52-nastrojka-credentials-v-jenkins"
+   title="https://v.perm.ru/main/index.php/52-nastrojka-credentials-v-jenkins"
+   href="https://v.perm.ru/main/index.php/52-nastrojka-credentials-v-jenkins"
    target="_blank" rel="noopener noreferrer">Настройка credentials в Jenkins</a>
 <br/>
 <hr/>
@@ -194,7 +193,7 @@ doc               gradle           gradlew.bat        log          src
 
 Возможно понадобится перезаписывать уже задеплоенные артефакты в Nexus.
 Для этого в настройках Nexus репозитория установить разрешение Administration/Repository/Repositories: Hosted/Deployment policy:<br/>
-
+<br/>
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="history_project_jenkins" src="images/allow_redeploy.png"
         alt="jenkins_results" width="842" height="533"/></p>
 <hr/>
@@ -202,7 +201,7 @@ doc               gradle           gradlew.bat        log          src
 удалил все в каталоге проекта (н.п. ~/.jenkins/workspace/shop_kotlin_extdto) и пересобрал в Jenkins.
 <hr/>
 <b><u>КСТАТИ!</u></b><br/>
-<u>НАРВАЛСЯ НА ТРОЯН В ОБРАЗЕ, СКАЧЕННОМ С https://hub.docker.com/.</u>
+<u>НАРВАЛСЯ НА ТРОЯН В ОБРАЗЕ, загруженным из https://hub.docker.com/.</u>
 <hr/>
 <b><u>Память!</u></b><br/>
 Настройка лимитов выделяемой памяти для Nexus в "/mnt/sdb1/tools/nexus/nexus-3.60.0-02/bin/nexus.vmoptions", где "/mnt/sdb1/tools/" каталог установки Nexus.
