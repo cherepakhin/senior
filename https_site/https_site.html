@@ -3,6 +3,7 @@
 <code>$ sudo apachectl configtest
 Syntax OK</code></pre>
 Проверка наличия модуля <b>ssl</b> в apache http сервере:
+<hr id="system-readmore"/>
 <pre class="language-java">
 <code>$ apachectl -M | grep ssl
 [so:warn] [pid 7728] AH01574: module php7_module is already loaded, skipping
@@ -58,3 +59,8 @@ IMPORTANT NOTES:
    with the "certonly" option. To non-interactively renew *all* of
    your certificates, run "certbot renew"
 </code></pre>
+
+Просмотр сертификата: <a title="https://www.ssllabs.com/ssltest/analyze.html?d=v.perm.ru"
+   href="https://www.ssllabs.com/ssltest/analyze.html?d=v.perm.ru"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">https://www.ssllabs.com/ssltest/analyze.html?d=v.perm.ru</a>
