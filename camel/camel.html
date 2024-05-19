@@ -112,7 +112,8 @@ Camel это интеграционный клей, ктр соединяет к
 				<bean ref="ConvertorXmlBestTags" method="fromXmlToMessageEntity" />
 				<multicast>
 					<to uri="jms:queue:to_shop" />
-					<to uri="{{ftp}}/besttag?username={{ftp-user}}&amp;password={{ftp-password}}&amp;binary=false&amp;delay=60000&amp;delete=true&amp;reconnectDelay=60000" />
+					<to uri="{{ftp}}/besttag?username={{ftp-user}}&amp;password={{ftp-password}}&amp;
+					   binary=false&amp;delay=60000&amp;delete=true&amp;reconnectDelay=60000" />
 				</multicast>
 			</when>
 			<otherwise>
@@ -121,32 +122,36 @@ Camel это интеграционный клей, ктр соединяет к
 		</route>
 
 		<route>
-			<from
-                    uri="{{ftp}}/mqfromshop?username={{ftp-user}}&amp;password={{ftp-password}}&amp;binary=false&amp;delay=60000&amp;delete=true&amp;reconnectDelay=60000&amp;sortBy=file:modified" />
+			<from uri="{{ftp}}/mqfromshop?username={{ftp-user}}&amp;password={{ftp-password}}&amp;
+			    binary=false&amp;delay=60000&amp;delete=true&amp;reconnectDelay=60000&amp;sortBy=file:modified" />
 			<convertBodyTo type="java.lang.String" />
 			<to uri="jms:queue:fromshop" />
 		</route>
 
         <!-- Получение выписок сайта -->
 		<route>
-			<from uri="{{ftp}}/?username=wshop&amp;password=polpot&amp;binary=false&amp;delay=30000&amp;delete=true&amp;reconnectDelay=60000&amp;sortBy=file:modified" />
+			<from uri="{{ftp}}/?username=wshop&amp;password=polpot&amp;binary=false&amp;delay=30000&amp;
+					delete=true&amp;reconnectDelay=60000&amp;sortBy=file:modified" />
 			<convertBodyTo type="java.lang.String" />
 			<multicast>
 				<to uri="jms:queue:fromsite" />
                 <!-- <to uri="xmpp://el-shop@jabber.ru/el-wmanager@jabber.ru?password=PASS"/>
                     <to uri="xmpp://el-shop@jabber.ru/492316754@qip.ru?password=PASS"/> -->
-				<to uri="{{ftp}}/mqfromsite?username={{ftp-user}}&amp;password={{ftp-password}}&amp;binary=false&amp;delay=60000&amp;delete=true&amp;reconnectDelay=60000" />
+				<to uri="{{ftp}}/mqfromsite?username={{ftp-user}}&amp;password={{ftp-password}}&amp;
+					binary=false&amp;delay=60000&amp;delete=true&amp;reconnectDelay=60000" />
 			</multicast>
 		</route>
 
         <!-- Выгрузка каталога на сайт -->
-        <!-- <route> <from uri="quartz://myGroup/catalog?cron=0+01+03+*+*+?"/>
-            <bean ref="uploaderForSite" method="getCatalog"/> <to uri="file:c:\\OfficeData\\photo\\?fileName=import.xml"/>
-            </route> -->
+        <route> <from uri="quartz://myGroup/catalog?cron=0+01+03+*+*+?"/>
+            <bean ref="uploaderForSite" method="getCatalog"/>
+			<to uri="file:c:\\OfficeData\\photo\\?fileName=import.xml"/>
+		</route> -->
         <!-- Выгрузка остатков на сайт -->
-        <!-- <route> <from uri="quartz://myGroup/restweb?cron=0+04+03+*+*+?" />
-            <bean ref="uploaderForSite" method="getRest" /> <to uri="file:c:\\OfficeData\\photo\\?fileName=rest.csv"
-            /> </route> -->
+        <route> <from uri="quartz://myGroup/restweb?cron=0+04+03+*+*+?" />
+            <bean ref="uploaderForSite" method="getRest" />
+			<to uri="file:c:\\OfficeData\\photo\\?fileName=rest.csv"/>
+		</route>
 		<route>
 			<from uri="jms:queue:fromsite" />
 			<bean ref="creatorFromXmlToDocW" method="toOrderDTO" />
@@ -160,13 +165,17 @@ Camel это интеграционный клей, ктр соединяет к
 		<route>
 			<from uri="quartz2://myGroup/changenn?cron=0+57+09+*+*+?" />
 			<bean ref="creatorChangeNN" method="process" />
-			<to uri="{{ftp}}/tmp/data/?fileName=CHANGENN.DBF&amp;username={{ftp-user}}&amp;password={{ftp-password}}&amp;binary=true" />
+			<to uri="{{ftp}}/tmp/data/?fileName=CHANGENN.DBF&amp;
+				username={{ftp-user}}&amp;password={{ftp-password}}&amp;binary=true" />
 		</route>
 
         <!-- Получение протокола ценников для перепечатки -->
         <!-- по времени -->
 		<route id="protocolTags">
-			<from uri="{{ftp}}/arc?username={{ftp-user}}&amp;password={{ftp-password}}&amp;binary=true&amp;delete=false&amp;sortBy=file:modified&amp;scheduler=spring&amp;scheduler.cron=00+44+8+*+*+?" />
+			<from uri="{{ftp}}/arc?username={{ftp-user}}&amp;password={{ftp-password}}&amp;
+					binary=true&amp;delete=false&amp;sortBy=file:modified&amp;scheduler=spring&amp;
+					scheduler.cron=00+44+8+*+*+?" />
+
 			<bean ref="protocolProcessor" method="process" />
 			<multicast>
 				<!-- Отправка протокола по почте -->
@@ -178,19 +187,28 @@ Camel это интеграционный клей, ктр соединяет к
 				</multicast>
 			</multicast>
 		</route>
-        <!-- по наличию в каталоге. Событием для обработки является появление файла
+        <!-- Обновление цен. Событием для обработки является появление файла
             на ftp://besttag -->
-        <route id="protocolTagsCheckExist"> <from uri="{{ftp}}/besttag?username={{ftp-user}}&amp;password={{ftp-password}}&amp;binary=true&amp;delete=true&amp;sortBy=file:modified"
-        /> <bean ref="protocolProcessor" method="process" /> <multicast> Делаю только
-            обработку. В почту не посылаю <bean ref="senderBestTags" method="process"
-            /> <bean ref="ConvertorBestTagsXml" method="process" /> <multicast> <to uri="jms:queue:updateq"
-            /> </multicast> </multicast> </route>
+        <route id="protocolTagsCheckExist">
+			<from uri="{{ftp}}/besttag?username={{ftp-user}}&amp;password={{ftp-password}}&amp;
+							binary=true&amp;delete=true&amp;sortBy=file:modified"/>
+			<bean ref="protocolProcessor" method="process" />
+			  <multicast> <!-- Делаю только обработку. В почту не посылаю -->
+				<bean ref="senderBestTags" method="process"/>
+				<bean ref="ConvertorBestTagsXml" method="process" />
+			    <multicast>
+			      <to uri="jms:queue:updateq"/>
+			    </multicast>
+		      </multicast>
+		</route>
         <!-- Обнуление устареших локальных прайсов -->
-        <route> <from uri="quartz://myGroup/utilProcessor?cron=0+25+13+*+*+?"/>
+        <route>
+			<from uri="quartz://myGroup/utilProcessor?cron=0+25+13+*+*+?"/>
             <bean ref="utilProcessor" method="setToZeroOldLocalPrice"/>
 		</route>
         <!-- Кляуза о несделанных заказах к инет-выпискам -->
-        <route> <from uri="quartz://myGroup/mailNotWebOrder?cron=0+25+13+*+*+?"/>
+        <route>
+			<from uri="quartz://myGroup/mailNotWebOrder?cron=0+25+13+*+*+?"/>
             <bean ref="utilProcessor" method="sendMessageOpenDocw"/>
 		</route>
 
@@ -202,4 +220,14 @@ Camel это интеграционный клей, ктр соединяет к
 
 	</camelContext>
 </beans>
-</xmp>
+</xmp></pre>
+В примере настроено несколько конфигураций (тег route) для рассылки обновлений в торговые точки из центра.
+Описание первого маршрута: из очереди Kafka "to_shop" (from uri="jms:queue:to_shop") принимается xml файл-задание на отправку сообщения.
+В зависимости от тега <b>shopCod</b> используя XPath (<xpath>//shopCod = '07260'</xpath>) файл отправляется по тому или иному маршруту Camel.
+Суть других маршрутов <i>примерно</i> понятно из конфигурации Camel. Где:<br>
+<ul>
+	<li><b>from uri</b> - источник сообщения</li>
+	<li><b>quartz2</b> - планировщик</li>
+	<li><b>bean</b> - Spring bean</li>
+	<li><b>multicast</b> - оправка сообщения по нескольким маршрутам</li>
+</ul>
