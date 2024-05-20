@@ -1,4 +1,4 @@
-Camel это интеграционный клей, который соединяет компоненты системы. <b>Camel</b> предоставляет коннекторы.
+Camel это интеграционный клей, который соединяет компоненты системы, предоставляя коннекторы.
 Примеры коннекторов:  rest, ftp, Spring bean и еще много всяких:
 <a title="https://camel.apache.org/components/next/index.html#_components" href="https://camel.apache.org/components/next/index.html#_components"
 	  style="text-decoration: underline; color: #3366ff;"
@@ -101,6 +101,14 @@ route.xml (camel.xml импортирует route.xml. см.выше):
 				&lt;bean ref="ConvertorFromOfficeDB" method="getXML" /&gt;
 				&lt;to uri="jms:queue:to_shop" /&gt;
 			&lt;/route&gt;
+
+            &lt;route&gt;
+			  &lt;from uri="quartz2://myGroup/changenn?cron=0+57+09+*+*+?" /&gt;
+			  &lt;bean ref="creatorChangeNN" method="process" /&gt;
+              &lt;to
+                    uri="{{ftp}}/tmp/data/?fileName=CHANGENN.XML&amp;username={{ftp-user}}&amp;password={{ftp-password}}&amp;binary=true" /&gt;
+		    &lt;/route&gt;
+
 	...</code></pre>
 Описание первого маршрута (from uri="jms:queue:to_shop"): из очереди Kafka "to_shop" принимается <b>xml</b> файл-задание на отправку сообщения.
 Получение сообщения из Kafka служит <b>сигналом для запуска обработки</b> (маршрута).
@@ -113,12 +121,16 @@ route.xml (camel.xml импортирует route.xml. см.выше):
         <li><b>multicast</b> - оправка сообщения по нескольким маршрутам</li>
     </ul>
 
-    События для старта обработки ("from"):
+События для старта обработки ("from"):
     <ul>
         <li>'from quarz' - запуск по таймеру</li>
-        <li>'from uri="{{ftp}}...' - появился новый файл в папке ftp </li>
+        <li>'from uri="{{ftp}}...' - запуск сканирования ftp папки</li>
         <li>'from uri="jms:queue:to_shop' - появилось сообщение в очереди Kafka "to_shop"</li>
     </ul>
+Вызов метода process из Spring bean creatorChangeNN:<br/>
+<pre class="language-xml"><code>&lt;from uri="quartz2://myGroup/changenn?cron=0+57+09+*+*+?" /&gt;
+    &lt;bean ref="creatorChangeNN" method="process" /&gt;</code></pre>
+
 Отправка сообщения из Camel в Spring bean <b>senderBestTags</b> через метод <b>process</b>:
 <pre class="language-xml"><code>&lt;bean ref="senderBestTags" method="process"/&gt;</code></pre>
 Java код Spring bean класса SenderBestTags(java):
