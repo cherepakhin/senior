@@ -1,154 +1,149 @@
-Camel это интеграционный клей, который соединяет компоненты системы. <b>Camel</b> предоставляет коннекторы.
-Примеры коннекторов:  rest, ftp, Spring bean и еще много всяких:
-<a title="https://camel.apache.org/components/next/index.html#_components" href="https://camel.apache.org/components/next/index.html#_components"
-  style="text-decoration: underline; color: #3366ff;"
-  target="_blank" rel="noopener noreferrer">https://camel.apache.org/components/next/index.html#_components</a>.
-<hr id="system-readmore"/>
-Camel context загружается вместе со Spring context. Ниже примеры xml Spring context и Camel конфигураций (почему xml, а не аннотации обусловлено техническими требованиями проекта):
-<div>
-<pre class="language-xml"><code>&lt;beans&gt;
-  &lt;!-- Configure the Camel Context for office--&gt;
-  &lt;!-- Spring beans --&gt;
-  &lt;bean id="senderBestTags" class="ru.el59.office.service.SenderBestTags"&gt;
-    &lt;property name="shopProvider" ref="shopDao"/&gt;
-    &lt;property name="bestTagToPriceConvertor" ref="bestTagToPriceConvertor"/&gt;
-    &lt;property name="emailer" ref="emailer"/&gt;
-  &lt;/bean&gt;
-...
-&lt;/beans&gt;
-</code></pre></div>
-В примере настроено несколько конфигураций (тег route) для рассылки обновлений в торговые точки из центра.<br/>
-Описание первого маршрута: из очереди Kafka "to_shop" (from uri="jms:queue:to_shop") принимается xml файл-задание на отправку сообщения.
-Получение сообщения из Kafka служит <b>сигналом для запуска обработки</b> (маршрута).
-В зависимости от тега <b>shopCod</b> используя XPath (<xpath>//shopCod = '07260'</xpath>) файл отправляется по тому или иному маршруту Camel.
-В конфигурации использованы следующие компоненты Camel:<br>
-<ul>
-  <li><b>from</b> - источник сообщения</li>
-  <li><b>quartz2</b> - планировщик</li>
-  <li><b>bean</b> - отправка сообщения в Spring bean (подробнее об этом ниже)</li>
-  <li><b>multicast</b> - оправка сообщения по нескольким маршрутам</li>
-</ul>
-
-События для старта обработки ("from"):
-<ul>
-  <li>'from quarz' - запуск по таймеру</li>
-  <li>'from uri="{{ftp}}...' - появился новый файл в папке ftp </li>
-  <li>'from uri="jms:queue:to_shop' - появилось сообщение в очереди Kafka "to_shop"</li>
-</ul>
-Взаимодействие со Spring:<br/>
-Подключение конфигурации Camel (camel.xml) в Spring context (springContext.xml). Spring context (springContext.xml):
-<div>
-<pre class="language-xml"><code>&lt;beans&gt;
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-  &lt;beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-  http://www.springframework.org/schema/context
-  http://www.springframework.org/schema/context/spring-context-3.0.xsd
-  http://www.springframework.org/schema/tx
-  http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"&gt;
-
-  &lt;import resource="dao.xml" /&gt;
-  &lt;import resource="commander.xml" /&gt;
-  &lt;import resource="controllertdoc.xml" /&gt;
-  &lt;import resource="parser.xml" /&gt;
-  &lt;import resource="services.xml" /&gt;
-  &lt;import resource="camel.xml"/&gt; &lt;----- CAMEL!
-  ....
-</code></pre>
-camel.xml:
-<pre class="language-xml"><code>&lt;beans xmlns="http://www.springframework.org/schema/beans"
-									   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-									   xsi:schemaLocation="
-       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd"&gt;
-
-	&lt;import resource="route.xml"/&gt; &lt;--CAMEL ROUTE!
-	&lt;!--Spring beans --&gt;
-	&lt;bean id="ConvertorXmlBestTags" class="ru.el59.office.camelcontext.receiver.ConvertorXmlBestTags"&gt;
-		&lt;property name="type" value="ru.el59.office.dto.BestTags" /&gt;
-		&lt;property name="entity" value="ru.el59.office.dto.BestTags" /&gt;
-		&lt;property name="protocolForTag" ref="protocolForTag"/&gt;
-	&lt;/bean&gt;
+	Camel это интеграционный клей, который соединяет компоненты системы. <b>Camel</b> предоставляет коннекторы.
+	Примеры коннекторов:  rest, ftp, Spring bean и еще много всяких:
+	<a title="https://camel.apache.org/components/next/index.html#_components" href="https://camel.apache.org/components/next/index.html#_components"
+	  style="text-decoration: underline; color: #3366ff;"
+	  target="_blank" rel="noopener noreferrer">https://camel.apache.org/components/next/index.html#_components</a>.
+	<hr id="system-readmore"/>
+	Camel context загружается вместе со Spring context. Ниже примеры xml Spring context и Camel конфигураций (почему xml, а не аннотации обусловлено техническими требованиями проекта):
+	<div>
+	<pre class="language-xml"><code>&lt;beans&gt;
+	  &lt;!-- Configure the Camel Context for office--&gt;
+	  &lt;!-- Spring beans --&gt;
+	  &lt;bean id="senderBestTags" class="ru.el59.office.service.SenderBestTags"&gt;
+		&lt;property name="shopProvider" ref="shopDao"/&gt;
+		&lt;property name="bestTagToPriceConvertor" ref="bestTagToPriceConvertor"/&gt;
+		&lt;property name="emailer" ref="emailer"/&gt;
+	  &lt;/bean&gt;
 	...
-&lt;/beans&gt;
-</code></pre>
-route.xml:
-<pre class="language-xml"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-	&lt;!-- Configures the Camel route --&gt;
-	&lt;beans xmlns="http://www.springframework.org/schema/beans"
+	&lt;/beans&gt;</code></pre></div>
+	В примере настроено несколько конфигураций (тег route) для рассылки обновлений в торговые точки из центра.<br/>
+	Описание первого маршрута: из очереди Kafka "to_shop" (from uri="jms:queue:to_shop") принимается xml файл-задание на отправку сообщения.
+	Получение сообщения из Kafka служит <b>сигналом для запуска обработки</b> (маршрута).
+	В зависимости от тега <b>shopCod</b> используя XPath (<xpath>//shopCod = '07260'</xpath>) файл отправляется по тому или иному маршруту Camel.
+	В конфигурации использованы следующие компоненты Camel:<br>
+	<ul>
+	  <li><b>from</b> - источник сообщения</li>
+	  <li><b>quartz2</b> - планировщик</li>
+	  <li><b>bean</b> - отправка сообщения в Spring bean (подробнее об этом ниже)</li>
+	  <li><b>multicast</b> - оправка сообщения по нескольким маршрутам</li>
+	</ul>
+
+	События для старта обработки ("from"):
+	<ul>
+	  <li>'from quarz' - запуск по таймеру</li>
+	  <li>'from uri="{{ftp}}...' - появился новый файл в папке ftp </li>
+	  <li>'from uri="jms:queue:to_shop' - появилось сообщение в очереди Kafka "to_shop"</li>
+	</ul>
+	Взаимодействие со Spring:<br/>
+	Подключение конфигурации Camel (camel.xml) в Spring context (springContext.xml). Spring context (springContext.xml):
+	<div>
+	<pre class="language-xml"><code>&lt;beans&gt;
+	&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+	  &lt;beans xmlns="http://www.springframework.org/schema/beans"
+		   xmlns:p="http://www.springframework.org/schema/p"
 		   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		   xsi:schemaLocation="
-       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd"&gt;
-...
-	&lt;camelContext id="camel" xmlns="http://camel.apache.org/schema/spring"&gt;
-		&lt;propertyPlaceholder id="properties"
-							 location="classpath:jdbc.properties" /&gt;
-		&lt;route>
-			&lt;from uri="jms:queue:to_shop" /&gt;
-			&lt;when>
-				&lt;xpath>//shopCod = '07260'&lt;/xpath&gt;
-	            &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
-			&lt;/when&gt;
-			&lt;when&gt;
-				&lt;xpath>//shopCod = '07443'&lt;/xpath&gt;
-	            &lt;to uri="{{ftp}}/mqto07443?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
-			&lt;/when&gt;
-			&lt;when&gt;
-				&lt;xpath>//shopCod = '07258'&lt;/xpath&gt;
-	            &lt;to uri="{{ftp}}/mqto07258?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
-			&lt;/when&gt;
-			&lt;when&gt;
-				&lt;xpath>//shopCod = '07863'&lt/xpath&gt;
-	            &lt;to uri="{{ftp}}/mqto07863?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
-			&lt;/when&gt;
-			&lt;when&gt;
-				&lt;xpath&gt//className = 'BestTags'&lt;/xpath&gt;
-	            &lt;to uri="{{ftp}}/mqbesttag?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
-			&lt;/when&gt;
-			&lt;when&gt;
-				&lt;xpath&gt//shopCod = '*'&lt;/xpath&gt;
-	            &lt;multicast&gt;
-				  &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" /&gt;
-				  &lt;to uri="{{ftp}}/mqto07863?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=1000" /&gt;
-	              &lt;to uri="{{ftp}}/mq?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" /&gt;
-				  &lt;to uri="file:c:/temp/?fileName=testfile.xml" /&gt;
-				&lt;/multicast&gt;
-			&lt;/when&gt;
-			&lt;otherwise&gt;
-			&lt;/otherwise&gt;
-		&lt;/route&gt;
+		   xmlns:tx="http://www.springframework.org/schema/tx"
+		   xmlns:context="http://www.springframework.org/schema/context"
+		   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	  http://www.springframework.org/schema/context
+	  http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	  http://www.springframework.org/schema/tx
+	  http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"&gt;
 
-		&lt;route>
-			&lt;from uri="jms:queue:updateq" /&gt;
-			&lt;bean ref="ConvertorFromOfficeDB" method="getXML" /&gt;
-			&lt;to uri="jms:queue:to_shop" /&gt;
-		&lt;/route&gt;
-...
-</code></pre>
+	  &lt;import resource="dao.xml" /&gt;
+	  &lt;import resource="commander.xml" /&gt;
+	  &lt;import resource="controllertdoc.xml" /&gt;
+	  &lt;import resource="parser.xml" /&gt;
+	  &lt;import resource="services.xml" /&gt;
+	  &lt;!--CAMEL!!! --&gt;
+	  &lt;import resource="camel.xml"/&gt;
+	  ....</code></pre>
+	camel.xml:
+	<pre class="language-xml"><code>&lt;beans xmlns="http://www.springframework.org/schema/beans"
+										   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+										   xsi:schemaLocation="
+		   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		   http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd"&gt;
+
+		&lt;!--CAMEL ROUTE!!! --&gt;
+		&lt;import resource="route.xml"/&gt;
+		&lt;!--Spring beans --&gt;
+		&lt;bean id="ConvertorXmlBestTags" class="ru.el59.office.camelcontext.receiver.ConvertorXmlBestTags"&gt;
+			&lt;property name="type" value="ru.el59.office.dto.BestTags" /&gt;
+			&lt;property name="entity" value="ru.el59.office.dto.BestTags" /&gt;
+			&lt;property name="protocolForTag" ref="protocolForTag"/&gt;
+		&lt;/bean&gt;
+		...
+	&lt;/beans&gt;</code></pre>
+	route.xml:
+	<pre class="language-xml"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+		&lt;!-- Configures the Camel route --&gt;
+		&lt;beans xmlns="http://www.springframework.org/schema/beans"
+			   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			   xsi:schemaLocation="
+		   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		   http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd"&gt;
+	...
+		&lt;camelContext id="camel" xmlns="http://camel.apache.org/schema/spring"&gt;
+			&lt;propertyPlaceholder id="properties"
+								 location="classpath:jdbc.properties" /&gt;
+			&lt;route>
+				&lt;from uri="jms:queue:to_shop" /&gt;
+				&lt;when>
+					&lt;xpath>//shopCod = '07260'&lt;/xpath&gt;
+					&lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
+				&lt;/when&gt;
+				&lt;when&gt;
+					&lt;xpath>//shopCod = '07443'&lt;/xpath&gt;
+					&lt;to uri="{{ftp}}/mqto07443?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
+				&lt;/when&gt;
+				&lt;when&gt;
+					&lt;xpath>//shopCod = '07258'&lt;/xpath&gt;
+					&lt;to uri="{{ftp}}/mqto07258?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
+				&lt;/when&gt;
+				&lt;when&gt;
+					&lt;xpath>//shopCod = '07863'&lt/xpath&gt;
+					&lt;to uri="{{ftp}}/mqto07863?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
+				&lt;/when&gt;
+				&lt;when&gt;
+					&lt;xpath&gt//className = 'BestTags'&lt;/xpath&gt;
+					&lt;to uri="{{ftp}}/mqbesttag?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
+				&lt;/when&gt;
+				&lt;when&gt;
+					&lt;xpath&gt//shopCod = '*'&lt;/xpath&gt;
+					&lt;multicast&gt;
+					  &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" /&gt;
+					  &lt;to uri="{{ftp}}/mqto07863?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=1000" /&gt;
+					  &lt;to uri="{{ftp}}/mq?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" /&gt;
+					  &lt;to uri="file:c:/temp/?fileName=testfile.xml" /&gt;
+					&lt;/multicast&gt;
+				&lt;/when&gt;
+				&lt;otherwise&gt;
+				&lt;/otherwise&gt;
+			&lt;/route&gt;
+
+			&lt;route>
+				&lt;from uri="jms:queue:updateq" /&gt;
+				&lt;bean ref="ConvertorFromOfficeDB" method="getXML" /&gt;
+				&lt;to uri="jms:queue:to_shop" /&gt;
+			&lt;/route&gt;
+	...</code></pre>
 Отправка сообщения из Camel в Spring bean <b>senderBestTags</b> через метод <b>process</b>:
-<pre class="language-xml"><code>&lt;bean ref="senderBestTags" method="process"/&gt;
-</code></pre>
-
+<pre class="language-xml"><code>&lt;bean ref="senderBestTags" method="process"/&gt;</code></pre>
 Java код Spring bean класса SenderBestTags(java):
 <pre class="language-java"><code>import org.apache.camel.Body; // body camel-message
 import ru.el59.office.dto.message.MessageBestTags;
-  ...
+...
 public class SenderBestTags {
   public Object process(@Body Object body) { // body camel-message
     // MessageBestTags - частный dto класс проекта. См.ниже.
     MessageBestTags messageBestTags = (MessageBestTags) body;
-  ...
+    ...
   }
 }</code></pre>
 MessageBestTags:
 <pre class="language-java"><code>package ru.el59.office.dto.message;
-
 import ru.el59.office.dto.BestTags;
 
 public class MessageBestTags extends MessageEntity<BestTags> {
@@ -165,14 +160,13 @@ public class MessageBestTags extends MessageEntity<BestTags> {
   public void setEntity(BestTags entity) {
     this.entity = entity;
   }
-}
-</code></pre>
+}</code></pre>
 MessageEntity:
 <pre class="language-java"><code>public class MessageEntity<T> implements Serializable {
-  protected TypeCommand typeCommand;
-  protected String className;
-  protected String shopCod;
-  protected T entity;
+protected TypeCommand typeCommand;
+protected String className;
+protected String shopCod;
+protected T entity;
 
   public MessageEntity() {
     this.typeCommand = TypeCommand.CREATE;
@@ -185,7 +179,7 @@ MessageEntity:
   }
 
   public void setTypeCommand(TypeCommand typeCommand) {
-        this.typeCommand = typeCommand;
+    this.typeCommand = typeCommand;
   }
 
   public T getEntity() {
@@ -195,6 +189,5 @@ MessageEntity:
   public void setEntity(T entity) {
     this.entity = entity;
   }
-  ....
-}
-</code></pre>
+	  ....
+}</code></pre>
