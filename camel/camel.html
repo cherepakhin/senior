@@ -1,233 +1,200 @@
-Camel это интеграционный клей, ктр соединяет компоненты системы. <b>Camel</b> предоставляет коннекторы.
-Примеры коннекторов:  rest, ftp, Spring bean и еще куча. Пример описания Camel конфигурации в xml (внимание на тег route):
-<pre class="language-java">
-<xmp><?xml version="1.0" encoding="UTF-8"?>
-
-    <!-- Configures the Camel Context -->
-
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="
-       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
-
-    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
-		<propertyPlaceholder id="properties" location="classpath:jdbc.properties" />
-
-		<route>
-			<from uri="jms:queue:to_shop" />
-			<when>
-				<xpath>//shopCod = '07260'</xpath>
-				<to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}" />
-			</when>
-			<when>
-				<xpath>//shopCod = '07443'</xpath>
-				<to uri="{{ftp}}/mqto07443?username={{ftp-user}}&amp;password={{ftp-password}}" />
-			</when>
-			<when>
-				<xpath>//className = 'BestTags'</xpath>
-				<to uri="{{ftp}}/mqbesttag?username={{ftp-user}}&amp;password={{ftp-password}}" />
-			</when>
-			<when>
-				<xpath>//shopCod = '*'</xpath>
-				<multicast>
-					<to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" />
-					<to uri="{{ftp}}/mqto07443?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" />
-					<to uri="{{ftp}}/mqto07258?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" />
-					<to uri="{{ftp}}/mqto07863?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=1000" />
-					<to uri="{{ftp}}/mq?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" />
-					<to uri="file:c:/temp/?fileName=testfile.xml" />
-				</multicast>
-			</when>
-			<otherwise>
-			</otherwise>
-		</route>
-
-		<route>
-			<from uri="jms:queue:updateq" />
-			<bean ref="ConvertorFromOfficeDB" method="getXML" />
-			<to uri="jms:queue:to_shop" />
-		</route>
-
-		<route>
-			<from uri="jms:queue:fromshop" />
-			<when>
-				<xpath>//className = 'TovarCritery'</xpath>
-				<bean ref="ConvertorXmlTovar" method="fromXmlToMessageEntity" />
-			</when>
-			<when>
-				<xpath>//className = 'PayCash'</xpath>
-				<multicast>
-					<bean ref="ConvertorXmlPayCash" method="fromXmlToMessageEntity" />
-					<to
-                            uri="{{ftp}}/mqmonitor?username={{ftp-user}}&amp;password={{ftp-password}}" />
-				</multicast>
-			</when>
-			<when>
-				<xpath>//className = 'PayCredit'</xpath>
-				<bean ref="ConvertorXmlPayCredit" method="fromXmlToMessageEntity" />
-			</when>
-			<when>
-				<xpath>//className = 'PaySert'</xpath>
-				<bean ref="ConvertorXmlPaySert" method="fromXmlToMessageEntity" />
-			</when>
-			<when>
-				<xpath>//className = 'PayBonusCard'</xpath>
-				<bean ref="ConvertorXmlPayBonusCard" method="fromXmlToMessageEntity" />
-			</when>
-			<when>
-				<xpath>//className = 'PayPBank'</xpath>
-				<bean ref="ConvertorXmlPayPBank" method="fromXmlToMessageEntity" />
-			</when>
-			<when>
-				<xpath>//className = 'PayPDS'</xpath>
-				<bean ref="ConvertorXmlPayPDS" method="fromXmlToMessageEntity" />
-			</when>
-			<when>
-				<xpath>//className = 'PayTerminal'</xpath>
-				<bean ref="ConvertorXmlPayTerminal" method="fromXmlToMessageEntity" />
-			</when>
-			<when>
-				<xpath>//className = 'PayPodCard'</xpath>
-				<bean ref="ConvertorXmlPayPodCard" method="fromXmlToMessageEntity" />
-			</when>
-			<when>
-				<xpath>//className = 'PayPodCardEldorado'</xpath>
-				<bean ref="ConvertorXmlPayPodCardEldorado" method="fromXmlToMessageEntity" />
-			</when>
-			<when>
-				<xpath>//className = 'DocTitle'</xpath>
-				<bean ref="ConvertorXmlDocTitle" method="fromXmlToMessageEntity" />
-			</when>
-			<when>
-				<xpath>//className = 'DocDetail'</xpath>
-				<bean ref="ConvertorXmlDocDetail" method="fromXmlToMessageEntity" />
-			</when>
-			<when>
-				<xpath>//className = 'SMS'</xpath>
-				<bean ref="ConvertorXmlSMS" method="fromXmlToMessageEntity" />
-			</when>
-			<when>
-				<xpath>//className = 'BestTags'</xpath>
-				<bean ref="ConvertorXmlBestTags" method="fromXmlToMessageEntity" />
-				<multicast>
-					<to uri="jms:queue:to_shop" />
-					<to uri="{{ftp}}/besttag?username={{ftp-user}}&amp;password={{ftp-password}}&amp;
-					   binary=false&amp;delay=60000&amp;delete=true&amp;reconnectDelay=60000" />
-				</multicast>
-			</when>
-			<otherwise>
-				<to uri="jms:queue:errorq" />
-			</otherwise>
-		</route>
-
-		<route>
-			<from uri="{{ftp}}/mqfromshop?username={{ftp-user}}&amp;password={{ftp-password}}&amp;
-			    binary=false&amp;delay=60000&amp;delete=true&amp;reconnectDelay=60000&amp;sortBy=file:modified" />
-			<convertBodyTo type="java.lang.String" />
-			<to uri="jms:queue:fromshop" />
-		</route>
-
-        <!-- Получение выписок сайта -->
-		<route>
-			<from uri="{{ftp}}/?username=wshop&amp;password=polpot&amp;binary=false&amp;delay=30000&amp;
-					delete=true&amp;reconnectDelay=60000&amp;sortBy=file:modified" />
-			<convertBodyTo type="java.lang.String" />
-			<multicast>
-				<to uri="jms:queue:fromsite" />
-                <!-- <to uri="xmpp://el-shop@jabber.ru/el-wmanager@jabber.ru?password=PASS"/>
-                    <to uri="xmpp://el-shop@jabber.ru/492316754@qip.ru?password=PASS"/> -->
-				<to uri="{{ftp}}/mqfromsite?username={{ftp-user}}&amp;password={{ftp-password}}&amp;
-					binary=false&amp;delay=60000&amp;delete=true&amp;reconnectDelay=60000" />
-			</multicast>
-		</route>
-
-        <!-- Выгрузка каталога на сайт -->
-        <route> <from uri="quartz://myGroup/catalog?cron=0+01+03+*+*+?"/>
-            <bean ref="uploaderForSite" method="getCatalog"/>
-			<to uri="file:c:\\OfficeData\\photo\\?fileName=import.xml"/>
-		</route> -->
-        <!-- Выгрузка остатков на сайт -->
-        <route> <from uri="quartz://myGroup/restweb?cron=0+04+03+*+*+?" />
-            <bean ref="uploaderForSite" method="getRest" />
-			<to uri="file:c:\\OfficeData\\photo\\?fileName=rest.csv"/>
-		</route>
-		<route>
-			<from uri="jms:queue:fromsite" />
-			<bean ref="creatorFromXmlToDocW" method="toOrderDTO" />
-			<multicast>
-				<bean ref="creatorFromXmlToDocW" method="buildDocW" />
-				<bean ref="senderOrderWToShop" method="send" />
-			</multicast>
-		</route>
-
-        <!-- Выгрузка измененных групп -->
-		<route>
-			<from uri="quartz2://myGroup/changenn?cron=0+57+09+*+*+?" />
-			<bean ref="creatorChangeNN" method="process" />
-			<to uri="{{ftp}}/tmp/data/?fileName=CHANGENN.DBF&amp;
-				username={{ftp-user}}&amp;password={{ftp-password}}&amp;binary=true" />
-		</route>
-
-        <!-- Получение протокола ценников для перепечатки -->
-        <!-- по времени -->
-		<route id="protocolTags">
-			<from uri="{{ftp}}/arc?username={{ftp-user}}&amp;password={{ftp-password}}&amp;
-					binary=true&amp;delete=false&amp;sortBy=file:modified&amp;scheduler=spring&amp;
-					scheduler.cron=00+44+8+*+*+?" />
-
-			<bean ref="protocolProcessor" method="process" />
-			<multicast>
-				<!-- Отправка протокола по почте -->
-				<bean ref="senderBestTags" method="process" />
-                <!-- Отправка сообщений через ftp для обновления db.shop -->
-				<bean ref="ConvertorBestTagsXml" method="process" />
-				<multicast>
-					<to uri="jms:queue:updateq" />
-				</multicast>
-			</multicast>
-		</route>
-        <!-- Обновление цен. Событием для обработки является появление файла
-            на ftp://besttag -->
-        <route id="protocolTagsCheckExist">
-			<from uri="{{ftp}}/besttag?username={{ftp-user}}&amp;password={{ftp-password}}&amp;
-							binary=true&amp;delete=true&amp;sortBy=file:modified"/>
-			<bean ref="protocolProcessor" method="process" />
-			  <multicast> <!-- Делаю только обработку. В почту не посылаю -->
-				<bean ref="senderBestTags" method="process"/>
-				<bean ref="ConvertorBestTagsXml" method="process" />
-			    <multicast>
-			      <to uri="jms:queue:updateq"/>
-			    </multicast>
-		      </multicast>
-		</route>
-        <!-- Обнуление устареших локальных прайсов -->
-        <route>
-			<from uri="quartz://myGroup/utilProcessor?cron=0+25+13+*+*+?"/>
-            <bean ref="utilProcessor" method="setToZeroOldLocalPrice"/>
-		</route>
-        <!-- Кляуза о несделанных заказах к инет-выпискам -->
-        <route>
-			<from uri="quartz://myGroup/mailNotWebOrder?cron=0+25+13+*+*+?"/>
-            <bean ref="utilProcessor" method="sendMessageOpenDocw"/>
-		</route>
-
-        <!-- Формирование отчета реализации и отправка по почте -->
-		<route>
-			<from uri="quartz2://myGroup/realmove?cron=0+30+9+?+*+1" />
-			<bean ref="reportSender" method="sendRealWeek" />
-		</route>
-
-	</camelContext>
-</beans>
-</xmp></pre>
-В примере настроено несколько конфигураций (тег route) для рассылки обновлений в торговые точки из центра.
+Camel это интеграционный клей, который соединяет компоненты системы. <b>Camel</b> предоставляет коннекторы.
+Примеры коннекторов:  rest, ftp, Spring bean и еще много всяких:
+<a title="https://camel.apache.org/components/next/index.html#_components" href="https://camel.apache.org/components/next/index.html#_components"
+  style="text-decoration: underline; color: #3366ff;"
+  target="_blank" rel="noopener noreferrer">https://camel.apache.org/components/next/index.html#_components</a>.
+<hr id="system-readmore"/>
+Camel context загружается вместе со Spring context. Ниже примеры xml Spring context и Camel конфигураций (почему xml, а не аннотации обусловлено техническими требованиями проекта):
+<div>
+<pre class="language-xml"><code>&lt;beans&gt;
+  &lt;!-- Configure the Camel Context for office--&gt;
+  &lt;!-- Spring beans --&gt;
+  &lt;bean id="senderBestTags" class="ru.el59.office.service.SenderBestTags"&gt;
+    &lt;property name="shopProvider" ref="shopDao"/&gt;
+    &lt;property name="bestTagToPriceConvertor" ref="bestTagToPriceConvertor"/&gt;
+    &lt;property name="emailer" ref="emailer"/&gt;
+  &lt;/bean&gt;
+...
+&lt;/beans&gt;
+</code></pre></div>
+В примере настроено несколько конфигураций (тег route) для рассылки обновлений в торговые точки из центра.<br/>
 Описание первого маршрута: из очереди Kafka "to_shop" (from uri="jms:queue:to_shop") принимается xml файл-задание на отправку сообщения.
+Получение сообщения из Kafka служит <b>сигналом для запуска обработки</b> (маршрута).
 В зависимости от тега <b>shopCod</b> используя XPath (<xpath>//shopCod = '07260'</xpath>) файл отправляется по тому или иному маршруту Camel.
-Суть других маршрутов <i>примерно</i> понятно из конфигурации Camel. Где:<br>
+В конфигурации использованы следующие компоненты Camel:<br>
 <ul>
-	<li><b>from uri</b> - источник сообщения</li>
-	<li><b>quartz2</b> - планировщик</li>
-	<li><b>bean</b> - Spring bean</li>
-	<li><b>multicast</b> - оправка сообщения по нескольким маршрутам</li>
+  <li><b>from</b> - источник сообщения</li>
+  <li><b>quartz2</b> - планировщик</li>
+  <li><b>bean</b> - отправка сообщения в Spring bean (подробнее об этом ниже)</li>
+  <li><b>multicast</b> - оправка сообщения по нескольким маршрутам</li>
 </ul>
+
+События для старта обработки ("from"):
+<ul>
+  <li>'from quarz' - запуск по таймеру</li>
+  <li>'from uri="{{ftp}}...' - появился новый файл в папке ftp </li>
+  <li>'from uri="jms:queue:to_shop' - появилось сообщение в очереди Kafka "to_shop"</li>
+</ul>
+Взаимодействие со Spring:<br/>
+Подключение конфигурации Camel (camel.xml) в Spring context (springContext.xml). Spring context (springContext.xml):
+<div>
+<pre class="language-xml"><code>&lt;beans&gt;
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+  &lt;beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+  http://www.springframework.org/schema/context
+  http://www.springframework.org/schema/context/spring-context-3.0.xsd
+  http://www.springframework.org/schema/tx
+  http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"&gt;
+
+  &lt;import resource="dao.xml" /&gt;
+  &lt;import resource="commander.xml" /&gt;
+  &lt;import resource="controllertdoc.xml" /&gt;
+  &lt;import resource="parser.xml" /&gt;
+  &lt;import resource="services.xml" /&gt;
+  &lt;import resource="camel.xml"/&gt; &lt;----- CAMEL!
+  ....
+</code></pre>
+camel.xml:
+<pre class="language-xml"><code>&lt;beans xmlns="http://www.springframework.org/schema/beans"
+									   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+									   xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd"&gt;
+
+	&lt;import resource="route.xml"/&gt; &lt;--CAMEL ROUTE!
+	&lt;!--Spring beans --&gt;
+	&lt;bean id="ConvertorXmlBestTags" class="ru.el59.office.camelcontext.receiver.ConvertorXmlBestTags"&gt;
+		&lt;property name="type" value="ru.el59.office.dto.BestTags" /&gt;
+		&lt;property name="entity" value="ru.el59.office.dto.BestTags" /&gt;
+		&lt;property name="protocolForTag" ref="protocolForTag"/&gt;
+	&lt;/bean&gt;
+	...
+&lt;/beans&gt;
+</code></pre>
+route.xml:
+<pre class="language-xml"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+	&lt;!-- Configures the Camel route --&gt;
+	&lt;beans xmlns="http://www.springframework.org/schema/beans"
+		   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		   xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd"&gt;
+...
+	&lt;camelContext id="camel" xmlns="http://camel.apache.org/schema/spring"&gt;
+		&lt;propertyPlaceholder id="properties"
+							 location="classpath:jdbc.properties" /&gt;
+		&lt;route>
+			&lt;from uri="jms:queue:to_shop" /&gt;
+			&lt;when>
+				&lt;xpath>//shopCod = '07260'&lt;/xpath&gt;
+	            &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
+			&lt;/when&gt;
+			&lt;when&gt;
+				&lt;xpath>//shopCod = '07443'&lt;/xpath&gt;
+	            &lt;to uri="{{ftp}}/mqto07443?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
+			&lt;/when&gt;
+			&lt;when&gt;
+				&lt;xpath>//shopCod = '07258'&lt;/xpath&gt;
+	            &lt;to uri="{{ftp}}/mqto07258?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
+			&lt;/when&gt;
+			&lt;when&gt;
+				&lt;xpath>//shopCod = '07863'&lt/xpath&gt;
+	            &lt;to uri="{{ftp}}/mqto07863?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
+			&lt;/when&gt;
+			&lt;when&gt;
+				&lt;xpath&gt//className = 'BestTags'&lt;/xpath&gt;
+	            &lt;to uri="{{ftp}}/mqbesttag?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
+			&lt;/when&gt;
+			&lt;when&gt;
+				&lt;xpath&gt//shopCod = '*'&lt;/xpath&gt;
+	            &lt;multicast&gt;
+				  &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" /&gt;
+				  &lt;to uri="{{ftp}}/mqto07863?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=1000" /&gt;
+	              &lt;to uri="{{ftp}}/mq?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" /&gt;
+				  &lt;to uri="file:c:/temp/?fileName=testfile.xml" /&gt;
+				&lt;/multicast&gt;
+			&lt;/when&gt;
+			&lt;otherwise&gt;
+			&lt;/otherwise&gt;
+		&lt;/route&gt;
+
+		&lt;route>
+			&lt;from uri="jms:queue:updateq" /&gt;
+			&lt;bean ref="ConvertorFromOfficeDB" method="getXML" /&gt;
+			&lt;to uri="jms:queue:to_shop" /&gt;
+		&lt;/route&gt;
+...
+</code></pre>
+Отправка сообщения из Camel в Spring bean <b>senderBestTags</b> через метод <b>process</b>:
+<pre class="language-xml"><code>&lt;bean ref="senderBestTags" method="process"/&gt;
+</code></pre>
+
+Java код Spring bean класса SenderBestTags(java):
+<pre class="language-java"><code>import org.apache.camel.Body; // body camel-message
+import ru.el59.office.dto.message.MessageBestTags;
+  ...
+public class SenderBestTags {
+  public Object process(@Body Object body) { // body camel-message
+    // MessageBestTags - частный dto класс проекта. См.ниже.
+    MessageBestTags messageBestTags = (MessageBestTags) body;
+  ...
+  }
+}</code></pre>
+MessageBestTags:
+<pre class="language-java"><code>package ru.el59.office.dto.message;
+
+import ru.el59.office.dto.BestTags;
+
+public class MessageBestTags extends MessageEntity<BestTags> {
+  protected BestTags entity;
+
+  public MessageBestTags() {
+    this.className = BestTags.class.getSimpleName();
+  }
+
+  public BestTags getEntity() {
+    return this.entity;
+  }
+
+  public void setEntity(BestTags entity) {
+    this.entity = entity;
+  }
+}
+</code></pre>
+MessageEntity:
+<pre class="language-java"><code>public class MessageEntity<T> implements Serializable {
+  protected TypeCommand typeCommand;
+  protected String className;
+  protected String shopCod;
+  protected T entity;
+
+  public MessageEntity() {
+    this.typeCommand = TypeCommand.CREATE;
+    this.className = "";
+    this.shopCod = "";
+  }
+
+  public TypeCommand getTypeCommand() {
+    return this.typeCommand;
+  }
+
+  public void setTypeCommand(TypeCommand typeCommand) {
+        this.typeCommand = typeCommand;
+  }
+
+  public T getEntity() {
+    return this.entity;
+  }
+
+  public void setEntity(T entity) {
+    this.entity = entity;
+  }
+  ....
+}
+</code></pre>
