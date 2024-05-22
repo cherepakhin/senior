@@ -84,3 +84,29 @@ v17.9.1
 Выбор версии <b>nvm</b>:
 <pre class="language-shell"><code>nvm use v16.0.0
 </code></pre>
+
+Опыты на note:
+<pre class="language-shell"><code>
+vasi@vasi-note:~$ ls /home/vasi/.nvm/versions/node/
+v16.10.0  v16.15.1  v16.20.2  v17.9.1  v18.20.2  v20.0.0
+
+vasi@vasi-note:~$ /home/vasi/.nvm/versions/node/v16.20.2/bin/node --version
+v16.20.2
+
+vasi@vasi-note:~$ /home/vasi/.nvm/versions/node/v17.9.1/bin/node --version
+v17.9.1
+
+vasi@vasi-note:~$ /home/vasi/.nvm/versions/node/v20.0.0/bin/node --version
+/home/vasi/.nvm/versions/node/v20.0.0/bin/node: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.28' not found (required by /home/vasi/.nvm/versions/node/v20.0.0/bin/node)
+
+vasi@vasi-note:~$ /home/vasi/.nvm/versions/node/v18.20.2/bin/node --version
+/home/vasi/.nvm/versions/node/v18.20.2/bin/node: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.28' not found (required by /home/vasi/.nvm/versions/node/v18.20.2/bin/node)
+</code></pre>
+
+Опыты на v:
+<pre class="language-shell"><code>vasi@v ~ $ whereis node
+node: /usr/bin/node /usr/local/bin/node.bad /usr/local/bin/node /usr/share/man/man1/node.1.gz
+vasi@v ~ $ /usr/local/bin/node --version
+v8.10.0
+</code></pre>
+
