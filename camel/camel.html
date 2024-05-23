@@ -1,11 +1,20 @@
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QL6CK97WJZ"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-QL6CK97WJZ');
+</script>
 Camel это интеграционный клей, который соединяет компоненты системы, предоставляя коннекторы.
 Примеры коннекторов:  rest, ftp, Spring bean и еще много всяких:
 <a title="https://camel.apache.org/components/next/index.html#_components" href="https://camel.apache.org/components/next/index.html#_components"
-	  style="text-decoration: underline; color: #3366ff;"
-	  target="_blank" rel="noopener noreferrer">https://camel.apache.org/components/next/index.html#_components</a>.
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">https://camel.apache.org/components/next/index.html#_components</a>.
 <br/><br/><b>Небольшой пример.</b><br/><br/>
 Задача разослать обновления цен из офиса в торговые точки.
-<hr id="system-readmore"/>
+<hr id="system-readmore" />
 Ниже примеры xml Spring context и Camel конфигураций.
 (Почему Spring context задан в xml, а не использованы аннотации? Обусловлено техническими требованиями проекта, а именно изменение логики работы коплекса без перекомпиляции.)
 В примере настроено несколько конфигураций Camel (тег route) для рассылки обновлений в торговые точки из центра.<br/>
@@ -32,8 +41,8 @@ springContext.xml:
   &lt;import resource="camel.xml"/&gt;
   ....</code></pre>
 
-В dao.xml, services.xml определены другие Spring beans, не интересны и оставил для примера. А вот camel.xml:
-<pre class="language-xml"><code>&lt;beans xmlns="http://www.springframework.org/schema/beans"
+    В dao.xml, services.xml определены другие Spring beans, не интересны и оставил для примера. А вот camel.xml:
+    <pre class="language-xml"><code>&lt;beans xmlns="http://www.springframework.org/schema/beans"
 									   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 									   xsi:schemaLocation="
 	   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -49,8 +58,8 @@ springContext.xml:
   &lt;/bean&gt;
 		...
 &lt;/beans&gt;</code></pre>
-route.xml (camel.xml импортирует route.xml. см.выше):
-<pre class="language-xml"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+    route.xml (camel.xml импортирует route.xml. см.выше):
+    <pre class="language-xml"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!-- Configures the Camel route --&gt;
   &lt;beans xmlns="http://www.springframework.org/schema/beans"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -99,9 +108,9 @@ route.xml (camel.xml импортирует route.xml. см.выше):
 		    &lt;/route&gt;
 
 	...</code></pre>
-Описание первого маршрута (from uri="jms:queue:to_shop"): из очереди Kafka "to_shop" принимается <b>xml</b> файл-задание на отправку сообщения.
-Получение сообщения из Kafka служит <b>сигналом для запуска обработки</b> (маршрута). Пример сообщения:
-<pre class="language-xml"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+    Описание первого маршрута (from uri="jms:queue:to_shop"): из очереди Kafka "to_shop" принимается <b>xml</b> файл-задание на отправку сообщения.
+    Получение сообщения из Kafka служит <b>сигналом для запуска обработки</b> (маршрута). Пример сообщения:
+    <pre class="language-xml"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;message&gt;
   &lt;command&gt;CREATE&lt;/command&gt;
   &lt;className&gt;DocDetail&lt;/className&gt;
@@ -114,8 +123,8 @@ route.xml (camel.xml импортирует route.xml. см.выше):
     &lt;price&gt;10000.0&lt;/price&gt;
   &lt;/entity&gt;
 &lt;/message&gt;</code></pre>
-В зависимости от тега <b>shopCod</b> используя <b>XPath</b> (<xpath>//shopCod = '07260'</xpath>) файл отправляется по тому или иному маршруту Camel.
-В конфигурации использованы следующие компоненты Camel:<br>
+    В зависимости от тега <b>shopCod</b> используя <b>XPath</b> (<xpath>//shopCod = '07260'</xpath>) файл отправляется по тому или иному маршруту Camel.
+    В конфигурации использованы следующие компоненты Camel:<br>
     <ul>
         <li><b>from</b> - источник сообщения</li>
         <li><b>jms:queue:updateq</b> - получение сообщения из очереди Kafka ("updateq" - топик)</li>
@@ -124,20 +133,20 @@ route.xml (camel.xml импортирует route.xml. см.выше):
         <li><b>multicast</b> - оправка сообщения по нескольким маршрутам</li>
     </ul>
 
-События для старта обработки ("from"):
+    События для старта обработки ("from"):
     <ul>
         <li>'from quarz' - запуск по таймеру</li>
         <li>'from uri="{{ftp}}...' - запуск сканирования ftp папки</li>
         <li>'from uri="jms:queue:to_shop' - появилось сообщение в очереди Kafka "to_shop"</li>
     </ul>
-Вызов метода process из Spring bean creatorChangeNN:<br/>
-<pre class="language-xml"><code>&lt;from uri="quartz2://myGroup/changenn?cron=0+57+09+*+*+?" /&gt;
+    Вызов метода process из Spring bean creatorChangeNN:<br/>
+    <pre class="language-xml"><code>&lt;from uri="quartz2://myGroup/changenn?cron=0+57+09+*+*+?" /&gt;
     &lt;bean ref="creatorChangeNN" method="process" /&gt;</code></pre>
 
-Отправка сообщения из Camel в Spring bean <b>senderBestTags</b> через метод <b>process</b>:
-<pre class="language-xml"><code>&lt;bean ref="senderBestTags" method="process"/&gt;</code></pre>
-Java код Spring bean класса SenderBestTags(java):
-<pre class="language-java"><code>import org.apache.camel.Body; // body camel-message
+    Отправка сообщения из Camel в Spring bean <b>senderBestTags</b> через метод <b>process</b>:
+    <pre class="language-xml"><code>&lt;bean ref="senderBestTags" method="process"/&gt;</code></pre>
+    Java код Spring bean класса SenderBestTags(java):
+    <pre class="language-java"><code>import org.apache.camel.Body; // body camel-message
 import ru.perm.v.office.dto.message.MessageBestTags;
 ...
 public class SenderBestTags {
@@ -147,8 +156,8 @@ public class SenderBestTags {
     ...
   }
 }</code></pre>
-MessageBestTags:
-<pre class="language-java"><code>package ru.perm.v.office.dto.message;
+    MessageBestTags:
+    <pre class="language-java"><code>package ru.perm.v.office.dto.message;
 import ru.perm.v.office.dto.BestTags;
 
 public class MessageBestTags extends MessageEntity<BestTags> {
@@ -166,8 +175,8 @@ public class MessageBestTags extends MessageEntity<BestTags> {
     this.entity = entity;
   }
 }</code></pre>
-MessageEntity:
-<pre class="language-java"><code>public class MessageEntity<T> implements Serializable {
+    MessageEntity:
+    <pre class="language-java"><code>public class MessageEntity<T> implements Serializable {
 protected TypeCommand typeCommand;
 protected String className;
 protected String shopCod;
@@ -196,8 +205,8 @@ protected T entity;
   }
 	  ....
 }</code></pre>
-Spring bean:<br/>
-<pre class="language-xml"><code>&lt;beans&gt;
+    Spring bean:<br/>
+    <pre class="language-xml"><code>&lt;beans&gt;
   &lt;!-- Configure the Camel Context for office--&gt;
   &lt;!-- Spring beans --&gt;
   &lt;bean id="senderBestTags" class="ru.perm.v.office.service.SenderBestTags"&gt;
@@ -207,3 +216,10 @@ Spring bean:<br/>
   &lt;/bean&gt;
 ...
 &lt;/beans&gt;</code></pre></div>
+
+<b>Ссылки:</b><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="Учебное пособие по Apache Camel"
+   href="https://post.nghiatu.com/ru/tutorial/apache-camel"
+   target="_blank" rel="noopener noreferrer">Учебное пособие по Apache Camel</a>
+<br/>
