@@ -190,7 +190,32 @@ camel_route.xml (ключевые теги для понимания Camel: <b>r
                                                   title="XPath Syntax"
                                                   href="https://www.w3schools.com/xml/xpath_syntax.asp"
                                                   target="_blank" rel="noopener noreferrer">XPath</a> ("<i>&lt;xpath&gt;//shopCod = '07260'&lt;/xpath&gt;</i>" в camel_route.xml) файл отправляется по тому или иному маршруту Camel.<br><br>
-В конфигурации использованы следующие компоненты Camel:<br>
+В конфигурации camel.xml (немного урезано):
+<pre class="language-xml"><code>&lt;!-- Configures the Camel route --&gt;
+...
+		&lt;camelContext/&gt;
+            &lt;!-- route!--&gt;
+			&lt;route>
+				&lt;from uri="jms:queue:to_shop" /&gt;
+				&lt;when>
+					&lt;xpath>//shopCod = '07260'&lt;/xpath&gt;
+					&lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
+				&lt;/when&gt;
+                ...
+				&lt;when&gt;
+					&lt;xpath&gt//shopCod = '*'&lt;/xpath&gt;
+					&lt;multicast&gt;
+					  &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" /&gt;
+                      ...
+					  &lt;to uri="file:c:/temp/?fileName=debug_monitor.xml" /&gt;
+					&lt;/multicast&gt;
+				&lt;/when&gt;
+				&lt;otherwise&gt;
+				&lt;/otherwise&gt;
+			&lt;/route&gt;
+</code></pre>
+
+использованы следующие компоненты Camel:<br>
 <ul>
     <li><b>from</b> - источник сообщения</li>
     <li><b>jms:queue:updateq</b> - получение сообщения из очереди Kafka ("updateq" - топик)</li>
