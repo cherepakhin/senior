@@ -68,7 +68,7 @@ public class SenderBestTags {
 </code></pre>
 Класс конструирует сообщение и отправляет его по почте. Чуть ниже подробнее про использование этого класса. Сейчас главное, что класс умеет отправлять почту.<br/>
 <br/>
-MessageEntity - контейнер сообщения для Camel (или не Camel):
+MessageEntity - контейнер сообщения для Camel (или не Camel, в том смысле, что это простой класс никак несвязанный не со Spring, ни с Camel ):
 <pre class="language-java"><code>public class MessageEntity<T> implements Serializable {
 protected TypeCommand typeCommand;
 protected String className;
@@ -118,7 +118,7 @@ protected T entity;
   &lt;/bean&gt;
 		...
 &lt;/beans&gt;</code></pre>
-camel_route.xml (<b>ключевые теги</b>: route, from, when, to):
+camel_route.xml (ключевые теги для понимания Camel: <b>route</b>, <b>from</b>, <b>when</b>, <b>to</b>):
 <pre class="language-xml"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!-- Configures the Camel route --&gt;
   &lt;beans xmlns="http://www.springframework.org/schema/beans"
@@ -186,7 +186,10 @@ camel_route.xml (<b>ключевые теги</b>: route, from, when, to):
     &lt;price&gt;10000.0&lt;/price&gt;
   &lt;/entity&gt;
 &lt;/message&gt;</code></pre>
-В зависимости от тега <b>shopCod</b> используя <b>XPath</b> (<xpath>//shopCod = '07260'</xpath> в camel_route.xml) файл отправляется по тому или иному маршруту Camel.<br><br>
+В зависимости от тега <b>shopCod</b> используя <a style="text-decoration: underline; color: #3366ff;"
+                                                  title="XPath Syntax"
+                                                  href="https://www.w3schools.com/xml/xpath_syntax.asp"
+                                                  target="_blank" rel="noopener noreferrer">XPath</a> ("<i>&lt;xpath&gt;//shopCod = '07260'&lt;/xpath&gt;</i>" в camel_route.xml) файл отправляется по тому или иному маршруту Camel.<br><br>
 В конфигурации использованы следующие компоненты Camel:<br>
 <ul>
     <li><b>from</b> - источник сообщения</li>
