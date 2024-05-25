@@ -7,14 +7,18 @@
 
     gtag('config', 'G-QL6CK97WJZ');
 </script>
+Spring boot велик и могуч, но есть есть и другие инструменты.<br/><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;"
+        src="images/camel/capusta.png" alt="" /></p><br/>
 Camel это интеграционный клей, который соединяет компоненты системы, предоставляя коннекторы.
 Примеры коннекторов:  rest, ftp, Spring bean и еще много всяких:
 <a title="https://camel.apache.org/components/next/index.html#_components" href="https://camel.apache.org/components/next/index.html#_components"
    style="text-decoration: underline; color: #3366ff;"
    target="_blank" rel="noopener noreferrer">https://camel.apache.org/components/next/index.html#_components</a>.
+<hr id="system-readmore" />
 <br/><br/><b>Небольшой пример.</b><br/><br/>
 Задача - разослать обновления цен из офиса в подразделения (торговые точки).
-<hr id="system-readmore" />
+
 Ниже примеры <b>xml</b> Spring context и Camel конфигураций.
 (Почему Spring context задан в xml, а не использованы аннотации? Удобнее менять логику работы коплекса <b>БЕЗ</b> перекомпиляции.)
 В примере настроено несколько конфигураций Camel (тег route) для рассылки обновлений в торговые точки из центра.<br/>
@@ -39,7 +43,7 @@ springContext.xml:
   &lt;import resource="services.xml" /&gt; &lt;!--Spring services --&gt;
 
   &lt;import resource="camel.xml"/&gt; &lt;!--CAMEL!!! --&gt;
-  ....</code></pre>
+  ...</code></pre>
 
 В dao.xml и services.xml определены Spring beans. Пример определения Spring bean:<br/>
 <pre class="language-xml"><code>&lt;beans&gt;
@@ -96,7 +100,7 @@ protected T entity;
   public void setEntity(T entity) {
     this.entity = entity;
   }
-	  ....
+  ...
 }</code></pre>
 
     camel.xml:
@@ -129,47 +133,46 @@ camel_route.xml (ключевые теги для понимания Camel: <b>r
               http://camel.apache.org/schema/spring
               http://camel.apache.org/schema/spring/camel-spring.xsd"&gt;
 ...
-		&lt;camelContext id="camel" xmlns="http://camel.apache.org/schema/spring"&gt;
-            <!-- for example importing other properties-->
-			&lt;propertyPlaceholder id="properties"
+    &lt;camelContext id="camel" xmlns="http://camel.apache.org/schema/spring"&gt;
+      <!-- for example importing other properties-->
+      &lt;propertyPlaceholder id="properties"
 								 location="classpath:other.properties"/&gt;
-            &lt;!-- route!--&gt;
-			&lt;route>
-				&lt;from uri="jms:queue:to_shop" /&gt;
-				&lt;when>
-					&lt;xpath>//shopCod = '07260'&lt;/xpath&gt;
-					&lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
-				&lt;/when&gt;
-				&lt;when&gt;
-					&lt;xpath>//shopCod = '07443'&lt;/xpath&gt;
-					&lt;to uri="{{ftp}}/mqto07443?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
-				&lt;/when&gt;
+      &lt;!-- route!--&gt;
+      &lt;route&gt;
+        &lt;from uri="jms:queue:to_shop" /&gt;
+        &lt;when&gt;
+          &lt;xpath>//shopCod = '07260'&lt;/xpath&gt;
+            &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
+        &lt;/when&gt;
+        &lt;when&gt;
+          &lt;xpath>//shopCod = '07443'&lt;/xpath&gt;
+            &lt;to uri="{{ftp}}/mqto07443?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
+        &lt;/when&gt;
 ...
-				&lt;when&gt;
-					&lt;xpath&gt//shopCod = '*'&lt;/xpath&gt;
-					&lt;multicast&gt;
-					  &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" /&gt;
-					  &lt;to uri="{{ftp}}/mqto07863?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=1000" /&gt;
-					  &lt;to uri="{{ftp}}/mq?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" /&gt;
-					  &lt;to uri="file:c:/temp/?fileName=debug_monitor.xml" /&gt;
-					&lt;/multicast&gt;
-				&lt;/when&gt;
-				&lt;otherwise&gt;
-				&lt;/otherwise&gt;
-			&lt;/route&gt;
+        &lt;when&gt;
+          &lt;xpath&gt//shopCod = '*'&lt;/xpath&gt;
+            &lt;multicast&gt;
+              &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" /&gt;
+              &lt;to uri="{{ftp}}/mqto07863?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=1000" /&gt;
+              &lt;to uri="{{ftp}}/mq?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" /&gt;
+              &lt;to uri="file:c:/temp/?fileName=debug_monitor.xml" /&gt;
+            &lt;/multicast&gt;
+        &lt;/when&gt;
+        &lt;otherwise&lt;/&gt;
+      &lt;/route&gt;
+      &lt;route>
+        &lt;from uri="jms:queue:updateq" /&gt;
+        &lt;bean ref="ConvertorFromOfficeDB" method="getXML" /&gt;
+        &lt;to uri="jms:queue:to_shop" /&gt;
+      &lt;/route&gt;
 
-			&lt;route>
-				&lt;from uri="jms:queue:updateq" /&gt;
-				&lt;bean ref="ConvertorFromOfficeDB" method="getXML" /&gt;
-				&lt;to uri="jms:queue:to_shop" /&gt;
-			&lt;/route&gt;
-
-            &lt;route&gt;
-			  &lt;from uri="quartz2://myGroup/changenn?cron=0+57+09+*+*+?" /&gt;
-			  &lt;bean ref="creatorChangeNN" method="process" /&gt;
-              &lt;to
-                    uri="{{ftp}}/tmp/data/?fileName=CHANGENN.XML&amp;username={{ftp-user}}&amp;password={{ftp-password}}&amp;binary=true" /&gt;
-		    &lt;/route&gt;
+      &lt;route&gt;
+        &lt;from uri="quartz2://myGroup/changenn?cron=0+57+09+*+*+?" /&gt;
+          &lt;bean ref="creatorChangeNN" method="process" /&gt;
+          &lt;to
+            uri="{{ftp}}/tmp/data/?fileName=CHANGENN.XML&amp;username={{ftp-user}}&amp;password={{ftp-password}}&amp;binary=true" /&gt;
+      &lt;/route&gt;
+      ...
 </code></pre>
 <b>from uri="jms:queue:to_shop"</b>: из очереди Kafka "to_shop" принимается <b>xml</b> файл-задание на отправку сообщения.
 Получение сообщения из Kafka служит <b>сигналом для запуска обработки</b> (маршрута). Пример сообщения из очереди:
@@ -194,26 +197,27 @@ camel_route.xml (ключевые теги для понимания Camel: <b>r
 В конфигурации camel.xml (немного урезано):
 <pre class="language-xml"><code>&lt;!-- Configures the Camel route --&gt;
 ...
-		&lt;camelContext/&gt;
-            &lt;!-- route!--&gt;
-			&lt;route>
-				&lt;from uri="jms:queue:to_shop" /&gt;
-				&lt;when>
-					&lt;xpath>//shopCod = '07260'&lt;/xpath&gt;
-					&lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
-				&lt;/when&gt;
+  &lt;camelContext/&gt;
+    &lt;!-- route!--&gt;
+    &lt;route>
+      &lt;from uri="jms:queue:to_shop" /&gt;
+        &lt;when/&gt;
+          &lt;xpath/&gt;//shopCod = '07260'&lt;/xpath&gt;
+          &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
+        &lt;/when&gt;
                 ...
-				&lt;when&gt;
-					&lt;xpath&gt//shopCod = '*'&lt;/xpath&gt;
-					&lt;multicast&gt;
-					  &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" /&gt;
-                      ...
-					  &lt;to uri="file:c:/temp/?fileName=debug_monitor.xml" /&gt;
-					&lt;/multicast&gt;
-				&lt;/when&gt;
-				&lt;otherwise&gt;
-				&lt;/otherwise&gt;
-			&lt;/route&gt;
+        &lt;when&gt;
+          &lt;xpath&gt//shopCod = '*'&lt;/xpath&gt;
+            &lt;multicast&gt;
+              &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" /&gt;
+              ...
+              &lt;to uri="file:c:/temp/?fileName=debug_monitor.xml" /&gt;
+            &lt;/multicast&gt;
+        &lt;/when&gt;
+      &lt;otherwise&gt;
+      &lt;/otherwise&gt;
+    &lt;/route&gt;
+    ...
 </code></pre>
 
 использованы следующие компоненты Camel:<br>
