@@ -130,7 +130,7 @@ camel_route.xml (ключевые теги для понимания Camel: <b>r
               http://camel.apache.org/schema/spring/camel-spring.xsd"&gt;
 ...
 		&lt;camelContext id="camel" xmlns="http://camel.apache.org/schema/spring"&gt;
-            &lt;!-- for example importing other properties--&gt;
+            <!-- for example importing other properties-->
 			&lt;propertyPlaceholder id="properties"
 								 location="classpath:other.properties"/&gt;
             &lt;!-- route!--&gt;
@@ -298,7 +298,7 @@ public void configure() {
 	&lt;spring.version&gt;3.0.5.RELEASE&lt;/spring.version&gt;
 	&lt;camel.version&gt;2.13.1&lt;/camel.version&gt;
 &lt;/properties&gt;
-...    
+...
 &lt;dependencies&gt;
 		&lt;dependency&gt;
 			&lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
@@ -335,7 +335,7 @@ public void configure() {
 			&lt;artifactId&gt;camel-xstream&lt;/artifactId&gt;
 			&lt;version&gt;${camel.version}&lt;/version&gt;
 		&lt;/dependency&gt;
-  
+
 ...
 &lt;/dependencies&gt;
 </code></pre>
@@ -350,4 +350,9 @@ public void configure() {
    title="Apache Camel и Spring Boot(Habr, 2021)"
    href="https://habr.com/ru/companies/otus/articles/557068/"
    target="_blank" rel="noopener noreferrer">Apache Camel и Spring Boot(Habr)</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="Тестирование Apache Camel Routes в Spring Boot"
+   href="https://for-each.dev/lessons/b/-spring-boot-apache-camel-routes-testing"
+   target="_blank" rel="noopener noreferrer">Тестирование Apache Camel Routes в Spring Boot</a>
 <br/>
