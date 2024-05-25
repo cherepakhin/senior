@@ -103,8 +103,10 @@ protected T entity;
     <pre class="language-xml"><code>&lt;beans xmlns="http://www.springframework.org/schema/beans"
 									   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 									   xsi:schemaLocation="
-	   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-	   http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd"&gt;
+	   http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	   http://camel.apache.org/schema/spring
+       http://camel.apache.org/schema/spring/camel-spring.xsd"&gt;
 
 
   &lt;import resource="camel_route.xml"/&gt; &lt;!--CAMEL ROUTE!!! См.ниже --&gt;
@@ -122,8 +124,10 @@ camel_route.xml (<b>ключевые теги</b>: route, from, when, to):
   &lt;beans xmlns="http://www.springframework.org/schema/beans"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="
-              http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-              http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd"&gt;
+              http://www.springframework.org/schema/beans
+              http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+              http://camel.apache.org/schema/spring
+              http://camel.apache.org/schema/spring/camel-spring.xsd"&gt;
 ...
 		&lt;camelContext id="camel" xmlns="http://camel.apache.org/schema/spring"&gt;
             &lt;!-- for example importing other properties--&gt;
@@ -168,12 +172,12 @@ camel_route.xml (<b>ключевые теги</b>: route, from, when, to):
 		    &lt;/route&gt;
 </code></pre>
 <b>from uri="jms:queue:to_shop"</b>: из очереди Kafka "to_shop" принимается <b>xml</b> файл-задание на отправку сообщения.
-Получение сообщения из Kafka служит <b>сигналом для запуска обработки</b> (маршрута). Пример сообщения:
+Получение сообщения из Kafka служит <b>сигналом для запуска обработки</b> (маршрута). Пример сообщения из очереди:
 <pre class="language-xml"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;message&gt;
   &lt;command&gt;CREATE&lt;/command&gt;
   &lt;className&gt;DocDetail&lt;/className&gt;
-  &lt;shopCod&gt;07260&lt;/shopCod&gt; &lt;!-- shop cod!!! need for route --&gt;
+  &lt;shopCod&gt;07260&lt;/shopCod&gt; &lt;!-- shop cod!!! need for camel route --&gt;
   &lt;entity type="DocDetail"&gt;
     &lt;n&gt;23166&lt;/n&gt;
     &lt;docn&gt;14941&lt;/docn&gt;
