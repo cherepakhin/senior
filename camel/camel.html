@@ -120,7 +120,7 @@ protected T entity;
     &lt;property name="entity" value="ru.perm.v.office.dto.BestTags" /&gt;
     &lt;property name="protocolForTag" ref="protocolForTag"/&gt;
   &lt;/bean&gt;
-		...
+  ...
 &lt;/beans&gt;</code></pre>
 camel_route.xml (ключевые теги для понимания Camel: <b>route</b>, <b>from</b>, <b>when</b>, <b>to</b>):
 <pre class="language-xml"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
@@ -132,11 +132,10 @@ camel_route.xml (ключевые теги для понимания Camel: <b>r
               http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
               http://camel.apache.org/schema/spring
               http://camel.apache.org/schema/spring/camel-spring.xsd"&gt;
-...
+    ...
     &lt;camelContext id="camel" xmlns="http://camel.apache.org/schema/spring"&gt;
       <!-- for example importing other properties-->
-      &lt;propertyPlaceholder id="properties"
-								 location="classpath:other.properties"/&gt;
+      &lt;propertyPlaceholder id="properties" location="classpath:other.properties"/&gt;
       &lt;!-- route!--&gt;
       &lt;route&gt;
         &lt;from uri="jms:queue:to_shop" /&gt;
@@ -148,7 +147,7 @@ camel_route.xml (ключевые теги для понимания Camel: <b>r
           &lt;xpath>//shopCod = '07443'&lt;/xpath&gt;
             &lt;to uri="{{ftp}}/mqto07443?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
         &lt;/when&gt;
-...
+        ...
         &lt;when&gt;
           &lt;xpath&gt//shopCod = '*'&lt;/xpath&gt;
             &lt;multicast&gt;
@@ -173,6 +172,7 @@ camel_route.xml (ключевые теги для понимания Camel: <b>r
             uri="{{ftp}}/tmp/data/?fileName=CHANGENN.XML&amp;username={{ftp-user}}&amp;password={{ftp-password}}&amp;binary=true" /&gt;
       &lt;/route&gt;
       ...
+    &lt;/camelContext&gt;
 </code></pre>
 <b>from uri="jms:queue:to_shop"</b>: из очереди Kafka "to_shop" принимается <b>xml</b> файл-задание на отправку сообщения.
 Получение сообщения из Kafka служит <b>сигналом для запуска обработки</b> (маршрута). Пример сообщения из очереди:
@@ -197,27 +197,27 @@ camel_route.xml (ключевые теги для понимания Camel: <b>r
 В конфигурации camel.xml (немного урезано):
 <pre class="language-xml"><code>&lt;!-- Configures the Camel route --&gt;
 ...
-  &lt;camelContext/&gt;
-    &lt;!-- route!--&gt;
-    &lt;route>
-      &lt;from uri="jms:queue:to_shop" /&gt;
-        &lt;when/&gt;
-          &lt;xpath/&gt;//shopCod = '07260'&lt;/xpath&gt;
-          &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
-        &lt;/when&gt;
-                ...
-        &lt;when&gt;
-          &lt;xpath&gt//shopCod = '*'&lt;/xpath&gt;
-            &lt;multicast&gt;
-              &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" /&gt;
-              ...
-              &lt;to uri="file:c:/temp/?fileName=debug_monitor.xml" /&gt;
-            &lt;/multicast&gt;
-        &lt;/when&gt;
-      &lt;otherwise&gt;
-      &lt;/otherwise&gt;
-    &lt;/route&gt;
+&lt;camelContext&gt;
+  &lt;!-- route!--&gt;
+  &lt;route>
+    &lt;from uri="jms:queue:to_shop" /&gt;
+      &lt;when/&gt;
+        &lt;xpath/&gt;//shopCod = '07260'&lt;/xpath&gt;
+        &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
+      &lt;/when&gt;
+      ...
+      &lt;when&gt;
+        &lt;xpath&gt//shopCod = '*'&lt;/xpath&gt;
+          &lt;multicast&gt;
+            &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" /&gt;
+            ...
+            &lt;to uri="file:c:/temp/?fileName=debug_monitor.xml" /&gt;
+          &lt;/multicast&gt;
+      &lt;/when&gt;
+    &lt;otherwise&gt;&lt;/otherwise&gt;
+  &lt;/route&gt;
     ...
+&lt;/camelContext&gt;
 </code></pre>
 
 использованы следующие компоненты Camel:<br>
@@ -283,13 +283,13 @@ class TimedJobs extends RouteBuilder {
 
 @Override
 public void configure() {
-        from("timer:new-discount?delay=1000&period={{discount.newDiscountPeriod:2000}}")
-            .routeId("make-discount")
-            .bean("discountService", "makeDiscount")
-            .to("jpa:org.apache.camel.example.spring.boot.rest.jpa.Discount")
-            .log("Created %${body.amount} discount for ${body.product.name}");
+  from("timer:new-discount?delay=1000&period={{discount.newDiscountPeriod:2000}}")
+    .routeId("make-discount")
+    .bean("discountService", "makeDiscount")
+    .to("jpa:org.apache.camel.example.spring.boot.rest.jpa.Discount")
+    .log("Created %${body.amount} discount for ${body.product.name}");
 
-        // additional route will be added in the next step
+    // additional route...
 }
 </code></pre>
 В начале статьи я объяснил почему я использовал xml, а не код. (Удобнее менять логику работы коплекса БЕЗ перекомпиляции.)<br/>
@@ -297,54 +297,59 @@ public void configure() {
 <b>Maven зависимости Camel в pom.xml проекта:</b><br/>
 <pre class="language-xml"><code>...
 &lt;properties&gt;
-	&lt;spring.group&gt;org.springframework&lt;/spring.group&gt;
-	&lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-	&lt;spring.version&gt;3.0.5.RELEASE&lt;/spring.version&gt;
-	&lt;camel.version&gt;2.13.1&lt;/camel.version&gt;
+  &lt;spring.group&gt;org.springframework&lt;/spring.group&gt;
+  &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+  &lt;spring.version&gt;3.0.5.RELEASE&lt;/spring.version&gt;
+  &lt;camel.version&gt;2.13.1&lt;/camel.version&gt;
 &lt;/properties&gt;
 ...
 &lt;dependencies&gt;
-		&lt;dependency&gt;
-			&lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
-			&lt;artifactId&gt;camel-core&lt;/artifactId&gt;
-			&lt;version&gt;${camel.version}&lt;/version&gt;
-		&lt;/dependency&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
+    &lt;artifactId&gt;camel-core&lt;/artifactId&gt;
+    &lt;version&gt;${camel.version}&lt;/version&gt;
+    &lt;/dependency&gt;
 
-		&lt;dependency&gt;
-			&lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
-			&lt;artifactId&gt;camel-quartz2&lt;/artifactId&gt;
-			&lt;version&gt;${camel.version}&lt;/version&gt;
-		&lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
+      &lt;artifactId&gt;camel-quartz2&lt;/artifactId&gt;
+      &lt;version&gt;${camel.version}&lt;/version&gt;
+    &lt;/dependency&gt;
 
-		&lt;dependency&gt;
-			&lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
-			&lt;artifactId&gt;camel-ftp&lt;/artifactId&gt;
-			&lt;version&gt;${camel.version}&lt;/version&gt;
-		&lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
+      &lt;artifactId&gt;camel-ftp&lt;/artifactId&gt;
+      &lt;version&gt;${camel.version}&lt;/version&gt;
+    &lt;/dependency&gt;
 
-		&lt;dependency&gt;
-			&lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
-			&lt;artifactId&gt;camel-jms&lt;/artifactId&gt;
-			&lt;version&gt;${camel.version}&lt;/version&gt;
-		&lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
+      &lt;artifactId&gt;camel-jms&lt;/artifactId&gt;
+      &lt;version&gt;${camel.version}&lt;/version&gt;
+    &lt;/dependency&gt;
 
-		&lt;dependency&gt;
-			&lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
-			&lt;artifactId&gt;camel-mail&lt;/artifactId&gt;
-			&lt;version&gt;${camel.version}&lt;/version&gt;
-		&lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
+      &lt;artifactId&gt;camel-mail&lt;/artifactId&gt;
+      &lt;version&gt;${camel.version}&lt;/version&gt;
+    &lt;/dependency&gt;
 
-  		&lt;dependency&gt;
-			&lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
-			&lt;artifactId&gt;camel-xstream&lt;/artifactId&gt;
-			&lt;version&gt;${camel.version}&lt;/version&gt;
-		&lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
+      &lt;artifactId&gt;camel-xstream&lt;/artifactId&gt;
+      &lt;version&gt;${camel.version}&lt;/version&gt;
+    &lt;/dependency&gt;
 
 ...
 &lt;/dependencies&gt;
 </code></pre>
             
 <b>Ссылки:</b><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://camel.apache.org/"
+   href="https://camel.apache.org/"
+   target="_blank" rel="noopener noreferrer">https://camel.apache.org/</a>
+<br/>
 <a style="text-decoration: underline; color: #3366ff;"
    title="Учебное пособие по Apache Camel"
    href="https://post.nghiatu.com/ru/tutorial/apache-camel"
