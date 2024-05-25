@@ -228,13 +228,15 @@ camel_route.xml (ключевые теги для понимания Camel: <b>r
     <li><b>bean</b> - отправка сообщения в Spring bean (подробнее об этом ниже)</li>
     <li><b>multicast</b> - оправка сообщения по нескольким маршрутам</li>
 </ul>
-
+{{ftp}}, {{ftp-user}}, {{ftp-password}} - значения из camel_route.xml <propertyPlaceholder id="properties" location="classpath:jdbc.properties" /> (см. выше).
+<br/>
+<br/>
 События для старта обработки ("from"):
 <ul>
-        <li>'from quarz' - запуск по таймеру</li>
-        <li>'from uri="{{ftp}}...' - запуск сканирования ftp папки</li>
-        <li>'from uri="jms:queue:to_shop' - появилось сообщение в очереди Kafka "to_shop"</li>
-    </ul>
+   <li>'from quarz' - запуск по таймеру</li>
+   <li>'from uri="{{ftp}}...' - запуск сканирования ftp папки</li>
+   <li>'from uri="jms:queue:to_shop' - появилось сообщение в очереди Kafka "to_shop"</li>
+</ul>
 Вызов метода <b>process</b> из Spring bean <b>senderBestTags</b> по таймеру:<br/>
     <pre class="language-xml"><code>&lt;from uri="quartz2://myGroup/changenn?cron=0+57+09+*+*+?" /&gt;
     &lt;bean ref="senderBestTags" method="process" /&gt;</code></pre>
