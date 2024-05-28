@@ -15,7 +15,7 @@
 Если вы используете <b>var</b>, эта переменная «утечёт» за пределы цикла и будет доступна во всей функции.<br/>
 В современной разработке и новых проектах разработчики предпочитают <b>let</b> и <b>const</b> из-за их предсказуемости и надёжности.<br/>
 <br/>
-<b>Примеры:</b><br/>
+<b>Примеры:</b><br/><br/>
 Любая функция, объявленная в той же области видимости, сможет обратиться к myVar:
 <pre class="language-java"><code>var myVar = 1;
 function setMyVar() {
@@ -25,21 +25,21 @@ setMyVar();
 console.log(myVar); // --> 2
 </code></pre>
 
-
+Обращение за пределами функции:
 <pre class="language-java"><code>function setMyVar() {
   var myVar = 2;
 }
 setMyVar();
 console.log(myVar); // undefined
 </code></pre>
-
+Обращение за пределами блока:
 <pre class="language-java"><code>function varTest() {
   for (var i = 0; i < 3; i++) {
     console.log(i);
   }
-  console.log(i); // 3!!!
+  console.log(i); // 3! , так как ключевое слово var действует на уровне функции.
 }
-varTest(); // 0,1,2,3!!!, так как ключевое слово var действует на уровне функции.
+varTest(); // 0,1,2,3!
 </code></pre>
 <b>Ссылки:</b><br/>
 <a style="text-decoration: underline; color: #3366ff;"
