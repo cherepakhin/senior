@@ -1,0 +1,49 @@
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QL6CK97WJZ"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-QL6CK97WJZ');
+</script>
+<b>var</b> и <b>let</b> — это два способа объявить <b>переменную</b> в JavaScript.<br/>
+<b>var</b> используется, когда нужна переменная с функциональной областью видимости или <b>глобальная</b> переменная.
+Также его можно использовать в устаревшем коде, где уже используется <b>var</b>. При определении <b>var "утекает"</b> из области видимости функции <b>в глобальную область видимости</b>.<br/>
+<hr id="system-readmore" />
+<b>let</b> применяется, когда нужна переменная с блочной областью видимости, которую не нужно тянуть в другие части программы. Также он позволяет избежать неожиданного поведения, связанного с поднятием.
+Если вы используете <b>var</b>, эта переменная «утечёт» за пределы цикла и будет доступна во всей функции.<br/>
+В современной разработке и новых проектах разработчики предпочитают <b>let</b> и <b>const</b> из-за их предсказуемости и надёжности.<br/>
+<br/>
+<b>Примеры:</b><br/>
+Любая функция, объявленная в той же области видимости, сможет обратиться к myVar:
+<pre class="language-java"><code>var myVar = 1;
+function setMyVar() {
+  myVar = 2;
+}
+setMyVar();
+console.log(myVar); // --> 2
+</code></pre>
+
+
+<pre class="language-java"><code>function setMyVar() {
+  var myVar = 2;
+}
+setMyVar();
+console.log(myVar); // undefined
+</code></pre>
+
+<pre class="language-java"><code>function varTest() {
+  for (var i = 0; i < 3; i++) {
+    console.log(i);
+  }
+  console.log(i); // 3!!!
+}
+varTest(); // 0,1,2,3!!!, так как ключевое слово var действует на уровне функции.
+</code></pre>
+<b>Ссылки:</b><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="Var, let или const? Проблемы областей видимости переменных и ES6 (Habr)"
+   href="https://habr.com/ru/companies/ruvds/articles/420359/"
+   target="_blank" rel="noopener noreferrer">Var, let или const? Проблемы областей видимости переменных и ES6 (Habr)</a>
+<br/>
