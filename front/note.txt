@@ -63,3 +63,6 @@ p {
 Кроме <link>, их также можно использовать @import:
 @import url(mobile.css) screen and (max-width: 991.98px);
 @import url(desktop.css) screen and (min-width: 992px);
+
+------------------HTML TABLE GENERATOR
+https://divtable.com/generator/
