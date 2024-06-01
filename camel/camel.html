@@ -82,11 +82,22 @@ public class SenderBestTags {
 Класс конструирует сообщение и отправляет его по почте. Чуть ниже подробнее про использование этого класса. Сейчас главное, что класс умеет отправлять почту.<br/>
 <br/>
 MessageEntity - контейнер сообщения для Camel (или не Camel, в том смысле, что это простой класс никак несвязанный ни со Spring, ни с Camel ):
-<pre class="language-java"><code>public class MessageEntity<T> implements Serializable {
-protected TypeCommand typeCommand;
-protected String className;
-protected String shopCod;
-protected T entity;
+<pre class="language-java"><code>public class MessageEntity&lt;T&gt; implements Serializable {
+  /*
+  * Сообщение (команда) для удаленной системы
+  *  Пример:  создать (typeCommand = Create)
+  *           строку в накладной (className = DocDetail)
+  *           для магазина (shopCod='07443')
+  *           с содержимым из entity
+  */
+  protected TypeCommand typeCommand;
+  // тип сущности (н.п. DocDetail)
+  protected String className;
+  // в какой торговой точке (маршрут)
+  protected String shopCod;
+  // содержимое сообщения (см. ниже "Пример сообщения из очереди"
+  //   &lt;entity type="DocDetail"&gt;...&lt;/entity&gt;  )
+  protected T entity;
 
   public MessageEntity() {
     this.typeCommand = TypeCommand.CREATE;
@@ -203,7 +214,7 @@ camel_route.xml (ключевые теги для понимания Camel: <b>r
                                                   href="https://www.w3schools.com/xml/xpath_syntax.asp"
                                                   target="_blank" rel="noopener noreferrer">XPath</a>
 ("<i>&lt;xpath&gt;//shopCod = '07260'&lt;/xpath&gt;</i>" в camel_route.xml) файл отправляется по тому или иному маршруту Camel.<br><br>
-В конфигурации camel.xml (немного урезано):
+Конфигурация camel.xml:
 <pre class="language-xml"><code>&lt;!-- Configures the Camel route --&gt;
 ...
 &lt;camelContext&gt;
