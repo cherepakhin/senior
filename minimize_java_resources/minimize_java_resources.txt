@@ -7,3 +7,9 @@ https://habr.com/ru/companies/1cupis/articles/790380/
 
 Мой проект или в моих Readme.md рекомендации по минимизации.
 https://github.com/cherepakhin/loader_big_list
+
+----------------
+Разбор 1млн. сообщений с Camel
+Разбор 1млн. сообщений с Kafka
+Нагрузочные тесты
+----------------
