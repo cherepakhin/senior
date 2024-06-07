@@ -10,28 +10,13 @@
 <br/>
 <br/>
 <ul>
-    <li><a href="#set_java_11"><b>Установки для Java 11</b></a></li>
     <li><a href="#beans_from_xml"><b>Настройки Spring beans с помощью xml-файла resources/beans.xml</b></a></li>
     <li><a href="#beans_from_annotation"><b>Настройки Spring beans с помощью аннотаций @Configuration и @Bean в conf/ConfigFromJava</b></a></li>
-    <li><a href="#dynamic_bean"><b>Динамический bean из внешнего источника(н.п. базы данных)</b></a></li>
+    <li><a href="#dynamic_bean"><b>Настройка bean из внешнего источника(н.п. базы данных)</b></a></li>
+    <li><a href="#set_java_11"><b>Установки для Java 11</b></a></li>
     <li><a href="#other"><b>Примечание</b></a></li>
 </ul>
 <hr id="system-readmore" />
-<a id="set_java_11"></a>
-<h3><b>Установки для Java 11.</b></h3>
-Использована Java 11.
-<pre class="notranslate" lang="text"><code>$ echo $JAVA_HOME
-> /usr/lib/jvm/java-1.11.0-openjdk-amd64
-</code></pre>
-
-Для установки выполнить:
-<pre class="notranslate" lang="text"><code>export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64
-</code></pre>
-В Idea установить File->Project Structure->Project Settings->Project->SDK
-<p dir="auto"><a href="https://github.com/cherepakhin/spring_config_k/blob/master/doc/java11.png"
-                 target="_blank" rel="noopener noreferrer">
-    <img src="https://github.com/cherepakhin/spring_config_k/raw/master/doc/java11.png" alt="idea_java_11" /></a></p>
-
 <a id="beans_from_xml"></a>
 <h3><b>Настройки Spring beans с помощью xml-файла resources/beans.xml.</b></h3>
 Определение beans в resources/beans.xml:<br/>
@@ -74,8 +59,23 @@ fun beanOneConfigFromCode() = "BEAN_ONE"
                     href="https://github.com/cherepakhin/spring_config_k"
                     rel="noopener noreferrer">https://github.com/cherepakhin/spring_config_k</a>
 <a id="dynamic_bean"></a>
-<h3><b>Динамический bean из внешнего источника (н.п. базы данных).</b></h3>
+<h3><b>Настройка bean из внешнего источника (н.п. базы данных).</b></h3>
 TODO: Пример в проекте МТС.
+<a id="set_java_11"></a>
+<h3><b>Установки для Java 11.</b></h3>
+Использована Java 11.
+<pre class="notranslate" lang="text"><code>$ echo $JAVA_HOME
+> /usr/lib/jvm/java-1.11.0-openjdk-amd64
+</code></pre>
+
+Для установки выполнить:
+<pre class="notranslate" lang="text"><code>export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64
+</code></pre>
+В Idea установить File->Project Structure->Project Settings->Project->SDK
+<p dir="auto"><a href="https://github.com/cherepakhin/spring_config_k/blob/master/doc/java11.png"
+                 target="_blank" rel="noopener noreferrer">
+    <img src="https://github.com/cherepakhin/spring_config_k/raw/master/doc/java11.png" alt="idea_java_11" /></a></p>
+
 <a id="other"></a>
 <h3><b>Примечания.</b></h3>
 Используется Java 11:
