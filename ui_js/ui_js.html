@@ -13,6 +13,8 @@
     <li><a href="#htmleditor_gitlab">Online редактор https://htmleditor.gitlab.io/</a></li>
     <li><a href="#libreoffice">LibreOffice Writer/Web</a></li>
     <li><a href="#eclipse">Eclipse RAP</a></li>
+    <li><a href="#adaptive">Адаптивная верстка</a></li>
+    <li><a href="#usetools">Зависимость UI от целей проекта</a></li>
 </ul>
 <hr id="system-readmore"/>
 <hr/>
@@ -52,6 +54,7 @@ On-line.<br/>
 
 <a id="libreoffice"></a>
 <b>LibreOffice writer</b><br/>
+<br/>
 Off-line.<br/>
 <br/>
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="libreoffice"
@@ -88,13 +91,35 @@ Off-line.<br/>
 И еще одна ОСОБЕННАЯ особенность - интерфейс пишется полностью на Java. Т.е. совсем никаких js, div, React и т.п,
 <b>ПОЛНОСТЬЮ JAVA приложение</b>. А это значит ТИПИЧНАЯ разработка на java, со всей культурой java (тесты, ci/cd и т.п).
 <br/>
-<a href="https://yandex.ru/video/preview/6023898073399414130"
+<hr/>
+<a id="adaptive"></a>
+<a href="https://www.youtube.com/watch?v=XbnAKjjlgc4&t=293s"
    target="_blank" rel="noopener noreferrer">
     <strong>Адаптивная вёрстка сайтов за 37 минут + макет.</strong>
-</a><br/>
-Тебе не нужен Bootstrap! [ENG SUBS]. Мобилы 52%, desktop 43%.<br/>
+</a><br/><br/>
+Содержание:<br/>
+<ul>
+    <li>00:00 - Вступление</li>
+    <li>01:05 - Подходы к верстке</li>
+    <li>01:30 - О контейнере</li>
+    <li>03:01 - Фиксированная верстка</li>
+    <li>06:46 - Отзывчивая верстка</li>
+    <li>11:52 - Адаптивная верстка (<b>тебе не нужен Bootstrap</b>)</li>
+    <li>17:29 - Отзывчиво адаптивная верстка</li>
+    <li>19:50 - Какой тип верстки использовать</li>
+    <li>20:34 - Медиа запросы</li>
+    <li>28:05 - Mobile First</li>
+    <li>29:00 - Хорошие практики адаптива</li>
+    <li>36:13 - Домашнее задание + макет</li>
+</ul>
 <hr/>
 Для мобилы 5 колонок.<br/>
 <hr/>
 Bootstrap 5
 <hr/>
+<a id="usetools"></a>
+<b>Зависимость UI от целей проекта</b><br/><br/>
+Какой UI (а значит и инструмент) выбрать? А для чего? Если речь идет о работе со стационарного рабочего места (ПК, ноутбук),
+то можно расчитывать на большой экран, мышь и тогда что-то типа Eclipse RAP зайдет отлично. Если для клиентов,
+которые в дороге и у которых только телефон, то весь функционал стационарного рабочего места может быть и не нужен.
+Либо работа с приложением 8 часов в сутки, либо эпизодически (проверить/пополнить баланс, прочитать какие-то последние новости и т.п).
