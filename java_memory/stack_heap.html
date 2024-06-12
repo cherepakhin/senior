@@ -20,3 +20,26 @@
 ссылается) используется <b>сборщик мусора (garbage collector)</b>. Аргумент для виртуальной
 машины <b>-Xmx1024k</b>. Ошибка <b>OutOfMemory</b>.
 </p>
+<p><b>Volatile</b> – говорит потоку что переменная может меняться другими потоками, и информирует
+поток о необходимости обращаться к последней версии, а не к хешированной копии и своевременно
+распространять изменения.
+Например, когда мы в многопоточном приложении используем паттерн Синглтон в котором применяем синхронизацию
+и хотим чтобы синхронизация осуществлялась только один раз при инициализации объекта,
+а не каждый раз, когда мы вызываем getInstance(), тогда модификатор volatile используем для объектной ссылки :
+<pre class="language-java"><code>public class Singleton {
+    private static volatile Singleton instance;
+    private Singleton(){
+    }
+    public static Singleton getInstance() {
+        if (instance == null) {
+            synchronized(Singleton.class) {
+                if (instance == null)
+                    instance = new Singleton();
+            }
+        }
+        return instance;
+    }
+}
+</code></pre>
+Внимание на <b>static</b>, <b>volatile</b>, <b>synchronized</b>.
+</p>
