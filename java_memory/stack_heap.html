@@ -23,8 +23,8 @@
 <p><b>Volatile</b> – говорит потоку что переменная может меняться другими потоками, и информирует
 поток о необходимости обращаться к последней версии (<b>heap</b>), а не к хешированной копии (<b>stack</b>) и своевременно
 распространять изменения.
-    Например, когда мы в многопоточном приложении используем паттерн Синглтон в котором <b>применяем синхронизацию <u>synchronized...</u> (stack -&gt; heap)</b>
-и хотим чтобы синхронизация осуществлялась только один раз при инициализации объекта,
+Например, когда мы в многопоточном приложении используем паттерн Синглтон в котором <b>применяем синхронизацию <u>synchronized...</u> (stack -&gt; heap)</b>
+и хотим чтобы синхронизация осуществлялась <b>только один раз при инициализации объекта</b>,
 а не каждый раз, когда мы вызываем getInstance(), тогда модификатор volatile используем для объектной ссылки :
 <pre class="language-java"><code>public class Singleton {
     private static volatile Singleton instance;   // ! может меняться другими потоками
@@ -32,8 +32,8 @@
     }
     public static Singleton getInstance() {
         if (instance == null) {
-            synchronized(Singleton.class) {       // ! stack -> heap
-                if (instance == null)             // !
+            synchronized(Singleton.class) {       // ! При выходе из synchronized
+                if (instance == null)             // ! синхронизироать stack -> heap
                     instance = new Singleton();   // !
             }                                     // !
         }
@@ -41,5 +41,11 @@
     }
 }
 </code></pre>
-Внимание на <b>static</b>, <b>volatile</b>, <b>synchronized</b>.
-</p>
+(Внимание на <b>static</b>, <b>volatile</b>, <b>synchronized</b>)<br/>
+Еще одно объяснение: <a title="Еще одно объяснение"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank"
+   href="https://timmson.github.io/java-interview/009-concurrency.html"
+   rel="noopener noreferrer">https://timmson.github.io/java-interview/009-concurrency.html</a>.
+С точки зрения Java все переменные (за исключением локальных переменных, объявленных внутри метода) хранятся в <u>главной</u> памяти, которая доступна всем потокам. Кроме этого, каждый поток имеет <u>локальную</u>(рабочую) память, где он хранит копии переменных, с которыми он работает, и при выполнении программы поток работает только с этими копиями.<br/><br/>
+<b>При входе</b> в <u>synchronized</u> метод или блок поток обновляет содержимое <u>локальной</u> памяти, а <b>при выходе</b> из synchronized метода или блока поток записывает изменения, сделанные в <u>локальной</u> памяти, в <u>главную</u>.
