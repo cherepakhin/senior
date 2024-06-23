@@ -20,19 +20,19 @@
 Пример для immutable <b>класса</b> :
 <pre class="language-java"><code>public final class Person {
     private final String name;
-    private final String ssn;     // (SSN == social security number)
+    private final Integer age;
 
-    public Person(String name, String ssn) {
+    public Person(String name, Integer age) {
         this.name = name;
-        this.ssn = ssn;
+        this.ssn = age;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getSSN() {
-        return ssn;
+    public String getAge() {
+        return age;
     }
 }
 </code></pre>
