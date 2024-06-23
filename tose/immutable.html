@@ -1,0 +1,44 @@
+<b>Массивы</b> в Java изменяемый (<b>mutable</b>) тип. Пример решения:
+
+<pre class="language-java"><code>public class ImmutableIntArray {
+    private final int[] array;
+
+    public ImmutableIntArray(int[] array) {
+        this.array = array.clone();  // clone
+    }
+
+    public int[] getValue() {
+        return this.clone(); // clone
+    }
+}
+</code></pre>
+<ul>
+    <li>нет сеттеров</li>
+    <li>установка свойств только через конструктор</li>
+</ul>
+<br/>
+Пример для immutable <b>класса</b> :
+<pre class="language-java"><code>public final class Person {
+    private final String name;
+    private final String ssn;     // (SSN == social security number)
+
+    public Person(String name, String ssn) {
+        this.name = name;
+        this.ssn = ssn;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSSN() {
+        return ssn;
+    }
+}
+</code></pre>
+<ul>
+    <li>нет <b>сеттеров</b></li>
+    <li>свойства задаются <b>только через конструктор</b></li>
+    <li>свойства <b>final</b></li>
+</ul>
+
