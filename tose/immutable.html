@@ -1,14 +1,18 @@
-<b>Массивы</b> в Java изменяемый (<b>mutable</b>) тип. Пример решения:
-<hr id="system-readmore"/>
+Что такое неизменяемый объект? Когда вы создаете новое значение для такого объекта, на самом деле создается новый объект,
+и старый объект остается неизменяемым. Это будет более эффективным по времени и памяти, чем изменение изначального объекта.
+Это обеспечивает безопасность многопоточного программирования, поскольку неизменяемые объекты могут быть разделены <b>между несколькими потоками</b> без риска изменений и ошибок.<br/>
+<hr id="system-readmore"/><br/>
+<b>Массивы</b> в Java изменяемый (<b>mutable</b>) тип. Пример решения:<br/>
+
 <pre class="language-java"><code>public class ImmutableIntArray {
     private final int[] array;
 
     public ImmutableIntArray(int[] array) {
-        this.array = array.clone();  // clone
+        this.array = array.clone();  // clone!!!
     }
 
     public int[] getValue() {
-        return this.clone(); // clone
+        return this.clone(); // get clone!!!
     }
 }
 </code></pre>
