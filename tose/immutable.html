@@ -53,7 +53,7 @@
 public class PizzaDto {
 
     private final String name;
-    private final List&lt;String&gt; ingredients;
+    private final List&lt;String&gt; ingredients; // final!!!
 
     public PizzaDto(String name, List&lt;String&gt; ingredients) {
         this.name = name;
@@ -81,6 +81,12 @@ public class PizzaDto {
 }
 </code></pre>
 Но внутренние объекты, все равно, нужно держать под контролем. В Spring есть <a style="color: #3366ff; text-decoration: underline;" href=https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cglib/beans/ImmutableBean.html" target="_blank" rel="noopener noreferrer">ImmutableBean</a>.
+<br/>
+<br/>
+В Kotlin immutable коллекции представлены listOf(), setOf(), mapOf()
+<a style="color: #3366ff; text-decoration: underline;" href="https://www.kotlinsos.com/basics/kotlin-and-immutable-collections/" target="_blank" rel="noopener noreferrer">https://www.kotlinsos.com/basics/kotlin-and-immutable-collections/</a>,
+<a style="color: #3366ff; text-decoration: underline;" href="https://www.baeldung.com/kotlin/immutable-collections" target="_blank" rel="noopener noreferrer">https://www.baeldung.com/kotlin/immutable-collections,</a>
+
 <br/>
 <br/>
 Ссылки:<br/>
