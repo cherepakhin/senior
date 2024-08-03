@@ -1,0 +1,36 @@
+Проблема: доступ в интернет сильно ограничен или репозиториям проекта, практически, околонулевой. Решение - кешировать зависимости.
+<hr id="system-readmore" />
+<h3>Maven</h3>
+Включить режим offline (ключ <b>-o</b>).
+<pre class="language-shell"><code>$ mvn dependency:go-offline  //загрузка зависимостей
+$ mvn -o clean install
+$ mvn -o test
+</code></pre>
+
+или
+
+<pre class="language-shell"><code>$ mvn dependency:go-offline
+</code></pre>
+
+Либо хранить зависимости вместе с проектом:
+<pre class="language-shell"><code>$ mvn -Dmaven.repo.local=dependencies install
+</code></pre>
+Зависимости будут скопированы в папку <b>dependencies</b>.
+<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Maven offline" src="images/offline/idea_dependies.png"
+        alt="Maven offline" width="365" height="264"/></p>
+<br/>
+Включение <b>offline</b> режима для <b>maven</b> в <b>Idea</b> в меню <b>File -> Settings -> Build, Execution, Deployment -> Build Tools -> Maven -> and check/uncheck Work offline</b>.
+<br/><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Maven offline" src="images/offline/maven_offline.png"
+        alt="Maven offline" width="987" height="522"/></p>
+
+<br/>
+<h3>Gradle</h3>
+
+Ключ --offline:
+<pre class="language-shell"><code>$ gradle --offline build
+</code></pre>
+В Idea:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Maven offline" src="images/offline/maven_offline.png"
+        alt="Maven offline" width="1053" height="189"/></p>
