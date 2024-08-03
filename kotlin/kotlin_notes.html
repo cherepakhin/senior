@@ -10,8 +10,8 @@ Kotlin + JPA <a style="text-decoration: underline; color: #3366ff;"
                 target="_blank" rel="noopener noreferrer">Kotlin + Hibernate: всё сложно</a>.
 <br/>
 Кратко:
-<ul>
-    <li>Классы данных — не лучший вариант для сущностей, т.к:<br/>
+
+    Классы данных(data class) — не лучший вариант для сущностей, т.к:<br/>
         1. Класс сущности должен иметь <b>конструктор без параметров</b>. Класс сущности также может иметь другие конструкторы.
 Конструктор без параметров должен быть public или protected. Без него Hibernate не сможет создавать экземпляры сущности и
 будет бросать исключение: org.hibernate.InstantiationException: No default constructor for entity. Можно вручную определить
@@ -38,8 +38,29 @@ Kotlin + JPA <a style="text-decoration: underline; color: #3366ff;"
    &lt;/dependencies&gt;
 &lt;/plugin&gt;
 </code></pre>
-        <br/>
-        2. Класс сущности <b>не</b> должен быть final. Никакие методы и атрибуты сущности не могут быть final.<br/>
-        3. Реализации equals() и hashCode() должны учитывать мутабельность сущностей.
-    </li>
-</ul>
+В Gradle:
+<pre class="language-xml"><code>plugins {
+  id "org.jetbrains.kotlin.plugin.jpa" version "1.5.21"
+}
+</code></pre><br/>
+2. В Kotlin классы, свойства и методы по умолчанию final. Класс сущности <b>не</b> должен быть final. Никакие методы и атрибуты сущности не могут быть final, поэтому их нужно явно помечать ключевым словом <b>open</b>.<br/>
+3. Реализации equals() и hashCode() должны учитывать мутабельность сущностей.<br/>
+4. Как и в java, нужно учитывать работу с lazy коллекциями.<br/>
+
+Для ID, генерируемый в БД следующее решение с <b>@NAturalId</b>:<pre class="language-java"><code>@Table(name = "contact")
+@Entity
+data class Contact(
+   @NaturalId
+   @Column(name = "email", nullable = false, updatable = false)
+   val email: String
+) {
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @Column(name = "id", nullable = false)
+   var id: Long? = null
+
+   // other properties omitted
+}
+</code></pre><br/>
+Так делать можно, но нужно ли? Такой подход сводит пользу от классов данных на нет, поскольку делает декомпозицию бесполезной и использует только одно поле в методе toString().<br>
+<h3><b>Итого: Обычный класс подойдет для сущностей лучше</b></h3>.
