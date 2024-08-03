@@ -1,0 +1,45 @@
+Object,Companion Object <a style="text-decoration: underline; color: #3366ff;"
+                           title="https://bimlibik.github.io/posts/kotlin-object-keyword/"
+                           href="https://bimlibik.github.io/posts/kotlin-object-keyword/"
+                           target="_blank" rel="noopener noreferrer">https://bimlibik.github.io/posts/kotlin-object-keyword/</a>
+<br/>
+<br/>
+Kotlin + JPA <a style="text-decoration: underline; color: #3366ff;"
+                title="Kotlin + Hibernate: всё сложно"
+                href="https://habr.com/ru/companies/haulmont/articles/572574/"
+                target="_blank" rel="noopener noreferrer">Kotlin + Hibernate: всё сложно</a>.
+<br/>
+Кратко:
+<ul>
+    <li>Классы данных — не лучший вариант для сущностей, т.к:<br/>
+        1. Класс сущности должен иметь <b>конструктор без параметров</b>. Класс сущности также может иметь другие конструкторы.
+Конструктор без параметров должен быть public или protected. Без него Hibernate не сможет создавать экземпляры сущности и
+будет бросать исключение: org.hibernate.InstantiationException: No default constructor for entity. Можно вручную определить
+конструктор без параметров для всех сущностей в проекте. Но есть плагин для компилятора kotlin-jpa.
+Чтобы включить kotlin-jpa, его надо добавить в зависимости kotlin-maven-plugin и указать его в compilerPlugins:
+<pre class="language-xml"><code>&lt;plugin&gt;
+   &lt;groupId&gt;org.jetbrains.kotlin&lt;/groupId&gt;
+   &lt;artifactId&gt;kotlin-maven-plugin&lt;/artifactId&gt;
+   &lt;configuration&gt;
+       &lt;compilerPlugins&gt;
+           ...
+           &lt;plugin&gt;jpa&lt;/plugin&gt;
+           ...
+       &lt;/compilerPlugins&gt;
+   &lt;/configuration&gt;
+   &lt;dependencies&gt;
+       ...
+       &lt;dependency&gt;
+           &lt;groupId&gt;org.jetbrains.kotlin&lt;/groupId&gt;
+           &lt;artifactId&gt;kotlin-maven-noarg&lt;/artifactId&gt;
+           &lt;version&gt;${kotlin.version}&lt;/version&gt;
+       &lt;/dependency&gt;
+       ...
+   &lt;/dependencies&gt;
+&lt;/plugin&gt;
+</code></pre>
+        <br/>
+        2. Класс сущности <b>не</b> должен быть final. Никакие методы и атрибуты сущности не могут быть final.<br/>
+        3. Реализации equals() и hashCode() должны учитывать мутабельность сущностей.
+    </li>
+</ul>
