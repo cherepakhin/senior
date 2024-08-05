@@ -21,8 +21,7 @@
 <pre class="language-shell">
 <code>git clone https://github.com/javabydeveloper/Junit-5-tutorials-master/tree/master/junit5-allure-report-example
 cd junit5-allurreport-example
-mvn clean test allure:report</code>
-</pre>
+mvn clean test allure:report</code></pre>
 <br/>
 <p><i><b>Необходимое замечание об интеграционных тестах</b></i></p>
 JUnit для UNIT тестов и цена им небольшая. Речь о применении JUnit в ИНТЕГРАЦИОННЫХ тестах.
@@ -51,9 +50,7 @@ dependencies {
     ...
 	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter'
     ...
-}
-</code>
-</pre>
+}</code></pre>
 Работающий пример:
 <a style="text-decoration: underline; color: #3366ff;"
    title="https://github.com/cherepakhin/kotlin_in_action/"
@@ -67,24 +64,33 @@ dependencies {
 <br/>
 <b>Прогон конкретного теста</b>:
 
-<pre class="language-java">
-<code>./gradlew test --tests '*AssumptionsTest'
+<pre class="language-java"><code>./gradlew test --tests '*AssumptionsTest'
 ./gradlew test --tests ru.perm.v.project.AssumptionsTest
 ./gradlew test --tests 'ru.perm.v.project.MyTestClass*'
-./gradlew test --tests '*Assumptions*'
-</code>
-</pre>
+./gradlew test --tests '*Assumptions*'</code></pre>
 
 <b>Разные варианты тестирования:</b>
 
-<pre class="language-java">
-<code>./gradlew test --tests '*SomeTest.someSpecificFeature'
+<pre class="language-java"><code>./gradlew test --tests '*SomeTest.someSpecificFeature'
 ./gradlew test --tests '*SomeSpecificTest'
 ./gradlew test --tests '*IntegTest'
 ./gradlew test --tests '*IntegTest*ui*'
-./gradlew test --tests '*IntegTest.singleMethod'
-</code>
-</pre>
+./gradlew test --tests '*IntegTest.singleMethod'</code></pre>
+
+Еще один момент - Gradle пропускает уже пройденные тесты, если код не изменился. В случае с тестирования внешнего сервися, сами тесты не меняются, а тестируюмая система может измениться.
+Нужно прогонять все тесты заново. Варианты решения:
+<pre class="language-java"><code>./gradlew clean test
+./gradlew cleanTest test
+./gradlew test --rerun-tasks</code></pre>
+Можно просто использовать "./gradlew test" для прогона ВСЕХ тестов, <b>без учета предыдущих результатов</b>.
+Для этого нужно настроить таск тестирования. На примере build.gradle.kts:
+
+<pre class="language-java"><code>tasks.withType&lt;Test&gt; {
+....
+    outputs.upToDateWhen { false } // always rerun tests
+....
+}</code></pre>
+
 
 <b>Пример тестирования с базой данных:</b>
 <br/>
