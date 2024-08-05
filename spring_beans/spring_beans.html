@@ -82,3 +82,12 @@ TODO: Пример в проекте МТС.
 <pre class="notranslate" lang="shell"><code>~/prog/kotlin/spring_config_k$ export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64
 ~/prog/kotlin/spring_config_k$ ./gradlew clean test
 </code></pre>
+<br/>
+В <b>build.gradle.kts</b> можно использовать переменные из <b>application.yaml</b>. Пример:
+<pre class="notranslate" lang="shell"><code>tasks.withType&lt;Test&gt;() {
+    allureConfig
+    useJUnitPlatform()
+    systemProperties["PORT"] = <b>properties["port"]</b>
+    systemProperties["URL"] = <b>properties["url"]</b>
+}</code></pre>
+
