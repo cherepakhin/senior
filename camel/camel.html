@@ -366,7 +366,20 @@ public void configure() {
 ...
 &lt;/dependencies&gt;
 </code></pre>
-            
+
+Если используется конфигурирование с application.yaml и аннотации, то для запуска подсистемы Camel нужно добавить в application.yaml:
+<pre class="language-xml"><code>...
+camel:
+  springboot:
+    main-run-controller: true
+...
+</code></pre>
+Пример: <a style="text-decoration: underline; color: #3366ff;"
+           title="https://github.com/cherepakhin/camel_rest/blob/dev/src/main/resources/application.yaml"
+           href="https://github.com/cherepakhin/camel_rest/blob/dev/src/main/resources/application.yaml"
+           target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/camel_rest/blob/dev/src/main/resources/application.yaml</a>
+<br/>
+<br/>
 <b>Ссылки:</b><br/>
 <a style="text-decoration: underline; color: #3366ff;"
    title="https://camel.apache.org/"
