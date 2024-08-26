@@ -1,0 +1,52 @@
+https://antons-organization-1.gitbook.io/administrirovanie-linux/servisy-linux/sistemy-upravleniya-bazami-dannykh/ustanovka-i-nastroika-subd-mysql
+
+sudo apt install mysql-server
+mysql --version
+sudo mysql
+mysql> \q
+
+создание пользователя
+sudo mysql
+CREATE USER 'vasi'@'localhost' IDENTIFIED BY 'pass';
+============================================================
+Пользователи:
+select host, user from user;
++-----------+------------------+
+| host      | user             |
++-----------+------------------+
+| localhost | debian-sys-maint |
+| localhost | mysql.infoschema |
+| localhost | mysql.session    |
+| localhost | mysql.sys        |
+| localhost | root             |
+| localhost | vasi             |
++-----------+------------------+
+6 rows in set (0,00 sec)
+============================================================
+!!!!! ПОЗЖЕ
+Для разрешения доступа к определенной БД:
+mysql> grant all privileges on *.* to 'vasi'@'localhost';
+mysql> grant all on *.* to vasi@'%';
+
+!!!!!
+============================================================
+Проверка:
+
+systemctl status mysql
+>...
+> Active: active (running)
+>...
+============================================================
+mysql -u vasi -ppass
+============================================================
+Доступ из сети
+В /etc/mysql/mysql.conf.d закоменнтить строку
+#bind-address		= 127.0.0.1
+и перезапустить
+sudo systemctl restart mysql.service
+
+Создать пользователя:
+CREATE USER 'vasi'@'%' IDENTIFIED BY 'pass';
+Проверка с ноута:
+mysql -u vasi -ppass -h192.168.1.20
+============================================================

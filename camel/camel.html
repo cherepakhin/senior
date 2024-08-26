@@ -1,403 +1,647 @@
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-QL6CK97WJZ"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+<p>Spring boot велик и могуч, но есть есть и другие инструменты.</p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="images/camel/capusta.png" alt="capusta" width="694" height="379" loading="lazy" data-path="local-images:/camel/capusta.png" /></p>
+<p>Camel это интеграционный клей, который соединяет компоненты системы, предоставляя коннекторы. Примеры коннекторов: rest, ftp, Spring bean и еще много всяких: <a style="text-decoration: underline; color: #3366ff;" title="https://camel.apache.org/components/next/index.html#_components" href="https://camel.apache.org/components/next/index.html#_components" target="_blank" rel="noopener noreferrer">https://camel.apache.org/components/next/index.html#_components</a>.</p>
+<p><b>Небольшой пример.</b><br />Задача - разослать обновления цен из офиса в подразделения (торговые точки). Ниже примеры <b>xml</b> Spring context и Camel конфигураций. (Почему Spring context задан в xml, а не использованы аннотации? Удобнее было менять логику работы комплекса <b>БЕЗ</b> перекомпиляции.) В примере настроено несколько конфигураций Camel (тег route) для рассылки обновлений в торговые точки из центра.<br />Camel context загружается вместе со Spring context. Подключение конфигурации Camel (camel.xml) в Spring context.<br />springContext.xml:</p>
+<!-- HTML generated using hilite.me -->
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <table>
+        <tbody>
+        <tr>
+            <td>
+<pre style="margin: 0; line-height: 125%;"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre>
+            </td>
+            <td>
+<pre style="margin: 0; line-height: 125%;"><span style="color: #000080; font-weight: bold;">&lt;beans&gt;</span>
+<span style="color: #008080;">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+  <span style="color: #000080; font-weight: bold;">&lt;beans</span> <span style="color: #ff0000;">xmlns=</span><span style="color: #0000ff;">"http://www.springframework.org/schema/beans"</span>
+    <span style="color: #ff0000;">xmlns:p=</span><span style="color: #0000ff;">"http://www.springframework.org/schema/p"</span>
+    <span style="color: #ff0000;">xmlns:xsi=</span><span style="color: #0000ff;">"http://www.w3.org/2001/XMLSchema-instance"</span>
+    <span style="color: #ff0000;">xmlns:tx=</span><span style="color: #0000ff;">"http://www.springframework.org/schema/tx"</span>
+    <span style="color: #ff0000;">xmlns:context=</span><span style="color: #0000ff;">"http://www.springframework.org/schema/context"</span>
+    <span style="color: #ff0000;">xsi:schemaLocation=</span><span style="color: #0000ff;">"http://www.springframework.org/schema/beans</span>
+<span style="color: #0000ff;">        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</span>
+<span style="color: #0000ff;">        http://www.springframework.org/schema/context</span>
+<span style="color: #0000ff;">        http://www.springframework.org/schema/context/spring-context-3.0.xsd</span>
+<span style="color: #0000ff;">        http://www.springframework.org/schema/tx</span>
+<span style="color: #0000ff;">        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"</span><span style="color: #000080; font-weight: bold;">&gt;</span>
 
-    gtag('config', 'G-QL6CK97WJZ');
-</script>
-Spring boot велик и могуч, но есть есть и другие инструменты.<br/><br/>
-<p><img style="display: block; margin-left: auto; margin-right: auto;"
-        src="images/camel/capusta.png" alt="" /></p><br/>
-Camel это интеграционный клей, который соединяет компоненты системы, предоставляя коннекторы.
-Примеры коннекторов:  rest, ftp, Spring bean и еще много всяких:
-<a title="https://camel.apache.org/components/next/index.html#_components" href="https://camel.apache.org/components/next/index.html#_components"
-   style="text-decoration: underline; color: #3366ff;"
-   target="_blank" rel="noopener noreferrer">https://camel.apache.org/components/next/index.html#_components</a>.
-<hr id="system-readmore" />
-<br/><br/><b>Небольшой пример.</b><br/><br/>
-Задача - разослать обновления цен из офиса в подразделения (торговые точки).
+  <span style="color: #000080; font-weight: bold;">&lt;import</span> <span style="color: #ff0000;">resource=</span><span style="color: #0000ff;">"dao.xml"</span> <span style="color: #000080; font-weight: bold;">/&gt;</span> <span style="color: #008800; font-style: italic;">&lt;!--Spring DAO --&gt;</span>
+  <span style="color: #000080; font-weight: bold;">&lt;import</span> <span style="color: #ff0000;">resource=</span><span style="color: #0000ff;">"services.xml"</span> <span style="color: #000080; font-weight: bold;">/&gt;</span> <span style="color: #008800; font-style: italic;">&lt;!--Spring services --&gt;</span>
 
-Ниже примеры <b>xml</b> Spring context и Camel конфигураций.
-(Почему Spring context задан в xml, а не использованы аннотации? Удобнее было менять логику работы комплекса <b>БЕЗ</b> перекомпиляции.)
-В примере настроено несколько конфигураций Camel (тег route) для рассылки обновлений в торговые точки из центра.<br/>
-Camel context загружается вместе со Spring context. Подключение конфигурации Camel (camel.xml) в Spring context.<br/>
-springContext.xml:
-<div>
-<pre class="language-xml"><code>&lt;beans&gt;
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-  &lt;beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:tx="http://www.springframework.org/schema/tx"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-        http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context-3.0.xsd
-        http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"&gt;
-
-  &lt;import resource="dao.xml" /&gt; &lt;!--Spring DAO --&gt;
-  &lt;import resource="services.xml" /&gt; &lt;!--Spring services --&gt;
-
-  &lt;import resource="camel.xml"/&gt; &lt;!--CAMEL!!! --&gt;
-  ...</code></pre>
-
-В dao.xml и services.xml определены Spring beans. Пример определения Spring bean:<br/>
-<pre class="language-xml"><code>&lt;beans&gt;
-  &lt;!-- Configure Spring beans --&gt;
-  &lt;bean id="senderBestTags" class="ru.perm.v.office.service.SenderBestTags"&gt;
-	&lt;property name="shopProvider" ref="shopDao"/&gt;
-	&lt;property name="bestTagToPriceConvertor" ref="bestTagToPriceConvertor"/&gt;
-	&lt;property name="emailer" ref="emailer"/&gt;
-  &lt;/bean&gt;
+  <span style="color: #000080; font-weight: bold;">&lt;import</span> <span style="color: #ff0000;">resource=</span><span style="color: #0000ff;">"camel.xml"</span><span style="color: #000080; font-weight: bold;">/&gt;</span> <span style="color: #008800; font-style: italic;">&lt;!--CAMEL!!! --&gt;</span>
+</pre>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<p><br />В dao.xml и services.xml определены Spring beans. Пример определения Spring bean:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <table>
+        <tbody>
+        <tr>
+            <td>
+<pre style="margin: 0; line-height: 125%;">1
+2
+3
+4
+5
+6
+7
+8
+9</pre>
+            </td>
+            <td>
+<pre style="margin: 0; line-height: 125%;"><span style="color: #000080; font-weight: bold;">&lt;beans&gt;</span>
+  <span style="color: #008800; font-style: italic;">&lt;!-- Configure Spring beans --&gt;</span>
+  <span style="color: #000080; font-weight: bold;">&lt;bean</span> <span style="color: #ff0000;">id=</span><span style="color: #0000ff;">"senderBestTags"</span> <span style="color: #ff0000;">class=</span><span style="color: #0000ff;">"ru.perm.v.office.service.SenderBestTags"</span><span style="color: #000080; font-weight: bold;">&gt;</span>
+	<span style="color: #000080; font-weight: bold;">&lt;property</span> <span style="color: #ff0000;">name=</span><span style="color: #0000ff;">"shopProvider"</span> <span style="color: #ff0000;">ref=</span><span style="color: #0000ff;">"shopDao"</span><span style="color: #000080; font-weight: bold;">/&gt;</span>
+	<span style="color: #000080; font-weight: bold;">&lt;property</span> <span style="color: #ff0000;">name=</span><span style="color: #0000ff;">"bestTagToPriceConvertor"</span> <span style="color: #ff0000;">ref=</span><span style="color: #0000ff;">"bestTagToPriceConvertor"</span><span style="color: #000080; font-weight: bold;">/&gt;</span>
+	<span style="color: #000080; font-weight: bold;">&lt;property</span> <span style="color: #ff0000;">name=</span><span style="color: #0000ff;">"emailer"</span> <span style="color: #ff0000;">ref=</span><span style="color: #0000ff;">"emailer"</span><span style="color: #000080; font-weight: bold;">/&gt;</span>
+  <span style="color: #000080; font-weight: bold;">&lt;/bean&gt;</span>
 ...
-&lt;/beans&gt;</code></pre>
-Класс SenderBestTags:<br/>
-<pre class="language-java"><code>/**
-* Отправка изменений ценников в магазин
-*/
-public class SenderBestTags {
-    ...
-    private IEmailer emailer; // какая-то реализация сервиса почты, н.п. https://docs.spring.io/spring-framework/reference/integration/email.html
-    ...
-    public Object process(@Body Object body) {
-        ...
-        emailer.send(emailReceivers, getMailMessage(), subject, attachFiles);
-        ...
+<span style="color: #000080; font-weight: bold;">&lt;/beans&gt;</span>
+</pre>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<p><br />Класс SenderBestTags:</p>
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <table>
+        <tbody>
+        <tr>
+            <td>
+<pre style="margin: 0; line-height: 125%;">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19</pre></td>
+<td>
+<pre style="margin: 0; line-height: 125%;"><span style="color: #008800; font-style: italic;">/**</span>
+<span style="color: #008800; font-style: italic;">* Отправка изменений ценников в магазин</span>
+<span style="color: #008800; font-style: italic;">*/</span>
+<span style="color: #000080; font-weight: bold;">public</span> <span style="color: #000080; font-weight: bold;">class</span> SenderBestTags {
+<span style="color: #000080; font-weight: bold;">private</span> IEmailer emailer; <span style="color: #008800; font-style: italic;">// какая-то реализация сервиса почты, <br />                              // н.п. https://docs.spring.io/spring-framework/reference/integration/email.html</span>
+<span style="color: #000080; font-weight: bold;">public</span> Object process(@Body Object body) {
+      emailer.<span style="color: #ff0000;">send</span>(emailReceivers, getMailMessage(), subject, attachFiles);
     }
-    ...
-	public IEmailer getEmailer() {
-		return emailer;
-	}
 
-	public void setEmailer(IEmailer emailer) {
-		this.emailer = emailer;
-	}
-    ...
+    <span style="color: #000080; font-weight: bold;">public</span> IEmailer getEmailer() {
+      <span style="color: #000080; font-weight: bold;">return</span> emailer;
+    }
+
+    <span style="color: #000080; font-weight: bold;">public</span> <span style="color: #000080; font-weight: bold;">void</span> setEmailer(IEmailer emailer) {
+      <span style="color: #000080; font-weight: bold;">this</span>.<span style="color: #ff0000;">emailer</span> = emailer;
+    }
 }
-</code></pre>
-Класс конструирует сообщение и отправляет его по почте. Чуть ниже подробнее про использование этого класса. Сейчас главное, что класс умеет отправлять почту.<br/>
-<br/>
-MessageEntity - контейнер сообщения для Camel (или не Camel, в том смысле, что это простой класс никак несвязанный ни со Spring, ни с Camel ):
-<pre class="language-java"><code>public class MessageEntity&lt;T&gt; implements Serializable {
-  /*
-  * Сообщение (команда) для удаленной системы
-  *  Пример:  создать (typeCommand = Create)
-  *           строку в накладной (className = DocDetail)
-  *           для магазина (shopCod='07443')
-  *           с содержимым из entity
-  */
-  protected TypeCommand typeCommand;
-  // тип сущности (н.п. DocDetail)
-  protected String className;
-  // в какой торговой точке (маршрут)
-  protected String shopCod;
-  // содержимое сообщения (см. ниже "Пример сообщения из очереди"
-  //   &lt;entity type="DocDetail"&gt;...&lt;/entity&gt;  )
-  protected T entity;
+</pre>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<p>Класс конструирует сообщение и отправляет его по почте. Чуть ниже подробнее про использование этого класса. Сейчас главное, что класс умеет отправлять почту.<br /><br />MessageEntity - контейнер сообщения для Camel (или не Camel, в том смысле, что это простой класс никак несвязанный ни со Spring, ни с Camel ):</p>
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">class</span> MessageEntity&lt;T&gt; <span style="color: #000080; font-weight: bold">implements</span> Serializable {
+  <span style="color: #008800; font-style: italic">/*</span>
+<span style="color: #008800; font-style: italic">  * Сообщение (команда) для удаленной системы</span>
+<span style="color: #008800; font-style: italic">  *  Пример:  создать (typeCommand = Create)</span>
+<span style="color: #008800; font-style: italic">  *           строку в накладной (className = DocDetail)</span>
+<span style="color: #008800; font-style: italic">  *           для магазина (shopCod=&#39;07443&#39;)</span>
+<span style="color: #008800; font-style: italic">  *           с содержимым из entity</span>
+<span style="color: #008800; font-style: italic">  */</span>
+  <span style="color: #000080; font-weight: bold">protected</span> TypeCommand typeCommand;
+  <span style="color: #008800; font-style: italic">// тип сущности (н.п. DocDetail)</span>
+  <span style="color: #000080; font-weight: bold">protected</span> String className;
+  <span style="color: #008800; font-style: italic">// в какой торговой точке (маршрут)</span>
+  <span style="color: #000080; font-weight: bold">protected</span> String shopCod;
+  <span style="color: #008800; font-style: italic">// содержимое сообщения (см. ниже &quot;Пример сообщения из очереди&quot;</span>
+  <span style="color: #008800; font-style: italic">//   &amp;lt;entity type=&quot;DocDetail&quot;&amp;gt;...&amp;lt;/entity&amp;gt;  )</span>
+  <span style="color: #000080; font-weight: bold">protected</span> T entity;
 
-  public MessageEntity() {
-    this.typeCommand = TypeCommand.CREATE;
-    this.className = "";
-    this.shopCod = "";
+  <span style="color: #000080; font-weight: bold">public</span> MessageEntity() {
+    <span style="color: #000080; font-weight: bold">this</span>.<span style="color: #FF0000">typeCommand</span> = TypeCommand.<span style="color: #FF0000">CREATE</span>;
+    <span style="color: #000080; font-weight: bold">this</span>.<span style="color: #FF0000">className</span> = <span style="color: #0000FF">&quot;&quot;</span>;
+    <span style="color: #000080; font-weight: bold">this</span>.<span style="color: #FF0000">shopCod</span> = <span style="color: #0000FF">&quot;&quot;</span>;
   }
 
-  public TypeCommand getTypeCommand() {
-    return this.typeCommand;
+  <span style="color: #000080; font-weight: bold">public</span> TypeCommand getTypeCommand() {
+    <span style="color: #000080; font-weight: bold">return</span> <span style="color: #000080; font-weight: bold">this</span>.<span style="color: #FF0000">typeCommand</span>;
   }
 
-  public void setTypeCommand(TypeCommand typeCommand) {
-    this.typeCommand = typeCommand;
+  <span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> setTypeCommand(TypeCommand typeCommand) {
+    <span style="color: #000080; font-weight: bold">this</span>.<span style="color: #FF0000">typeCommand</span> = typeCommand;
   }
 
-  public T getEntity() {
-    return this.entity;
+  <span style="color: #000080; font-weight: bold">public</span> T getEntity() {
+    <span style="color: #000080; font-weight: bold">return</span> <span style="color: #000080; font-weight: bold">this</span>.<span style="color: #FF0000">entity</span>;
   }
 
-  public void setEntity(T entity) {
-    this.entity = entity;
+  <span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> setEntity(T entity) {
+    <span style="color: #000080; font-weight: bold">this</span>.<span style="color: #FF0000">entity</span> = entity;
   }
   ...
-}</code></pre>
+}
+</pre></td></tr></table></div>
 
-    camel.xml:
-    <pre class="language-xml"><code>&lt;beans xmlns="http://www.springframework.org/schema/beans"
-									   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-									   xsi:schemaLocation="
-	   http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-	   http://camel.apache.org/schema/spring
-       http://camel.apache.org/schema/spring/camel-spring.xsd"&gt;
+<p>camel.xml:</p>
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">&lt;beans</span> <span style="color: #FF0000">xmlns=</span><span style="color: #0000FF">&quot;http://www.springframework.org/schema/beans&quot;</span>
+  <span style="color: #FF0000">xmlns:xsi=</span><span style="color: #0000FF">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+  <span style="color: #FF0000">xsi:schemaLocation=</span><span style="color: #0000FF">&quot;http://www.springframework.org/schema/beans</span>
+<span style="color: #0000FF">                      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</span>
+<span style="color: #0000FF">                      http://camel.apache.org/schema/spring</span>
+<span style="color: #0000FF">                      http://camel.apache.org/schema/spring/camel-spring.xsd&quot;</span><span style="color: #000080; font-weight: bold">&gt;</span>
 
 
-  &lt;import resource="camel_route.xml"/&gt; &lt;!--CAMEL ROUTE!!! См.ниже --&gt;
-  &lt;!--Spring beans for Camel--&gt;
-  &lt;bean id="ConvertorXmlBestTags" class="ru.perm.v.office.camelcontext.receiver.ConvertorXmlBestTags"&gt;
-    &lt;property name="type" value="ru.perm.v.office.dto.BestTags" /&gt;
-    &lt;property name="entity" value="ru.perm.v.office.dto.BestTags" /&gt;
-    &lt;property name="protocolForTag" ref="protocolForTag"/&gt;
-  &lt;/bean&gt;
+  <span style="color: #000080; font-weight: bold">&lt;import</span> <span style="color: #FF0000">resource=</span><span style="color: #0000FF">&quot;camel_route.xml&quot;</span><span style="color: #000080; font-weight: bold">/&gt;</span> <span style="color: #008800; font-style: italic">&lt;!--CAMEL ROUTE!!! См.ниже --&gt;</span>
+  <span style="color: #008800; font-style: italic">&lt;!--Spring beans for Camel--&gt;</span>
+  <span style="color: #000080; font-weight: bold">&lt;bean</span> <span style="color: #FF0000">id=</span><span style="color: #0000FF">&quot;ConvertorXmlBestTags&quot;</span> <span style="color: #FF0000">class=</span><span style="color: #0000FF">&quot;ru.perm.v.office.camelcontext.receiver.ConvertorXmlBestTags&quot;</span><span style="color: #000080; font-weight: bold">&gt;</span>
+    <span style="color: #000080; font-weight: bold">&lt;property</span> <span style="color: #FF0000">name=</span><span style="color: #0000FF">&quot;type&quot;</span> <span style="color: #FF0000">value=</span><span style="color: #0000FF">&quot;ru.perm.v.office.dto.BestTags&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+    <span style="color: #000080; font-weight: bold">&lt;property</span> <span style="color: #FF0000">name=</span><span style="color: #0000FF">&quot;entity&quot;</span> <span style="color: #FF0000">value=</span><span style="color: #0000FF">&quot;ru.perm.v.office.dto.BestTags&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+    <span style="color: #000080; font-weight: bold">&lt;property</span> <span style="color: #FF0000">name=</span><span style="color: #0000FF">&quot;protocolForTag&quot;</span> <span style="color: #FF0000">ref=</span><span style="color: #0000FF">&quot;protocolForTag&quot;</span><span style="color: #000080; font-weight: bold">/&gt;</span>
+  <span style="color: #000080; font-weight: bold">&lt;/bean&gt;</span>
   ...
-&lt;/beans&gt;</code></pre>
-camel_route.xml (ключевые теги для понимания Camel: <b>route</b>, <b>from</b>, <b>when</b>, <b>to</b>):
-<pre class="language-xml"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;!-- Configures the Camel route --&gt;
-  &lt;beans xmlns="http://www.springframework.org/schema/beans"
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="
-              http://www.springframework.org/schema/beans
-              http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-              http://camel.apache.org/schema/spring
-              http://camel.apache.org/schema/spring/camel-spring.xsd"&gt;
+<span style="color: #000080; font-weight: bold">&lt;/beans&gt;</span>
+</pre></td></tr></table></div>
+
+<p>camel_route.xml (ключевые теги для понимания Camel: <b>route</b>, <b>from</b>, <b>when</b>, <b>to</b>):</p>
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #008080">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span style="color: #008800; font-style: italic">&lt;!-- Configures the Camel route --&gt;</span>
+  <span style="color: #000080; font-weight: bold">&lt;beans</span> <span style="color: #FF0000">xmlns=</span><span style="color: #0000FF">&quot;http://www.springframework.org/schema/beans&quot;</span>
+            <span style="color: #FF0000">xmlns:xsi=</span><span style="color: #0000FF">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+            <span style="color: #FF0000">xsi:schemaLocation=</span><span style="color: #0000FF">&quot;</span>
+<span style="color: #0000FF">              http://www.springframework.org/schema/beans</span>
+<span style="color: #0000FF">              http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</span>
+<span style="color: #0000FF">              http://camel.apache.org/schema/spring</span>
+<span style="color: #0000FF">              http://camel.apache.org/schema/spring/camel-spring.xsd&quot;</span><span style="color: #000080; font-weight: bold">&gt;</span>
     ...
-    &lt;camelContext id="camel" xmlns="http://camel.apache.org/schema/spring"&gt;
-      <!-- for example importing other properties-->
-      &lt;propertyPlaceholder id="properties" location="classpath:other.properties"/&gt;
-      &lt;!-- route!--&gt;
-      &lt;route&gt;
-        &lt;from uri="jms:queue:to_shop" /&gt;
-        &lt;when&gt;
-          &lt;xpath>//shopCod = '07260'&lt;/xpath&gt;
-            &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
-        &lt;/when&gt;
-        &lt;when&gt;
-          &lt;xpath>//shopCod = '07443'&lt;/xpath&gt;
-            &lt;to uri="{{ftp}}/mqto07443?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
-        &lt;/when&gt;
+    <span style="color: #000080; font-weight: bold">&lt;camelContext</span> <span style="color: #FF0000">id=</span><span style="color: #0000FF">&quot;camel&quot;</span> <span style="color: #FF0000">xmlns=</span><span style="color: #0000FF">&quot;http://camel.apache.org/schema/spring&quot;</span><span style="color: #000080; font-weight: bold">&gt;</span>
+
+      <span style="color: #000080; font-weight: bold">&lt;propertyPlaceholder</span> <span style="color: #FF0000">id=</span><span style="color: #0000FF">&quot;properties&quot;</span> <span style="color: #FF0000">location=</span><span style="color: #0000FF">&quot;classpath:other.properties&quot;</span><span style="color: #000080; font-weight: bold">/&gt;</span>
+      <span style="color: #008800; font-style: italic">&lt;!-- route!--&gt;</span>
+      <span style="color: #000080; font-weight: bold">&lt;route&gt;</span>
+        <span style="color: #000080; font-weight: bold">&lt;from</span> <span style="color: #FF0000">uri=</span><span style="color: #0000FF">&quot;jms:queue:to_shop&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+        <span style="color: #000080; font-weight: bold">&lt;when&gt;</span>
+          <span style="color: #000080; font-weight: bold">&lt;xpath&gt;</span>//shopCod = &#39;07260&#39;<span style="color: #000080; font-weight: bold">&lt;/xpath&gt;</span>
+            <span style="color: #000080; font-weight: bold">&lt;to</span> <span style="color: #FF0000">uri=</span><span style="color: #0000FF">&quot;{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+        <span style="color: #000080; font-weight: bold">&lt;/when&gt;</span>
+        <span style="color: #000080; font-weight: bold">&lt;when&gt;</span>
+          <span style="color: #000080; font-weight: bold">&lt;xpath&gt;</span>//shopCod = &#39;07443&#39;<span style="color: #000080; font-weight: bold">&lt;/xpath&gt;</span>
+            <span style="color: #000080; font-weight: bold">&lt;to</span> <span style="color: #FF0000">uri=</span><span style="color: #0000FF">&quot;{{ftp}}/mqto07443?username={{ftp-user}}&amp;password={{ftp-password}}&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+        <span style="color: #000080; font-weight: bold">&lt;/when&gt;</span>
         ...
-        &lt;when&gt;
-          &lt;xpath&gt//shopCod = '*'&lt;/xpath&gt;
-            &lt;multicast&gt;
-              &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" /&gt;
-              &lt;to uri="{{ftp}}/mqto07863?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=1000" /&gt;
-              &lt;to uri="{{ftp}}/mq?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" /&gt;
-              &lt;to uri="file:c:/temp/?fileName=debug_monitor.xml" /&gt;
-            &lt;/multicast&gt;
-        &lt;/when&gt;
-        &lt;otherwise/&gt;
-      &lt;/route&gt;
-      &lt;route>
-        &lt;from uri="jms:queue:updateq" /&gt;
-        &lt;bean ref="ConvertorFromOfficeDB" method="getXML" /&gt;
-        &lt;to uri="jms:queue:to_shop" /&gt;
-      &lt;/route&gt;
+        <span style="color: #000080; font-weight: bold">&lt;when&gt;</span>
+          <span style="color: #000080; font-weight: bold">&lt;xpath</span><span style="color: #a61717; background-color: #e3d2d2">&amp;gt//</span><span style="color: #FF0000">shopCod =</span> <span style="color: #0000FF">&#39;*&#39;</span><span style="color: #a61717; background-color: #e3d2d2">&lt;/xpath</span><span style="color: #000080; font-weight: bold">&gt;</span>
+            <span style="color: #000080; font-weight: bold">&lt;multicast&gt;</span>
+              <span style="color: #000080; font-weight: bold">&lt;to</span> <span style="color: #FF0000">uri=</span><span style="color: #0000FF">&quot;{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+              <span style="color: #000080; font-weight: bold">&lt;to</span> <span style="color: #FF0000">uri=</span><span style="color: #0000FF">&quot;{{ftp}}/mqto07863?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=1000&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+              <span style="color: #000080; font-weight: bold">&lt;to</span> <span style="color: #FF0000">uri=</span><span style="color: #0000FF">&quot;{{ftp}}/mq?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+              <span style="color: #000080; font-weight: bold">&lt;to</span> <span style="color: #FF0000">uri=</span><span style="color: #0000FF">&quot;file:c:/temp/?fileName=debug_monitor.xml&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+            <span style="color: #000080; font-weight: bold">&lt;/multicast&gt;</span>
+        <span style="color: #000080; font-weight: bold">&lt;/when&gt;</span>
+        <span style="color: #000080; font-weight: bold">&lt;otherwise/&gt;</span>
+      <span style="color: #000080; font-weight: bold">&lt;/route&gt;</span>
+      <span style="color: #000080; font-weight: bold">&lt;route&gt;</span>
+        <span style="color: #000080; font-weight: bold">&lt;from</span> <span style="color: #FF0000">uri=</span><span style="color: #0000FF">&quot;jms:queue:updateq&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+        <span style="color: #000080; font-weight: bold">&lt;bean</span> <span style="color: #FF0000">ref=</span><span style="color: #0000FF">&quot;ConvertorFromOfficeDB&quot;</span> <span style="color: #FF0000">method=</span><span style="color: #0000FF">&quot;getXML&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+        <span style="color: #000080; font-weight: bold">&lt;to</span> <span style="color: #FF0000">uri=</span><span style="color: #0000FF">&quot;jms:queue:to_shop&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+      <span style="color: #000080; font-weight: bold">&lt;/route&gt;</span>
 
-      &lt;route&gt;
-        &lt;from uri="quartz2://myGroup/changenn?cron=0+57+09+*+*+?" /&gt;
-          &lt;bean ref="creatorChangeNN" method="process" /&gt;
-          &lt;to
-            uri="{{ftp}}/tmp/data/?fileName=CHANGENN.XML&amp;username={{ftp-user}}&amp;password={{ftp-password}}&amp;binary=true" /&gt;
-      &lt;/route&gt;
+      <span style="color: #000080; font-weight: bold">&lt;route&gt;</span>
+        <span style="color: #000080; font-weight: bold">&lt;from</span> <span style="color: #FF0000">uri=</span><span style="color: #0000FF">&quot;quartz2://myGroup/changenn?cron=0+57+09+*+*+?&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+          <span style="color: #000080; font-weight: bold">&lt;bean</span> <span style="color: #FF0000">ref=</span><span style="color: #0000FF">&quot;creatorChangeNN&quot;</span> <span style="color: #FF0000">method=</span><span style="color: #0000FF">&quot;process&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+          <span style="color: #000080; font-weight: bold">&lt;to</span>
+            <span style="color: #FF0000">uri=</span><span style="color: #0000FF">&quot;{{ftp}}/tmp/data/?fileName=CHANGENN.XML&amp;username={{ftp-user}}&amp;password={{ftp-password}}&amp;binary=true&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+      <span style="color: #000080; font-weight: bold">&lt;/route&gt;</span>
       ...
-    &lt;/camelContext&gt;
-</code></pre>
-<b>from uri="jms:queue:to_shop"</b>: из очереди Kafka "to_shop" принимается <b>xml</b> файл-задание на отправку сообщения.
-Получение сообщения из Kafka служит <b>сигналом для запуска обработки</b> (маршрута). Пример сообщения из очереди:
-<pre class="language-xml"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;message&gt;
-  &lt;command&gt;CREATE&lt;/command&gt;
-  &lt;className&gt;DocDetail&lt;/className&gt;
-  &lt;shopCod&gt;07260&lt;/shopCod&gt; &lt;!-- shop cod!!! need for camel route --&gt;
-  &lt;entity type="DocDetail"&gt;
-    &lt;n&gt;23166&lt;/n&gt;
-    &lt;docn&gt;14941&lt;/docn&gt;
-    &lt;nnum&gt;71069178&lt;/nnum&gt;
-    &lt;qty&gt;1.0&lt;/qty&gt;
-    &lt;price&gt;10000.0&lt;/price&gt;
-  &lt;/entity&gt;
-&lt;/message&gt;</code></pre>
-В зависимости от тега <b>shopCod</b> используя <a style="text-decoration: underline; color: #3366ff;"
-                                                  title="XPath Syntax"
-                                                  href="https://www.w3schools.com/xml/xpath_syntax.asp"
-                                                  target="_blank" rel="noopener noreferrer">XPath</a>
-("<i>&lt;xpath&gt;//shopCod = '07260'&lt;/xpath&gt;</i>" в camel_route.xml) файл отправляется по тому или иному маршруту Camel.<br><br>
-Конфигурация camel.xml:
-<pre class="language-xml"><code>&lt;!-- Configures the Camel route --&gt;
+    <span style="color: #000080; font-weight: bold">&lt;/camelContext&gt;</span>
+</pre></td></tr></table></div>
+
+<p><b>from uri="jms:queue:to_shop"</b>: из очереди Kafka "to_shop" принимается <b>xml</b> файл-задание на отправку сообщения. Получение сообщения из Kafka служит <b>сигналом для запуска обработки</b> (маршрута). Пример сообщения из очереди:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008080">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span style="color: #000080; font-weight: bold">&lt;message&gt;</span>
+  <span style="color: #000080; font-weight: bold">&lt;command&gt;</span>CREATE<span style="color: #000080; font-weight: bold">&lt;/command&gt;</span>
+  <span style="color: #000080; font-weight: bold">&lt;className&gt;</span>DocDetail<span style="color: #000080; font-weight: bold">&lt;/className&gt;</span>
+  <span style="color: #000080; font-weight: bold">&lt;shopCod&gt;</span>07260<span style="color: #000080; font-weight: bold">&lt;/shopCod&gt;</span> <span style="color: #008800; font-style: italic">&lt;!-- shop cod!!! need for camel route --&gt;</span>
+  <span style="color: #000080; font-weight: bold">&lt;entity</span> <span style="color: #FF0000">type=</span><span style="color: #0000FF">&quot;DocDetail&quot;</span><span style="color: #000080; font-weight: bold">&gt;</span>
+    <span style="color: #000080; font-weight: bold">&lt;n&gt;</span>23166<span style="color: #000080; font-weight: bold">&lt;/n&gt;</span>
+    <span style="color: #000080; font-weight: bold">&lt;docn&gt;</span>14941<span style="color: #000080; font-weight: bold">&lt;/docn&gt;</span>
+    <span style="color: #000080; font-weight: bold">&lt;nnum&gt;</span>71069178<span style="color: #000080; font-weight: bold">&lt;/nnum&gt;</span>
+    <span style="color: #000080; font-weight: bold">&lt;qty&gt;</span>1.0<span style="color: #000080; font-weight: bold">&lt;/qty&gt;</span>
+    <span style="color: #000080; font-weight: bold">&lt;price&gt;</span>10000.0<span style="color: #000080; font-weight: bold">&lt;/price&gt;</span>
+  <span style="color: #000080; font-weight: bold">&lt;/entity&gt;</span>
+<span style="color: #000080; font-weight: bold">&lt;/message&gt;</span>
+</pre></div>
+
+<p>В зависимости от тега <b>shopCod</b> используя <a style="text-decoration: underline; color: #3366ff;" title="XPath Syntax" href="https://www.w3schools.com/xml/xpath_syntax.asp" target="_blank" rel="noopener noreferrer">XPath</a> ("<i>&lt;xpath&gt;//shopCod = '07260'&lt;/xpath&gt;</i>" в camel_route.xml) файл отправляется по тому или иному маршруту Camel.<br />
+<br />Конфигурация camel.xml:</p>
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-style: italic">&lt;!-- Configures the Camel route --&gt;</span>
 ...
-&lt;camelContext&gt;
-  &lt;!-- route!--&gt;
-  &lt;route>
-    &lt;from uri="jms:queue:to_shop" /&gt;
-      &lt;when/&gt;
-        &lt;xpath/&gt;//shopCod = '07260'&lt;/xpath&gt;
-        &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}" /&gt;
-      &lt;/when&gt;
+<span style="color: #000080; font-weight: bold">&lt;camelContext&gt;</span>
+  <span style="color: #008800; font-style: italic">&lt;!-- route!--&gt;</span>
+  <span style="color: #000080; font-weight: bold">&lt;route&gt;</span>
+    <span style="color: #000080; font-weight: bold">&lt;from</span> <span style="color: #FF0000">uri=</span><span style="color: #0000FF">&quot;jms:queue:to_shop&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+      <span style="color: #000080; font-weight: bold">&lt;when/&gt;</span>
+        <span style="color: #000080; font-weight: bold">&lt;xpath/&gt;</span>//shopCod = &#39;07260&#39;<span style="color: #000080; font-weight: bold">&lt;/xpath&gt;</span>
+        <span style="color: #000080; font-weight: bold">&lt;to</span> <span style="color: #FF0000">uri=</span><span style="color: #0000FF">&quot;{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+      <span style="color: #000080; font-weight: bold">&lt;/when&gt;</span>
       ...
-      &lt;when&gt;
-        &lt;xpath&gt//shopCod = '*'&lt;/xpath&gt;
-          &lt;multicast&gt;
-            &lt;to uri="{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000" /&gt;
+      <span style="color: #000080; font-weight: bold">&lt;when&gt;</span>
+        <span style="color: #000080; font-weight: bold">&lt;xpath&gt;</span>//shopCod = &#39;*&#39;<span style="color: #000080; font-weight: bold">&lt;/xpath&gt;</span>
+          <span style="color: #000080; font-weight: bold">&lt;multicast&gt;</span>
+            <span style="color: #000080; font-weight: bold">&lt;to</span> <span style="color: #FF0000">uri=</span><span style="color: #0000FF">&quot;{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
             ...
-            &lt;to uri="file:c:/temp/?fileName=debug_monitor.xml" /&gt;
-          &lt;/multicast&gt;
-      &lt;/when&gt;
-    &lt;otherwise&gt;&lt;/otherwise&gt;
-  &lt;/route&gt;
+            <span style="color: #000080; font-weight: bold">&lt;to</span> <span style="color: #FF0000">uri=</span><span style="color: #0000FF">&quot;file:c:/temp/?fileName=debug_monitor.xml&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+          <span style="color: #000080; font-weight: bold">&lt;/multicast&gt;</span>
+      <span style="color: #000080; font-weight: bold">&lt;/when&gt;</span>
+    <span style="color: #000080; font-weight: bold">&lt;otherwise&gt;&lt;/otherwise&gt;</span>
+  <span style="color: #000080; font-weight: bold">&lt;/route&gt;</span>
     ...
-&lt;/camelContext&gt;
-</code></pre>
-
-использованы следующие компоненты Camel:<br>
+<span style="color: #000080; font-weight: bold">&lt;/camelContext&gt;</span>
+</pre></div>
+<p>использованы следующие компоненты Camel:</p>
 <ul>
     <li><b>from</b> - источник сообщения</li>
     <li><b>jms:queue:updateq</b> - получение сообщения из очереди Kafka ("updateq" - топик)</li>
     <li><b>quartz2</b> - планировщик</li>
     <li><b>bean</b> - отправка сообщения в Spring bean (подробнее об этом ниже)</li>
-    <li><b>multicast</b> - оправка сообщения по нескольким маршрутам</li>
+    <li><b>multicast</b> - отправка сообщения по нескольким маршрутам</li>
 </ul>
-{{ftp}}, {{ftp-user}}, {{ftp-password}} - значения из jdbc.properties в camel_route.xml <propertyPlaceholder id="properties" location="classpath:jdbc.properties" /> (см. выше).
-<pre class="language-java"><code>ftp=ftp://127.0.0.1
-ftp-user=night
-ftp-password=n123</code></pre>
-События для старта обработки ("from"):
-<ul>
-   <li>'from quarz' - запуск по таймеру</li>
-   <li>'from uri="{{ftp}}...' - запуск сканирования ftp папки</li>
-   <li>'from uri="jms:queue:to_shop' - появилось сообщение в очереди Kafka "to_shop"</li>
-</ul>
-Вызов метода <b>process</b> из Spring bean <b>senderBestTags</b> по таймеру:<br/>
-<pre class="language-xml"><code>&lt;from uri="quartz2://myGroup/changenn?cron=0+57+09+*+*+?" /&gt;
-    &lt;bean ref="senderBestTags" method="process" /&gt;</code></pre>
+<p>{{ftp}}, {{ftp-user}}, {{ftp-password}} - значения из jdbc.properties в camel_route.xml (см. выше).</p>
+<!-- HTML generated using hilite.me -->
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #FF0000">ftp</span>=<span style="color: #0000FF">ftp://127.0.0.1</span>
+<span style="color: #FF0000">ftp-user</span>=<span style="color: #0000FF">night</span>
+<span style="color: #FF0000">ftp-password</span>=<span style="color: #0000FF">n123</span>
+</pre></div>
 
-Java код Spring bean класса SenderBestTags:
-<pre class="language-java"><code>import org.apache.camel.Body; // body camel-message
-import ru.perm.v.office.dto.message.MessageBestTags;
+<p>События для старта обработки ("from"):</p>
+<ul>
+    <li>'from quarz' - запуск по таймеру</li>
+    <li>'from uri="{{ftp}}...' - запуск сканирования ftp папки</li>
+    <li>'from uri="jms:queue:to_shop' - появилось сообщение в очереди Kafka "to_shop"</li>
+</ul>
+<p>Вызов метода <b>process</b> из Spring bean <b>senderBestTags</b> по таймеру:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">&lt;from</span> <span style="color: #FF0000">uri=</span><span style="color: #0000FF">&quot;quartz2://myGroup/changenn?cron=0+57+09+*+*+?&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+    <span style="color: #000080; font-weight: bold">&lt;bean</span> <span style="color: #FF0000">ref=</span><span style="color: #0000FF">&quot;senderBestTags&quot;</span> <span style="color: #FF0000">method=</span><span style="color: #0000FF">&quot;process&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
+</pre></div>
+
+<p>Java код Spring bean класса SenderBestTags:</p>
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">import</span> org.apache.camel.Body; <span style="color: #008800; font-style: italic">// body camel-message</span>
+<span style="color: #000080; font-weight: bold">import</span> ru.perm.v.office.dto.message.MessageBestTags;
 ...
-public class SenderBestTags {
+<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">class</span> SenderBestTags {
   ...
-  private IEmailer emailer;
+  <span style="color: #000080; font-weight: bold">private</span> IEmailer emailer;
   ...
-  public Object process(@Body Object body) { // body camel-message
-    // MessageBestTags - частный dto класс проекта. См.ниже.
+  <span style="color: #000080; font-weight: bold">public</span> Object process(@Body Object body) { <span style="color: #008800; font-style: italic">// body camel-message</span>
+    <span style="color: #008800; font-style: italic">// MessageBestTags - частный dto класс проекта. См.ниже.</span>
     MessageBestTags messageBestTags = (MessageBestTags) body;
     ...
-	emailer.send(getEmail(), getMailMessage(),getMailSubject(), getAttaches());
+	emailer.<span style="color: #FF0000">send</span>(getEmail(), getMailMessage(),getMailSubject(), getAttaches());
     ...
   }
-}</code></pre>
-MessageBestTags:
-    <pre class="language-java"><code>package ru.perm.v.office.dto.message;
-import ru.perm.v.office.dto.BestTags;
+}
+</pre></div>
 
-public class MessageBestTags extends MessageEntity<BestTags> {
-  protected BestTags entity;
+<p>MessageBestTags:</p>
+<p><!-- HTML generated using hilite.me --></p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <table>
+        <tbody>
+        <tr>
+            <td>
+<pre style="margin: 0; line-height: 125%;"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre>
+            </td>
+            <td>
+<pre style="margin: 0; line-height: 125%;"><span style="color: #000080; font-weight: bold;">package</span> ru.<span style="color: #ff0000;">perm</span>.<span style="color: #ff0000;">v</span>.<span style="color: #ff0000;">office</span>.<span style="color: #ff0000;">dto</span>.<span style="color: #ff0000;">message</span>;
+<span style="color: #000080; font-weight: bold;">import</span> ru.perm.v.office.dto.BestTags;
 
-  public MessageBestTags() {
-    this.className = BestTags.class.getSimpleName();
+<span style="color: #000080; font-weight: bold;">public</span> <span style="color: #000080; font-weight: bold;">class</span> MessageBestTags <span style="color: #000080; font-weight: bold;">extends</span> MessageEntity {
+  <span style="color: #000080; font-weight: bold;">protected</span> BestTags entity;
+
+  <span style="color: #000080; font-weight: bold;">public</span> MessageBestTags() {
+    <span style="color: #000080; font-weight: bold;">this</span>.<span style="color: #ff0000;">className</span> = BestTags.<span style="color: #ff0000;">class</span>.<span style="color: #ff0000;">getSimpleName</span>();
   }
 
-  public BestTags getEntity() {
-    return this.entity;
+  <span style="color: #000080; font-weight: bold;">public</span> BestTags getEntity() {
+    <span style="color: #000080; font-weight: bold;">return</span> <span style="color: #000080; font-weight: bold;">this</span>.<span style="color: #ff0000;">entity</span>;
   }
 
-  public void setEntity(BestTags entity) {
-    this.entity = entity;
+  <span style="color: #000080; font-weight: bold;">public</span> <span style="color: #000080; font-weight: bold;">void</span> setEntity(BestTags entity) {
+    <span style="color: #000080; font-weight: bold;">this</span>.<span style="color: #ff0000;">entity</span> = entity;
   }
-}</code></pre>
-Можно описывать маршруты  в коде (статья на Habr <a style="text-decoration: underline; color: #3366ff;"
-                                                         title="Apache Camel и Spring Boot(Habr)"
-                                                         href="https://habr.com/ru/companies/otus/articles/557068/"
-                                                         target="_blank" rel="noopener noreferrer">Apache Camel и Spring Boot</a>)<br/>
-<pre class="language-java"><code>@Component
-class TimedJobs extends RouteBuilder {
+}
+</pre>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<p>Можно описывать маршруты в коде (статья на Habr <a style="text-decoration: underline; color: #3366ff;" title="Apache Camel и Spring Boot(Habr)" href="https://habr.com/ru/companies/otus/articles/557068/" target="_blank" rel="noopener noreferrer">Apache Camel и Spring Boot</a>)</p>
+<p><!-- HTML generated using hilite.me --></p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <table>
+        <tbody>
+        <tr>
+            <td>
+<pre style="margin: 0; line-height: 125%;"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre>
+            </td>
+            <td>
+<pre style="margin: 0; line-height: 125%;">@Component
+<span style="color: #000080; font-weight: bold;">class</span> TimedJobs <span style="color: #000080; font-weight: bold;">extends</span> RouteBuilder {
 
 @Override
-public void configure() {
-  from("timer:new-discount?delay=1000&period={{discount.newDiscountPeriod:2000}}")
-    .routeId("make-discount")
-    .bean("discountService", "makeDiscount")
-    .to("jpa:org.apache.camel.example.spring.boot.rest.jpa.Discount")
-    .log("Created %${body.amount} discount for ${body.product.name}");
+<span style="color: #000080; font-weight: bold;">public</span> <span style="color: #000080; font-weight: bold;">void</span> configure() {
+  from(<span style="color: #0000ff;">"timer:new-discount?delay=1000&amp;amp;period={{discount.newDiscountPeriod:2000}}"</span>)
+    .<span style="color: #ff0000;">routeId</span>(<span style="color: #0000ff;">"make-discount"</span>)
+    .<span style="color: #ff0000;">bean</span>(<span style="color: #0000ff;">"discountService"</span>, <span style="color: #0000ff;">"makeDiscount"</span>)
+    .<span style="color: #ff0000;">to</span>(<span style="color: #0000ff;">"jpa:org.apache.camel.example.spring.boot.rest.jpa.Discount"</span>)
+    .<span style="color: #ff0000;">log</span>(<span style="color: #0000ff;">"Created %${body.amount} discount for ${body.product.name}"</span>);
 
-    // additional route...
+    <span style="color: #008800; font-style: italic;">// additional route...</span>
 }
-</code></pre>
-В начале статьи я объяснил почему я использовал xml, а не код. (Удобнее менять логику работы коплекса БЕЗ перекомпиляции.)<br/>
-<br/>
-<b>Maven зависимости Camel в pom.xml проекта:</b><br/>
-<pre class="language-xml"><code>...
-&lt;properties&gt;
-  &lt;spring.group&gt;org.springframework&lt;/spring.group&gt;
-  &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-  &lt;spring.version&gt;3.0.5.RELEASE&lt;/spring.version&gt;
-  &lt;camel.version&gt;2.13.1&lt;/camel.version&gt;
-&lt;/properties&gt;
+</pre>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<p>В начале статьи я объяснил почему я использовал xml, а не код. (Удобнее менять логику работы коплекса БЕЗ перекомпиляции.)<br /><br /><b>Maven зависимости Camel в pom.xml проекта:</b></p>
+<div style="background: #FFFFFF; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <table>
+        <tbody>
+        <tr>
+            <td>
+<pre style="margin: 0; line-height: 125%;"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46</pre>
+            </td>
+            <td>
+<pre style="margin: 0; line-height: 125%;"><span style="color: #000080; font-weight: bold;">&lt;properties&gt;</span>
+  <span style="color: #000080; font-weight: bold;">&lt;spring.group&gt;</span>org.springframework<span style="color: #000080; font-weight: bold;">&lt;/spring.group&gt;</span>
+  <span style="color: #000080; font-weight: bold;">&lt;project.build.sourceEncoding&gt;</span>UTF-8<span style="color: #000080; font-weight: bold;">&lt;/project.build.sourceEncoding&gt;</span>
+  <span style="color: #000080; font-weight: bold;">&lt;spring.version&gt;</span>3.0.5.RELEASE<span style="color: #000080; font-weight: bold;">&lt;/spring.version&gt;</span>
+  <span style="color: #000080; font-weight: bold;">&lt;camel.version&gt;</span>2.13.1<span style="color: #000080; font-weight: bold;">&lt;/camel.version&gt;</span>
+<span style="color: #000080; font-weight: bold;">&lt;/properties&gt;</span>
 ...
-&lt;dependencies&gt;
-  &lt;dependency&gt;
-    &lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
-    &lt;artifactId&gt;camel-core&lt;/artifactId&gt;
-    &lt;version&gt;${camel.version}&lt;/version&gt;
-    &lt;/dependency&gt;
+<span style="color: #000080; font-weight: bold;">&lt;dependencies&gt;</span>
+    <span style="color: #000080; font-weight: bold;">&lt;dependency&gt;</span>
+      <span style="color: #000080; font-weight: bold;">&lt;groupId&gt;</span>org.apache.camel<span style="color: #000080; font-weight: bold;">&lt;/groupId&gt;</span>
+      <span style="color: #000080; font-weight: bold;">&lt;artifactId&gt;</span>camel-core<span style="color: #000080; font-weight: bold;">&lt;/artifactId&gt;</span>
+      <span style="color: #000080; font-weight: bold;">&lt;version&gt;</span>${camel.version}<span style="color: #000080; font-weight: bold;">&lt;/version&gt;</span>
+    <span style="color: #000080; font-weight: bold;">&lt;/dependency&gt;</span>
 
-    &lt;dependency&gt;
-      &lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
-      &lt;artifactId&gt;camel-quartz2&lt;/artifactId&gt;
-      &lt;version&gt;${camel.version}&lt;/version&gt;
-    &lt;/dependency&gt;
+    <span style="color: #000080; font-weight: bold;">&lt;dependency&gt;</span>
+      <span style="color: #000080; font-weight: bold;">&lt;groupId&gt;</span>org.apache.camel<span style="color: #000080; font-weight: bold;">&lt;/groupId&gt;</span>
+      <span style="color: #000080; font-weight: bold;">&lt;artifactId&gt;</span>camel-quartz2<span style="color: #000080; font-weight: bold;">&lt;/artifactId&gt;</span>
+      <span style="color: #000080; font-weight: bold;">&lt;version&gt;</span>${camel.version}<span style="color: #000080; font-weight: bold;">&lt;/version&gt;</span>
+    <span style="color: #000080; font-weight: bold;">&lt;/dependency&gt;</span>
 
-    &lt;dependency&gt;
-      &lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
-      &lt;artifactId&gt;camel-ftp&lt;/artifactId&gt;
-      &lt;version&gt;${camel.version}&lt;/version&gt;
-    &lt;/dependency&gt;
+    <span style="color: #000080; font-weight: bold;">&lt;dependency&gt;</span>
+      <span style="color: #000080; font-weight: bold;">&lt;groupId&gt;</span>org.apache.camel<span style="color: #000080; font-weight: bold;">&lt;/groupId&gt;</span>
+      <span style="color: #000080; font-weight: bold;">&lt;artifactId&gt;</span>camel-ftp<span style="color: #000080; font-weight: bold;">&lt;/artifactId&gt;</span>
+      <span style="color: #000080; font-weight: bold;">&lt;version&gt;</span>${camel.version}<span style="color: #000080; font-weight: bold;">&lt;/version&gt;</span>
+    <span style="color: #000080; font-weight: bold;">&lt;/dependency&gt;</span>
 
-    &lt;dependency&gt;
-      &lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
-      &lt;artifactId&gt;camel-jms&lt;/artifactId&gt;
-      &lt;version&gt;${camel.version}&lt;/version&gt;
-    &lt;/dependency&gt;
+    <span style="color: #000080; font-weight: bold;">&lt;dependency&gt;</span>
+      <span style="color: #000080; font-weight: bold;">&lt;groupId&gt;</span>org.apache.camel<span style="color: #000080; font-weight: bold;">&lt;/groupId&gt;</span>
+      <span style="color: #000080; font-weight: bold;">&lt;artifactId&gt;</span>camel-jms<span style="color: #000080; font-weight: bold;">&lt;/artifactId&gt;</span>
+      <span style="color: #000080; font-weight: bold;">&lt;version&gt;</span>${camel.version}<span style="color: #000080; font-weight: bold;">&lt;/version&gt;</span>
+    <span style="color: #000080; font-weight: bold;">&lt;/dependency&gt;</span>
 
-    &lt;dependency&gt;
-      &lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
-      &lt;artifactId&gt;camel-mail&lt;/artifactId&gt;
-      &lt;version&gt;${camel.version}&lt;/version&gt;
-    &lt;/dependency&gt;
+    <span style="color: #000080; font-weight: bold;">&lt;dependency&gt;</span>
+      <span style="color: #000080; font-weight: bold;">&lt;groupId&gt;</span>org.apache.camel<span style="color: #000080; font-weight: bold;">&lt;/groupId&gt;</span>
+      <span style="color: #000080; font-weight: bold;">&lt;artifactId&gt;</span>camel-mail<span style="color: #000080; font-weight: bold;">&lt;/artifactId&gt;</span>
+      <span style="color: #000080; font-weight: bold;">&lt;version&gt;</span>${camel.version}<span style="color: #000080; font-weight: bold;">&lt;/version&gt;</span>
+    <span style="color: #000080; font-weight: bold;">&lt;/dependency&gt;</span>
 
-    &lt;dependency&gt;
-      &lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
-      &lt;artifactId&gt;camel-xstream&lt;/artifactId&gt;
-      &lt;version&gt;${camel.version}&lt;/version&gt;
-    &lt;/dependency&gt;
+    <span style="color: #000080; font-weight: bold;">&lt;dependency&gt;</span>
+      <span style="color: #000080; font-weight: bold;">&lt;groupId&gt;</span>org.apache.camel<span style="color: #000080; font-weight: bold;">&lt;/groupId&gt;</span>
+      <span style="color: #000080; font-weight: bold;">&lt;artifactId&gt;</span>camel-xstream<span style="color: #000080; font-weight: bold;">&lt;/artifactId&gt;</span>
+      <span style="color: #000080; font-weight: bold;">&lt;version&gt;</span>${camel.version}<span style="color: #000080; font-weight: bold;">&lt;/version&gt;</span>
+    <span style="color: #000080; font-weight: bold;">&lt;/dependency&gt;</span>
 
 ...
-&lt;/dependencies&gt;
-</code></pre>
-
-Если используется конфигурирование с application.yaml и аннотации, то для запуска подсистемы Camel нужно добавить в application.yaml:
-<pre class="language-xml"><code>...
-camel:
+<span style="color: #000080; font-weight: bold;">&lt;/dependencies&gt;</span>
+</pre>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<p>Если используется конфигурирование с application.yaml и аннотации, то для запуска подсистемы Camel нужно добавить в application.yaml:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">camel:
   springboot:
     main-run-controller: true
-...
-</code></pre>
-Пример: <a style="text-decoration: underline; color: #3366ff;"
-           title="https://github.com/cherepakhin/camel_rest/blob/dev/src/main/resources/application.yaml"
-           href="https://github.com/cherepakhin/camel_rest/blob/dev/src/main/resources/application.yaml"
-           target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/camel_rest/blob/dev/src/main/resources/application.yaml</a>
-<br/>
-<br/>
-<b>Ссылки:</b><br/>
-<a style="text-decoration: underline; color: #3366ff;"
-   title="https://camel.apache.org/"
-   href="https://camel.apache.org/"
-   target="_blank" rel="noopener noreferrer">https://camel.apache.org/</a>
-<br/>
-<a style="text-decoration: underline; color: #3366ff;"
-   title="Учебное пособие по Apache Camel"
-   href="https://post.nghiatu.com/ru/tutorial/apache-camel"
-   target="_blank" rel="noopener noreferrer">Учебное пособие по Apache Camel</a>
-<br/>
-<a style="text-decoration: underline; color: #3366ff;"
-   title="Apache Camel и Spring Boot(Habr, 2021)"
-   href="https://habr.com/ru/companies/otus/articles/557068/"
-   target="_blank" rel="noopener noreferrer">Apache Camel и Spring Boot(Habr)</a>
-<br/>
-<a style="text-decoration: underline; color: #3366ff;"
-   title="Тестирование Apache Camel Routes в Spring Boot"
-   href="https://for-each.dev/lessons/b/-spring-boot-apache-camel-routes-testing"
-   target="_blank" rel="noopener noreferrer">Тестирование Apache Camel Routes в Spring Boot</a>
-<br/>
+</pre></div>
+
+<p>Полный пример в <a style="text-decoration: underline; color: #3366ff;" title="https://github.com/cherepakhin/camel_rest/blob/dev/src/main/resources/application.yaml" href="https://github.com/cherepakhin/camel_rest/blob/dev/src/main/resources/application.yaml" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/camel_rest/blob/dev/src/main/resources/application.yaml</a> <br /><br /><b>Ссылки:</b><br /><a style="text-decoration: underline; color: #3366ff;" title="https://camel.apache.org/" href="https://camel.apache.org/" target="_blank" rel="noopener noreferrer">https://camel.apache.org/</a> <br /><a style="text-decoration: underline; color: #3366ff;" title="Учебное пособие по Apache Camel" href="https://post.nghiatu.com/ru/tutorial/apache-camel" target="_blank" rel="noopener noreferrer">Учебное пособие по Apache Camel</a> <br /><a style="text-decoration: underline; color: #3366ff;" title="Apache Camel и Spring Boot(Habr, 2021)" href="https://habr.com/ru/companies/otus/articles/557068/" target="_blank" rel="noopener noreferrer">Apache Camel и Spring Boot(Habr)</a> <br /><a style="text-decoration: underline; color: #3366ff;" title="Тестирование Apache Camel Routes в Spring Boot" href="https://for-each.dev/lessons/b/-spring-boot-apache-camel-routes-testing" target="_blank" rel="noopener noreferrer">Тестирование Apache Camel Routes в Spring Boot</a></p>

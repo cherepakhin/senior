@@ -1,0 +1,117 @@
+ВЕРСИЯ 3.9.12!!!
+https://tecadmin.net/install-joomla-cms-on-ubuntu/
+
+wget https://github.com/joomla/joomla-cms/releases/download/3.9.12/Joomla_3.9.12-Stable-Full_Package.tar.gz
+
+Настройка apache2
+
+https://help.ubuntu.ru/wiki/руководство_по_ubuntu_server/web_сервера/httpd_apache2_web_server
+
+http://192.168.1.20/i.html
+
+/var/www/html/joomla/i.html
+
+cat /etc/apache2/sites-available/000-default.conf
+...
+	ServerName joomla.example.com
+	ServerAdmin webmaster@example.com
+	DocumentRoot /var/www/html/joomla
+	<Directory /var/www/html/joomla>
+    	    Allowoverride all
+	</Directory>
+...
+===================================================
+Перенес в /var/www/main (см. в DocumentRoot /var/www/main)
+===================================================
+http://192.168.1.20/i.html
+
+cat /var/www/main/i.html
+from /var/www/main
+
+и
+cat /etc/apache2/sites-available/000-default.conf
+...
+	ServerName v.perm.ru
+	ServerAdmin vasi.che@gmail.com
+	DocumentRoot /var/www/main
+	<Directory /var/www/main>
+    	    Allowoverride all
+	</Directory>
+...
+
+cat /etc/apache2/apache2.conf
+
+<Directory /var/www/main/>
+	Options Indexes FollowSymLinks
+	AllowOverride All
+	Require all granted
+</Directory>
+
+------------------------------------------------
+/var/www/main
+http://192.168.1.20/p1.php
+
+from /var/www/ version php8.31
+from /var/www/
+http://192.168.1.20/p1.php
+val_vvv1
+7.4.33
+------------------------------------------------
+/var/www/main/installation/pi.php
+->
+http://192.168.1.20/installation/pi.php
+
+use j3;
+CREATE TABLE t1( i INT);
+
+select * from j3.t1;
+
+j3!!!! для сайта
+На v.perm.ru    DATABASE "j3" СТАРЫЙ сайт
+                    CREATE DATABASE `j3` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+                68 статей
+                DATABASE "joomla_db" июньская(?) попытка пересоздания сайта (2 статьи)
+                    CREATE DATABASE `joomla_db` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+                2 статьи (Статья о Java/Kotlin, Статья из "Разное")
+25.08------------------------------------------------
+sudo apt install php5.6
+sudo  apt install libapache2-mod-php5.6
+sudo  apt install php5.6-mysql
+sudo  apt install php5.6-gd
+sudo a2enmod php5.6
+sudo apt-get install php5.6-xml
+sudo systemctl reload apache2
+
+Открывается мастер установки http://192.168.1.20/installation/index.php
+Название сайта: v.perm.ru
+E-mail администратора: vasi.che@gmail.com
+Логин администратора: vasi
+Пароль администратора: b..o
+
+MySQL
+192.168.1.20
+vasi
+pass
+Имя базы данных * v
+Префикс таблиц *: v_
+
+mysql -h192.168.1.20 -uvasi -p --database=v
+pass
+работает
+----------------------
+http://192.168.1.20/installation/index.php?view=setup
+Имя администратора * vasi
+Логин администратора * vasi
+Пароль администратора * Bazilio_1970
+
+Тип базы данных * MySQLi
+localhost
+Имя пользователя базы данных * vasi
+Пароль пользователя базы данных pass
+Имя базы данных joomla_db
+Префикс таблиц базы данных * v_
+
+Login Form vasi/B..1970
+
+
+
