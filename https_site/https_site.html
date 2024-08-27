@@ -1,21 +1,24 @@
 Проверка конфигурации сервера apache2:
-<pre class="language-java">
-<code>$ sudo apachectl configtest
-Syntax OK</code></pre>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ sudo apachectl configtest
+Syntax OK
+</pre></div>
 Проверка наличия модуля <b>ssl</b> в apache http сервере:
 <hr id="system-readmore"/>
-<pre class="language-java">
-<code>$ apachectl -M | grep ssl
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ apachectl -M | grep ssl
 [so:warn] [pid 7728] AH01574: module php7_module is already loaded, skipping
-    ssl_module (shared)</code></pre>
+    ssl_module (shared)
+</pre></div>
 
 Понадобятся два пакета: certbot и python3-certbot-apache.
 Последний пакет – это плагин, который обеспечивает интеграцию Certbot и Apache:
-<pre class="language-java">
-<code>$ sudo apt install certbot python3-certbot-apache</code></pre>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">$ sudo apt install certbot python3-certbot-apache
+</pre></div>
 Если установлено, то проверить актуальность сертификата:
-<pre class="language-java">
-<code>$ sudo certbot --apache -d v.perm.ru
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ sudo certbot --apache -d v.perm.ru
 Saving debug log to /var/log/letsencrypt/letsencrypt.log
 Plugins selected: Authenticator apache, Installer apache
 Cert not yet due for renewal
@@ -58,16 +61,20 @@ IMPORTANT NOTES:
    version of this certificate in the future, simply run certbot again
    with the "certonly" option. To non-interactively renew *all* of
    your certificates, run "certbot renew"
-</code></pre>
+</pre></div>
 
 Просмотр сертификата: <a title="https://www.ssllabs.com/ssltest/analyze.html?d=v.perm.ru"
    href="https://www.ssllabs.com/ssltest/analyze.html?d=v.perm.ru"
    style="text-decoration: underline; color: #3366ff;"
    target="_blank" rel="noopener noreferrer">https://www.ssllabs.com/ssltest/analyze.html?d=v.perm.ru</a>
 
--------------------
-11.08.2024 Новая установка
-vasi@v:~$ sudo certbot --apache -d v.perm.ru
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Результаты https" src="images/https_site/https_info.png"
+        alt="Результаты https"/></p>
+
+<hr/>
+<h3>Установка letsencrypt</h3>
+<pre class="language-java">
+<code>vasi@v:~$ sudo certbot --apache -d v.perm.ru
 Saving debug log to /var/log/letsencrypt/letsencrypt.log
 Enter email address (used for urgent renewal and security notices)
 (Enter 'c' to cancel): vasi.che@gmail.com
@@ -144,7 +151,5 @@ Please use the ubuntu-bug tool to report bugs in the Apache2 package with Ubuntu
 
 Please report bugs specific to modules (such as PHP and others) to their respective packages, not to the web server itself.
 ==============================
-
-https://v.perm.ru/index.html
-Проверка php
-https://v.perm.ru/info.php
+Проверка php: https://v.perm.ru/info.php
+</code></pre>
