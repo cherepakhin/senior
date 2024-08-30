@@ -1,33 +1,23 @@
-Тестовый запуск:<br/>
-<pre class="language-shell"><code>docker run -d -p 8000:80 docker/getting-started
-</code></pre>
-<br/>
-<b>docker/getting-started</b> - имя docker image в хранилище Docker.<br/>
-<b>8000</b> - порт для доступа снаружи<br/>
-<b>80</b> - порт внутри docker<br/>
-<b>-p 8000:80</b> - запросы снаружи на порт 8000 перенаправлются на 80 порт программы внутри docker<br/>
-<b>-d</b> - detach режим запуска. После запуска будет вернемся ОС. Но образ будет работать внутри Docker.<br/>
+<p>Тестовый запуск:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ docker run -d -p 8000:80 docker/getting-started
+</pre></div>
+<p><b>docker/getting-started</b> - имя docker image в хранилище Docker.<br />
+    <b>8000</b> - порт для доступа снаружи<br />
+    <b>80</b> - порт внутри docker<br />
+    <b>-p 8000:80</b> - запросы снаружи на порт 8000 перенаправляются на 80 порт программы внутри docker<br />
+    <b>-d</b> - detach режим запуска. После запуска будет возврат в основную ОС. Но образ будет работать внутри Docker.<br />
+Будет доступен ресурс в браузере: <a style="text-decoration: underline; color: #3366ff;" title="http://127.0.0.1:8000/tutorial/" href="http://127.0.0.1:8000/tutorial/" target="_blank" rel="noopener noreferrer">http://127.0.0.1:8000/tutorial/</a>.<br/><br/>
+    <img style="display: block; margin-left: auto; margin-right: auto;" title="start_docker" src="images/docker/start_docker.png" alt="start_docker" width="1143" height="457" /></p>
+<hr id="system-readmore" />
+<p>Список контейнеров:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ docker container ls
+</pre></div>
 
-
-Будет доступен ресурс в браузере:
-<a style="text-decoration: underline; color: #3366ff;"
-       title="http://127.0.0.1:8000/tutorial/"
-       href="http://127.0.0.1:8000/tutorial/"
-       target="_blank" rel="noopener noreferrer">http://127.0.0.1:8000/tutorial/</a>.
-       <br/>
-       <br/>
-       <img style="display: block; margin-left: auto; margin-right: auto;" title="start_docker" src="images/start_docker.png"
-       alt="jenkins_demo" width="1143" height="457"/></p>       
-<hr id="system-readmore"/>
-
-Список контайнеров:<br/>
-<pre class="language-shell">
-<code>$ docker container ls
-</code>
-</pre>
-Список images:<br/>
-<pre class="language-shell">
-<code>$ docker image ls
+<p>Список images:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ docker image ls
 REPOSITORY               TAG         IMAGE ID       CREATED          SIZE
 getting-started          latest      894e2caf6b10   11 minutes ago   378MB
 ubuntu                   latest      3565a89d9e81   2 weeks ago      77.8MB (на этом тренируюсь)
@@ -37,44 +27,33 @@ node                     18-alpine   50c7e33a9de1   2 months ago     176MB
 alpine                   latest      7e01a0d0a1dc   2 months ago     7.34MB
 docker/getting-started   latest      3e4394f6b72f   9 months ago     47MB
 node                     12-alpine   bb6d28039b8c   18 months ago    91MB
-</code>
-</pre>
+</pre></div>
 
-Запуск image по имени:
-<pre class="language-shell">
-<code>$ docker run -it ubuntu
-</code>
-</pre>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+</pre></div>
+Запуск image по имени:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ docker run -it ubuntu
+</pre></div>
 
-Запуск image по номеру:
-<pre class="language-shell">
-<code>$ docker run -it 356
-</code>
-</pre>
+<p>Запуск image по номеру:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ docker run -it 356
+</pre></div>
 
-Удаление image по имени:
-<pre class="language-shell">
-<code>$ docker rmi ubuntu
-</code>
-</pre>
+<p>Удаление image по имени:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ docker rmi ubuntu
+</pre></div>
 
-Удаление container по id:
-<pre class="language-shell">
-<code>$ docker rm 3e1
-</code>
-</pre>
+<p>Удаление container по id:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ docker rm 3e1
+</pre></div>
 
-Удаление всех image:
-<pre class="language-shell">
-<code>$ docker image prune -a
-</code>
-</pre>
-
-
-<br/>
-<b>Ссылки:</b><br/>
-<a style="text-decoration: underline; color: #3366ff;"
-   title="Шпаргалка с командами Docker"
-   href="https://habr.com/ru/companies/flant/articles/336654/"
-   target="_blank" rel="noopener noreferrer">https://habr.com/ru/companies/flant/articles/336654/</a></br>
-
+<p>Удаление всех image:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ docker image prune -a
+</pre></div>
+<p><br /><b>Ссылки:</b><br /><a style="text-decoration: underline; color: #3366ff;" title="Шпаргалка с командами Docker" href="https://habr.com/ru/companies/flant/articles/336654/" target="_blank" rel="noopener noreferrer">https://habr.com/ru/companies/flant/articles/336654/</a></p>

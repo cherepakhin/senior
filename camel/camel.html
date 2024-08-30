@@ -1,6 +1,7 @@
 <p>Spring boot велик и могуч, но есть есть и другие инструменты.</p>
 <p><img style="display: block; margin-left: auto; margin-right: auto;" src="images/camel/capusta.png" alt="capusta" width="694" height="379" loading="lazy" data-path="local-images:/camel/capusta.png" /></p>
 <p>Camel это интеграционный клей, который соединяет компоненты системы, предоставляя коннекторы. Примеры коннекторов: rest, ftp, Spring bean и еще много всяких: <a style="text-decoration: underline; color: #3366ff;" title="https://camel.apache.org/components/next/index.html#_components" href="https://camel.apache.org/components/next/index.html#_components" target="_blank" rel="noopener noreferrer">https://camel.apache.org/components/next/index.html#_components</a>.</p>
+<hr id="system-readmore" />
 <p><b>Небольшой пример.</b><br />Задача - разослать обновления цен из офиса в подразделения (торговые точки). Ниже примеры <b>xml</b> Spring context и Camel конфигураций. (Почему Spring context задан в xml, а не использованы аннотации? Удобнее было менять логику работы комплекса <b>БЕЗ</b> перекомпиляции.) В примере настроено несколько конфигураций Camel (тег route) для рассылки обновлений в торговые точки из центра.<br />Camel context загружается вместе со Spring context. Подключение конфигурации Camel (camel.xml) в Spring context.<br />springContext.xml:</p>
 <!-- HTML generated using hilite.me -->
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
@@ -328,7 +329,7 @@
         <span style="color: #000080; font-weight: bold">&lt;/when&gt;</span>
         ...
         <span style="color: #000080; font-weight: bold">&lt;when&gt;</span>
-          <span style="color: #000080; font-weight: bold">&lt;xpath</span><span style="color: #a61717; background-color: #e3d2d2">&amp;gt//</span><span style="color: #FF0000">shopCod =</span> <span style="color: #0000FF">&#39;*&#39;</span><span style="color: #a61717; background-color: #e3d2d2">&lt;/xpath</span><span style="color: #000080; font-weight: bold">&gt;</span>
+          <span style="color: #000080; font-weight: bold">&lt;xpath></span><span style="color: #a61717; background-color: #e3d2d2"></span><span style="color: #FF0000">shopCod =</span><span style="color: #000080; font-weight: bold">'*'</xpath&gt;</span>
             <span style="color: #000080; font-weight: bold">&lt;multicast&gt;</span>
               <span style="color: #000080; font-weight: bold">&lt;to</span> <span style="color: #FF0000">uri=</span><span style="color: #0000FF">&quot;{{ftp}}/mqto07260?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=60000&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
               <span style="color: #000080; font-weight: bold">&lt;to</span> <span style="color: #FF0000">uri=</span><span style="color: #0000FF">&quot;{{ftp}}/mqto07863?username={{ftp-user}}&amp;password={{ftp-password}}&amp;reconnectDelay=1000&quot;</span> <span style="color: #000080; font-weight: bold">/&gt;</span>
