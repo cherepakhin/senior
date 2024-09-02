@@ -1,13 +1,20 @@
 <p><b>Stack</b> – Каждый поток имеет свой стек, который создается в тоже время, <b>когда создается поток</b>.
-Стек (лакальная или рабочая память потока) содержит фреймы, которые создаются при каждом вызове метода и хранят локальные переменные и
+Стек (локальная или рабочая память потока) содержит фреймы, которые создаются при каждом вызове метода и хранят локальные переменные и
 промежуточные результаты, возвращают значения для методов и выбрасывают исключения, если это необходимо.
+<hr id="system-readmore" />
 Фрейм разрушается, когда вызов метода завершается, неважно является это завершение успешным или с исключением.
 Ниже приведен пример кода:
-<pre class="language-java"><code>public class Memory {
-        public static void main(String[] args) {
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%">1
+2
+3
+4
+5</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">class</span> Memory {
+        <span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">static</span> <span style="color: #000080; font-weight: bold">void</span> main(String[] args) {
             main(args);
         }
-    }</code></pre>
+}
+</pre></td></tr></table></div>
+
 Его результатом будет исключение <b>StackOverflowError</b>, потому что этот код бесконечно
 вызывает сам себя, соответственно память в стеке заканчивается. Существуют возможности
 увеличить размер стека, для этого необходимо при запуске добавить аргумент для виртуальной
@@ -26,21 +33,35 @@
 Например, когда мы в многопоточном приложении используем паттерн Синглтон в котором <b>применяем синхронизацию <u>synchronized...</u> (stack -&gt; heap)</b>
 и хотим чтобы синхронизация осуществлялась <b>только один раз при инициализации объекта</b>,
 а не каждый раз, когда мы вызываем getInstance(), тогда модификатор volatile используем для объектной ссылки :
-<pre class="language-java"><code>public class Singleton {
-    private static volatile Singleton instance;   // ! может меняться другими потоками
-    private Singleton(){
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">class</span> Singleton {
+    <span style="color: #000080; font-weight: bold">private</span> <span style="color: #000080; font-weight: bold">static</span> <span style="color: #000080; font-weight: bold">volatile</span> Singleton instance;   <span style="color: #008800; font-style: italic">// ! может меняться другими потоками</span>
+    <span style="color: #000080; font-weight: bold">private</span> Singleton(){
     }
-    public static Singleton getInstance() {
-        if (instance == null) {
-            synchronized(Singleton.class) {       // ! При выходе из synchronized
-                if (instance == null)             // ! синхронизироать stack -> heap
-                    instance = new Singleton();   // !
-            }                                     // !
+    <span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">static</span> Singleton getInstance() {
+        <span style="color: #000080; font-weight: bold">if</span> (instance == <span style="color: #000080; font-weight: bold">null</span>) {
+            <span style="color: #000080; font-weight: bold">synchronized</span>(Singleton.<span style="color: #FF0000">class</span>) {       <span style="color: #008800; font-style: italic">// ! При выходе из synchronized</span>
+                <span style="color: #000080; font-weight: bold">if</span> (instance == <span style="color: #000080; font-weight: bold">null</span>)             <span style="color: #008800; font-style: italic">// ! синхронизироать stack -> heap</span>
+                    instance = <span style="color: #000080; font-weight: bold">new</span> Singleton();   <span style="color: #008800; font-style: italic">// !</span>
+            }                                     <span style="color: #008800; font-style: italic">// !</span>
         }
-        return instance;
+        <span style="color: #000080; font-weight: bold">return</span> instance;
     }
 }
-</code></pre>
+</pre></td></tr></table></div>
+
 (Внимание на <b>static</b>, <b>volatile</b>, <b>synchronized</b>)<br/>
 Еще одно объяснение: <a title="Еще одно объяснение"
    style="text-decoration: underline; color: #3366ff;"
