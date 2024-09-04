@@ -8,7 +8,6 @@
                               href="https://github.com/cherepakhin/spring_config"
                               target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/spring_config</a>
 <br/>
-<br/>
 <ul>
     <li><a href="#beans_from_xml"><b>Настройки Spring beans с помощью xml-файла resources/beans.xml</b></a></li>
     <li><a href="#beans_from_annotation"><b>Настройки Spring beans с помощью аннотаций @Configuration и @Bean в conf/ConfigFromJava</b></a></li>
@@ -20,44 +19,29 @@
 <a id="beans_from_xml"></a>
 <h3><b>Настройки Spring beans с помощью xml-файла resources/beans.xml.</b></h3>
 Определение beans в resources/beans.xml:<br/>
-<pre class="notranslate"><code lang="xml">&lt;bean id="russianGreeter" class="ru.perm.v.springconfig_k.greeters.RussianGreeter"/&gt;
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #020274; font-weight: bold">
+&lt;bean id="russianGreeter" class="ru.perm.v.springconfig_k.greeters.RussianGreeter"/&gt;
 &lt;bean id="germanyGreeter" class="ru.perm.v.springconfig_k.greeters.GermanyGreeter"/&gt;
 &lt;bean id="englishGreeter" class="ru.perm.v.springconfig_k.greeters.EnglishGreeter"/&gt;
 
 &lt;bean id="selectedGreeterService" class="ru.perm.v.springconfig.service.GreeterService"&gt;
-    &lt;property name="greeter" ref="russianGreeter"/&gt;
+   &lt;property name="greeter" ref="russianGreeter"/&gt;
 &lt;/bean&gt;
-</code></pre>
+</span></pre></div>
 
 Для импортирования бинов, определенных в beans.xml, создан класс conf/BeansFromXmlConfiguration.kt:
-<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%">1
-2
-3
-4
-5</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #020274; font-weight: bold">package</span> <span style="color: #000000">ru.perm.v.springconfig_k.conf</span>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #020274; font-weight: bold">package</span> <span style="color: #000000">ru.perm.v.springconfig_k.conf</span>
+<span style="color: #000000"></span>
 <span style="color: #000000">@Configuration</span>
 <span style="color: #000000">@ImportResource</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #4e9a06">"classpath*:beans.xml"</span><span style="color: #000000; font-weight: bold">)</span>
 <span style="color: #204a87; font-weight: bold">class</span> <span style="color: #000000">BeansFromXmlConfiguration</span> <span style="color: #000000; font-weight: bold">{</span>
 <span style="color: #000000; font-weight: bold">}</span>
-</pre></td></tr></table></div>
+</div>
 
 
 <a id="beans_from_annotation"></a>
 <h3><b>С помощью аннотаций @Configuration и @Bean в conf/BeansFromCodeConfiguration.kt.</b></h3>
-<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #000000">@Configuration</span>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">@Configuration</span>
 <span style="color: #204a87; font-weight: bold">class</span> <span style="color: #000000">BeansFromCodeConfiguration</span> <span style="color: #000000; font-weight: bold">{</span>
 
     <span style="color: #8f5902; font-style: italic">/**</span>
