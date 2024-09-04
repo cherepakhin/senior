@@ -9,7 +9,7 @@
    target="_blank" rel="noopener noreferrer"><strong>Grafana</strong></a> - отображение собранных статистических данных о работе приложений.<br/>
 На картинке выше отображены результат работы двух приложений, расположенных на разных хостах.<br/>
 Запущенный процесс Prometheus:
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><div style="margin: 0; line-height: 125%">1289 ?        Ssl    2:41 /usr/bin/prometheus-node-exporter
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">1289 ?        Ssl    2:41 /usr/bin/prometheus-node-exporter
     --collector.diskstats.ignored-devices=^(ram|loop|fd|(h|s|v|xv)d[a-z]|nvmed+nd+p)d+$
     --collector.filesystem.ignored-mount-points=^/(sys|proc|dev|run)($|/)
     --collector.netdev.ignored-devices=^lo$
@@ -22,12 +22,12 @@
     --web.listen-address=0.0.0.0:9090
     --storage.tsdb.retention.time=2d
     --storage.tsdb.retention.size=512MB
-</div>
+</pre></div>
 
 Параметры <b>--storage.tsdb.retention.time=2d</b> и <b>--storage.tsdb.retention.size=512MB</b> ограничивают количество сохраненных данных(метрик). Если не ограничить, то их накапливается <b><u>ОГРОМНОЕ(ПРОСТО НЕРЕАЛЬНОЕ)</u></b> количество.
 Заданы в сервисе старта prometheus (/etc/init.d/prometheus см. в конце заметки полный текст):
-<pre class="language-shell"><code>HELPER_ARGS="--name=$NAME --output=$LOGFILE  --pidfile=$PIDFILE --user=$USER --storage.tsdb.retention=2d"
-</code></pre>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">HELPER_ARGS="--name=$NAME --output=$LOGFILE  --pidfile=$PIDFILE --user=$USER --storage.tsdb.retention=2d"
+</pre></div>
 <h3 dir="auto">Просмотр Prometheus.</h3>
 
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Prometheus" src="images/prometheus/prometheus_1_20.png"
@@ -51,10 +51,10 @@
 </a>
 <br/>
 или так:
-<pre class="language-shell"><code>sudo apt-get install -y adduser libfontconfig1
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">sudo apt-get install -y adduser libfontconfig1
 wget https://dl.grafana.com/enterprise/release/grafana-enterprise_10.1.0_amd64.deb
 sudo dpkg -i grafana-enterprise_10.1.0_amd64.deb
-</code></pre>
+</pre></div>
 <br/>
 
 <b>TODO:</b><br/>
@@ -79,8 +79,7 @@ sudo dpkg -i grafana-enterprise_10.1.0_amd64.deb
 </a><br/>
 <hr/>
 Файл <b>/etc/init.d/prometheus</b>:
-<pre class="language-shell">
-<code>#!/bin/sh
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">#!/bin/sh
 # kFreeBSD do not accept scripts as interpreters, using #!/bin/sh and sourcing.
 if [ true != "$INIT_D_SCRIPT_SOURCED" ] ; then
     set "$0" "$@"; INIT_D_SCRIPT_SOURCED=true . /lib/init/init-d-script
@@ -179,4 +178,4 @@ do_reload()
         --ppid "$helper_pid" --exec "$DAEMON"
     log_end_msg $?
 }
-</code></pre>
+</pre></div>
