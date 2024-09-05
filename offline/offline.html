@@ -2,19 +2,21 @@
 <hr id="system-readmore" />
 <h3>Maven</h3>
 Включить режим offline (ключ <b>-o</b>).
-<pre class="language-shell"><code>$ mvn dependency:go-offline  //загрузка зависимостей
+
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">$ mvn dependency:go-offline  //загрузка зависимостей
 $ mvn -o clean install
-$ mvn -o test
-</code></pre>
+$ mvn -o test</span>
+</pre></div>
 
 или
 
-<pre class="language-shell"><code>$ mvn dependency:go-offline
-</code></pre>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">$ mvn dependency:go-offline</span>
+</pre></div>
 
 Либо хранить зависимости вместе с проектом:
-<pre class="language-shell"><code>$ mvn -Dmaven.repo.local=dependencies install
-</code></pre>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">$ mvn -Dmaven.repo.local=dependencies install</span>
+</pre></div>
+
 Зависимости будут скопированы в папку <b>dependencies</b>.
 <br/>
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Maven offline" src="images/offline/idea_dependies.png"
@@ -29,8 +31,9 @@ $ mvn -o test
 <h3>Gradle</h3>
 
 Ключ --offline:
-<pre class="language-shell"><code>$ gradle --offline build
-</code></pre>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">$ gradle --offline build</span>
+</pre></div>
+
 В Idea:
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Maven offline" src="images/offline/gradle_offline_idea.png"
         alt="Maven offline" width="1053" height="189"/></p>
