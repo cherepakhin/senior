@@ -2,39 +2,40 @@
 На разных местах работы различные инфраструктуры (системы безопасности, сетевое окружение и т.п.).
 Работодатель, обычно, предоставляет рабочий компьютер, но иногда требуется что-то проверить и нужна третья машина с Windows с какими-то особенными настройками.
 Здесь описано одно из решений.</p>
-<b>Дано:</b> Домашний сервер с Linux, подключенный к интернет, и рабочий ноутбук с Linux.
+<b>Дано:</b> Домашний сервер с Linux, подключенный к интернет, и рабочий ноутбук с Linux. Сервер и ноутбук связаны через wifi.
 <hr id="system-readmore"/>
 <b>Схема решения:</b><br/>
 С ноутбука с Linux через клиент уд.раб.стола Remmina подключаться к <u>удаленному рабочему столу</u> Windows10, запущенной в системе виртуальных машин Virtual Machine Manager(QUEMU/KVM) на сервере.
-<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Virtual Machine Manager" src="images/about_virtual_machine_manager.png"
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Virtual Machine Manager" src="images/kvm/about_virtual_machine_manager.png"
         alt="Virtual Machine Manager" width="325" height="261"/></p>
 
 Основное окно программы Virtual Machine Manager (сервер ip=192.168.1.20, linux):
-<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Main window Virtual Machine Manager" src="images/kvm_manager.png"
-        alt="Main window Virtual Machine Manager" width="1272" height="776"/></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Main window Vzirtual Machine Manager" src="images/kvm/kvm_manager1.png"
+        alt="Main window Virtual Machine Manager" width="888" height="563"/></p>
 
 Основное окно программы клиента удаленного рабочего стола Remmina (ноутбук ip=192.168.1.57, linux):
-<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Main window Remmina" src="images/remmina_main_window.png"
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Main window Remmina" src="images/kvm/remmina_main_window.png"
         alt="Main window Remmina" width="465" height="239"/></p>
 
 В w10 используется встроенный сервис "Удаленных рабочих столов".<br/>
 <br/>
 <b>Итоговая схема:</b>
-<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Result KVM" src="images/result_kvm.png"
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Result KVM" src="images/kvm/result_kvm.png"
         alt="Result KVM" width="1163" height="450"/></p>
 Окно удаленного рабочего стола на клиентской машине с linux:
-<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Result W10 from linux notebook" src="images/w10_screen_from_note.png"
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Result W10 from linux notebook" src="images/kvm/w10_screen_from_note.png"
         alt="Result KVM" width="1163" height="450"/></p>
 
 Маршруты на Server(Linux):<br/>
-<pre class="language-shell">
-<code>$ route -n
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ route -n
 Таблица маршутизации ядра протокола IP
 Destination Gateway Genmask Flags Metric Ref Use Iface
 0.0.0.0         0.0.0.0         0.0.0.0         U     0      0        0 ppp0
 10.10.1.0       0.0.0.0         255.255.255.0   U     0      0        0 kuberbr42
 192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 enp4s0
-</code></pre>
+</span></pre></div>
+
 <b>Firewall</b><br/>
 Используется пакет ufw. В компьютере 3 сетевых интерфейса:
 <ul>
@@ -49,7 +50,8 @@ Destination Gateway Genmask Flags Metric Ref Use Iface
     <li><b>192.168.1.57</b> - адрес рабочего ноутбука, с него работаю.</li>
     <li><b>8.8.8.8</b> - DNS сервер.</li>
 </ul>
-<pre class="language-shell"><code>$ ifconfig
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ ifconfig
 enp3s0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
     ether 30:85:a9:96:31:b7  txqueuelen 1000  (Ethernet)
 
@@ -63,9 +65,11 @@ ppp0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST>  mtu 1492
 
 kuberbr42: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         inet 10.10.1.1  netmask 255.255.255.0  broadcast 10.10.1.255
-</code></pre><br/>
-Итоговая настройка:<br/><pre class="language-shell">
-<code>$ route -n
+</span></pre></div>
+
+Итоговая настройка:<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ route -n
 Таблица маршутизации ядра протокола IP
 Destination     Gateway         Genmask Flags   Metr Ref     Use      Iface
 0.0.0.0         0.0.0.0         0.0.0.0         U     0      0        0 ppp0
@@ -73,8 +77,10 @@ Destination     Gateway         Genmask Flags   Metr Ref     Use      Iface
 172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 docker0
 192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 enp4s0
 ...
-</code></pre><br/>
-<pre class="language-shell"><code>$ sudo ufw status numbered
+</span></pre></div>
+
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ sudo ufw status numbered
 Состояние: активен
      В                          Действие    Из
      -                          --------    --
@@ -111,7 +117,8 @@ Destination     Gateway         Genmask Flags   Metr Ref     Use      Iface
 [31] 8.8.8.8 80/tcp             ALLOW IN    192.168.1.0/24
 [32] 8.8.8.8 443/tcp            ALLOW IN    192.168.1.0/24
 [35] 443                        ALLOW IN    Anywhere
-</code></pre><br/>
+</span></pre></div>
+
 Используемые порты:
 <ul>
     <li>21 - ftp</li>
@@ -124,7 +131,9 @@ Destination     Gateway         Genmask Flags   Metr Ref     Use      Iface
     <li>8082, 8888 - для демо проектов</li>
 </ul>
 В Windows:<br/>
-<pre class="language-shell"><code>$ ipconfig
+
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ ipconfig
 Настройка протокола IP для Windows
 Адаптер Ethernet Ethernet:
 DNS-суффикс подключения . . . . . :
@@ -132,16 +141,18 @@ DNS-суффикс подключения . . . . . :
 IPv4-адрес. . . . . . . . . . . . : 10.10.1.10
 Маска подсети . . . . . . . . . . : 255.255.255.0
 Основной шлюз. . . . . . . . . : 10.10.1.1
-</code></pre>
+</span></pre></div>
+
 Пример управления правилами:
-<pre class="language-shell"><code>$ ufw insert 1 deny in on ppp0 to any port 22 // запретить ssh из Интернета
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ ufw insert 1 deny in on ppp0 to any port 22 // запретить ssh из Интернета
 $ ufw insert 2 allow in on enp4s0 to any port 22 // разрешить ssh из внутренней сети
-</code></pre><br/>
+</span></pre></div>
 <b>Примечания:</b><br/>
 1. В версии Windows Home удаленного рабочего стола НЕТ(!), только удаленный помощник. В Стандартной версии есть.<br/>
 2. Памяти нужно много! В Server(Linux) установлено 12Gb. Для w10 отдал 4Gb. Удивительно, но win10 живет с 4Gb. Приходится некоторые особо жадные сервисы(jenkins, nexus) в хостовой машине (ServerLinux) выгружать.<br/>
 3. Бонус! Образ виртуальной машины можно клонировать средствами Virtual Machine Manager(QUEMU/KVM)
-<p><img style="display: block; margin-left: auto; margin-right: auto;" title="clone image" src="images/vm_clone.png"
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="clone image" src="images/kvm/vm_clone.png"
         alt="Result KVM" width="671" height="489"/></p>
 Было бы место)<br/>
 4. Win10 запускается долго. Минут 10 надо подождать после перезагрузки, после этого удаленный раб.стол откроется.<br/>
