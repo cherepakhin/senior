@@ -18,19 +18,20 @@
    target="_blank" rel="noopener noreferrer">
     <strong>https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper.properties</strong></a>).
 Основные параметры в zookeeper.properties:<br/>
-<pre class="language-shell">
-<code>dataDir=/tmp/zookeeper
-clientPort=2181
-maxClientCnxns=0
-admin.enableServer=true
-admin.serverPort=9080</code></pre>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">dataDir=/tmp/zookeeper</span>
+<span style="color: #000000">clientPort=2181</span>
+<span style="color: #000000">maxClientCnxns=0</span>
+<span style="color: #000000">admin.enableServer=true</span>
+<span style="color: #000000">admin.serverPort=9080</span>
+</pre></div>
+
 
 Скрипт запуска zookeeper(<a title="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh"
    href="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh"
    target="_blank" rel="noopener noreferrer">
    <strong>https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh</strong></a>)<br/>
-<pre class="language-shell"><code>$ ~/tools/kafka/bin/zookeeper-server-start.sh /home/vasi/tools/kafka/config/zookeeper.properties
-</code></pre>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">$ </span>~/tools/kafka/bin/zookeeper-server-start.sh /home/vasi/tools/kafka/config/zookeeper.properties
+</pre></div>
 
 <b>/home/vasi</b> - каталог пользователя<br/>
 <b>tools/kafka</b> - каталог со скриптами kafka<br/>
@@ -43,12 +44,11 @@ admin.serverPort=9080</code></pre>
         alt="zookeeper_commands" width="234" height="456"/></p><br/>
 
 <h3>Запуск Kafka</h3>
-<pre class="language-shell"><code>$ ~/tools/kafka/bin/kafka-server-start.sh /home/vasi/tools/kafka/config/server.properties
-</code></pre>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">$ ~/tools/kafka/bin/kafka-server-start.sh /home/vasi/tools/kafka/config/server.properties
+</pre></div>
 
 Log:
-<pre class="language-shell"><code>....
-INFO [KafkaServer id=0] started (kafka.server.KafkaServer)
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">INFO [KafkaServer id=0] started (kafka.server.KafkaServer)
 INFO [BrokerToControllerChannelManager broker=0 name=alterPartition]: Recorded new controller,
     from now on will use node 192.168.1.20:9092 (id: 0 rack: null)
     (kafka.server.BrokerToControllerRequestThread)
@@ -56,42 +56,37 @@ INFO [BrokerToControllerChannelManager broker=0 name=alterPartition]: Recorded n
     Recorded new controller, from now on will use node 192.168.1.20:9092 (id: 0 rack: null)
     (kafka.server.BrokerToControllerRequestThread)
 ````
-</code></pre>
+</pre></div>
 
 <h2>Проверка работы из консоли</h2>
 
 <h3>Создание топика</h3>
 Создание топика "samples":
-<pre class="language-shell">
-<code>$ ~/tools/kafka/bin $ kafka-topics.sh --bootstrap-server 192.168.1.20:9092 --create --topic samples --partitions 1 --replication-factor 1
-</code>
-</pre>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">$ ~/tools/kafka/bin $ kafka-topics.sh --bootstrap-server 192.168.1.20:9092 --create --topic samples --partitions 1 --replication-factor 1
+</span></pre></div>
 
 <h3>Отправка сообщения в топик</h3>
-Отправка сообщения в топик "samples":<br/><pre class="language-shell">
-<code>$ ~/tools/kafka/bin/kafka-console-producer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
+Отправка сообщения в топик "samples":<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">$ ~/tools/kafka/bin/kafka-console-producer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
 >test1
 >test2
 >
-</code></pre>
+</span></pre></div>
 
 <h3>Прием сообщения из топика</h3>
-Подключение к топику "samples" и просмотр сообщений:<br/><pre class="language-shell">
-<code>$ ~/tools/kafka/bin/kafka-console-consumer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
+Подключение к топику "samples" и просмотр сообщений:<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">$ ~/tools/kafka/bin/kafka-console-consumer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
 test1
 test2
-</code></pre>
+</span></pre></div>
 
 <h3>Удаление топика</h3>
-<pre class="language-shell">
-<code>~/tools/kafka/bin/kafka-topics.sh --zookeeper 192.168.1.20:2181 --delete --topic product_ext_dto_topic
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">~/tools/kafka/bin/kafka-topics.sh --zookeeper 192.168.1.20:2181 --delete --topic product_ext_dto_topic
 >Topic product_ext_dto_topic is marked for deletion.
 >Note: This will have no impact if delete.topic.enable is not set to true.
-</code></pre>
-Для полного удаления топика (с очисткой файлов топика) нужно установить в конфигурационном файле server.properties свойство delete.topic.enable = true<br/>
-<pre class="language-shell">
-<code>delete.topic.enable = true
-</code></pre>
+</span></pre></div>
+
+Для полного удаления топика (с очисткой файлов топика) нужно установить в конфигурационном файле server.properties свойство <b>delete.topic.enable = true</b><br/>
 <b>Ссылки:</b><br/>
 Простые проекты на kotlin:<br/>
 <a title="https://github.com/cherepakhin/shop_kafka_producer"
