@@ -355,86 +355,79 @@ aaa
 <h3 dir="auto" tabindex="-1"><a id="user-content-docker" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#docker"></a>Docker</h3>
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/Dockerfile">Dockerfile</a></p>
 <p dir="auto">Работа с Docker:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre><span class="pl-c"># create docker image</span>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-style: italic"># create docker image</span>
 $./docker_build.sh
 
-<span class="pl-c"># run app</span>
+<span style="color: #008800; font-style: italic"># run app</span>
 $ docker run -p 8080:8980 shop_kotlin/app
 
 $ docker ps
 CONTAINER ID   IMAGE             COMMAND                CREATED          STATUS          PORTS                    NAMES
-c70ef82f3a54   shop_kotlin/app   <span class="pl-s"><span class="pl-pds">"</span>java -jar /app.jar<span class="pl-pds">"</span></span>   43 seconds ago   Up 42 seconds   0.0.0.0:8080-<span class="pl-k">&gt;</span>8980/tcp   inspiring_germain
+c70ef82f3a54   shop_kotlin/app   <span style="color: #0000FF">&quot;java -jar /app.jar&quot;</span>   43 seconds ago   Up 42 seconds   0.0.0.0:8080-&gt;8980/tcp   inspiring_germain
 
-<span class="pl-c"># simple test</span>
-$ http :8080/api/group_product/find<span class="pl-k">?</span>name=<span class="pl-s"><span class="pl-pds">'</span>Comp<span class="pl-pds">'</span></span>
+<span style="color: #008800; font-style: italic"># simple test</span>
+$ http :8080/api/group_product/find?name=<span style="color: #0000FF">&#39;Comp&#39;</span>
 
 $ docker ps -a
-<span class="pl-c"># 2d1325e1222a   shop_kotlin:0.24.0105    "/cnb/process/web" ...</span>
+<span style="color: #008800; font-style: italic"># 2d1325e1222a   shop_kotlin:0.24.0105    &quot;/cnb/process/web&quot; ...</span>
 
-<span class="pl-c"># stop docker app</span>
-<span class="pl-smi">$docker</span> stop 2d1
+<span style="color: #008800; font-style: italic"># stop docker app</span>
+$docker stop 2d1
 
-<span class="pl-c"># rm container shop_kotlin 2d1325e1222a (id from docker ps -a)</span>
-<span class="pl-smi">$docker</span> container rm 2d1
+<span style="color: #008800; font-style: italic"># rm container shop_kotlin 2d1325e1222a (id from docker ps -a)</span>
+$docker container rm 2d1
 
-<span class="pl-c"># rm image</span>
-<span class="pl-smi">$docker</span> image ls
+<span style="color: #008800; font-style: italic"># rm image</span>
+$docker image ls
 shop_kotlin 0.24.0105   94560d28efb3   ...
 
 $ docker image rm 945
 Untagged: shop_kotlin:0.24.0105
 
-<span class="pl-c"># clear ALL images</span>
-<span class="pl-smi">$docker</span> image prune -a
+<span style="color: #008800; font-style: italic"># clear ALL images</span>
+$docker image prune -a
 
-<span class="pl-c"># clear all</span>
-<span class="pl-smi">$docker</span> system prune -af</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<span style="color: #008800; font-style: italic"># clear all</span>
+$docker system prune -af
+</pre></div>
+
 <h4 dir="auto" tabindex="-1"><a id="user-content-или-средствами-gradle" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%B8%D0%BB%D0%B8-%D1%81%D1%80%D0%B5%D0%B4%D1%81%D1%82%D0%B2%D0%B0%D0%BC%D0%B8-gradle"></a>ИЛИ средствами gradle:</h4>
 <p dir="auto">Создание docker image:</p>
 <div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>./gradlew bootBuildImage
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ ./gradlew bootBuildImage
 
 ...
 
     [creator]     Saving docker.io/library/shop_kotlin:0.1.18...
-    [creator]     <span class="pl-k">***</span> Images (f80a4e623a3d):
+    [creator]     *** Images (f80a4e623a3d):
     [creator]           docker.io/library/shop_kotlin:0.1.18
-Successfully built image <span class="pl-s"><span class="pl-pds">'</span>docker.io/library/shop_kotlin:0.1.18<span class="pl-pds">'</span></span>
+Successfully built image <span style="color: #0000FF">&#39;docker.io/library/shop_kotlin:0.1.18&#39;</span>
 ...
-</pre>
-    <div class="zeroclipboard-container"> </div>
+</pre></div>
+
 </div>
 <p dir="auto">В файле META-INF/MANIFEST.MF указать Main-Class</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate" lang="text"><code>Main-Class: ru.perm.v.shopkotlin.ShopKotlinApplication
-</code></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Main-Class: ru.perm.v.shopkotlin.ShopKotlinApplication
+</pre></div>
+
 <p dir="auto">Запуск docker image:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>$ docker run -p 8980:8980 -p 8988:8988  docker.io/library/shop_kotlin:0.1.18
-</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ docker run -p 8980:8980 -p 8988:8988  docker.io/library/shop_kotlin:0.1.18
+</pre></div>
+
 <p dir="auto">(8980 - основной порт, 8988 - spring actuator)</p>
 <div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>$ docker container ls
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ docker container ls
 CONTAINER ID   IMAGE                COMMAND              CREATED          STATUS          PORTS                    NAMES
-6544af7b0adb   shop_kotlin:0.1.18   <span class="pl-s"><span class="pl-pds">"</span>/cnb/process/web<span class="pl-pds">"</span></span>   12 seconds ago   Up 11 seconds   0.0.0.0:8980-<span class="pl-k">&gt;</span>8980/tcp   brave_sutherland
-</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+6544af7b0adb   shop_kotlin:0.1.18
+ 12 seconds ago   Up 11 seconds   0.0.0.0:8980 - 8980/tcp
+</pre></div>
 <p dir="auto">Проверка:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>$ http http://127.0.0.1:8980/shop_kotlin/api/echo/aaa
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ http http://127.0.0.1:8980/shop_kotlin/api/echo/aaa
 
 HTTP/1.1 200
 Connection: keep-alive
 Content-Length: 3
-Content-Type: text/plain<span class="pl-k">;</span>charset=UTF-8
+Content-Type: text/plain&lt;span class=<span style="color: #0000FF">&quot;pl-k&quot;</span>&gt;;&lt;/span&gt;charset=UTF-8
 Date: Thu, 30 Nov 2023 15:36:25 GMT
 Keep-Alive: timeout=60
 Vary: Origin
@@ -442,9 +435,8 @@ Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 
 aaa
-</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+</pre></div>
+
 <p dir="auto"> </p>
 <a id="swagger"></a>
 <h3 dir="auto" tabindex="-1">
@@ -460,85 +452,74 @@ aaa
 </h3>
 <p dir="auto">Spring Actuator предназначен для получения информации о работающем приложении - статус приложения (жив/нет), использовании памяти, cpu и т.п.. Поключен по адресу <a href="http://127.0.0.1:8988/shop_kotlin/api/actuator" rel="nofollow">http://127.0.0.1:8988/shop_kotlin/api/actuator</a></p>
 <p dir="auto">порт указан в application.yaml:</p>
-<div class="highlight highlight-source-yaml notranslate position-relative overflow-auto" dir="auto">
-<pre><span class="pl-ent">management</span>:
-  <span class="pl-s">...</span>
-  <span class="pl-ent">server</span>:
-    <span class="pl-ent">port</span>: <span class="pl-c1">8988</span>
-</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">management:
+  ...
+  server:
+    port: 8988
+</pre></div>
+
 <p dir="auto">Использование из командной строки:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>$ http http://127.0.0.1:8988/shop_kotlin/api/actuator
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ http http://127.0.0.1:8988/shop_kotlin/api/actuator
 
 {
-    <span class="pl-s"><span class="pl-pds">"</span>_links<span class="pl-pds">"</span></span>: {
-        <span class="pl-s"><span class="pl-pds">"</span>beans<span class="pl-pds">"</span></span>: {
-            <span class="pl-s"><span class="pl-pds">"</span>href<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>http://127.0.0.1:8988/shop_kotlin/api/actuator/beans<span class="pl-pds">"</span></span>,
-            <span class="pl-s"><span class="pl-pds">"</span>templated<span class="pl-pds">"</span></span>: <span class="pl-c1">false</span>
+    <span style="color: #0000FF">&quot;_links&quot;</span>: {
+        <span style="color: #0000FF">&quot;beans&quot;</span>: {
+            <span style="color: #0000FF">&quot;href&quot;</span>: <span style="color: #0000FF">&quot;http://127.0.0.1:8988/shop_kotlin/api/actuator/beans&quot;</span>,
+            <span style="color: #0000FF">&quot;templated&quot;</span>: false
         },
-        <span class="pl-s"><span class="pl-pds">"</span>caches<span class="pl-pds">"</span></span>: {
-            <span class="pl-s"><span class="pl-pds">"</span>href<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>http://127.0.0.1:8988/shop_kotlin/api/actuator/caches<span class="pl-pds">"</span></span>,
-            <span class="pl-s"><span class="pl-pds">"</span>templated<span class="pl-pds">"</span></span>: <span class="pl-c1">false</span>
+        <span style="color: #0000FF">&quot;caches&quot;</span>: {
+            <span style="color: #0000FF">&quot;href&quot;</span>: <span style="color: #0000FF">&quot;http://127.0.0.1:8988/shop_kotlin/api/actuator/caches&quot;</span>,
+            <span style="color: #0000FF">&quot;templated&quot;</span>: false
         },
-        <span class="pl-s"><span class="pl-pds">"</span>caches-cache<span class="pl-pds">"</span></span>: {
-            <span class="pl-s"><span class="pl-pds">"</span>href<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>http://127.0.0.1:8988/shop_kotlin/api/actuator/caches/{cache}<span class="pl-pds">"</span></span>,
-            <span class="pl-s"><span class="pl-pds">"</span>templated<span class="pl-pds">"</span></span>: <span class="pl-c1">true</span>
+        <span style="color: #0000FF">&quot;caches-cache&quot;</span>: {
+            <span style="color: #0000FF">&quot;href&quot;</span>: <span style="color: #0000FF">&quot;http://127.0.0.1:8988/shop_kotlin/api/actuator/caches/{cache}&quot;</span>,
+            <span style="color: #0000FF">&quot;templated&quot;</span>: true
         },
-....</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+....
+</pre></div>
+
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/actuator.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/actuator.png" alt="actuator" /></a></p>
 <p dir="auto">Пример "Сколько памяти используется?":</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>$ http http://127.0.0.1:8988/shop_kotlin/api/actuator/metrics/jvm.memory.used
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ http http://127.0.0.1:8988/shop_kotlin/api/actuator/metrics/jvm.memory.used
 ....
-<span class="pl-s"><span class="pl-pds">"</span>baseUnit<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>bytes<span class="pl-pds">"</span></span>,
-    <span class="pl-s"><span class="pl-pds">"</span>description<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>The amount of used memory<span class="pl-pds">"</span></span>,
-    <span class="pl-s"><span class="pl-pds">"</span>measurements<span class="pl-pds">"</span></span>: [
+<span style="color: #0000FF">&quot;baseUnit&quot;</span>: <span style="color: #0000FF">&quot;bytes&quot;</span>,
+    <span style="color: #0000FF">&quot;description&quot;</span>: <span style="color: #0000FF">&quot;The amount of used memory&quot;</span>,
+    <span style="color: #0000FF">&quot;measurements&quot;</span>: [
         {
-            <span class="pl-s"><span class="pl-pds">"</span>statistic<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>VALUE<span class="pl-pds">"</span></span>,
-            <span class="pl-s"><span class="pl-pds">"</span>value<span class="pl-pds">"</span></span>: 147665416.0
+            <span style="color: #0000FF">&quot;statistic&quot;</span>: <span style="color: #0000FF">&quot;VALUE&quot;</span>,
+            <span style="color: #0000FF">&quot;value&quot;</span>: 147665416.0
         }
     ],
-    <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>jvm.memory.used<span class="pl-pds">"</span></span>
-....</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+    <span style="color: #0000FF">&quot;name&quot;</span>: <span style="color: #0000FF">&quot;jvm.memory.used&quot;</span>
+....
+</pre></div>
 <p dir="auto">Нагрузочные тесты показали следующие результаты: 64M - приложение выпадает с OutOfMemory 128M - тесты проходят</p>
 
 <p dir="auto"> </p>
 <a id="prometheus"></a>
 <h3 dir="auto" tabindex="-1"><a id="user-content-prometheus" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#prometheus"></a>Prometheus</h3>
 <p dir="auto">На моем сервере запущен Prometheus. Prometheus <strong>ОПРАШИВАЕТ</strong> приложение, согласно заданию (ниже yaml), и собирает метрики (metrics_path+targets). Пример задания для опроса в файле <a href="https://github.com/cherepakhin/shop_kotlin/doc/prometheus/prometheus.yml">doc/prometheus/prometheus.yml</a>. Содержимое <a href="https://github.com/cherepakhin/shop_kotlin/doc/prometheus/prometheus.yml">doc/prometheus/prometheus.yml</a> поместить в настройки prometheus. Пример задания:</p>
-<div class="highlight highlight-source-yaml notranslate position-relative overflow-auto" dir="auto">
-<pre><span class="pl-ent">scrape_configs</span>:
-- <span class="pl-ent">job_name</span>: <span class="pl-s"><span class="pl-pds">'</span>spring boot scrape<span class="pl-pds">'</span></span>
-  <span class="pl-ent">metrics_path</span>: <span class="pl-s"><span class="pl-pds">'</span>/shop_kotlin/api/actuator/prometheus<span class="pl-pds">'</span></span>
-  <span class="pl-ent">scrape_interval</span>: <span class="pl-c1">5s</span>
-  <span class="pl-ent">static_configs</span>:
-    - <span class="pl-ent">targets</span>: <span class="pl-s">['192.168.1.20:8988']</span>
-</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<p dir="auto">Опрашивать '192.168.1.20:8988/shop_kotlin/api/actuator/prometheus' каждые 5 сек.</p>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">scrape_configs:
+- job_name: <span style="color: #0000FF">&#39;spring</span> <span style="color: #0000FF">boot</span> <span style="color: #0000FF">scrape&#39;</span>
+  metrics_path: <span style="color: #0000FF">&#39;/shop_kotlin/api/actuator/prometheus&#39;</span>
+  scrape_interval: 5s
+  static_configs:
+    - targets: [<span style="color: #0000FF">&#39;192.168.1.20:8988&#39;</span>]
+</pre></div>
+
+    <p dir="auto">Опрашивать '192.168.1.20:8988/shop_kotlin/api/actuator/prometheus' каждые 5 сек.</p>
 <p dir="auto">Для просмотра получаемых prometheus-ом метрик можно выполнить:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>$ http http://127.0.0.1:8788/api/actuator/prometheus<span class="pl-k">**</span></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ http http://127.0.0.1:8788/api/actuator/prometheus**
+</pre></div>
+
 <p dir="auto">(Использован <a href="https://httpie.io/" rel="nofollow">httpie</a>)</p>
 <p dir="auto">Ответ:</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code># HELP jvm_threads_daemon_threads The current number of live daemon threads
-# TYPE jvm_threads_daemon_threads gauge
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-style: italic"># HELP jvm_threads_daemon_threads The current number of live daemon threads</span>
+<span style="color: #008800; font-style: italic"># TYPE jvm_threads_daemon_threads gauge</span>
 jvm_threads_daemon_threads 13.0
-# HELP hikaricp_connections Total connections
+<span style="color: #008800; font-style: italic"># HELP hikaricp_connections Total connections</span>
 ...
-</code></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+</pre></div>
 <p dir="auto">Подключение к Prometheus из браузера: <a href="http://192.168.1.20:9090/targets" rel="nofollow">http://192.168.1.20:9090/targets</a></p>
 <p dir="auto"><a href="http://192.168.1.20:9090/graph" rel="nofollow">http://192.168.1.20:9090/graph</a></p>
 <p dir="auto">Основной экран: 192.168.1.20 - адрес хоста с prometheus <a href="http://192.168.1.20:9090/targets" rel="nofollow">http://192.168.1.20:9090/targets</a></p>
@@ -565,31 +546,24 @@ jvm_threads_daemon_threads 13.0
 <p dir="auto"> </p>
 <a id="prometheus_docker"></a>
 <h3 dir="auto">Запуск prometheus в docker:</h3>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>docker run -d -p 9090:9090 -v <span class="pl-s"><span class="pl-pds">"</span>/<span class="pl-pds">$(</span>pwd<span class="pl-pds">)</span>/for_prometheus/prometheus.yml<span class="pl-pds">"</span></span>:/etc/prometheus/prometheus.yml prom/prometheus</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">docker run -d -p 9090:9090 -v <span style="color: #0000FF">&quot;/$(pwd)/for_prometheus/prometheus.yml&quot;</span>:/etc/prometheus/prometheus.yml prom/prometheus
+</pre></div>
+
 <p dir="auto">Просмотр состояния prometheus, запущенного в docker:</p>
 <p dir="auto">Вычисление ID container</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre><span class="pl-k">&gt;</span>docker ps
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ docker ps
 CONTAINER ID   IMAGE             COMMAND                  CREATED         STATUS         PORTS                    NAMES
-e081bb1f500c   prom/prometheus   <span class="pl-s"><span class="pl-pds">"</span>/bin/prometheus --c…<span class="pl-pds">"</span></span>   4 minutes ago   Up 4 minutes   0.0.0.0:9090-<span class="pl-k">&gt;</span>9090/tcp   reverent_newton</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+e081bb1f500c   prom/prometheus   /bin/prometheus --c…   4 minutes ago   Up 4 minutes   0.0.0.0:9090-&gt;9090/tcp   reverent_newton
+</pre></div>
+
 <p dir="auto">Просмотр логов контейнера prometheus (e08 id контейнера)</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>docker logs e08 --follow</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<p dir="auto">Выхлоп:</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>...
-ts=2023-09-11T13:13:17.850Z caller=main.go:1009 level=info msg="Server is ready to receive web requests."
-ts=2023-09-11T13:13:17.850Z caller=manager.go:1009 level=info component="rule manager" msg="Starting rule manager..."
-</code></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ docker logs e08 --follow
+</pre></div>
+<p dir="auto">Ответ (что-тотипа такого):</p>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">ts=2023-09-11T13:13:17.850Z caller=main.go:1009 level=info msg=<span style="color: #0000FF">&quot;Server is ready to receive web requests.&quot;</span>
+ts=2023-09-11T13:13:17.850Z caller=manager.go:1009 level=info component=<span style="color: #0000FF">&quot;rule manager&quot;</span> msg=<span style="color: #0000FF">&quot;Starting rule manager...&quot;</span>
+</pre></div>
+
 
 <p dir="auto"> </p>
 <a id="grafana"></a>
@@ -599,15 +573,13 @@ ts=2023-09-11T13:13:17.850Z caller=manager.go:1009 level=info component="rule ma
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/grafana_short" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/grafana_short.png" alt="grafana" /></a></p>
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/grafana.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/grafana.png" alt="grafana" /></a></p>
 <p dir="auto">Запуск grafana:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>vasi@v$ sudo service grafana-server start</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">vasi@v$ sudo service grafana-server start
+</pre></div>
+
 <p dir="auto">Остановка grafana:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>vasi@v$ sudo service grafana-server stop</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">vasi@v$ sudo service grafana-server stop
+</pre></div>
+
 <p dir="auto"><a href="http://192.168.1.20:3000/explore?orgId=1&amp;left=%7B%22datasource%22:%22grafana%22,%22queries%22:%5B%7B%22queryType%22:%22randomWalk%22,%22refId%22:%22A%22,%22datasource%22:%7B%22type%22:%22datasource%22,%22uid%22:%22grafana%22%7D%7D%5D,%22range%22:%7B%22from%22:%22now-6h%22,%22to%22:%22now%22%7D%7D" rel="nofollow">Пример запроса</a></p>
 <p dir="auto">user(pass): admin/admin</p>
 <p dir="auto">Подробнее о нагрузочном тестировании и метриках в этом проекте <a href="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test">https://github.com/cherepakhin/shop_kotlin_yandex_tank_test</a></p>
@@ -618,25 +590,20 @@ ts=2023-09-11T13:13:17.850Z caller=manager.go:1009 level=info component="rule ma
     <a id="user-content-кеширование" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%BA%D0%B5%D1%88%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5"></a>Кеширование
 </h3>
 <p dir="auto">Кеширование сделано для RestController:</p>
-<div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
-<pre>@GetMapping(<span class="pl-s"><span class="pl-pds">"</span>/<span class="pl-pds">"</span></span>)
-@Cacheable(<span class="pl-s"><span class="pl-pds">"</span>allGroupProductDTO<span class="pl-pds">"</span></span>)
-@ApiOperation(<span class="pl-s"><span class="pl-pds">"</span>Get all groups of product<span class="pl-pds">"</span></span>)
-<span class="pl-k">fun</span> <span class="pl-en">all</span>(): <span class="pl-c1">List</span>&lt;<span class="pl-en">GroupProductDTO</span>&gt; {
-    <span class="pl-k">..</span>.
-}</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@GetMapping(<span style="color: #0000FF">&quot;/&quot;</span>)
+@Cacheable(<span style="color: #0000FF">&quot;allGroupProductDTO&quot;</span>)
+@ApiOperation(<span style="color: #0000FF">&quot;Get all groups of product&quot;</span>)
+<span style="color: #000080; font-weight: bold">fun</span> all(): List&lt;GroupProductDTO&gt; {
+    ...
+}
+</pre></div>
 <p dir="auto">Использован <a href="https://spring-projects.ru/guides/caching/" rel="nofollow">org.springframework.cache</a>. Ручная проверка работы кеш:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre><span class="pl-c"># Очистка кеша</span>
-<span class="pl-smi">$http</span> :8780/api/group_product/clear_cache
-<span class="pl-c"># Для проверки, несколько раз сделать get запрос. </span>
-<span class="pl-c"># При этом в лог будет только один запрос к репозиторию.</span>
-<span class="pl-smi">$http</span> :8780/api/group_product/
-</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-style: italic"># Очистка кеша</span>
+$ http :8780/api/group_product/clear_cache
+<span style="color: #008800; font-style: italic"># Для проверки, несколько раз сделать get запрос. </span>
+<span style="color: #008800; font-style: italic"># При этом в лог будет только один запрос к репозиторию.</span>
+$ http :8780/api/group_product/
+</pre></div>
 <p dir="auto"> </p>
 <a id="jenkins"></a>
 <h3 dir="auto" tabindex="-1">Сборка Jenkins</h3>
@@ -663,69 +630,60 @@ ts=2023-09-11T13:13:17.850Z caller=manager.go:1009 level=info component="rule ma
 <h3 dir="auto" tabindex="-1"><a id="user-content-deploy-to-nexus-repository" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#deploy-to-nexus-repository"></a>Deploy to NEXUS repository</h3>
 <p dir="auto">Возможен с использованием Jenkins (описано выше) или ручной deploy в Nexus с личного компьютера.</p>
 <p dir="auto">Для deploy выполнить:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>./gradlew publish</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ ./gradlew publish
+</pre></div>
+
 <p dir="auto">Путь к репозиторию установлен в build.gradle.kts:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>url = uri(<span class="pl-s"><span class="pl-pds">"</span>https://v.perm.ru:8082/repository/ru.perm.v/<span class="pl-pds">"</span></span>)</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">url = uri(<span style="color: #0000FF">&quot;https://v.perm.ru:8082/repository/ru.perm.v/&quot;</span>)
+</pre></div>
 <p dir="auto">Для установки переменных доступа к Nexus repository выполнить в shell:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>$ <span class="pl-k">export</span> NEXUS_CRED_USR=admin
-$ <span class="pl-k">export</span> NEXUS_CRED_PSW=pass</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ export NEXUS_CRED_USR=admin
+$ export NEXUS_CRED_PSW=pass
+</pre></div>
+
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/nexus.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/nexus.png" alt="nexus" /></a></p>
 <p dir="auto">Секция publishing в build.gradle.kts:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>publishing {
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">publishing {
     repositories {
         maven {
-            url = uri(<span class="pl-s"><span class="pl-pds">"</span>https://v.perm.ru:8082/repository/ru.perm.v/<span class="pl-pds">"</span></span>)
-            isAllowInsecureProtocol = <span class="pl-c1">true</span>
-            //  publish в nexus <span class="pl-s"><span class="pl-pds">"</span>./gradlew publish<span class="pl-pds">"</span></span> из ноута и Jenkins проходит
-            // <span class="pl-k">export</span> NEXUS_CRED_USR=admin
-            // <span class="pl-c1">echo</span> <span class="pl-smi">$NEXUS_CRED_USR</span>
+            url = uri(&quot;https://v.perm.ru:8082/repository/ru.perm.v/&quot;)
+            isAllowInsecureProtocol = true
+            //  publish в nexus &quot;./gradlew publish&quot; из ноута и Jenkins проходит
+            // export NEXUS_CRED_USR=admin
+            // echo $NEXUS_CRED_USR
             credentials {
-                username = System.getenv(<span class="pl-s"><span class="pl-pds">"</span>NEXUS_CRED_USR<span class="pl-pds">"</span></span>)
-                password = System.getenv(<span class="pl-s"><span class="pl-pds">"</span>NEXUS_CRED_PSW<span class="pl-pds">"</span></span>)
+                username = System.getenv(&quot;NEXUS_CRED_USR&quot;)
+                password = System.getenv(&quot;NEXUS_CRED_PSW&quot;)
             }
         }
     }
     publications {
-        register(<span class="pl-s"><span class="pl-pds">"</span>mavenJava<span class="pl-pds">"</span></span>, MavenPublication::class) {
+        register(&quot;mavenJava&quot;, MavenPublication::class) {
             groupId
             artifactId
             version
-            from(components[<span class="pl-s"><span class="pl-pds">"</span>java<span class="pl-pds">"</span></span>])
-        }</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+            from(components[&quot;java&quot;])
+        }
+</pre></div>
 <p dir="auto"> </p>
 <a id="jmc"></a>
 <h3 dir="auto" tabindex="-1">Просмотр ресурсов с помощью Java Mission Control</h3>
 <p dir="auto"><a href="https://www.oracle.com/cis/javase/jmc/" rel="nofollow">Java Mission Control</a></p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>jmc-8.3.1_linux-x64/JDK Mission Control$ jmc</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">jmc-8.3.1_linux-x64/JDK Mission Control$ jmc
+</pre></div>
+
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/jmc_monitor.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/jmc_monitor.png" alt="jmc" /></a></p>
 <p dir="auto"> </p>
 
 <a id="logging"></a>
 <h3 dir="auto">Логирование</h3>
 <p dir="auto">Настройка сделана в application.yaml:</p>
-<div class="highlight highlight-source-yaml notranslate position-relative overflow-auto" dir="auto">
-<pre><span class="pl-ent">logging</span>:
-  <span class="pl-ent">level</span>:
-    <span class="pl-ent">root</span>: <span class="pl-s">info</span>
-  <span class="pl-ent">file</span>:
-    <span class="pl-ent">path</span>: <span class="pl-s">log/</span></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">logging:
+  level:
+    root: info
+  file:
+    path: log/
+</pre></div>
 
 <a id="easycode_idea"></a>
 <h3 dir="auto">Использование "ChatGPT-EasyCode" в Idea</h3>
@@ -756,40 +714,40 @@ $ <span class="pl-k">export</span> NEXUS_CRED_PSW=pass</pre>
     <br/>
     Описание:<br/>
 <div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
-<pre>@ConfigurationProperties("myconfig")
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@ConfigurationProperties(<span style="color: #0000FF">&quot;myconfig&quot;</span>)
 @ConstructorBinding
-data class MyConfig(val testDirectory: String)
-</pre>
-
-    Объявление в application.yaml:<br/>
-    <pre>myconfig:
+data <span style="color: #000080; font-weight: bold">class</span> MyConfig(<span style="color: #000080; font-weight: bold">val</span> testDirectory: String)
+</pre></div>
+Объявление в application.yaml:<br/>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">myconfig:
     testDirectory: file:~/temp/testarea
-</pre>
-    Использование:<br/>
-    <pre><code lang="kotlin">@RestController
-class ParamCtrl {
+</pre></div>
+Использование:<br/>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@RestController
+<span style="color: #000080; font-weight: bold">class</span> ParamCtrl {
 
     @Autowired
     lateinit var myConfig: MyConfig
 
-    @GetMapping("/test_directory")
+    @GetMapping(<span style="color: #0000FF">&quot;/test_directory&quot;</span>)
     fun getTestDirectory(): String? {
-        logger.info("GET param test_directory=${myConfig.testDirectory}")
-        return myConfig.testDirectory
+        logger.<span style="color: #FF0000">info</span>(<span style="color: #0000FF">&quot;GET param test_directory=${myConfig.testDirectory}&quot;</span>)
+        <span style="color: #000080; font-weight: bold">return</span> myConfig.<span style="color: #FF0000">testDirectory</span>
     }
 }
-</code></pre>
+</pre></div>
 
     <a id="set_var_application_yaml"></a>
     <h3 dir="auto">Переопределение значения переменных application.yaml</h3>
     <p dir="auto">Можно задать значения переменных application.yaml через специальную переменную <b>SPRING_APPLICATION_JSON</b>. Пример замены порта приложения на <b>8960</b>
         (в application.yaml server:  port=<b>8980</b>):</p>
-    <pre><code lang="kotlin">$ export SPRING_APPLICATION_JSON='{"server":{"port":<b>8960</b>}}'
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ export SPRING_APPLICATION_JSON=<span style="color: #0000FF">&#39;{&quot;server&quot;:{&quot;port&quot;:8960}}&#39;</span>
 $ java -jar build/libs/spring_config_k-0.0.1-SNAPSHOT.jar
 ....
-INFO 23327 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): <b>8960</b> (http)
+INFO 23327 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8960 (http)
 ....
-</code></pre>
+</pre></div>
+
 
     <a id="todo"></a>
     <p dir="auto"> </p>
@@ -831,24 +789,20 @@ INFO 23327 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomc
         <li>с версии Kotlin 1.2 можно применять к свойствам верхнего уровня и локальным переменным.</li>
         <li>сообщает что инициализация будет как-то сделана (в примере ниже аннотациями @Mock, @InjectMocks). @Mock mockProductService будут инжектированы в @InjectMocks productRest. Пример:</li>
     </ul>
-    <div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
-<pre><span class="pl-k">internal</span> <span class="pl-k">class</span> <span class="pl-en">ProductRestTest</span> {
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">internal</span> <span style="color: #000080; font-weight: bold">class</span> ProductRestTest {
     @Mock
-    <span class="pl-k">private</span> <span class="pl-k">lateinit</span> <span class="pl-k">var</span> mockProductService<span class="pl-k">:</span> <span class="pl-en">ProductService</span>
+    <span style="color: #000080; font-weight: bold">private</span> lateinit <span style="color: #000080; font-weight: bold">var</span> mockProductService: ProductService
 
     @InjectMocks
-    <span class="pl-k">private</span> <span class="pl-k">lateinit</span> <span class="pl-k">var</span> productRest<span class="pl-k">:</span> <span class="pl-en">ProductRest</span>
-    <span class="pl-k">..</span>.
+    <span style="color: #000080; font-weight: bold">private</span> lateinit <span style="color: #000080; font-weight: bold">var</span> productRest: ProductRest
+    ...
 }
+</pre></div>
 
-</pre>
-        <div class="zeroclipboard-container"> </div>
-    </div>
     <p dir="auto"><strong>byLazy</strong></p>
-    <div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
-        <pre><span class="pl-k">val</span> catName<span class="pl-k">:</span> <span class="pl-c1">String</span> by lazy { getName() }</pre>
-        <div class="zeroclipboard-container"> </div>
-    </div>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">val</span> catName: String by lazy { getName() }
+</pre></div>
+
     <p dir="auto">свойство объявлено как <strong>VAL</strong>, но присвоение будет выполнено при <strong>первом использовании</strong> и потом уже не будет инициализироваться.</p>
     <p dir="auto"><strong>Ссылки о lazy и lateinit:</strong></p>
     <ul dir="auto">
@@ -862,44 +816,41 @@ INFO 23327 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomc
     <ul dir="auto">
         <li>Как бы static:</li>
     </ul>
-    <div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
-<pre><span class="pl-k">class</span> <span class="pl-en">Someclass</span> {
-  <span class="pl-k">..</span>.
-  <span class="pl-k">object</span> AsStaticObject {
-    <span class="pl-k">fun</span> <span class="pl-en">create</span>() {
-      <span class="pl-k">..</span>.
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">class</span> Someclass {
+  ...
+  object AsStaticObject {
+    <span style="color: #000080; font-weight: bold">fun</span> create() {
+      ...
     }
   }
 
 }
 
-<span class="pl-k">..</span>.
+...
 
-<span class="pl-k">val</span> someClass <span class="pl-k">=</span> <span class="pl-en">SomeClass</span>.<span class="pl-en">AsStaticObject</span>.create()</pre>
-        <div class="zeroclipboard-container"> </div>
-    </div>
+<span style="color: #000080; font-weight: bold">val</span> someClass = SomeClass.AsStaticObject.create()
+</pre></div>
+
     <ul dir="auto">
         <li>Companion Object (вложенный объект. Метод create() принадлежит родительскому классу):</li>
     </ul>
-    <div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
-<pre><span class="pl-k">class</span> <span class="pl-en">SomeClass</span> {
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">class</span> SomeClass {
 
-  <span class="pl-k">companion</span> <span class="pl-k">object</span> {
-    <span class="pl-k">fun</span> <span class="pl-en">create</span>()
+  companion object {
+    <span style="color: #000080; font-weight: bold">fun</span> create()
   }
 }
 
-<span class="pl-k">..</span>.
+...
 
-<span class="pl-k">val</span> someClass <span class="pl-k">=</span> <span class="pl-en">SomeClass</span>.create()</pre>
-        <div class="zeroclipboard-container"> </div>
-    </div>
+<span style="color: #000080; font-weight: bold">val</span> someClass = SomeClass.create()
+</pre></div>
+
     <p dir="auto"><strong>Различия между val и const val в Kotlin</strong></p>
-    <div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
-<pre><span class="pl-k">val</span> <span class="pl-en">MY_VAL</span> <span class="pl-k">=</span> <span class="pl-c1">1</span>
-<span class="pl-k">const</span> <span class="pl-k">val</span> <span class="pl-en">MY_CONST_VAL</span> <span class="pl-k">=</span> <span class="pl-c1">2</span></pre>
-        <div class="zeroclipboard-container"> </div>
-    </div>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">val</span> MY_VAL = <span style="color: #0000FF">1</span>
+const <span style="color: #000080; font-weight: bold">val</span> MY_CONST_VAL = <span style="color: #0000FF">2</span>
+</pre></div>
+
     <ul dir="auto">
         <li>Обе эти переменные немодифицируемые</li>
         <li><strong>MY_VAL</strong> станет приватной переменной, для доступа к которой будет создан геттер</li>
@@ -909,17 +860,16 @@ INFO 23327 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomc
     <p dir="auto"><strong>Ошибка "ERROR: Cannot resume build because FlowNode 19"</strong></p>
     <p dir="auto">Ответ тут <a href="https://community.jenkins.io/t/error-cannot-resume-build-because-flownode-19/9477/3" rel="nofollow">https://community.jenkins.io/t/error-cannot-resume-build-because-flownode-19/9477/3</a></p>
     <p dir="auto">В двух словах: добавить в Jenkinsfile "максмальную выживаемость"</p>
-    <div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>...
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">...
 pipeline {
 
     agent any
     options {
-        durabilityHint 'MAX_SURVIVABILITY'
+        durabilityHint &#39;MAX_SURVIVABILITY&#39;
     }
 ...
-</code></pre>
-        <div class="zeroclipboard-container"> </div>
+</pre></div>
+
     </div>
     <ul dir="auto">
         <li>
