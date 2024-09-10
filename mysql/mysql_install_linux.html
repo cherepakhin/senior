@@ -1,14 +1,14 @@
 Неплохая статья: <a style="color: #3366ff; text-decoration: underline;" tabindex="-1" href="https://antons-organization-1.gitbook.io/administrirovanie-linux/servisy-linux/sistemy-upravleniya-bazami-dannykh/ustanovka-i-nastroika-subd-mysql">https://antons-organization-1.gitbook.io/administrirovanie-linux/servisy-linux/sistemy-upravleniya-bazami-dannykh/ustanovka-i-nastroika-subd-mysql</a>.<br/>
 
-
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">sudo apt install mysql-server
-mysql --version
-sudo mysql
+Установка:
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo apt install mysql-server
+$ mysql --version
+$ sudo mysql
 mysql&gt; <span style="color: #0000FF">\q</span>
 </pre></div>
-
-создание пользователя:
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">sudo mysql
+<hr id="system-readmore" />
+Создание пользователя:
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo mysql
 CREATE USER <span style="color: #0000FF">&#39;vasi&#39;</span>@<span style="color: #0000FF">&#39;localhost&#39;</span> IDENTIFIED BY <span style="color: #0000FF">&#39;pass&#39;</span>;
 ============================================================
 Пользователи:
@@ -43,8 +43,7 @@ mysql -u vasi -ppass
 ============================================================
 </pre></div>
 
-Доступ из сети
-В /etc/mysql/mysql.conf.d закоменнтить строку
+Для разрешения доступа из сети, в /etc/mysql/mysql.conf.d закоментить строку:
 <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-style: italic">#bind-address		= 127.0.0.1</span>
 </pre></div>
 
