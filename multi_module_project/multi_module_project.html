@@ -50,8 +50,8 @@ Module <b>Library</b>:
 </ul>
 
 Тест отдельного модуля:<br/>
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%">1</pre></td><td><pre style="margin: 0; line-height: 125%">$ ./gradlew :library:test
-</pre></td></tr></table></div>
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ ./gradlew :library:test
+</pre></div>
 
 Сборка отдельного модуля:<br/>
 <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ ./gradlew :application:publish
@@ -64,5 +64,5 @@ $ ./gradlew :library:publish
         alt="nexus_multi_module" width="930" height="644"/></p>
 
 Пересборка модуля после deploy зависимого модуля:<br/>
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$./gradlew --refresh-dependencies :office:compileJava
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$./gradlew --refresh-dependencies :application:compileJava
 </pre></div>
