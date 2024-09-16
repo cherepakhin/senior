@@ -15,7 +15,11 @@
 </p>
 <hr id="system-readmore"/>
 <h3 dir="auto">Sonatype Nexus Repository</h3>
-<p>Пример секции в pom.xml в maven проекте для deploy в местный Sonatype Nexus Repository:</p>
+<p>Пример секции в <b>pom.xml</b> в maven проекте <a title="Пример использования"
+                                                     style="text-decoration: underline; color: #3366ff;"
+                                                     target="_blank"
+                                                     href="https://github.com/cherepakhin/animals#cicd"
+                                                     rel="noopener noreferrer"> animals для deploy в местный Sonatype Nexus Repository:</p>
 <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">&lt;distributionManagement&gt;</span>
   <span style="color: #000080; font-weight: bold">&lt;repository&gt;</span>
     <span style="color: #000080; font-weight: bold">&lt;id&gt;</span>ru.perm.v<span style="color: #000080; font-weight: bold">&lt;/id&gt;</span>
@@ -23,11 +27,10 @@
     <span style="color: #000080; font-weight: bold">&lt;url&gt;</span>http://192.168.1.20:8081/repository/ru.perm.v/<span style="color: #000080; font-weight: bold">&lt;/url&gt;</span>
   <span style="color: #000080; font-weight: bold">&lt;/repository&gt;</span>
 <span style="color: #000080; font-weight: bold">&lt;/distributionManagement&gt;</span>
-</pre></div><br/>
+</pre></div>
 Для deploy выполнить:
 <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./mvnw deploy
 </pre></div>
-<br/>
 Пример использования
 <a title="Пример использования"
    style="text-decoration: underline; color: #3366ff;"
@@ -125,9 +128,9 @@
 <br/>
 
 <a style="text-decoration: underline; color: #3366ff;"
-   title="https://github.com/cherepakhin/animals/tree/dev"
-   href="https://github.com/cherepakhin/animals/tree/dev"
-   target="_blank" rel="noopener noreferrer">Пример настройки проекта для Jenkins</a>
+   title="https://github.com/cherepakhin/companies/blob/dev/Jenkinsfile"
+   href="https://github.com/cherepakhin/companies/blob/dev/Jenkinsfile"
+   target="_blank" rel="noopener noreferrer">Пример настройки проекта с Jenkinsfile.</a>
 <br/>
 <br/>
 История сборок:<br><br/>
@@ -168,6 +171,7 @@ doc               gradle           gradlew.bat        log          src
    target="_blank" rel="noopener noreferrer">Настройка credentials в Jenkins</a>
 <br/>
 <hr/>
+<h3>Примечания:</h3>
 Запущенный ВРУЧНУЮ процесс jenkins:<br/>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">/usr/bin/java -Djava.awt.headless=true -jar /usr/share/java/jenkins.war --webroot=/var/cache/jenkins/war --httpPort=8080
 </pre></div>
@@ -200,3 +204,15 @@ doc               gradle           gradlew.bat        log          src
 -Xmx384m
 -XX:MaxDirectMemorySize=256m
 </pre></div>
+<hr/>
+Пример Jenkinsfile для многомодульного проекта <a title="https://github.com/cherepakhin/multi_module/blob/dev/Jenkinsfile"
+                                                  style="text-decoration: underline; color: #3366ff;"
+                                                  href="https://github.com/cherepakhin/multi_module/blob/dev/Jenkinsfile"
+                                                  target="_blank"
+                                                  rel="noopener noreferrer">https://github.com/cherepakhin/multi_module/blob/dev/Jenkinsfile</a>
+<hr/>
+(для отображения кода на html странице использован <a title="http://hilite.me/"
+                                                      style="text-decoration: underline; color: #3366ff;"
+                                                      href="http://hilite.me/"
+                                                      target="_blank"
+                                                      rel="noopener noreferrer">http://hilite.me/</a>)
