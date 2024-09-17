@@ -216,9 +216,26 @@ doc               gradle           gradlew.bat        log          src
                                                       href="http://hilite.me/"
                                                       target="_blank"
                                                       rel="noopener noreferrer">http://hilite.me/</a>)
-
+<br/>
 Установка Nexus в Ubuntu <a title="https://www.fosstechnix.com/how-to-install-nexus-repository-on-ubuntu/"
    style="text-decoration: underline; color: #3366ff;"
    href="https://www.fosstechnix.com/how-to-install-nexus-repository-on-ubuntu/"
    target="_blank"
-   rel="noopener noreferrer">https://www.fosstechnix.com/how-to-install-nexus-repository-on-ubuntu/</a>
+   rel="noopener noreferrer">https://www.fosstechnix.com/how-to-install-nexus-repository-on-ubuntu/</a><br/>
+Использование Nexus <a style="text-decoration: underline; color: #3366ff;"
+                       href="https://v.perm.ru/index.php/instrumenty-devops/nexus-use"
+                       target="_blank"
+                       rel="noopener noreferrer">https://v.perm.ru/index.php/instrumenty-devops/nexus-use</a>
+<p><br /><b>Задание в Jenkins user/password для deploy в Nexus (ну и фразочка!)</b><br />Выяснить домашний каталог Jenkins из файла /etc/passwd. Пример:</p>
+<!-- HTML generated using hilite.me -->
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">v:~$ sudo cat /etc/passwd | grep jenkins
+jenkins:x:129:131:Jenkins,,,:/var/lib/jenkins:/bin/bash
+</pre>
+</div>
+<p>В этом каталоге в подкаталоге <b>.m2</b> (/var/lib/jenkins/.m2) разместить файл settings.xml со следующим содержанием:<span style="font-size: 1rem;">  </span></p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+  <p>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</p>
+  <p>&lt;settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"<br />          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"<br />          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;<br /> &lt;servers&gt;<br />...</p>
+  <p>    &lt;server&gt;<br />      &lt;id&gt;ru.perm.v&lt;/id&gt;<br />      &lt;username&gt;admin&lt;/username&gt;<br />      &lt;password&gt;pass&lt;/password&gt;<br />    &lt;/server&gt;<br />...<br />  &lt;/servers&gt;<br />&lt;/settings&gt;</p>
+</div>
