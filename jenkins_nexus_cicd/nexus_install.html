@@ -62,7 +62,11 @@ BUILD SUCCESSFUL in 33s
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="gradle_deploy_kotlin.png" src="images/jenkins_nexus_cicd/gradle_deploy_kotlin.png"
         alt="nexus_demo" width="1022" height="525"/></p>
 
-Настройка deploy в build.gradle.kts:
+Настройка deploy в build.gradle.kts (<a title="https://github.com/cherepakhin/vacancy_backend/blob/dev/build.gradle.kts"
+                                       style="text-decoration: underline; color: #3366ff;"
+                                       href="https://github.com/cherepakhin/vacancy_backend/blob/dev/build.gradle.kts"
+                                       target="_blank"
+                                       rel="noopener noreferrer">https://github.com/cherepakhin/vacancy_backend/blob/dev/build.gradle.kts</a>):
 <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">repositories {
     mavenCentral()
     mavenLocal()
@@ -71,16 +75,21 @@ BUILD SUCCESSFUL in 33s
         url = uri(&quot;http://v.perm.ru:8082/repository/ru.perm.v&quot;) //OK
         isAllowInsecureProtocol = true
         credentials {
-//            username = &quot;admin&quot;
+//            username = &quot;admin&quot; // вариант задания credentials в build.gradle.kts
 //            password = &quot;pass&quot;
-
-// export NEXUS_CI_USER=admin
-// echo $NEXUS_CI_USER
+//  Импорт переменных credentials из shell. Ниже задание значений shell переменных.
             username = System.getenv(&quot;NEXUS_CRED_USR&quot;) ?: extra.properties[&quot;nexus-ci-username&quot;] as String?
-// export NEXUS_CI_PASS=pass
-// echo $NEXUS_CI_PASS
             password = System.getenv(&quot;NEXUS_CRED_PASS&quot;) ?: extra.properties[&quot;nexus-ci-password&quot;] as String?
         }
     }
 }
+</pre></div>
+Задание значений shell переменных:
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+// Экспорт переменной NEXUS_CI_USER.
+$ export NEXUS_CI_USER=admin
+// проверка в shell
+$ echo $NEXUS_CI_USER
+$ export NEXUS_CI_PASS=pass
+$ echo $NEXUS_CI_PASS
 </pre></div>
