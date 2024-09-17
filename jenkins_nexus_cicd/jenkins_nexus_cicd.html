@@ -233,7 +233,7 @@ doc               gradle           gradlew.bat        log          src
 jenkins:x:129:131:Jenkins,,,:/var/lib/jenkins:/bin/bash
 </pre>
 </div>
-<p>В этом каталоге в подкаталоге <b>.m2</b> (/var/lib/jenkins/.m2) разместить файл settings.xml со следующим содержанием:<span style="font-size: 1rem;">  </span></p>
+<p>В домашнем каталоге Jenkins (см.выше) в подкаталоге <b>.m2</b> (/var/lib/jenkins/.m2), для установки user/pass при deploy в Nexus, разместить файл settings.xml со следующим содержанием:<span style="font-size: 1rem;">  </span></p>
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
   <p>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</p>
   <p>&lt;settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"<br />          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"<br />          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;<br /> &lt;servers&gt;<br />...</p>
