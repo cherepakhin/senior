@@ -74,7 +74,7 @@ $ export NEXUS_CI_PASS=pass
 $ echo $NEXUS_CI_PASS
 </pre>
 </div>
-<p><br /><b>Задание в Jenkins user/password для deploy в Nexus (ну и фразочка!)</b><br />Выяснить домашний каталог Jenkins из файла /etc/passwd. Пример:</p>
+<p><b>Задание в Jenkins user/password для deploy в Nexus (ну и фразочка!)</b><br />Выяснить домашний каталог Jenkins из файла /etc/passwd. Пример:</p>
 <!-- HTML generated using hilite.me -->
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
 <pre style="margin: 0; line-height: 125%;">v:~$ sudo cat /etc/passwd | grep jenkins
@@ -87,3 +87,4 @@ jenkins:x:129:131:Jenkins,,,:/var/lib/jenkins:/bin/bash
     <p>&lt;settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"<br />          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"<br />          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;<br /> &lt;servers&gt;<br />...</p>
     <p>    &lt;server&gt;<br />      &lt;id&gt;ru.perm.v&lt;/id&gt;<br />      &lt;username&gt;admin&lt;/username&gt;<br />      &lt;password&gt;pass&lt;/password&gt;<br />    &lt;/server&gt;<br />...<br />  &lt;/servers&gt;<br />&lt;/settings&gt;</p>
 </div>
+<p><a style="text-decoration: underline; color: #3366ff;" href="index.php/instrumenty-devops/nastrojka-deploy-v-nexus-s-pomosu-jenkins" target="_blank" rel="noopener noreferrer">Настройка deploy в Nexus с помощью Jenkins</a></p>
