@@ -68,7 +68,7 @@ INFO [BrokerToControllerChannelManager broker=0 name=alterPartition]: Recorded n
 <h3>Отправка сообщения в топик</h3>
 Отправка сообщения в топик "samples":<br/>
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-    <pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">$ ~/tools/kafka/bin/kafka-console-producer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
+    <pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ ~/tools/kafka/bin/kafka-console-producer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
 >test1
 >test2
 >
@@ -76,13 +76,13 @@ INFO [BrokerToControllerChannelManager broker=0 name=alterPartition]: Recorded n
 
 <h3>Прием сообщения из топика</h3>
 Подключение к топику "samples" и просмотр сообщений:<br/>
-<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">$ ~/tools/kafka/bin/kafka-console-consumer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ ~/tools/kafka/bin/kafka-console-consumer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
 test1
 test2
 </span></pre></div>
 
 <h3>Удаление топика</h3>
-<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">~/tools/kafka/bin/kafka-topics.sh --zookeeper 192.168.1.20:2181 --delete --topic product_ext_dto_topic
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">~/tools/kafka/bin/kafka-topics.sh --zookeeper 192.168.1.20:2181 --delete --topic product_ext_dto_topic
 >Topic product_ext_dto_topic is marked for deletion.
 >Note: This will have no impact if delete.topic.enable is not set to true.
 </span></pre></div>
