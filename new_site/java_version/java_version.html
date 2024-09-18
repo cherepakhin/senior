@@ -1,0 +1,76 @@
+В системе настройки сделаны для java 11. В путях linux указана <b>java 11</b>. Нужно настроить maven проект на <b>java 17</b>.<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ java -version
+openjdk version <span style="color: #0000FF">"11.0.18"</span> 2023-01-17
+</pre></div>
+
+Нужна java 17, для этого нужно установить JAVA_HOME.
+<hr id="system-readmore"/>В .bashrc добавить строку
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+</pre></div>
+Проверка:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ echo $JAVA_HOME
+/usr/lib/jvm/java-17-openjdk-amd64
+
+$ /usr/lib/jvm/java-17-openjdk-amd64/bin/java -version
+openjdk version <span style="color: #0000FF">"17.0.6"</span> 2023-01-17
+
+~/prog/java/s253/gs-spring-boot/complete$ ./mvnw -version
+Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
+Maven home: /home/vasi/.m2/wrapper/dists/apache-maven-3.6.3-bin/1iopthnavndlasol9gbrbg6bf2/apache-maven-3.6.3
+    <b>Java version: 17.0.6</b>, vendor: Private Build, runtime: <b>/usr/lib/jvm/java-17-openjdk-amd64</b>
+
+~/prog/java/s253/gs-spring-boot/complete$ ./mvnw clean package
+..........  см. ниже в логе (using Java 17.0.6 on vasi-note with PID 11618)
+:: Spring Boot ::                (v2.5.3)
+
+2023-04-29 17:26:02.184  INFO 11618 --- [           main] c.e.springboot.HelloControllerTest       :
+Starting HelloControllerTest using Java 17.0.6 on vasi-note with PID 11618 (started by vasi in /home/vasi/prog/java/s253/gs-spring-boot/complete)
+..........
+</pre></div>
+<b>ХОТЯ! в pom.xml указано</b> properties - java.version = 11. И
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ java -version
+openjdk version <span style="color: #0000FF">"11.0.18"</span> 2023-01-17
+</pre></div>
+
+<b>Maven использует в своем скрипте JAVA_HOME! Куда указывает $PATH на бинарник java не имеет значения.</b>
+<br/>
+JAVA_HOME должна указывать на папку, содежащую bin/, lib/ и т.п.
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ echo $JAVA_HOME
+/usr/lib/jvm/java-<b>17-openjdk-amd64</b>
+
+$ echo $PATH
+.../opt/maven/bin:/usr/lib/jvm/java-16-oracle/bin:/usr/lib/jvm/java-<b>16-oracle</b>/db/bin...
+
+$ mvn -version
+Apache Maven 3.8.1 (05c21c65bdfed0f71a2f2ada8b84da59348c4c5d)
+Maven home: /opt/maven
+Java version: <b><u>17.0.7</u></b>, vendor: Private Build, runtime: /usr/lib/jvm/java-17-openjdk-amd64
+Default locale: ru_RU, platform encoding: UTF-8
+OS name: <span style="color: #0000FF">"linux"</span>, version: <span style="color: #0000FF">"5.4.0-150-generic"</span>, arch: <span style="color: #0000FF">"amd64"</span>, family: <span style="color: #0000FF">"unix"</span>
+
+$ gradle -version
+
+------------------------------------------------------------
+Gradle 6.7
+------------------------------------------------------------
+
+Build time:   2020-10-14 16:13:12 UTC
+Revision:     312ba9e0f4f8a02d01854d1ed743b79ed996dfd3
+
+Kotlin:       1.3.72
+Groovy:       2.5.12
+Ant:          Apache Ant(TM) version 1.10.8 compiled on May 10 2020
+JVM:          <b><u>17.0.7</u></b> (Private Build 17.0.7+7-Ubuntu-0ubuntu118.04)
+OS:           Linux 5.4.0-150-generic amd64
+</pre></div>
+
+Добавить в .bashrc <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+</pre></div>
+
+
+Можно таким способом, средствами ОС, через link (ln -s ...) на каталог java:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ echo $JAVA_HOME
+/usr/local/sdkman/candidates/java/currents
+</pre></div>
+<br/>
+KOTLIN тоже использует JAVA_HOME<br/>
