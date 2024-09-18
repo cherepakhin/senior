@@ -12,7 +12,7 @@
 В Readme.md этих проектов более подробное описание.<br/>
 
 <h3>Zookeeper</h3>
-Сначала запустить zookeeper:<br/>
+Перед запуском самого брокера Kafka, нужно запустить Zookeeper (это сервис координации сервисов с базой "ключ-значение"):<br/>
 <hr id="system-readmore"/>
 Параметры zookeeper настроить в ~/tools/kafka/config/zookeeper.properties (<a title="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper.properties" href="https://github.com/cherepakhin/senior/blob/main/new_site/kafka/zookeeper.properties"
    target="_blank" rel="noopener noreferrer">
@@ -46,7 +46,10 @@
 <h3>Запуск Kafka</h3>
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">$ ~/tools/kafka/bin/kafka-server-start.sh /home/vasi/tools/kafka/config/server.properties
 </pre></div>
-
+Где <b>kafka-server-start.sh</b> - скрипт запуска из дистрибутива Kafka,
+<a href="https://github.com/cherepakhin/senior/blob/main/new_site/kafka/server.properties"
+target="_blank" rel="noopener noreferrer"><strong>/home/vasi/tools/kafka/config/server.properties</strong>
+</a> - файл настройки Kafka<br/>
 Log:
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">INFO [KafkaServer id=0] started (kafka.server.KafkaServer)
 INFO [BrokerToControllerChannelManager broker=0 name=alterPartition]: Recorded new controller,
