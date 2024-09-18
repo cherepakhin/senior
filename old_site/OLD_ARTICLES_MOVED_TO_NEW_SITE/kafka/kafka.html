@@ -1,0 +1,116 @@
+Простые приложения для работы с Kafka на Kotlin:<br/>
+<a title="https://github.com/cherepakhin/shop_kafka_producer"
+   href="https://github.com/cherepakhin/shop_kafka_producer"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://github.com/cherepakhin/shop_kafka_producer</strong></a><br/>
+
+<a title="https://github.com/cherepakhin/shop_kafka_consumer"
+   href="https://github.com/cherepakhin/shop_kafka_consumer"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://github.com/cherepakhin/shop_kafka_consumer</strong></a><br/>
+<br/>
+В Readme.md этих проектов более подробное описание.<br/>
+
+<h3>Zookeeper</h3>
+Сначала запустить zookeeper:<br/>
+<hr id="system-readmore"/>
+Параметры zookeeper настроить в ~/tools/kafka/config/zookeeper.properties (<a title="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper.properties" href="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper.properties"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper.properties</strong></a>).
+Основные параметры в zookeeper.properties:<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">dataDir=/tmp/zookeeper</span>
+<span style="color: #000000">clientPort=2181</span>
+<span style="color: #000000">maxClientCnxns=0</span>
+<span style="color: #000000">admin.enableServer=true</span>
+<span style="color: #000000">admin.serverPort=9080</span>
+</pre></div>
+
+
+Скрипт запуска zookeeper(<a title="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh"
+   href="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh"
+   target="_blank" rel="noopener noreferrer">
+   <strong>https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh</strong></a>)<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">$ </span>~/tools/kafka/bin/zookeeper-server-start.sh /home/vasi/tools/kafka/config/zookeeper.properties
+</pre></div>
+
+<b>/home/vasi</b> - каталог пользователя<br/>
+<b>tools/kafka</b> - каталог со скриптами kafka<br/>
+
+Проверка и просмотр работы zookeeper:<a title="http://192.168.1.20:9080/commands" href="http://192.168.1.20:9080/commands"
+   target="_blank" rel="noopener noreferrer">
+    <strong>http://192.168.1.20:9080/commands</strong>
+</a>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Zookeeper_commands" src="images/kafka/zookeeper_commands.png"
+        alt="zookeeper_commands" width="234" height="456"/></p><br/>
+
+<h3>Запуск Kafka</h3>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">$ ~/tools/kafka/bin/kafka-server-start.sh /home/vasi/tools/kafka/config/server.properties
+</pre></div>
+
+Log:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">INFO [KafkaServer id=0] started (kafka.server.KafkaServer)
+INFO [BrokerToControllerChannelManager broker=0 name=alterPartition]: Recorded new controller,
+    from now on will use node 192.168.1.20:9092 (id: 0 rack: null)
+    (kafka.server.BrokerToControllerRequestThread)
+[2024-01-21 18:29:10,389] INFO [BrokerToControllerChannelManager broker=0 name=forwarding]:
+    Recorded new controller, from now on will use node 192.168.1.20:9092 (id: 0 rack: null)
+    (kafka.server.BrokerToControllerRequestThread)
+````
+</pre></div>
+
+<h2>Проверка работы из консоли</h2>
+
+<h3>Создание топика</h3>
+Создание топика "samples":
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">$ ~/tools/kafka/bin $ kafka-topics.sh --bootstrap-server 192.168.1.20:9092 --create --topic samples --partitions 1 --replication-factor 1
+</span></pre></div>
+
+<h3>Отправка сообщения в топик</h3>
+Отправка сообщения в топик "samples":<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">$ ~/tools/kafka/bin/kafka-console-producer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
+>test1
+>test2
+>
+</span></pre></div>
+
+<h3>Прием сообщения из топика</h3>
+Подключение к топику "samples" и просмотр сообщений:<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">$ ~/tools/kafka/bin/kafka-console-consumer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
+test1
+test2
+</span></pre></div>
+
+<h3>Удаление топика</h3>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">~/tools/kafka/bin/kafka-topics.sh --zookeeper 192.168.1.20:2181 --delete --topic product_ext_dto_topic
+>Topic product_ext_dto_topic is marked for deletion.
+>Note: This will have no impact if delete.topic.enable is not set to true.
+</span></pre></div>
+
+Для полного удаления топика (с очисткой файлов топика) нужно установить в конфигурационном файле server.properties свойство <b>delete.topic.enable = true</b><br/>
+<b>Ссылки:</b><br/>
+Простые проекты на kotlin:<br/>
+<a title="https://github.com/cherepakhin/shop_kafka_producer"
+   href="https://github.com/cherepakhin/shop_kafka_producer"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://github.com/cherepakhin/shop_kafka_producer</strong></a><br/>
+
+<a title="https://github.com/cherepakhin/shop_kafka_consumer"
+   href="https://github.com/cherepakhin/shop_kafka_consumer"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://github.com/cherepakhin/shop_kafka_consumer</strong></a><br/>
+<br/>
+Скрипты для linuх сервисов:
+<a title="https://github.com/cherepakhin/senior/blob/main/kafka/kafka.service"
+   href="https://github.com/cherepakhin/senior/blob/main/kafka/kafka.service"
+   target="_blank" rel="noopener noreferrer">
+    <strong>kafka.service</strong></a>,
+<a title="https://github.com/cherepakhin/senior/kafka/zookeeper.service"
+   href="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper.service"
+   target="_blank" rel="noopener noreferrer">
+    <strong>zookeeper.service</strong></a><br/>
+<br/>
+<a title="https://russianblogs.com/article/77121686470/"
+   href="https://russianblogs.com/article/77121686470/"
+   target="_blank" rel="noopener noreferrer">
+    <strong>Установка, развертывание и использование Kafka (один узел / кластер)</strong></a><br/>
