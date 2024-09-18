@@ -40,7 +40,8 @@
 
 TestNG также предлагает аннотации @BeforeSuite, @AfterSuite, @BeforeGroups и @AfterGroups
 для конфигураций на уровне набора (suite) и группы.<br/>
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> runBeforeEachGroup() {
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@BeforeGroup(<span style="color: #0000FF">"positive_tests"</span>)
+<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> runBeforeEachGroup() {
     numbers.<span style="color: #FF0000">add</span>(<span style="color: #0000FF">1</span>);
     numbers.<span style="color: #FF0000">add</span>(<span style="color: #0000FF">2</span>);
     numbers.<span style="color: #FF0000">add</span>(<span style="color: #0000FF">3</span>);
