@@ -1,2 +1,0 @@
-/test-integration-junit/junit5-allure/junit5-allure.html
-/camel/camel.html
