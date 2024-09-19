@@ -1,0 +1,54 @@
+Показаны настройки теста с помощью Docker.
+<hr id="system-readmore" />
+Скрипт для запуска тестов ~/prog/yandex-tank/tank-run.sh
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ ~/prog/yandex-tank/tank-run.sh
+....Тут лог тестов....
+</pre></div>
+
+Содержимое скрипта:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ cat tank-run.sh
+docker run --entrypoint yandex-tank <span style="color: #0000FF">\</span>
+-v <span style="color: #000080; font-weight: bold">$(</span>pwd<span style="color: #000080; font-weight: bold">)</span>:/var/loadtest <span style="color: #0000FF">\</span>
+-v $SSH_AUTH_SOCK:/ssh-agent -e SSH_AUTH_SOCK=/ssh-agent <span style="color: #0000FF">\</span>
+--net host <span style="color: #0000FF">\</span>
+-it direvius/yandex-tank
+</pre></div>
+Пояснения:<br/>
+<b>-v $(pwd):/var/loadtest</b> монтируется текущий каталог (со всем в нем файлами) к docker в каталог /var/loadtest.
+В каталоге <b>~/prog/yandex-tank</b> (получение текущего каталога через $(pwd)) должен быть файл <b>load.yaml</b> с описанием теста:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ cat load.yaml
+overload:
+enabled: true
+package: yandextank.plugins.DataUploader
+token_file: token.txt
+phantom:
+address: 192.168.1.57:8980
+load_profile:
+load_type: rps
+schedule: const(1000, 20s)
+ammofile: /var/loadtest/ammo-uri.txt
+ammo_type: uri
+console:
+enabled: true
+telegraf:
+config: monitoring.xml
+enabled: true
+kill_old: false
+package: yandextank.plugins.Telegraf
+ssh_timeout: 5s
+</pre></div>
+<b>const(1000, 20s)</b> - Нагрузка постоянная 1000rps в течении 20 сек.<br/>
+<b>address: 192.168.1.57:8980</b> - по какому хосту стрелять. Только адрес хоста (url в ammo.txt).<br/>
+<b>/var/loadtest/ammo-uri.txt</b> - по каким url стрелять. Может быть список url. В ammo.txt url указываются без адреса хоста.<br/>
+Urls для расстрела (ammo-uri.txt):
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">~/prog/yandex-tank$ cat ammo-uri.txt
+[Connection: close]
+[Cookie: None]
+/test/echo?name=STATIC
+/test/dynamic?name=DYNAMIC
+/test/spring?name=SPRING
+</pre></div>
+Итого. Будет стрельба по http://192.168.1.57:8980/test/echo?name=STATIC, http://192.168.1.57:8980/test/dynamic?name=DYNAMIC, http://192.168.1.57:8980/test/spring?name=SPRiNG
+с ПООСТОЯННОЙ (<b>schedule: const</b>) нагрузкой <b>1000rps</b> в течении <b>20 сек.</b><br/>
+<br/>
+Это основное и важное, остальные детали описаны в документации.
