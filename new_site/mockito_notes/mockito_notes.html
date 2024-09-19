@@ -62,11 +62,11 @@
     }
 }
 </pre></div>
-<p><br /> <b>4. @InjectMocks</b><br /> Пример:<br /> Определение ProductRest:</p>
+<p><br /> <b>4. @InjectMocks</b><br /> Пример:<br /> Определение тестируемого класса ProductRest:</p>
 <div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">class</span> ProductRest(val productService: ProductService) {
     ...
 }
-</pre></div>
+</pre></div>Класс зависит от сервиса <b>productService</b>. Нужно определить его поведение для тестов (<u>мокировать</u>).
 Тест:
 <div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@ExtendWith(MockitoExtension::class)
 internal <span style="color: #000080; font-weight: bold">class</span> ProductRestTest {
@@ -74,7 +74,7 @@ internal <span style="color: #000080; font-weight: bold">class</span> ProductRes
     @Mock
     <span style="color: #000080; font-weight: bold">private</span> lateinit var mockProductService: ProductService
 
-    <span style="color: #008800; font-style: italic">// @InjectMocks Сообщает, что в тестируемый productRest будет ВНЕДРЕН mockProductService,</span>
+    <span style="color: #008800; font-style: italic">// @InjectMocks Сообщает, что В тестируемый productRest будет ВНЕДРЕН mockProductService,</span>
     <span style="color: #008800; font-style: italic">// т.к. конструктор ProductRest требует ProductService</span>
     @InjectMocks
     <span style="color: #000080; font-weight: bold">private</span> lateinit var productRest: ProductRest
