@@ -1,0 +1,16 @@
+При установке Jenkins словил поганку (похоже, скачал Jenkins с какого-то левого сайта).
+<hr id="system-readmore"/>
+Маскируется под процессы /usr/sbin/docker-proxy, /usr/sbin/docker-compose.
+Висят в памяти и отжирают 100% CPU. Процессы можно убить, но они снова запускаются. Файлы не удаляются:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo rm -f docker-cache
+rm: невозможно удалить <span style="color: #0000FF">'docker-cache'</span>: Операция не позволена
+</pre></div>
+<b>Лечение:</b>
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo chattr -i -a docker-cache
+$ sudo rm -f docker-cache
+</pre></div>
+<br/>
+Рецепт отсюда: <a style="text-decoration: underline; color: #3366ff;"
+                  title="https://unix.stackexchange.com/questions/29902/unable-to-delete-file-even-when-running-as-root"
+                  href="https://unix.stackexchange.com/questions/29902/unable-to-delete-file-even-when-running-as-root"
+                  target="_blank" rel="noopener noreferrer">https://unix.stackexchange.com/questions/29902/unable-to-delete-file-even-when-running-as-root</a>
