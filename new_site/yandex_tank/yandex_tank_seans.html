@@ -48,7 +48,11 @@ Urls для расстрела (ammo-uri.txt):
 /test/dynamic?name=DYNAMIC
 /test/spring?name=SPRING
 </pre></div>
-Итого. Будет стрельба по http://192.168.1.57:8980/test/echo?name=STATIC, http://192.168.1.57:8980/test/dynamic?name=DYNAMIC, http://192.168.1.57:8980/test/spring?name=SPRiNG
-с ПООСТОЯННОЙ (<b>schedule: const</b>) нагрузкой <b>1000rps</b> в течении <b>20 сек.</b><br/>
+Итого. Будет стрельба по http://192.168.1.57:8980/test/echo?name=STATIC, http://192.168.1.57:8980/test/dynamic?name=DYNAMIC, http://192.168.1.57:8980/test/spring?name=SPRING
+с ПООСТОЯННОЙ (<b>schedule: const</b>) нагрузкой <b>1000rps</b> в течении <b>20 сек.</b>
 <br/>
-Это основное и важное, остальные детали описаны в документации.
+Это только один из вариантов тестирования, остальные детали описаны в документации.<br/>
+При проведении теста, будет выведена картинка в консоли о ходе теста
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="show_test.png" src="images/yandex_tank/show_test.png" alt="show_test" /></p>
+В Grafana выглядит так:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="result_test_in_grafana" src="images/yandex_tank/result_test_in_grafana.png" alt="result_test_in_grafana.png" /></p>
