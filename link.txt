@@ -1,0 +1,10 @@
+<a style="text-decoration: underline; color: #3366ff;" title="resources/beans.xml" href="https://github.com/cherepakhin/spring_config_k/blob/master/src/main/resources/beans.xml" target="_blank" rel="noopener noreferrer">resources/beans.xml</a>:<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #020274; font-weight: bold">
+
+border:solid #020274
+
+<pre style="margin: 0; line-height: 125%">$ cat tank-run.sh
+</pre></div>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+</pre></div>

@@ -18,16 +18,35 @@ docker run --entrypoint yandex-tank <span style="color: #0000FF">\</span>
    title="https://github.com/direvius/docker-yatank"
    href="https://github.com/direvius/docker-yatank"
    target="_blank" rel="noopener noreferrer">https://github.com/direvius/docker-yatank</a>.
-Можно установить локально yandex-tank, но мне та удобнее.<br/>
-Содержимое каталога ~/prog/yandex-tank/:
-
-Запуск тестов ~/prog/yandex-tank/tank-run.sh:
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ ~/prog/yandex-tank/tank-run.sh
-....Тут лог тестов....
-</pre></div>
-
-Пояснения:<br/>
+Можно установить локально yandex-tank, но мне так удобнее.<br/>
 <b>-v $(pwd):/var/loadtest</b> монтируется текущий каталог (со всем в нем файлами) к docker в каталог /var/loadtest.
+Содержимое каталога ~/prog/yandex-tank/:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+-rw-rw-r--  1 vasi vasi     238 апр 26  2020  ammo-phantom.txt
+-rw-rw-r--  1 vasi vasi      13 дек 22  2023  ammo_uri_shop_kotlin.txt
+-rw-rw-r--  1 vasi vasi      61 дек 23  2023  ammo-uri.txt
+-rw-rw-r--  1 vasi vasi     311 апр 26  2020  load-ammo-phantom.yaml
+-rw-rw-r--  1 vasi vasi     317 дек 22  2023  load-ammo-uri.yaml
+-rw-rw-r--  1 vasi vasi     409 апр 27  2020  load-instances.yaml
+-rw-rw-r--  1 vasi vasi     317 апр 26  2020  load-uris.yaml
+-rw-rw-r--  1 vasi vasi     402 дек 23  2023  load.yaml
+drwxr-xr-x 41 vasi vasi    4096 дек 23  2023  logs/
+drwxrwxrwx  3 vasi vasi    4096 мая  7  2021  lot4/
+-rwxr-xr-x  1 vasi vasi     203 апр 29  2021  lot4-run.sh*
+-rwxrwxr-x  1 vasi vasi     198 апр 29  2021  lot4tank.sh*
+-rw-rw-r--  1 vasi vasi     180 апр 26  2020  monitoring.xml
+drwxrwxrwx  2 vasi vasi    4096 апр 27  2020  ssh/
+-rwxrwxrwx  1 root root  902263 дек 23  2023  tank_errors.log*
+-rwxr-xr-x  1 vasi vasi     177 апр 27  2020  tank-run.sh*
+-rwxr-xr-x  1 vasi vasi     177 апр 27  2020  tank_run_shop_kotlin.sh*
+-rwxrwxr-x  1 vasi vasi     171 апр 27  2020  tank.sh*
+-rw-r--r--  1 vasi vasi      33 дек 22  2023  token.txt
+</pre></div>
+Необходим токен yandex-tank, полученный после регистрации в сервисе:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+$ cat token.txt
+daXXXXXXXXXXXXXXXXXXXXXXXXXXX650
+</pre></div>
 В каталоге <b>~/prog/yandex-tank</b> (получение текущего каталога через $(pwd)) должны быть файлы <b>load.yaml,ammo-uri.txt</b> с описанием теста:
 <div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ cat load.yaml
 overload:
@@ -60,6 +79,10 @@ Urls для расстрела (ammo-uri.txt):
 /test/echo?name=STATIC
 /test/dynamic?name=DYNAMIC
 /test/spring?name=SPRING
+</pre></div>
+Запуск тестов ~/prog/yandex-tank/tank-run.sh:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ ~/prog/yandex-tank/tank-run.sh
+....Тут лог тестов....
 </pre></div>
 Итого. Будет стрельба по http://192.168.1.57:8980/test/echo?name=STATIC, http://192.168.1.57:8980/test/dynamic?name=DYNAMIC, http://192.168.1.57:8980/test/spring?name=SPRING
 с ПООСТОЯННОЙ (<b>schedule: const</b>) нагрузкой <b>1000rps</b> в течении <b>20 сек.</b>
