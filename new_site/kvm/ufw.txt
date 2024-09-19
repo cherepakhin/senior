@@ -55,3 +55,6 @@ Samba (v6)                 ALLOW       Anywhere (v6)
 443 (v6) on enp4s0         ALLOW       Anywhere (v6)
 53 (v6) on enp4s0          ALLOW       Anywhere (v6)
 443 (v6)                   ALLOW       Anywhere (v6)
+
+https://selectel.ru/blog/tutorials/how-to-configure-firewall-with-ufw-on-ubuntu-20/
+sudo ufw status verbose
