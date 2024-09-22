@@ -40,38 +40,38 @@
     <li>Тестирование БП</li>
     <li>С devops инженерами обсудить размещение в Kubernetes. В конкретном проекте, Camunda с бизнес-процессами были выделены отдельный микросервис. Но может работать как application в Tomcat.</li>
     <li>При накате новых версий схем бизнес-процессов, все предыдущие процессы должны быть завершены. Или новую версию bpmn схемы разместить по новому пути (???).</li>
-    <li>Есть такая штука Software development lifecycle (SDLC). Картинка пояснит суть лучше слов:<br /><br /><img class="pull-center" src="images/sdlc" alt="" /><br /><br />Ничего нового, но удерживая картинку перед глазами (не только своими), есть план разговора при обсуждении задач, оценки на какой стадии задача, прикинуть что нужно для решения задачи, сколько времени займет внедрение той или иной фичи. И, может быть главное, устанавливает "правила игры". Пример для <b>backend</b> разработчика:<br /><br />
-        <table border="1" cellpadding="5">
+    <li>Есть такая штука Software development lifecycle (SDLC). Картинка пояснит суть лучше слов:<br /><br /><img class="pull-center" src="images/sdlc" alt="" /><br /><br />Ничего нового, но удерживая картинку перед глазами (не только своими), есть план разговора при обсуждении задач, оценки на какой стадии задача, прикинуть что нужно для решения задачи, сколько времени займет внедрение той или иной фичи. И, может быть главное, устанавливает "правила игры". Пример для <b>backend</b> разработчика:<br />
+        <table style="border-collapse: collapse; width: 100%; height: 240px; border-color: #000000; border-style: solid;" border="2px" cellspacing="5" cellpadding="5px">
             <tbody>
-            <tr>
-                <th>Цель</th>
-                <th>Продолжительность</th>
-                <th>Участники</th>
+            <tr style="height: 24px;">
+                <th style="width: 33.4543%; height: 24px; border-color: #000000; border-width: 1px;">Цель</th>
+                <th style="width: 30.5457%; height: 24px; border-color: #000000; border-width: 1px;">Продолжительность</th>
+                <th style="width: 35.8788%; height: 24px; border-color: #000000; border-width: 1px;">Участники</th>
             </tr>
-            <tr>
-                <td>Анализ требований, понятна ли задача (берем в разработку?)</td>
-                <td>1 час - 1 день</td>
-                <td>аналитик+разработчик</td>
+            <tr style="height: 48px;">
+                <td style="width: 33.4543%; height: 48px; border-color: #000000; border-width: 1px;">Анализ требований, понятна ли задача (берем в разработку?)</td>
+                <td style="width: 30.5457%; height: 48px; border-color: #000000; border-width: 1px;">1 час - 1 день</td>
+                <td style="width: 35.8788%; height: 48px; border-color: #000000; border-width: 1px;">аналитик+разработчик</td>
             </tr>
-            <tr>
-                <td>Прикинуть дизайн</td>
-                <td>1 - 2 час, но с ограничением уложиться в спринт</td>
-                <td>разработчик (возможно с devops инженером)</td>
+            <tr style="height: 48px;">
+                <td style="width: 33.4543%; height: 48px; border-color: #000000; border-width: 1px;">Прикинуть дизайн</td>
+                <td style="width: 30.5457%; height: 48px; border-color: #000000; border-width: 1px;">1 - 2 час, но с ограничением уложиться в спринт</td>
+                <td style="width: 35.8788%; height: 48px; border-color: #000000; border-width: 1px;">разработчик (возможно с devops инженером)</td>
             </tr>
-            <tr>
-                <td>Собственно разработка + unit тесты</td>
-                <td>по результатам п 1,2</td>
-                <td>разработчик</td>
+            <tr style="height: 24px;">
+                <td style="width: 33.4543%; height: 24px; border-color: #000000; border-width: 1px;">Собственно разработка + unit тесты</td>
+                <td style="width: 30.5457%; height: 24px; border-color: #000000; border-width: 1px;">по результатам п 1,2</td>
+                <td style="width: 35.8788%; height: 24px; border-color: #000000; border-width: 1px;">разработчик</td>
             </tr>
-            <tr>
-                <td>Интеграционное тестирование</td>
-                <td>0,5 дня - 1 день</td>
-                <td>тестировщик+разработчик+devops инженер</td>
+            <tr style="height: 48px;">
+                <td style="width: 33.4543%; height: 48px; border-color: #000000; border-width: 1px;">Интеграционное тестирование</td>
+                <td style="width: 30.5457%; height: 48px; border-color: #000000; border-width: 1px;">0,5 дня - 1 день</td>
+                <td style="width: 35.8788%; height: 48px; border-color: #000000; border-width: 1px;">тестировщик+разработчик+devops инженер</td>
             </tr>
-            <tr>
-                <td>Деплой в пререлиз (удаление "фиче" ветки и т.п. зачистка)</td>
-                <td>В конце спринта (в идеале)</td>
-                <td>devops инженер</td>
+            <tr style="height: 48px;">
+                <td style="width: 33.4543%; height: 48px; border-color: #000000; border-width: 1px;">Деплой в пререлиз (удаление "фиче" ветки и т.п. зачистка)</td>
+                <td style="width: 30.5457%; height: 48px; border-color: #000000; border-width: 1px;">В конце спринта (в идеале)</td>
+                <td style="width: 35.8788%; height: 48px; border-color: #000000; border-width: 1px;">devops инженер</td>
             </tr>
             </tbody>
         </table>
