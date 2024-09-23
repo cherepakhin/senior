@@ -58,3 +58,11 @@ Samba (v6)                 ALLOW       Anywhere (v6)
 
 https://selectel.ru/blog/tutorials/how-to-configure-firewall-with-ufw-on-ubuntu-20/
 sudo ufw status verbose
+--------------------------------------------------
+RESTART NETWORK
+(https://operavps.com/docs/restart-network-in-linux/):
+sudo systemctl restart systemd-networkd
+sudo systemctl restart NetworkManager.service
+sudo nmcli networking off & sudo nmcli networking on
+systemctl status NetworkManager
+--------------------------------------------------
