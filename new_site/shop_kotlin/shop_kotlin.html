@@ -11,6 +11,7 @@
     <a href="#integration_test">Интеграционное тестирование в проекте</a><br />
     <a href="#coverage_test">Покрытие тестами</a><br />
     <a href="#spring_profiles">Spring profiles</a><br />
+    <a href="#cors">CORS filter</a><br />
     <a href="#test_run">Тестовый запуск</a>
 </p>
 <p dir="auto">
@@ -117,100 +118,79 @@
     <li><strong>Data class not recommended for JPA Entity</strong> . Warning in Idea. Почему не использовать Data-классы? Потому что они финальны сами по себе, имеют по всем полям определенные equals, hashCode и toString. А это недопустимо в связке с Hibernate.</li>
     <li>Явно помечать ключевым словом <strong>open</strong> все Entity. Согласно спецификации JPA, все классы и свойства, связанные с JPA, не должны быть <strong>final</strong>. В отличие от Java, в Kotlin классы, свойства и методы по умолчанию final. Поэтому их нужно явно помечать ключевым словом <strong>open</strong>.</li>
     <li><strong>Явно определять</strong> hashCode(), equals(), toString(). При определении внимание на <strong>lazy</strong> поля (как и в Java).</li>
-    <li>Добавить <strong>nullable = false</strong></li>
+    <li>Добавить <strong>nullable = false</strong><div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@ManyToOne(fetch = FetchType.LAZY, optional = <span style="color: #008800; font-weight: bold">false</span>) @JoinColumn(name = <span style="background-color: #fff0f0">"client_id"</span>, nullable = <span style="color: #008800; font-weight: bold">false</span>)
+lateinit <span style="color: #008800; font-weight: bold">var</span> client: Client
+</pre></div></li>
 </ol>
-<div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
-<pre>   @ManyToOne(fetch <span class="pl-k">=</span> <span class="pl-en">FetchType</span>.<span class="pl-en">LAZY</span>, optional <span class="pl-k">=</span> <span class="pl-c1">false</span>)
-   @JoinColumn(name <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>client_id<span class="pl-pds">"</span></span>, nullable <span class="pl-k">=</span> <span class="pl-c1">false</span>)
-   <span class="pl-k">lateinit</span> <span class="pl-k">var</span> client<span class="pl-k">:</span> <span class="pl-en">Client</span></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
 <ol dir="auto" start="5">
-    <li>Kotlin классы по умолчанию <strong>final</strong>. Для Entity это проблема. Можно применить plugin "allopen":</li>
-</ol>
-<div class="highlight highlight-source-kotlin notranslate position-relative overflow-auto" dir="auto">
-<pre>plugins {
-  kotlin(<span class="pl-s"><span class="pl-pds">"</span>plugin.allopen<span class="pl-pds">"</span></span>)
+    <li>Kotlin классы по умолчанию <strong>final</strong>. Для Entity это проблема. Можно применить plugin "allopen":
+        <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">plugins {
+  kotlin(<span style="background-color: #fff0f0">"plugin.allopen"</span>)
 }
-<span class="pl-k">..</span>.
+...
 
 allopen {
-  annotation(<span class="pl-s"><span class="pl-pds">"</span>javax.persistence.Entity<span class="pl-pds">"</span></span>)
+  annotation(<span style="background-color: #fff0f0">"javax.persistence.Entity"</span>)
 }
-</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<p dir="auto"> </p>
+</pre></div></li>
+</ol>
 <a id="unit_test"></a>
 <h3 dir="auto" tabindex="-1">
-    <a id="user-content-unit-тестирование" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#unit-%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5"></a>Unit тестирование
-</h3>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>./gradlew <span class="pl-c1">test</span></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+    <a id="user-content-unit-тестирование" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#unit-%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5"></a>Unit тестирование</h3>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew <span style="color: #007020">test</span>
+</pre></div>
+
 <p dir="auto">Примеры отбора тестов:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>./gradlew <span class="pl-c1">test</span> --tests <span class="pl-s"><span class="pl-pds">'</span>*EntityTest<span class="pl-pds">'</span></span>
-./gradlew <span class="pl-c1">test</span> --tests <span class="pl-s"><span class="pl-pds">'</span>*Rest*<span class="pl-pds">'</span></span>
-./gradlew <span class="pl-c1">test</span> --tests ProductDTOTest
-./gradlew <span class="pl-c1">test</span> --tests <span class="pl-s"><span class="pl-pds">'</span>*TestIntegration<span class="pl-pds">'</span></span>
-./gradlew <span class="pl-c1">test</span> --tests <span class="pl-s"><span class="pl-pds">'</span>*MockMvcTest<span class="pl-pds">'</span></span></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<p dir="auto"> </p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew <span style="color: #007020">test</span> --tests <span style="background-color: #fff0f0">'*EntityTest'</span>
+./gradlew <span style="color: #007020">test</span> --tests <span style="background-color: #fff0f0">'*Rest*'</span>
+./gradlew <span style="color: #007020">test</span> --tests ProductDTOTest
+./gradlew <span style="color: #007020">test</span> --tests <span style="background-color: #fff0f0">'*TestIntegration'</span>
+./gradlew <span style="color: #007020">test</span> --tests <span style="background-color: #fff0f0">'*MockMvcTest'</span>
+</pre></div>
+
 <a id="integration_test"></a>
 <h3 dir="auto" tabindex="-1">
     <a id="user-content-интеграционное-тестирование-в-проекте" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%BE%D0%B5-%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B5"></a>Интеграционное тестирование в проекте
 </h3>
 <p dir="auto">Вообще, интеграционные тесты должны быть в отдельном проекте (см. <a href="https://github.com/cherepakhin/shop_kotlin_restassured_test">https://github.com/cherepakhin/shop_kotlin_restassured_test</a>). В этом проекте оставил только тесты работы с базой данных. Имена интеграционных тестов должны заканчиваться ..TestIntegration. Прогнать все, кроме интеграционных (включены только *Test, исключены *TestIntegration):</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>./gradlew clean <span class="pl-c1">test</span> --tests <span class="pl-k">*</span>Test
-</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew clean <span style="color: #007020">test</span> --tests *Test
+</pre></div>
+
 <p dir="auto">Только интеграционные:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>./gradlew clean <span class="pl-c1">test</span> --tests <span class="pl-k">*</span>TestIntegration<span class="pl-k">*</span>
-./gradlew clean <span class="pl-c1">test</span> --tests <span class="pl-k">*</span>TestIntegration</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew clean <span style="color: #007020">test</span> --tests *TestIntegration*
+./gradlew clean <span style="color: #007020">test</span> --tests *TestIntegration
+</pre></div>
 <p dir="auto">Другие примеры:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>gradle <span class="pl-c1">test</span> --tests org.gradle.SomeTest.someSpecificFeature
-gradle <span class="pl-c1">test</span> --tests <span class="pl-k">*</span>SomeTest.someSpecificFeature
-gradle <span class="pl-c1">test</span> --tests <span class="pl-k">*</span>SomeSpecificTest
-gradle <span class="pl-c1">test</span> --tests all.in.specific.package<span class="pl-k">*</span>
-gradle <span class="pl-c1">test</span> --tests <span class="pl-k">*</span>IntegTest
-gradle <span class="pl-c1">test</span> --tests <span class="pl-k">*</span>IntegTest<span class="pl-k">*</span>ui<span class="pl-k">*</span>
-gradle <span class="pl-c1">test</span> --tests <span class="pl-k">*</span>IntegTest.singleMethod
-gradle someTestTask --tests <span class="pl-k">*</span>UiTest someOtherTestTask --tests <span class="pl-k">*</span>WebTest<span class="pl-k">*</span>ui</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">gradle <span style="color: #007020">test</span> --tests org.gradle.SomeTest.someSpecificFeature
+gradle <span style="color: #007020">test</span> --tests *SomeTest.someSpecificFeature
+gradle <span style="color: #007020">test</span> --tests *SomeSpecificTest
+gradle <span style="color: #007020">test</span> --tests all.in.specific.package*
+gradle <span style="color: #007020">test</span> --tests *IntegTest
+gradle <span style="color: #007020">test</span> --tests *IntegTest*ui*
+gradle <span style="color: #007020">test</span> --tests *IntegTest.singleMethod
+gradle someTestTask --tests *UiTest someOtherTestTask --tests *WebTest*ui
+</pre></div>
+
 <p dir="auto">Включено протоколирование тестов build.gradle.kts:</p>
-<div class="highlight highlight-text-xml notranslate position-relative overflow-auto" dir="auto">
-<pre>...
-tasks.withType&lt;<span class="pl-ent">Test</span>&gt; {
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">...
+tasks.withType<span style="color: #007700">&lt;Test&gt;</span> {
     ...
     // Show test log
     testLogging {
         events("passed", "skipped", "failed")
     }
     ...
-}</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+}
+</pre></div>
 <p dir="auto">Вывод в консоль:</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate" lang="text"><code>...
-ProductServiceImplMockTest &gt; getByGroupProductN() PASSED
-ProductServiceIntegrationTest &gt; existByN() PASSED
-ProductServiceIntegrationTest &gt; notExistByN() PASSED
-ProductServiceIntegrationTest &gt; checkSortByName_ByDslFilterByName() PASSED
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">...
+ProductServiceImplMockTest > getByGroupProductN<span style="color: #333333">()</span> PASSED
+ProductServiceIntegrationTest > existByN<span style="color: #333333">()</span> PASSED
+ProductServiceIntegrationTest > notExistByN<span style="color: #333333">()</span> PASSED
+ProductServiceIntegrationTest > checkSortByName_ByDslFilterByName<span style="color: #333333">()</span> PASSED
 ...
-</code></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+</pre></div>
+
 <p dir="auto">с events("standardOut", "started", "passed", "skipped", "failed") логируется вывод в консоль.</p>
 <p dir="auto"> </p>
 <a id="coverage_test"></a>
@@ -218,10 +198,8 @@ ProductServiceIntegrationTest &gt; checkSortByName_ByDslFilterByName() PASSED
     <a id="user-content-покрытие-тестами" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%BF%D0%BE%D0%BA%D1%80%D1%8B%D1%82%D0%B8%D0%B5-%D1%82%D0%B5%D1%81%D1%82%D0%B0%D0%BC%D0%B8"></a>Покрытие тестами
 </h3>
 <p dir="auto">Использован <a href="https://www.eclemma.org/jacoco/" rel="nofollow">jacoco</a>. Отчет формируется при прогоне тестов</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>./gradlew <span class="pl-c1">test</span> jacocoTestReport</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew <span style="color: #007020">test </span>jacocoTestReport
+</pre></div>
 <p dir="auto">Отчет будет в папке build/reports/jacoco/test/html. В отчете <strong>НЕТ</strong> информации о результатах тестирования, только протестирован участок кода или нет.</p>
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/jacoco.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/jacoco.png" alt="jacoco" /></a></p>
 <p dir="auto">Пример отчета по конкретному классу:</p>
@@ -236,93 +214,87 @@ ProductServiceIntegrationTest &gt; checkSortByName_ByDslFilterByName() PASSED
 <p dir="auto">Настроены два Spring профиля:
     <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-prod.yml" target="_blank" rel="noopener noreferrer"><u>application-prod.yml</u></a>
     и
-    <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-dev.yml" target="_blank" rel="noopener noreferrer"><u>application-dev.yml</u></a>
+    <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-dev.yml" target="_blank" rel="noopener noreferrer"><u>application-dev.yml</u></a>.
     В этом же файле указан профиль по умолчанию:</p>
-<div class="highlight highlight-source-yaml notranslate position-relative overflow-auto" dir="auto">
-<pre><span class="pl-ent">spring</span>:
-  <span class="pl-ent">profiles</span>:
-    <span class="pl-ent">active</span>: <span class="pl-s">dev</span>
-  <span class="pl-ent">application</span>:
-    <span class="pl-ent">name</span>: <span class="pl-s">shop_kotlin</span></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">spring:
+  profiles:
+    active: dev
+  application:
+    name: shop_kotlin
+</pre></div>
 <p dir="auto">Запуск с указанием профиля:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>java -D<span class="pl-s"><span class="pl-pds">"</span>spring.profiles.active=dev<span class="pl-pds">"</span></span> -jar app.jar</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<p dir="auto">или установить env переменную:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>SPRING_PROFILES_ACTIVE = dev</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<p dir="auto">Запуск с gradle:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>$ ./gradlew bootRun --args=<span class="pl-s"><span class="pl-pds">'</span>--spring.profiles.active=dev<span class="pl-pds">'</span></span></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<p dir="auto">или</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>SPRING_PROFILES_ACTIVE=dev ./gradlew clean bootRun</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<p dir="auto"> </p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">java -D<span style="background-color: #fff0f0">"spring.profiles.active=dev"</span> -jar app.jar
+</pre></div>
 
+<p dir="auto">или установить env переменную:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">SPRING_PROFILES_ACTIVE</span> <span style="color: #333333">=</span> dev
+</pre></div>
+<p dir="auto">Запуск с gradle:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew bootRun --args<span style="color: #333333">=</span><span style="background-color: #fff0f0">'--spring.profiles.active=dev'</span>
+</pre></div>
+
+<p dir="auto">или</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">SPRING_PROFILES_ACTIVE</span><span style="color: #333333">=</span>dev ./gradlew clean bootRun
+</pre></div>
+<a id="cors"></a>
+<h3>CORS filter</h3>
+При выполнении запросов может быть получена ошибка: <b>"Ошибка: "Access to XMLHttpRequest at 'http://localhost:8080/api/hello' from origin 'http://localhost:4200' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource."</b>.
+Доходчиво описано в <a href="https://sysout.ru/nastrojka-cors-v-spring-security/" rel="nofollow">https://sysout.ru/nastrojka-cors-v-spring-security/</a>.
+
+Суть в двух словах: по умолчанию Spring не позволяет делать кроссдоменные запросы.
+CORS не нужно отключать, а наборот включить и настроить. Другими словами, нужно настроить разрешения в приложении откуда разрешать запросы. Примеры заголовков:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Access-Control-Allow-Origin: *
+Access-Control-Allow-Origin: http://localhost:9999
+</pre></div>
+
+Необходимые настройки сделаны в <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/kotlin/ru/perm/v/shopkotlin/config/CorsFilter.kt" rel="nofollow">https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/kotlin/ru/perm/v/shopkotlin/config/CorsFilter.kt</a>
 <a id="test_run"></a>
 <h3>Тестовый запуск</h3>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>./gradlew bootRun</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew bootRun
+</pre></div>
+
 <p dir="auto"> </p>
 <a id="bootjar"></a>
 <h3 dir="auto">Создание запускаемого файла и его запуск</h3>
 <p dir="auto">Создание:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>./gradlew bootJar</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew bootJar
+</pre></div>
+
 <p dir="auto">(<strong>bootJar</strong> не <strong>bootRun!!!</strong>)</p>
 <p dir="auto">Собранный файл будет в папке <strong>./build/libs/</strong></p>
 <p dir="auto">запуск с RAM 256Мб:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>shop_kotlin/$ java -Xmx256M -jar build/libs/shop_kotlin-0.1.20.jar</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">shop_kotlin/$ java -Xmx256M -jar build/libs/shop_kotlin-0.1.20.jar
+</pre></div>
 <p dir="auto">или так:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre><span class="pl-c1">cd</span> shop_kotlin/build/libs
-shop_kotlin/build/libs$ java -Xmx256M -jar shop_kotlin-0.1.20.jar</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">shop_kotlin/$ cd build/libs
+shop_kotlin/build/libs$ java -Xmx256M -jar shop_kotlin-0.1.20.jar
+</pre></div>
 
 <p dir="auto"> </p>
 <a id="publish_fat-jar"></a>
 <h3 dir="auto" tabindex="-1">
     <a id="user-content-publishing-springboot-fat-jar" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#publishing-springboot-fat-jar"></a>Publishing SpringBoot "FAT" jar</h3>
 <p dir="auto">Настройка:</p>
-<div class="highlight highlight-source-yaml notranslate position-relative overflow-auto" dir="auto">
-<pre><span class="pl-s">publishing {</span>
-  <span class="pl-s">repositories {</span>
-      <span class="pl-s">maven {</span>
-          <span class="pl-s">url = uri("https://v.perm.ru:8082/repository/ru.perm.v/")</span>
-          <span class="pl-s">isAllowInsecureProtocol = true</span>
-          <span class="pl-s">//  for publish to nexus "./gradlew publish"</span>
-          <span class="pl-s">// export NEXUS_CRED_USR=admin</span>
-          <span class="pl-s">// echo $NEXUS_CRED_USR</span>
-          <span class="pl-s">credentials {</span>
-              <span class="pl-s">username = System.getenv("NEXUS_CRED_USR")</span>
-              <span class="pl-s">password = System.getenv("NEXUS_CRED_PSW")</span>
-          <span class="pl-s">}</span>
-      <span class="pl-s">}</span>
-  <span class="pl-s">}</span>
-  <span class="pl-s">publications {</span>
-    <span class="pl-s">create&lt;MavenPublication&gt;("maven"){</span>
-      <span class="pl-s">artifact(tasks["bootJar"]) // build and publish bootJar</span>
-    <span class="pl-s">}</span>
-<span class="pl-s">}</span></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">publishing {
+  repositories {
+      maven {
+          url = uri("https://v.perm.ru:8082/repository/ru.perm.v/")
+          isAllowInsecureProtocol = true
+          //  for publish to nexus "./gradlew publish"
+          // export NEXUS_CRED_USR=admin
+          // echo $NEXUS_CRED_USR
+          credentials {
+              username = System.getenv("NEXUS_CRED_USR")
+              password = System.getenv("NEXUS_CRED_PSW")
+          }
+      }
+  }
+  publications {
+    create<span style="color: #007700"><MavenPublication></span>("maven"){
+      artifact(tasks["bootJar"]) // build and publish bootJar
+    }
+}
+</pre></div>
 <p dir="auto"><a href="https://stackoverflow.com/questions/64062905/unable-to-publish-jar-to-gitlab-package-registry-with-gradle" rel="nofollow">https://stackoverflow.com/questions/64062905/unable-to-publish-jar-to-gitlab-package-registry-with-gradle</a></p>
 <p dir="auto"> </p>
 
@@ -331,43 +303,38 @@ shop_kotlin/build/libs$ java -Xmx256M -jar shop_kotlin-0.1.20.jar</pre>
     <a id="user-content-примеры-тестов-httpie" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B-%D1%82%D0%B5%D1%81%D1%82%D0%BE%D0%B2-httpie"></a>Примеры тестов <a href="https://httpie.io/" rel="nofollow">httpie</a>
 </h3>
 <p dir="auto">Echo запрос для простой проверки работоспособности (:8980/shop_kotlin/ базовый путь проекта):</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>http :8980/shop_kotlin/api/echo/aaa
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">$ </span>http :8980/shop_kotlin/api/echo/aaa
 
 HTTP/1.1 200
 Connection: keep-alive
 Content-Length: 3
-Content-Type: text/plain<span class="pl-k">;</span>charset=UTF-8
+Content-Type: text/plain;charset<span style="color: #333333">=</span>UTF-8
 Date: Thu, 15 Jun 2023 07:30:38 GMT
-Keep-Alive: timeout=60
+Keep-Alive: <span style="color: #996633">timeout</span><span style="color: #333333">=</span>60
 
-aaa </pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+aaa
+</pre></div>
 <p dir="auto">Поиск по имени Product:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>http :8980/shop_kotlin/api/group_product/find<span class="pl-k">?</span>name=<span class="pl-s"><span class="pl-pds">'</span>Comp<span class="pl-pds">'</span></span>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">$ </span>http :8980/shop_kotlin/api/group_product/find?name<span style="color: #333333">=</span><span style="background-color: #fff0f0">'Comp'</span>
 
-[
-    {
-        <span class="pl-s"><span class="pl-pds">"</span>haveChilds<span class="pl-pds">"</span></span>: true,
-        <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: 2,
-        <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Computers<span class="pl-pds">"</span></span>,
-        <span class="pl-s"><span class="pl-pds">"</span>parentId<span class="pl-pds">"</span></span>: 1
-    },
-    {
-        <span class="pl-s"><span class="pl-pds">"</span>haveChilds<span class="pl-pds">"</span></span>: false,
-        <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: 3,
-        <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Desktop Computers<span class="pl-pds">"</span></span>,
-        <span class="pl-s"><span class="pl-pds">"</span>parentId<span class="pl-pds">"</span></span>: 2
-    }</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<span style="color: #333333">[</span>
+    <span style="color: #333333">{</span>
+        <span style="background-color: #fff0f0">"haveChilds"</span>: <span style="color: #007020">true</span>,
+        <span style="background-color: #fff0f0">"id"</span>: 2,
+        <span style="background-color: #fff0f0">"name"</span>: <span style="background-color: #fff0f0">"Computers"</span>,
+        <span style="background-color: #fff0f0">"parentId"</span>: 1
+    <span style="color: #333333">}</span>,
+    <span style="color: #333333">{</span>
+        <span style="background-color: #fff0f0">"haveChilds"</span>: <span style="color: #007020">false</span>,
+        <span style="background-color: #fff0f0">"id"</span>: 3,
+        <span style="background-color: #fff0f0">"name"</span>: <span style="background-color: #fff0f0">"Desktop Computers"</span>,
+        <span style="background-color: #fff0f0">"parentId"</span>: 2
+    <span style="color: #333333">}</span>
+</pre></div>
 <p dir="auto">POST запрос на изменение Product:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>http POST :8980/shop_kotlin/api/product/ <span class="pl-k">&lt;</span> ./src/test/json_test/product.json</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">$ </span>http POST :8980/shop_kotlin/api/product/ < ./src/test/json_test/product.json
+</pre></div>
+
 <p dir="auto"> </p>
 
 <a id="datajpa_restassured_test"></a>
@@ -398,64 +365,58 @@ aaa </pre>
 <h3 dir="auto" tabindex="-1"><a id="user-content-docker" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#docker"></a>Docker</h3>
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/Dockerfile">Dockerfile</a></p>
 <p dir="auto">Работа с Docker:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre><span class="pl-c"># create docker image</span>
-$./docker_build.sh
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888"># create docker image</span>
+<span style="color: #996633">$.</span>/docker_build.sh
 
-<span class="pl-c"># run app</span>
-$ docker run -p 8080:8980 shop_kotlin/app
+<span style="color: #888888"># run app</span>
+<span style="color: #996633">$ </span>docker run -p 8080:8980 shop_kotlin/app
 
-$ docker ps
+<span style="color: #996633">$ </span>docker ps
 CONTAINER ID   IMAGE             COMMAND                CREATED          STATUS          PORTS                    NAMES
-c70ef82f3a54   shop_kotlin/app   <span class="pl-s"><span class="pl-pds">"</span>java -jar /app.jar<span class="pl-pds">"</span></span>   43 seconds ago   Up 42 seconds   0.0.0.0:8080-<span class="pl-k">&gt;</span>8980/tcp   inspiring_germain
+c70ef82f3a54   shop_kotlin/app   <span style="background-color: #fff0f0">"java -jar /app.jar"</span>   43 seconds ago   Up 42 seconds   0.0.0.0:8080->8980/tcp   inspiring_germain
 
-<span class="pl-c"># simple test</span>
-$ http :8080/api/group_product/find<span class="pl-k">?</span>name=<span class="pl-s"><span class="pl-pds">'</span>Comp<span class="pl-pds">'</span></span>
+<span style="color: #888888"># simple test</span>
+<span style="color: #996633">$ </span>http :8080/api/group_product/find?name<span style="color: #333333">=</span><span style="background-color: #fff0f0">'Comp'</span>
 
-$ docker ps -a
-<span class="pl-c"># 2d1325e1222a   shop_kotlin:0.24.0105    "/cnb/process/web" ...</span>
+<span style="color: #996633">$ </span>docker ps -a
+<span style="color: #888888"># 2d1325e1222a   shop_kotlin:0.24.0105    "/cnb/process/web" ...</span>
 
-<span class="pl-c"># stop docker app</span>
-<span class="pl-smi">$docker</span> stop 2d1
+<span style="color: #888888"># stop docker app</span>
+<span style="color: #996633">$docker</span> stop 2d1
 
-<span class="pl-c"># rm container shop_kotlin 2d1325e1222a (id from docker ps -a)</span>
-<span class="pl-smi">$docker</span> container rm 2d1
+<span style="color: #888888"># rm container shop_kotlin 2d1325e1222a (id from docker ps -a)</span>
+<span style="color: #996633">$docker</span> container rm 2d1
 
-<span class="pl-c"># rm image</span>
-<span class="pl-smi">$docker</span> image ls
+<span style="color: #888888"># rm image</span>
+<span style="color: #996633">$docker</span> image ls
 shop_kotlin 0.24.0105   94560d28efb3   ...
 
-$ docker image rm 945
+<span style="color: #996633">$ </span>docker image rm 945
 Untagged: shop_kotlin:0.24.0105
 
-<span class="pl-c"># clear ALL images</span>
-<span class="pl-smi">$docker</span> image prune -a
+<span style="color: #888888"># clear ALL images</span>
+<span style="color: #996633">$docker</span> image prune -a
 
-<span class="pl-c"># clear all</span>
-<span class="pl-smi">$docker</span> system prune -af</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<span style="color: #888888"># clear all</span>
+<span style="color: #996633">$docker</span> system prune -af
+</pre></div><br/>
 <h4 dir="auto" tabindex="-1"><a id="user-content-или-средствами-gradle" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%B8%D0%BB%D0%B8-%D1%81%D1%80%D0%B5%D0%B4%D1%81%D1%82%D0%B2%D0%B0%D0%BC%D0%B8-gradle"></a>ИЛИ средствами gradle:</h4>
 <p dir="auto">Создание docker image:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>./gradlew bootBuildImage
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">$ </span>./gradlew bootBuildImage
 
 ...
 
-    [creator]     Saving docker.io/library/shop_kotlin:0.1.18...
-    [creator]     <span class="pl-k">***</span> Images (f80a4e623a3d):
-    [creator]           docker.io/library/shop_kotlin:0.1.18
-Successfully built image <span class="pl-s"><span class="pl-pds">'</span>docker.io/library/shop_kotlin:0.1.18<span class="pl-pds">'</span></span>
+    <span style="color: #333333">[</span>creator<span style="color: #333333">]</span>     Saving docker.io/library/shop_kotlin:0.1.18...
+    <span style="color: #333333">[</span>creator<span style="color: #333333">]</span>     *** Images <span style="color: #333333">(</span>f80a4e623a3d<span style="color: #333333">)</span>:
+    <span style="color: #333333">[</span>creator<span style="color: #333333">]</span>           docker.io/library/shop_kotlin:0.1.18
+Successfully built image <span style="background-color: #fff0f0">'docker.io/library/shop_kotlin:0.1.18'</span>
 ...
-</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+</pre></div>
+
 <p dir="auto">В файле META-INF/MANIFEST.MF указать Main-Class</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate" lang="text"><code>Main-Class: ru.perm.v.shopkotlin.ShopKotlinApplication
-</code></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Main-Class: ru.perm.v.shopkotlin.ShopKotlinApplication
+</pre></div>
+
 <p dir="auto">Запуск docker image:</p>
 <div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
 <pre>$ docker run -p 8980:8980 -p 8988:8988  docker.io/library/shop_kotlin:0.1.18
