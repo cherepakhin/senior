@@ -482,7 +482,7 @@ aaa
         },
 ....
 </pre></div>
-<p dir="auto">Пример "Сколько памяти используется?":</p>
+<p dir="auto">Пример "Сколько памяти используется СЕЙЧАС?":</p>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ http http://127.0.0.1:8988/shop_kotlin/api/actuator/metrics/jvm.memory.used
 {
     "availableTags": [
@@ -522,40 +522,33 @@ aaa
     "name": "jvm.memory.used"
 }
 </pre></div>
+(Нагрузочные тесты показали следующие результаты: 64M - приложение выпадает с OutOfMemory, со 128M - тесты проходят)
 
-(<p dir="auto">Нагрузочные тесты показали следующие результаты: 64M - приложение выпадает с OutOfMemory 128M - тесты проходят</p>)
-
-<p dir="auto"> </p>
 <a id="prometheus"></a>
 <h3 dir="auto" tabindex="-1"><a id="user-content-prometheus" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#prometheus"></a>Prometheus</h3>
 <p dir="auto">На моем сервере запущен Prometheus. Prometheus <strong>ОПРАШИВАЕТ</strong> приложение, согласно заданию (ниже yaml), и собирает метрики (metrics_path+targets). Пример задания для опроса в файле <a href="https://github.com/cherepakhin/shop_kotlin/doc/prometheus/prometheus.yml">doc/prometheus/prometheus.yml</a>. Содержимое <a href="https://github.com/cherepakhin/shop_kotlin/doc/prometheus/prometheus.yml">doc/prometheus/prometheus.yml</a> поместить в настройки prometheus. Пример задания:</p>
-<div class="highlight highlight-source-yaml notranslate position-relative overflow-auto" dir="auto">
-<pre><span class="pl-ent">scrape_configs</span>:
-- <span class="pl-ent">job_name</span>: <span class="pl-s"><span class="pl-pds">'</span>spring boot scrape<span class="pl-pds">'</span></span>
-  <span class="pl-ent">metrics_path</span>: <span class="pl-s"><span class="pl-pds">'</span>/shop_kotlin/api/actuator/prometheus<span class="pl-pds">'</span></span>
-  <span class="pl-ent">scrape_interval</span>: <span class="pl-c1">5s</span>
-  <span class="pl-ent">static_configs</span>:
-    - <span class="pl-ent">targets</span>: <span class="pl-s">['192.168.1.20:8988']</span>
-</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">scrape_configs:
+- job_name: <span style="color: #0000FF">'spring</span> <span style="color: #0000FF">boot</span> <span style="color: #0000FF">scrape'</span>
+  metrics_path: <span style="color: #0000FF">'/shop_kotlin/api/actuator/prometheus'</span>
+  scrape_interval: 5s
+  static_configs:
+    - targets: [<span style="color: #0000FF">'192.168.1.20:8988'</span>]
+</pre></div>
+
 <p dir="auto">Опрашивать '192.168.1.20:8988/shop_kotlin/api/actuator/prometheus' каждые 5 сек.</p>
-<p dir="auto">Для просмотра получаемых prometheus-ом метрик можно выполнить:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>$ http http://127.0.0.1:8788/api/actuator/prometheus<span class="pl-k">**</span></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<p dir="auto">Для просмотра получаемых prometheus-ом метрик выполнить:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">$ http http://127.0.0.1:8788/api/actuator/prometheus
+</pre></div>
 <p dir="auto">(Использован <a href="https://httpie.io/" rel="nofollow">httpie</a>)</p>
+
 <p dir="auto">Ответ:</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code># HELP jvm_threads_daemon_threads The current number of live daemon threads
-# TYPE jvm_threads_daemon_threads gauge
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-style: italic"># HELP jvm_threads_daemon_threads The current number of live daemon threads</span>
+<span style="color: #008800; font-style: italic"># TYPE jvm_threads_daemon_threads gauge</span>
 jvm_threads_daemon_threads 13.0
-# HELP hikaricp_connections Total connections
+<span style="color: #008800; font-style: italic"># HELP hikaricp_connections Total connections</span>
 ...
-</code></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+</pre></div>
 <p dir="auto">Подключение к Prometheus из браузера: <a href="http://192.168.1.20:9090/targets" rel="nofollow">http://192.168.1.20:9090/targets</a></p>
 <p dir="auto"><a href="http://192.168.1.20:9090/graph" rel="nofollow">http://192.168.1.20:9090/graph</a></p>
 <p dir="auto">Основной экран: 192.168.1.20 - адрес хоста с prometheus <a href="http://192.168.1.20:9090/targets" rel="nofollow">http://192.168.1.20:9090/targets</a></p>
