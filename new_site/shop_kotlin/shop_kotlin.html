@@ -418,44 +418,38 @@ Successfully built image <span style="background-color: #fff0f0">'docker.io/libr
 </pre></div>
 
 <p dir="auto">Запуск docker image:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>$ docker run -p 8980:8980 -p 8988:8988  docker.io/library/shop_kotlin:0.1.18
-</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">$ </span>docker run -p 8980:8980 -p 8988:8988  docker.io/library/shop_kotlin:0.1.18
+</pre></div>
+
 <p dir="auto">(8980 - основной порт, 8988 - spring actuator)</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>$ docker container ls
-CONTAINER ID   IMAGE                COMMAND              CREATED          STATUS          PORTS                    NAMES
-6544af7b0adb   shop_kotlin:0.1.18   <span class="pl-s"><span class="pl-pds">"</span>/cnb/process/web<span class="pl-pds">"</span></span>   12 seconds ago   Up 11 seconds   0.0.0.0:8980-<span class="pl-k">&gt;</span>8980/tcp   brave_sutherland
-</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">$ </span>docker container ls
+</pre></div>
+
 <p dir="auto">Проверка:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>$ http http://127.0.0.1:8980/shop_kotlin/api/echo/aaa
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">$ </span>http http://127.0.0.1:8980/shop_kotlin/api/echo/aaa
 
 HTTP/1.1 200
 Connection: keep-alive
 Content-Length: 3
-Content-Type: text/plain<span class="pl-k">;</span>charset=UTF-8
+Content-Type: text/plain<span <span style="color: #996633">class</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">"pl-k"</span>>;</span>charset<span style="color: #333333">=</span>UTF-8
 Date: Thu, 30 Nov 2023 15:36:25 GMT
-Keep-Alive: timeout=60
+Keep-Alive: <span style="color: #996633">timeout</span><span style="color: #333333">=</span>60
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 
 aaa
-</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+</pre></div>
+
 <p dir="auto"> </p>
 <a id="swagger"></a>
 <h3 dir="auto" tabindex="-1">
     <a id="user-content-swagger" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#swagger"></a>Swagger
 </h3>
 <p dir="auto">Swagger доступен по адресу <a href="http://127.0.0.1:8980/shop_kotlin/api/swagger-ui/" rel="nofollow">http://127.0.0.1:8980/shop_kotlin/api/swagger-ui/</a></p>
-<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/swagger.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/swagger.png" alt="swagger" /></a></p>
+<p><span style="font-weight: 400;">
+    <img class="pull-center" src="images/shop_kotlin/swagger_proj_kotlin.png" alt="" />
+</span></p>
 
 <p dir="auto"> </p>
 <a id="spring_actuator"></a>
