@@ -456,55 +456,74 @@ aaa
 <h3 dir="auto" tabindex="-1">
     <a id="user-content-spring-actuator" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#spring-actuator"></a>Spring Actuator
 </h3>
-<p dir="auto">Spring Actuator предназначен для получения информации о работающем приложении - статус приложения (жив/нет), использовании памяти, cpu и т.п.. Поключен по адресу <a href="http://127.0.0.1:8988/shop_kotlin/api/actuator" rel="nofollow">http://127.0.0.1:8988/shop_kotlin/api/actuator</a></p>
+<p dir="auto">Spring Actuator предназначен для получения информации о работающем приложении - статус приложения (жив/нет), использовании памяти, cpu и т.п.. Подключен по адресу <a href="http://127.0.0.1:8988/shop_kotlin/api/actuator" rel="nofollow">http://127.0.0.1:8988/shop_kotlin/api/actuator</a></p>
 <p dir="auto">порт указан в application.yaml:</p>
-<div class="highlight highlight-source-yaml notranslate position-relative overflow-auto" dir="auto">
-<pre><span class="pl-ent">management</span>:
-  <span class="pl-s">...</span>
-  <span class="pl-ent">server</span>:
-    <span class="pl-ent">port</span>: <span class="pl-c1">8988</span>
-</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">management:
+  server:
+    port: 8988
+</pre></div>
+
 <p dir="auto">Использование из командной строки:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>$ http http://127.0.0.1:8988/shop_kotlin/api/actuator
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ http http://127.0.0.1:8988/shop_kotlin/api/actuator
 
 {
-    <span class="pl-s"><span class="pl-pds">"</span>_links<span class="pl-pds">"</span></span>: {
-        <span class="pl-s"><span class="pl-pds">"</span>beans<span class="pl-pds">"</span></span>: {
-            <span class="pl-s"><span class="pl-pds">"</span>href<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>http://127.0.0.1:8988/shop_kotlin/api/actuator/beans<span class="pl-pds">"</span></span>,
-            <span class="pl-s"><span class="pl-pds">"</span>templated<span class="pl-pds">"</span></span>: <span class="pl-c1">false</span>
+    "_links": {
+        "beans": {
+            "href": "http://127.0.0.1:8988/shop_kotlin/api/actuator/beans",
+            "templated": false
         },
-        <span class="pl-s"><span class="pl-pds">"</span>caches<span class="pl-pds">"</span></span>: {
-            <span class="pl-s"><span class="pl-pds">"</span>href<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>http://127.0.0.1:8988/shop_kotlin/api/actuator/caches<span class="pl-pds">"</span></span>,
-            <span class="pl-s"><span class="pl-pds">"</span>templated<span class="pl-pds">"</span></span>: <span class="pl-c1">false</span>
+        "caches": {
+            "href": "http://127.0.0.1:8988/shop_kotlin/api/actuator/caches",
+            "templated": false
         },
-        <span class="pl-s"><span class="pl-pds">"</span>caches-cache<span class="pl-pds">"</span></span>: {
-            <span class="pl-s"><span class="pl-pds">"</span>href<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>http://127.0.0.1:8988/shop_kotlin/api/actuator/caches/{cache}<span class="pl-pds">"</span></span>,
-            <span class="pl-s"><span class="pl-pds">"</span>templated<span class="pl-pds">"</span></span>: <span class="pl-c1">true</span>
+        "caches-cache": {
+            "href": "http://127.0.0.1:8988/shop_kotlin/api/actuator/caches/{cache}",
+            "templated": true
         },
-....</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/actuator.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/actuator.png" alt="actuator" /></a></p>
-<p dir="auto">Пример "Сколько памяти используется?":</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>$ http http://127.0.0.1:8988/shop_kotlin/api/actuator/metrics/jvm.memory.used
 ....
-<span class="pl-s"><span class="pl-pds">"</span>baseUnit<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>bytes<span class="pl-pds">"</span></span>,
-    <span class="pl-s"><span class="pl-pds">"</span>description<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>The amount of used memory<span class="pl-pds">"</span></span>,
-    <span class="pl-s"><span class="pl-pds">"</span>measurements<span class="pl-pds">"</span></span>: [
+</pre></div>
+<p dir="auto">Пример "Сколько памяти используется?":</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ http http://127.0.0.1:8988/shop_kotlin/api/actuator/metrics/jvm.memory.used
+{
+    "availableTags": [
         {
-            <span class="pl-s"><span class="pl-pds">"</span>statistic<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>VALUE<span class="pl-pds">"</span></span>,
-            <span class="pl-s"><span class="pl-pds">"</span>value<span class="pl-pds">"</span></span>: 147665416.0
+            "tag": "area",
+            "values": [
+                "heap",
+                "nonheap"
+            ]
+        },
+        {
+            "tag": "application",
+            "values": [
+                "shop_kotlin"
+            ]
+        },
+        {
+            "tag": "id",
+            "values": [
+                "G1 Survivor Space",
+                "Compressed Class Space",
+                "CodeCache",
+                "G1 Old Gen",
+                "Metaspace",
+                "G1 Eden Space"
+            ]
         }
     ],
-    <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>jvm.memory.used<span class="pl-pds">"</span></span>
-....</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<p dir="auto">Нагрузочные тесты показали следующие результаты: 64M - приложение выпадает с OutOfMemory 128M - тесты проходят</p>
+    "baseUnit": "bytes",
+    "description": "The amount of used memory",
+    "measurements": [
+        {
+            "statistic": "VALUE",
+            "value": 169351144.0
+        }
+    ],
+    "name": "jvm.memory.used"
+}
+</pre></div>
+
+(<p dir="auto">Нагрузочные тесты показали следующие результаты: 64M - приложение выпадает с OutOfMemory 128M - тесты проходят</p>)
 
 <p dir="auto"> </p>
 <a id="prometheus"></a>
