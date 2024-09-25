@@ -598,11 +598,11 @@ ts=2023-09-11T13:13:17.850Z caller=manager.go:1009 level=info component="rule ma
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/grafana.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/grafana.png" alt="grafana" /></a></p>
 <p dir="auto">Запуск grafana:</p>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-    <pre style="margin: 0; line-height: 125%">vasi@v$ sudo service grafana-server start</pre>
+    <pre style="margin: 0; line-height: 125%">$ sudo service grafana-server start</pre>
 </div>
 <p dir="auto">Остановка grafana:</p>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-    <pre style="margin: 0; line-height: 125%">vasi@v$ sudo service grafana-server stop</pre>
+    <pre style="margin: 0; line-height: 125%">$ sudo service grafana-server stop</pre>
 </div>
 
 <p dir="auto"><a href="http://192.168.1.20:3000/explore?orgId=1&amp;left=%7B%22datasource%22:%22grafana%22,%22queries%22:%5B%7B%22queryType%22:%22randomWalk%22,%22refId%22:%22A%22,%22datasource%22:%7B%22type%22:%22datasource%22,%22uid%22:%22grafana%22%7D%7D%5D,%22range%22:%7B%22from%22:%22now-6h%22,%22to%22:%22now%22%7D%7D" rel="nofollow">Пример запроса</a></p>
@@ -679,8 +679,9 @@ publishing {
         maven {
             url = uri("https://v.perm.ru:8082/repository/ru.perm.v/")
             isAllowInsecureProtocol = true
-            //  publish в nexus "./gradlew publish" из ноута и Jenkins проходит
+            // example export variables in shell
             // export NEXUS_CRED_USR=admin
+            // verify:
             // echo $NEXUS_CRED_USR
             credentials {
                 username = System.getenv("NEXUS_CRED_USR")
@@ -713,14 +714,12 @@ publishing {
 <a id="logging"></a>
 <h3 dir="auto">Логирование</h3>
 <p dir="auto">Настройка сделана в application.yaml:</p>
-<div class="highlight highlight-source-yaml notranslate position-relative overflow-auto" dir="auto">
-<pre><span class="pl-ent">logging</span>:
-  <span class="pl-ent">level</span>:
-    <span class="pl-ent">root</span>: <span class="pl-s">info</span>
-  <span class="pl-ent">file</span>:
-    <span class="pl-ent">path</span>: <span class="pl-s">log/</span></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">logging:
+  level:
+    root: info
+  file:
+    path: log/
+</pre></div>
 
 <a id="easycode_idea"></a>
 <h3 dir="auto">Использование "ChatGPT-EasyCode" в Idea</h3>
@@ -734,7 +733,7 @@ publishing {
 <p dir="auto">Генерация тестов <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/chatgpt_easycode/run_write_test_easycode.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/chatgpt_easycode/run_write_test_easycode.png" alt="Сгенерировать тесты ChatGPT-EasyCode" /></a></p>
 <p dir="auto">Рефакторинг <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/chatgpt_easycode/run_refactor_easycode.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/chatgpt_easycode/run_refactor_easycode.png" alt="Рефакторинг ChatGPT-EasyCode" /></a></p>
 <p dir="auto"><strong>Вещь!</strong></p>
-<p dir="auto">А отечественный GigaCode, в течении <b>нескольких недель</b>, отвечал унылым <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/gigacode.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/gigacode.png" alt="" /></a></p>
+<p dir="auto">А отечественный GigaCode, в течении <b>нескольких недель</b>, отвечаЛ унылым <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/gigacode.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/gigacode.png" alt="" /></a></p>
 и в конце концов какие-то шестеренки провернулись:
 <img style="display: block; margin-left: auto; margin-right: auto;" title="gigacode" src="images/chatgpt/gigacode_ok.png"
      alt="gigacode" width="768" height="343"/><br/>
