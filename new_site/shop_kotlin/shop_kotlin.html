@@ -558,7 +558,6 @@ jvm_threads_daemon_threads 13.0
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/prometheus/shop_kotlin_down.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/prometheus/shop_kotlin_down.png" alt="Приложение остановлено" /></a></p>
 <p dir="auto">Приложение запущено:</p>
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/prometheus/shop_kotlin_up.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/prometheus/shop_kotlin_up.png" alt="Приложение остановлено" /></a></p>
-<p dir="auto"> </p>
 
 <a id="show_cpu_prometheus"></a>
 <h3 dir="auto">Пример просмотра использования CPU в Prometheus</h3>
@@ -572,9 +571,8 @@ jvm_threads_daemon_threads 13.0
 <p dir="auto">Итоговый запрос: <a href="http://192.168.1.20:9090/graph?g0.range_input=15m&amp;g0.expr=system_cpu_usage&amp;g0.tab=0" rel="nofollow">http://192.168.1.20:9090/graph?g0.range_input=15m&amp;g0.expr=system_cpu_usage&amp;g0.tab=0</a></p>
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/prometheus/prometheus_system_cpu_usage.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/prometheus/prometheus_system_cpu_usage.png" alt="prometheus_system_cpu_usage" /></a></p>
 
-<p dir="auto"> </p>
 <a id="prometheus_docker"></a>
-<h3 dir="auto">Запуск prometheus в docker:</h3>
+<h3 dir="auto">Запуск prometheus в docker.</h3>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">docker run -d -p 9090:9090 -v <span style="color: #0000FF">"/$(pwd)/for_prometheus/prometheus.yml"</span>:/etc/prometheus/prometheus.yml prom/prometheus
 </pre></div>
 (внимание на кавычки)
@@ -594,7 +592,7 @@ ts=2023-09-11T13:13:17.850Z caller=manager.go:1009 level=info component="rule ma
 </pre></div>
 (follow - не отключаться)
 
-<p dir="auto"> </p>
+
 <a id="grafana"></a>
 <h3 dir="auto">
     <a id="user-content-grafana" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#grafana"></a>Grafana</h3>
@@ -614,7 +612,6 @@ ts=2023-09-11T13:13:17.850Z caller=manager.go:1009 level=info component="rule ma
 <p dir="auto">user(pass): admin/admin</p>
 <p dir="auto">Подробнее о нагрузочном тестировании и метриках в этом проекте <a href="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test">https://github.com/cherepakhin/shop_kotlin_yandex_tank_test</a></p>
 
-<p dir="auto"> </p>
 <a id="caching"></a>
 <h3 dir="auto">Кеширование</h3>
 <p dir="auto">Кеширование сделано для RestController:</p>
@@ -633,7 +630,7 @@ $ http :8780/api/group_product/clear_cache
 <span style="color: #008800; font-style: italic"># При этом в лог будет только один запрос к репозиторию.</span>
 $ http :8780/api/group_product/
 </pre></div>
-<p dir="auto"> </p>
+
 <a id="jenkins"></a>
 <h3 dir="auto" tabindex="-1">Сборка Jenkins</h3>
 <p dir="auto">Сборка происходит в Jenkins, развернутом на домашнем сервере. Pipeline для Jenkins описан в файле <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/Jenkinsfile">./Jenkinsfile</a></p>
@@ -645,60 +642,66 @@ $ http :8780/api/group_product/
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">org.gradle.jvmargs=-Xmx512M
 </pre></div>
 
-<p dir="auto"> </p>
 <a id="nexus"></a>
 <h3 dir="auto" tabindex="-1">Nexus</h3>
 <p dir="auto">В проекте используется внешняя зависимость из домашнего NEXUS репозитория <a href="https://github.com/cherepakhin/shop_kotlin_extdto">https://github.com/cherepakhin/shop_kotlin_extdto</a>:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>implementation(<span class="pl-s"><span class="pl-pds">"</span>ru.perm.v:shop_kotlin_extdto:0.0.3<span class="pl-pds">"</span></span>)</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<p dir="auto"> </p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">implementation(<span style="color: #0000FF">"ru.perm.v:shop_kotlin_extdto:0.0.3"</span>)
+</pre></div>
+Эта библиотека используется в нескольких проектах (DTO для обмена между сервисами).
+
 <h3 dir="auto" tabindex="-1"><a id="user-content-deploy-to-nexus-repository" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#deploy-to-nexus-repository"></a>Deploy to NEXUS repository</h3>
-<p dir="auto">Возможен с использованием Jenkins (описано выше) или ручной deploy в Nexus с личного компьютера.</p>
+<p dir="auto">Возможен с использованием Jenkins (в Jenkisfile <i>"stage('Publish to Nexus')"</i>) или ручной deploy в Nexus с личного компьютера.</p>
 <p dir="auto">Для deploy выполнить:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>./gradlew publish</pre>
-    <div class="zeroclipboard-container"> </div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ ./gradlew publish</pre>
 </div>
+
 <p dir="auto">Путь к репозиторию установлен в build.gradle.kts:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>url = uri(<span class="pl-s"><span class="pl-pds">"</span>https://v.perm.ru:8082/repository/ru.perm.v/<span class="pl-pds">"</span></span>)</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<p dir="auto">Для установки переменных доступа к Nexus repository выполнить в shell:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>$ <span class="pl-k">export</span> NEXUS_CRED_USR=admin
-$ <span class="pl-k">export</span> NEXUS_CRED_PSW=pass</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/nexus.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/nexus.png" alt="nexus" /></a></p>
-<p dir="auto">Секция publishing в build.gradle.kts:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre>publishing {
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">...
+publishing {
     repositories {
         maven {
-            url = uri(<span class="pl-s"><span class="pl-pds">"</span>https://v.perm.ru:8082/repository/ru.perm.v/<span class="pl-pds">"</span></span>)
-            isAllowInsecureProtocol = <span class="pl-c1">true</span>
-            //  publish в nexus <span class="pl-s"><span class="pl-pds">"</span>./gradlew publish<span class="pl-pds">"</span></span> из ноута и Jenkins проходит
-            // <span class="pl-k">export</span> NEXUS_CRED_USR=admin
-            // <span class="pl-c1">echo</span> <span class="pl-smi">$NEXUS_CRED_USR</span>
+            url = uri("http://v.perm.ru:8081/repository/ru.perm.v/")
+...
+</pre>
+</div>
+
+<p dir="auto">Для установки переменных доступа к Nexus repository выполнить в shell:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ export NEXUS_CRED_USR=admin
+$ export NEXUS_CRED_PSW=pass</pre>
+</div>
+Результат deploy:<br/>
+<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/nexus.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/nexus.png" alt="nexus" /></a></p>
+<p dir="auto">Секция publishing в build.gradle.kts полностью:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">...
+publishing {
+ repositories {
+        maven {
+            url = uri("https://v.perm.ru:8082/repository/ru.perm.v/")
+            isAllowInsecureProtocol = true
+            //  publish в nexus "./gradlew publish" из ноута и Jenkins проходит
+            // export NEXUS_CRED_USR=admin
+            // echo $NEXUS_CRED_USR
             credentials {
-                username = System.getenv(<span class="pl-s"><span class="pl-pds">"</span>NEXUS_CRED_USR<span class="pl-pds">"</span></span>)
-                password = System.getenv(<span class="pl-s"><span class="pl-pds">"</span>NEXUS_CRED_PSW<span class="pl-pds">"</span></span>)
+                username = System.getenv("NEXUS_CRED_USR")
+                password = System.getenv("NEXUS_CRED_PSW")
             }
         }
     }
     publications {
-        register(<span class="pl-s"><span class="pl-pds">"</span>mavenJava<span class="pl-pds">"</span></span>, MavenPublication::class) {
+        register("mavenJava", MavenPublication::class) {
             groupId
             artifactId
             version
-            from(components[<span class="pl-s"><span class="pl-pds">"</span>java<span class="pl-pds">"</span></span>])
-        }</pre>
-    <div class="zeroclipboard-container"> </div>
+            from(components["java"])
+        }
+}
+</pre>
 </div>
-<p dir="auto"> </p>
+
 <a id="jmc"></a>
 <h3 dir="auto" tabindex="-1">Просмотр ресурсов с помощью Java Mission Control</h3>
 <p dir="auto"><a href="https://www.oracle.com/cis/javase/jmc/" rel="nofollow">Java Mission Control</a></p>
@@ -707,7 +710,6 @@ $ <span class="pl-k">export</span> NEXUS_CRED_PSW=pass</pre>
     <div class="zeroclipboard-container"> </div>
 </div>
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/jmc_monitor.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/jmc_monitor.png" alt="jmc" /></a></p>
-<p dir="auto"> </p>
 
 <a id="logging"></a>
 <h3 dir="auto">Логирование</h3>
@@ -728,7 +730,7 @@ $ <span class="pl-k">export</span> NEXUS_CRED_PSW=pass</pre>
 <p dir="auto">Серым выделена подсказка EasyCode. "TAB" - принять предложение.</p>
 
 <a id="easycode_vscode"></a>
-<p dir="auto"> </p>
+
 <h3 dir="auto">Использование "ChatGPT-EasyCode" в VSCode</h3>
 <p dir="auto">Генерация тестов <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/chatgpt_easycode/run_write_test_easycode.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/chatgpt_easycode/run_write_test_easycode.png" alt="Сгенерировать тесты ChatGPT-EasyCode" /></a></p>
 <p dir="auto">Рефакторинг <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/chatgpt_easycode/run_refactor_easycode.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/chatgpt_easycode/run_refactor_easycode.png" alt="Рефакторинг ChatGPT-EasyCode" /></a></p>
@@ -786,7 +788,6 @@ INFO 23327 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomc
 </code></pre>
 
     <a id="todo"></a>
-    <p dir="auto"> </p>
     <h3 dir="auto" tabindex="-1"><a id="user-content-todo" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#todo"></a>TODO</h3>
     <ul dir="auto">
         <li><del>cache on rest (сделано)</del></li>
@@ -941,10 +942,8 @@ pipeline {
             Все параметры основного конструктора должны быть отмечены, как val или var."</li>
     </ul>
 
-    <p dir="auto"> </p>
     <a id="links"></a>
     <h3 dir="auto" tabindex="-1">Ссылки:</h3>
-    <p dir="auto">
     <ul>
         <li><a href="index.php/34-behave-testirovanie" rel="nofollow">Интеграционное тестирование REST</a></li>
         <li><a href="index.php/64-nastrojka-i-ispolzovanie-prometheus-grafana" rel="nofollow">Настройка и использование Prometheus, Grafana</a></li>
