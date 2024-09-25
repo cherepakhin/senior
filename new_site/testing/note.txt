@@ -5,3 +5,4 @@ TODO: Виды тестирования:
     БД (DataJpaTest - shop_kotlin/PriceRepositoryDataJpaTestIntegration)
     Бизнес-процессы
 3. Нагрузочное (/home/vasi/prog/kotlin/shop/shop_kotlin_yandex_tank_test)
+4. Тестирование фронта
