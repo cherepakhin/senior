@@ -362,43 +362,52 @@ aaa
 
 <a id="docker"></a>
 <h3 dir="auto" tabindex="-1"><a id="user-content-docker" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#docker"></a>Docker</h3>
-<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/Dockerfile">Dockerfile</a></p>
+<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/Dockerfile">Dockerfile</a>:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">FROM eclipse-temurin:11
+VOLUME /tmp
+ARG JAR_FILE
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]</pre>
+</div>
+
 <p dir="auto">Работа с Docker:</p>
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888"># create docker image</span>
-<span style="color: #996633">$.</span>/docker_build.sh
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-style: italic"># create docker image</span>
+$./docker_build.sh
 
-<span style="color: #888888"># run app</span>
-<span style="color: #996633">$ </span>docker run -p 8080:8980 shop_kotlin/app
+<span style="color: #008800; font-style: italic"># run app</span>
+$ docker run -p 8080:8980 shop_kotlin/app
 
-<span style="color: #996633">$ </span>docker ps
+$ docker ps
 CONTAINER ID   IMAGE             COMMAND                CREATED          STATUS          PORTS                    NAMES
-c70ef82f3a54   shop_kotlin/app   <span style="background-color: #fff0f0">"java -jar /app.jar"</span>   43 seconds ago   Up 42 seconds   0.0.0.0:8080->8980/tcp   inspiring_germain
+c70ef82f3a54   shop_kotlin/app   <span style="color: #0000FF">"java -jar /app.jar"</span>   43 seconds ago   Up 42 seconds   0.0.0.0:8080->8980/tcp   inspiring_germain
 
-<span style="color: #888888"># simple test</span>
-<span style="color: #996633">$ </span>http :8080/api/group_product/find?name<span style="color: #333333">=</span><span style="background-color: #fff0f0">'Comp'</span>
+<span style="color: #008800; font-style: italic"># simple test</span>
+$ http :8080/api/group_product/find?name=<span style="color: #0000FF">'Comp'</span>
 
-<span style="color: #996633">$ </span>docker ps -a
-<span style="color: #888888"># 2d1325e1222a   shop_kotlin:0.24.0105    "/cnb/process/web" ...</span>
+$ docker ps -a
+<span style="color: #008800; font-style: italic"># 2d1325e1222a   shop_kotlin:0.24.0105    "/cnb/process/web" ...</span>
 
-<span style="color: #888888"># stop docker app</span>
-<span style="color: #996633">$docker</span> stop 2d1
+<span style="color: #008800; font-style: italic"># stop docker app</span>
+$ docker stop 2d1
 
-<span style="color: #888888"># rm container shop_kotlin 2d1325e1222a (id from docker ps -a)</span>
-<span style="color: #996633">$docker</span> container rm 2d1
+<span style="color: #008800; font-style: italic"># rm container shop_kotlin 2d1325e1222a (id from docker ps -a)</span>
+$ docker container rm 2d1
 
-<span style="color: #888888"># rm image</span>
-<span style="color: #996633">$docker</span> image ls
+<span style="color: #008800; font-style: italic"># rm image</span>
+$ docker image ls
 shop_kotlin 0.24.0105   94560d28efb3   ...
 
-<span style="color: #996633">$ </span>docker image rm 945
+$ docker image rm 945
 Untagged: shop_kotlin:0.24.0105
 
-<span style="color: #888888"># clear ALL images</span>
-<span style="color: #996633">$docker</span> image prune -a
+<span style="color: #008800; font-style: italic"># clear ALL images</span>
+$ docker image prune -a
 
-<span style="color: #888888"># clear all</span>
-<span style="color: #996633">$docker</span> system prune -af
-</pre></div><br/>
+<span style="color: #008800; font-style: italic"># clear all</span>
+$ docker system prune -af
+</pre></div>
+<br/>
 <h4 dir="auto" tabindex="-1"><a id="user-content-или-средствами-gradle" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%B8%D0%BB%D0%B8-%D1%81%D1%80%D0%B5%D0%B4%D1%81%D1%82%D0%B2%D0%B0%D0%BC%D0%B8-gradle"></a>ИЛИ средствами gradle:</h4>
 <p dir="auto">Создание docker image:</p>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">$ </span>./gradlew bootBuildImage
@@ -420,7 +429,7 @@ Successfully built image <span style="background-color: #fff0f0">'docker.io/libr
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">$ </span>docker run -p 8980:8980 -p 8988:8988  docker.io/library/shop_kotlin:0.1.18
 </pre></div>
 
-<p dir="auto">(8980 - основной порт, 8988 - spring actuator)</p>
+<p dir="auto">(из контейнера docker открыты порты: 8980 - основной порт, 8988 - spring actuator)</p>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">$ </span>docker container ls
 </pre></div>
 
