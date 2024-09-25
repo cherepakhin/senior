@@ -1,0 +1,7 @@
+TODO: Виды тестирования:
+1. Unit (mockito, покрытие)
+2. Интеграционное
+    REST (behave-restfull, RestAssured) (/home/vasi/prog/kotlin/shop/shop_kotlin_restassured_test)
+    БД (DataJpaTest - shop_kotlin/PriceRepositoryDataJpaTestIntegration)
+    Бизнес-процессы
+3. Нагрузочное (/home/vasi/prog/kotlin/shop/shop_kotlin_yandex_tank_test)
