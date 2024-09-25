@@ -10,6 +10,7 @@
 
 Синяя левая граница лока с кодом:
 border:solid #020274
+#020274
 
 Простой блок с кодом:
 <pre style="margin: 0; line-height: 125%">$ cat tank-run.sh
