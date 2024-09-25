@@ -575,31 +575,24 @@ jvm_threads_daemon_threads 13.0
 <p dir="auto"> </p>
 <a id="prometheus_docker"></a>
 <h3 dir="auto">Запуск prometheus в docker:</h3>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>docker run -d -p 9090:9090 -v <span class="pl-s"><span class="pl-pds">"</span>/<span class="pl-pds">$(</span>pwd<span class="pl-pds">)</span>/for_prometheus/prometheus.yml<span class="pl-pds">"</span></span>:/etc/prometheus/prometheus.yml prom/prometheus</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">docker run -d -p 9090:9090 -v <span style="color: #0000FF">"/$(pwd)/for_prometheus/prometheus.yml"</span>:/etc/prometheus/prometheus.yml prom/prometheus
+</pre></div>
+(внимание на кавычки)
 <p dir="auto">Просмотр состояния prometheus, запущенного в docker:</p>
 <p dir="auto">Вычисление ID container</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-<pre><span class="pl-k">&gt;</span>docker ps
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ docker ps
 CONTAINER ID   IMAGE             COMMAND                  CREATED         STATUS         PORTS                    NAMES
-e081bb1f500c   prom/prometheus   <span class="pl-s"><span class="pl-pds">"</span>/bin/prometheus --c…<span class="pl-pds">"</span></span>   4 minutes ago   Up 4 minutes   0.0.0.0:9090-<span class="pl-k">&gt;</span>9090/tcp   reverent_newton</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+e081bb1f500c   prom/prometheus   <span style="color: #0000FF">"/bin/prometheus --c…"</span>   4 minutes ago   Up 4 minutes   0.0.0.0:9090->9090/tcp   reverent_newton
+</pre></div>
+
 <p dir="auto">Просмотр логов контейнера prometheus (e08 id контейнера)</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>docker logs e08 --follow</pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
-<p dir="auto">Выхлоп:</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>...
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ docker logs e08 --follow
+
 ts=2023-09-11T13:13:17.850Z caller=main.go:1009 level=info msg="Server is ready to receive web requests."
 ts=2023-09-11T13:13:17.850Z caller=manager.go:1009 level=info component="rule manager" msg="Starting rule manager..."
-</code></pre>
-    <div class="zeroclipboard-container"> </div>
-</div>
+...
+</pre></div>
+(follow - не отключаться)
 
 <p dir="auto"> </p>
 <a id="grafana"></a>
@@ -609,15 +602,14 @@ ts=2023-09-11T13:13:17.850Z caller=manager.go:1009 level=info component="rule ma
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/grafana_short" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/grafana_short.png" alt="grafana" /></a></p>
 <p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/grafana.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/grafana.png" alt="grafana" /></a></p>
 <p dir="auto">Запуск grafana:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>vasi@v$ sudo service grafana-server start</pre>
-    <div class="zeroclipboard-container"> </div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">vasi@v$ sudo service grafana-server start</pre>
 </div>
 <p dir="auto">Остановка grafana:</p>
-<div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto">
-    <pre>vasi@v$ sudo service grafana-server stop</pre>
-    <div class="zeroclipboard-container"> </div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">vasi@v$ sudo service grafana-server stop</pre>
 </div>
+
 <p dir="auto"><a href="http://192.168.1.20:3000/explore?orgId=1&amp;left=%7B%22datasource%22:%22grafana%22,%22queries%22:%5B%7B%22queryType%22:%22randomWalk%22,%22refId%22:%22A%22,%22datasource%22:%7B%22type%22:%22datasource%22,%22uid%22:%22grafana%22%7D%7D%5D,%22range%22:%7B%22from%22:%22now-6h%22,%22to%22:%22now%22%7D%7D" rel="nofollow">Пример запроса</a></p>
 <p dir="auto">user(pass): admin/admin</p>
 <p dir="auto">Подробнее о нагрузочном тестировании и метриках в этом проекте <a href="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test">https://github.com/cherepakhin/shop_kotlin_yandex_tank_test</a></p>
