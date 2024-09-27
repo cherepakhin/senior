@@ -362,7 +362,7 @@ aaa
 
 <a id="docker"></a>
 <h3 dir="auto" tabindex="-1"><a id="user-content-docker" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#docker"></a>Docker</h3>
-<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/Dockerfile">Dockerfile</a>:</p>
+Файл <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/Dockerfile">Dockerfile</a> лежит в корне проекта:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
     <pre style="margin: 0; line-height: 125%">FROM eclipse-temurin:11
 VOLUME /tmp
@@ -370,7 +370,7 @@ ARG JAR_FILE
 COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]</pre>
 </div>
-
+Создан скрипт <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/docker_build.sh">/docker_build.sh</a>. для создания docker образа.
 <p dir="auto">Работа с Docker:</p>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-style: italic"># create docker image</span>
 $./docker_build.sh
@@ -421,7 +421,7 @@ Successfully built image <span style="background-color: #fff0f0">'docker.io/libr
 ...
 </pre></div>
 
-<p dir="auto">В файле META-INF/MANIFEST.MF указать Main-Class</p>
+<p dir="auto">В файле <a class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin/blob/dev/META-INF/MANIFEST.MF">META-INF/MANIFEST.MF</a>  указать Main-Class</p>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Main-Class: ru.perm.v.shopkotlin.ShopKotlinApplication
 </pre></div>
 
@@ -449,7 +449,7 @@ aaa
 
 <a id="swagger"></a>
 <h3 dir="auto" tabindex="-1">
-    <a id="user-content-swagger" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#swagger"></a>Swagger
+    <a id="user-content-swagger" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#swagger">Swagger</a>
 </h3>
 <p dir="auto">Swagger доступен по адресу <a href="http://127.0.0.1:8980/shop_kotlin/api/swagger-ui/" rel="nofollow">http://127.0.0.1:8980/shop_kotlin/api/swagger-ui/</a></p>
 <p><span style="font-weight: 400;">
@@ -530,14 +530,14 @@ aaa
 (Нагрузочные тесты показали следующие результаты: 64M - приложение выпадает с OutOfMemory, со 128M - тесты проходят)
 
 <a id="prometheus"></a>
-<h3 dir="auto" tabindex="-1"><a id="user-content-prometheus" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#prometheus"></a>Prometheus</h3>
+<h3 dir="auto" tabindex="-1"><a id="user-content-prometheus" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#prometheus">Prometheus</a></h3>
 <p dir="auto">На моем сервере запущен Prometheus. Prometheus <strong>ОПРАШИВАЕТ</strong> приложение, согласно заданию (ниже yaml), и собирает метрики (metrics_path+targets). Пример задания для опроса в файле <a href="https://github.com/cherepakhin/shop_kotlin/doc/prometheus/prometheus.yml">doc/prometheus/prometheus.yml</a>. Содержимое <a href="https://github.com/cherepakhin/shop_kotlin/doc/prometheus/prometheus.yml">doc/prometheus/prometheus.yml</a> поместить в настройки prometheus. Пример задания:</p>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">scrape_configs:
-- job_name: <span style="color: #0000FF">'spring</span> <span style="color: #0000FF">boot</span> <span style="color: #0000FF">scrape'</span>
-  metrics_path: <span style="color: #0000FF">'/shop_kotlin/api/actuator/prometheus'</span>
+- job_name: <span style="color: #0000FF">"shop_kotlin(1.20)"</span>
   scrape_interval: 5s
+  metrics_path: <span style="color: #0000FF">"/shop_kotlin/api/actuator/prometheus"</span>
   static_configs:
-    - targets: [<span style="color: #0000FF">'192.168.1.20:8988'</span>]
+    - targets: [<span style="color: #0000FF">"192.168.1.20:8988"</span>]
 </pre></div>
 
 <p dir="auto">Опрашивать '192.168.1.20:8988/shop_kotlin/api/actuator/prometheus' каждые 5 сек.</p>
