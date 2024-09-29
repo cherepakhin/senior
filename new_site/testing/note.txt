@@ -1,10 +1,17 @@
-TODO: Виды тестирования:
+TODO: Виды тестирования на практике:
 1. Unit (mockito, покрытие)
 2. Интеграционное
-    REST (behave-restfull, RestAssured) (/home/vasi/prog/kotlin/shop/shop_kotlin_restassured_test)
+    REST
+        behave-restfull (интересный способ описания тестов с помощью специального языка Gerkin)
+        RestAssured) (/home/vasi/prog/kotlin/shop/shop_kotlin_restassured_test)
     БД (DataJpaTest - shop_kotlin/PriceRepositoryDataJpaTestIntegration)
-    Бизнес-процессы
+    Бизнес-процессы (BDD, given-when-then, на Python расширял язык Gherkin)
 3. Нагрузочное (/home/vasi/prog/kotlin/shop/shop_kotlin_yandex_tank_test)
+   Результаты смотреть в Grafana
 4. Тестирование фронта
-
+5. allure report во всех видах тестирования
 Посмотреть ссылки на java проекты
+
+JGiven? https://jgiven.org/ Released: на сайте Dec 12, 2023 - Version 1.3.1 Released
+    https://jgiven.org/userguide/
+    https://jgiven.org/jgiven-report/html5/
