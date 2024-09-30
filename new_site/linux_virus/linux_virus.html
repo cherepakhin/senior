@@ -41,3 +41,22 @@ F S UID          PID    PPID  C PRI  NI ADDR SZ WCHAN    RSS PSR STIME TTY      
     --httpPort=8888
 </pre></div>
 Это просто примеры для демонстрации получения информации о процессе. С вирусом никак не связаны, но полезны.<br/>
+Полезные ключи <b>axf</b> команды <b>ps</b> для исследоваия процессов:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ ps axf
+....
+   1019 ?        Ssl    0:00 /usr/sbin/NetworkManager --no-daemon
+   1540 ?        Sl     0:00  \_ /usr/sbin/pppd nodetach lock nodefaultroute ipv6 , user USER plugin rp-ppp
+....
+</pre></div>
+В примере <b>NetworkManager</b> запустил <b>pppd</b><br/>
+Еще пример:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+3192 ?        Ss     0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+3194 ?        Ss     0:00  \_ sshd: vasi [priv]
+3239 ?        S      0:00  |   \_ sshd: vasi@pts/0
+3240 pts/0    Ss     0:00  |       \_ -bash
+6772 pts/0    S+     0:00  |           \_ mc
+6774 pts/1    Ss     0:00  |               \_ bash -rcfile .bashrc
+7260 pts/1    S+     0:00  |                   \_ sudo ps axf
+</pre></div>
+ssh -> mc -> bash -> sudo ps axf
