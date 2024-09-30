@@ -74,3 +74,7 @@ sudo systemctl reload ufw
 sudo systemctl reload apache2
 
 ps -Flww -p 7341
+
+Разрешить DNS:
+$ sudo ufw allow 53/tcp
+$ sudo ufw allow 53/udp
