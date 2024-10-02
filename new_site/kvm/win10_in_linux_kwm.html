@@ -8,6 +8,108 @@
 С ноутбука с Linux через клиент уд.раб.стола Remmina подключаться к <u>удаленному рабочему столу</u> Windows10, запущенной в системе виртуальных машин Virtual Machine Manager(QUEMU/KVM) на сервере.
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Virtual Machine Manager" src="images/kvm/about_virtual_machine_manager.png"
         alt="Virtual Machine Manager" width="325" height="261"/></p>
+В настройках материнской платы разрешить VMX:
+
+На пример так (<a style="text-decoration: underline; color: #3366ff;" href="https://hatchjs.com/ubuntu-vmx-disabled-by-bios/"
+                  target="_blank" rel="noopener noreferrer">https://hatchjs.com/ubuntu-vmx-disabled-by-bios/</a>):<br/>
+<ul>
+    <li>Boot your computer into the BIOS.</li>
+    <li>Find the “Virtualization” or “Virtual Machine” option.</li>
+    <li>Enable the option.</li>
+    <li>Save your changes and exit the BIOS.</li>
+</ul>
+Установить virt-manager (<a style="text-decoration: underline; color: #3366ff;" href="https://ubuntu.com/server/docs/virtual-machine-manager"
+                             target="_blank" rel="noopener noreferrer">https://ubuntu.com/server/docs/virtual-machine-manager</a>)
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ sudo apt install virt-manager
+</pre></div>
+
+Установится несколько сервисов:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">useradd warning: libvirt-qemu's uid 64055 is greater than SYS_UID_MAX 999
+Not enabling default network as no free network was found
+Created symlink /etc/systemd/system/multi-user.target.wants/libvirtd.service → /usr/lib/systemd/system/libvirtd.service.
+Created symlink /etc/systemd/system/sockets.target.wants/virtlockd.socket → /usr/lib/systemd/system/virtlockd.socket.
+Created symlink /etc/systemd/system/sockets.target.wants/virtlogd.socket → /usr/lib/systemd/system/virtlogd.socket.
+Created symlink /etc/systemd/system/sockets.target.wants/libvirtd.socket → /usr/lib/systemd/system/libvirtd.socket.
+Created symlink /etc/systemd/system/sockets.target.wants/libvirtd-ro.socket → /usr/lib/systemd/system/libvirtd-ro.socket.
+Created symlink /etc/systemd/system/sockets.target.wants/libvirtd-admin.socket → /usr/lib/systemd/system/libvirtd-admin.socket.
+Created symlink /etc/systemd/system/sockets.target.wants/virtlockd-admin.socket → /usr/lib/systemd/system/virtlockd-admin.socket.
+Created symlink /etc/systemd/system/sockets.target.wants/virtlogd-admin.socket → /usr/lib/systemd/system/virtlogd-admin.socket.
+Created symlink /etc/systemd/system/multi-user.target.wants/libvirt-guests.service → /usr/lib/systemd/system/libvirt-guests.service.
+Created symlink /etc/systemd/system/multi-user.target.wants/virtlockd.service → /usr/lib/systemd/system/virtlockd.service.
+Created symlink /etc/systemd/system/multi-user.target.wants/virtlogd.service → /usr/lib/systemd/system/virtlogd.service.)
+</pre></div>
+
+Запустить virt-manager.<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ sudo systemctl start libvirtd
+</pre></div>
+Проверить статус:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ sudo systemctl status libvirtd
+libvirtd.service - libvirt legacy monolithic daemon
+Loaded: loaded (/usr/lib/systemd/system/libvirtd.service; enabled; preset: enabled)
+Active: inactive (dead) since Wed 2024-10-02 10:32:33 +05; 13min ago
+Duration: 2min 208ms
+TriggeredBy: ● libvirtd-admin.socket
+● libvirtd-ro.socket
+● libvirtd.socket
+Docs: man:libvirtd(8)
+https://libvirt.org/
+Process: 1143 ExecStart=/usr/sbin/libvirtd $LIBVIRTD_ARGS (code=exited, status=0/SUCCESS)
+Main PID: 1143 (code=exited, status=0/SUCCESS)
+CPU: 316ms
+
+systemd[1]: Starting libvirtd.service - libvirt legacy monolithic daemon...
+systemd[1]: Started libvirtd.service - libvirt legacy monolithic daemon.
+systemd[1]: libvirtd.service: Deactivated successfully.
+</pre></div>
+Установить пакет ssh-askpass:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ sudo apt install ssh-askpass
+</pre></div>
+
+sudo systemctl restart libvirtd.service
+
+Проверить статус:
+sudo systemctl status libvirtd.service
+
+$ ssh-keygen -t rsa -C deploys -f ~/.ssh/deploys.pem
+pass
+Your identification has been saved in /home/vasi/.ssh/deploys.pem
+Your public key has been saved in /home/vasi/.ssh/deploys.pem.pub
+The key fingerprint is:
+SHA256:dKY6OSaT9TJDGzFkDZk3RxgQiWEAMuaEtXRVyISE6xk deploys
+The key's randomart image is:
++---[RSA 3072]----+
+|==++=BO@o+.      |
+|*o.+oo* = .      |
+| ...  o..oo      |
+|  E    + +       |
+| . o  + S        |
+|  o  + *         |
+|    + @ .        |
+|     + *         |
+|                 |
++----[SHA256]-----+
+
+vim /etc/libvirt/qemu.conf
+security_driver = "none"
+sudo systemctl restart libvirtd
+
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Main window Vzirtual Machine Manager" src="images/kvm/kvm_setup_0.png"
+        alt="Main window Virtual Machine Manager" width="393" height="188"/></p>
+Можно подключиться с удаленного компьютера:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ virt-manager -c qemu+ssh://192.168.1.20/system
+</pre></div>
+192.168.1.20 - host c virt-manager<br/>
+Ввести пароль пользователя уд.машины (vasi/B..7)
+
+Создать виртуальную машину
+
 
 Основное окно программы Virtual Machine Manager (сервер ip=192.168.1.20, linux):
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Main window Vzirtual Machine Manager" src="images/kvm/kvm_manager1.png"
