@@ -188,3 +188,143 @@ Status: active
 [29] 53/tcp (v6)                ALLOW IN    Anywhere (v6)
 [30] 53/udp (v6)                ALLOW IN    Anywhere (v6)
 [31] 8980 (v6)                  DENY IN     Anywhere (v6)              (log-all)
+
+Разрешить для дианазона портов:
+$ sudo ufw allow 8000:8080/tcp
+
+$ sudo ufw allow from 192.168.1.0/24 to any port 22 (уже разрешено выше)
+
+Моя настройка:
+
+root@v:/etc/ufw# cat user.rules
+*filter
+:ufw-user-input - [0:0]
+:ufw-user-output - [0:0]
+:ufw-user-forward - [0:0]
+:ufw-before-logging-input - [0:0]
+:ufw-before-logging-output - [0:0]
+:ufw-before-logging-forward - [0:0]
+:ufw-user-logging-input - [0:0]
+:ufw-user-logging-output - [0:0]
+:ufw-user-logging-forward - [0:0]
+:ufw-after-logging-input - [0:0]
+:ufw-after-logging-output - [0:0]
+:ufw-after-logging-forward - [0:0]
+:ufw-logging-deny - [0:0]
+#:ufw-logging-allow - [0:0]
+#:ufw-user-limit - [0:0]
+#:ufw-user-limit-accept - [0:0]
+### RULES ###
+
+### tuple ### allow any 22 0.0.0.0/0 any 192.168.1.0/24 in
+-A ufw-user-input -p tcp --dport 22 -s 192.168.1.0/24 -j ACCEPT
+-A ufw-user-input -p udp --dport 22 -s 192.168.1.0/24 -j ACCEPT
+
+### tuple ### deny_log-all any 22 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-logging-input -p tcp --dport 22 -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW BLOCK] "
+-A ufw-user-logging-input -p tcp --dport 22 -j RETURN
+-A ufw-user-input -p tcp --dport 22 -j ufw-user-logging-input
+-A ufw-user-input -p tcp --dport 22 -j DROP
+-A ufw-user-logging-input -p udp --dport 22 -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW BLOCK] "
+-A ufw-user-logging-input -p udp --dport 22 -j RETURN
+-A ufw-user-input -p udp --dport 22 -j ufw-user-logging-input
+-A ufw-user-input -p udp --dport 22 -j DROP
+
+### tuple ### allow_log-all any 8980 0.0.0.0/0 any 192.168.1.0/24 in
+-A ufw-user-logging-input -p tcp --dport 8980 -s 192.168.1.0/24 -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW ALLOW 8980] "
+-A ufw-user-logging-input -p tcp --dport 8980 -s 192.168.1.0/24 -j RETURN
+-A ufw-user-input -p tcp --dport 8980 -s 192.168.1.0/24 -j ufw-user-logging-input
+-A ufw-user-input -p tcp --dport 8980 -s 192.168.1.0/24 -j ACCEPT
+-A ufw-user-logging-input -p udp --dport 8980 -s 192.168.1.0/24 -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW ALLOW 8980_] "
+-A ufw-user-logging-input -p udp --dport 8980 -s 192.168.1.0/24 -j RETURN
+-A ufw-user-input -p udp --dport 8980 -s 192.168.1.0/24 -j ufw-user-logging-input
+-A ufw-user-input -p udp --dport 8980 -s 192.168.1.0/24 -j ACCEPT
+
+### tuple ### deny_log-all any 8980 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-logging-input -p tcp --dport 8980 -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW BLOCK] "
+-A ufw-user-logging-input -p tcp --dport 8980 -j RETURN
+-A ufw-user-input -p tcp --dport 8980 -j ufw-user-logging-input
+-A ufw-user-input -p tcp --dport 8980 -j DROP
+-A ufw-user-logging-input -p udp --dport 8980 -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW BLOCK] "
+-A ufw-user-logging-input -p udp --dport 8980 -j RETURN
+-A ufw-user-input -p udp --dport 8980 -j ufw-user-logging-input
+-A ufw-user-input -p udp --dport 8980 -j DROP
+
+### tuple ### allow any 80 0.0.0.0/0 any 0.0.0.0/0 in_ppp0
+-A ufw-user-input -i ppp0 -p tcp --dport 80 -j ACCEPT
+-A ufw-user-input -i ppp0 -p udp --dport 80 -j ACCEPT
+
+### tuple ### allow any 443 0.0.0.0/0 any 0.0.0.0/0 in_ppp0
+-A ufw-user-input -i ppp0 -p tcp --dport 443 -j ACCEPT
+-A ufw-user-input -i ppp0 -p udp --dport 443 -j ACCEPT
+
+### tuple ### allow any 5432 0.0.0.0/0 any 192.168.1.0/24 in
+-A ufw-user-input -p tcp --dport 5432 -s 192.168.1.0/24 -j ACCEPT
+-A ufw-user-input -p udp --dport 5432 -s 192.168.1.0/24 -j ACCEPT
+
+### tuple ### deny_log-all any 21 0.0.0.0/0 any 0.0.0.0/0 in_ppp0
+-A ufw-user-logging-input -i ppp0 -p tcp --dport 21 -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW BLOCK_TCP] "
+-A ufw-user-logging-input -i ppp0 -p tcp --dport 21 -j RETURN
+-A ufw-user-input -i ppp0 -p tcp --dport 21 -j ufw-user-logging-input
+-A ufw-user-input -i ppp0 -p tcp --dport 21 -j DROP
+-A ufw-user-logging-input -i ppp0 -p udp --dport 21 -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW_BLOCK_UDP] "
+-A ufw-user-logging-input -i ppp0 -p udp --dport 21 -j RETURN
+-A ufw-user-input -i ppp0 -p udp --dport 21 -j ufw-user-logging-input
+-A ufw-user-input -i ppp0 -p udp --dport 21 -j DROP
+
+### tuple ### deny_log any 5432 0.0.0.0/0 any 0.0.0.0/0 in_ppp0
+-A ufw-user-logging-input -i ppp0 -p tcp --dport 5432 -m conntrack --ctstate NEW -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW BLOCK_TCP_5432] "
+-A ufw-user-logging-input -i ppp0 -p tcp --dport 5432 -j RETURN
+-A ufw-user-input -i ppp0 -p tcp --dport 5432 -j ufw-user-logging-input
+-A ufw-user-input -i ppp0 -p tcp --dport 5432 -j DROP
+-A ufw-user-logging-input -i ppp0 -p udp --dport 5432 -m conntrack --ctstate NEW -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW BLOCK_UDP_5432] "
+-A ufw-user-logging-input -i ppp0 -p udp --dport 5432 -j RETURN
+-A ufw-user-input -i ppp0 -p udp --dport 5432 -j ufw-user-logging-input
+-A ufw-user-input -i ppp0 -p udp --dport 5432 -j DROP
+
+### tuple ### allow tcp 8081 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 8081 -j ACCEPT
+
+### tuple ### allow udp 20595 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p udp --dport 20595 -j ACCEPT
+
+### tuple ### allow tcp 1024:65535 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp -m multiport --dports 1024:65535 -j ACCEPT
+
+### tuple ### allow udp 1024:65535 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p udp -m multiport --dports 1024:65535 -j ACCEPT
+
+### tuple ### allow any any 0.0.0.0/0 any 192.168.1.0/24 in
+-A ufw-user-input -s 192.168.1.0/24 -j ACCEPT
+
+### tuple ### allow tcp 53 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 53 -j ACCEPT
+
+### tuple ### allow udp 53 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p udp --dport 53 -j ACCEPT
+
+### END RULES ###
+
+### LOGGING ###
+-A ufw-after-logging-input -j LOG --log-prefix "[UFW BLOCK_ufw-after-log-input] "
+# для отладки можно включить, но лог сильно засран
+#-A ufw-after-logging-output -j LOG --log-prefix "[UFW ALLOW  ufw-after-log-output] "
+# для отладки можно включить, но лог сильно засран
+#-A ufw-after-logging-forward -j LOG --log-prefix "[UFW ALLOW ufw-after-log-forward] "
+-A ufw-logging-deny -m conntrack --ctstate INVALID -j LOG --log-prefix "[UFW AUDIT INVALID] "
+-A ufw-logging-deny -j LOG --log-prefix "[UFW BLOCK] "
+# полезно для отладки , НО засирает log
+#-A ufw-logging-allow -j LOG --log-prefix "[UFW ALLOW ufw-logging-allow] "
+-I ufw-before-logging-input -j LOG --log-prefix "[UFW AUDIT] " -m limit --limit 3/min --limit-burst 10
+-I ufw-before-logging-output -j LOG --log-prefix "[UFW AUDIT] " -m limit --limit 3/min --limit-burst 10
+-I ufw-before-logging-forward -j LOG --log-prefix "[UFW AUDIT] " -m limit --limit 3/min --limit-burst 10
+### END LOGGING ###
+
+### RATE LIMITING ###
+-A ufw-user-limit -m limit --limit 3/minute -j LOG --log-prefix "[UFW LIMIT BLOCK] "
+-A ufw-user-limit -j REJECT
+-A ufw-user-limit-accept -j ACCEPT
+### END RATE LIMITING ###
+COMMIT
+
+https://telegra.ph/Kak-nastroit-brandmauehr-UFW-v-sistemah-Linux-05-14
