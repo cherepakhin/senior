@@ -27,6 +27,21 @@ WantedBy=default.target
 my_service.service loaded    active   running A description my_service
 </pre></div>
 
+и
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ systemctl status my_service
+</pre></div>
+
+или
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ systemctl is-active my_service
+enabled
+</pre></div>
+
+или
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ systemctl is-enabled my_service
+enabled
+</pre></div>
+
 Старт сервиса:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ systemctl start my_service.service
 </pre></div>
