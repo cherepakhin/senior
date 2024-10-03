@@ -47,10 +47,12 @@ node                     12-alpine   bb6d28039b8c   18 months ago    91MB
 <pre style="margin: 0; line-height: 125%">$ docker rmi ubuntu
 </pre></div>
 
+(Перед удалением image нужно остановить и удалить все контейнеры, использующие image)
 <p>Удаление container по id:</p>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-<pre style="margin: 0; line-height: 125%">$ docker rm 3e1
+<pre style="margin: 0; line-height: 125%">$ docker rm container 3e1
 </pre></div>
+
 
 <p>Удаление всех image:</p>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
