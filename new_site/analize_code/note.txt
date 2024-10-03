@@ -1,0 +1,29 @@
+Несмотря на то, что код может быть рабочим, его СТИЛИСТИКА может быть ошибочна. Есть такие понятия <b>"чистый код"</b> и для достижения этой цели <b>рефакторинг</b>. Написано несколько книг, среди которых, наверное, самая популярная Боба Мартина "Чистый код".
+В заметке описаны инструменты рефакторинга только кода и не рассмотрены темы компоновки приложения и т.п.
+-----------------
+Idea
+Вызывается из меню "Code" -> "Inspect Code" -> и далее допустим "Inspection Code / Whole project".
+Будет проанализировано все, включая рабочие каталоги Idea, используемые библиотеки и т.п. Настройки самые разнообразные.
+
+Отчет будет структурирован по используемым языкам (Java, Kotlin, Markdown ...) и типу ошибок.
+
+idea_analize_result1.png
+idea_analize_result2.png
+
+Idea предложит варианты исправления
+idea_analize_variants.png
+
+-----------------
+SonarQube
+https://ru.wikipedia.org/wiki/SonarQube
+Для Idea доступен plugin для работы с SonarQube https://plugins.jetbrains.com/plugin/7973-sonarlint
+Вызывается из контекстного меню SonarLint->Analize with SonarLint
+
+idea_sonarqube_result1.png
+idea_sonarqube_result2.png
+
+-----------------
+Во время сборки плагин gradle
+https://docs.sonarsource.com/sonarqube/latest/analyzing-source-code/scanners/sonarscanner-for-gradle/
+
+./gradlew sonar
