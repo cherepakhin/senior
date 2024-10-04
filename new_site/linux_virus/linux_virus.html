@@ -61,4 +61,10 @@ F S UID          PID    PPID  C PRI  NI ADDR SZ WCHAN    RSS PSR STIME TTY      
 </pre></div>
 ssh -> mc -> bash -> sudo ps axf
 <br/>
-Еще полезная команда для исследования pstree.
+Еще полезная команда для исследования <b>pstree</b>:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+systemd─┬─ModemManager───3*[{ModemManager}]
+├─NetworkManager─┬─pppd───3*[{pppd}]
+│                └─3*[{NetworkManager}]
+├─accounts-daemon───3*[{accounts-daemon}]
+</pre></div>
