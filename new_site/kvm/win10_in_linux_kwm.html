@@ -69,13 +69,13 @@ systemd[1]: libvirtd.service: Deactivated successfully.
 Установить пакет ssh-askpass:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
 <pre style="margin: 0; line-height: 125%">$ sudo apt install ssh-askpass
+$ sudo systemctl restart libvirtd.service
 </pre></div>
 
-sudo systemctl restart libvirtd.service
 
 Проверить статус:
-sudo systemctl status libvirtd.service
-
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ sudo systemctl status libvirtd.service
 $ ssh-keygen -t rsa -C deploys -f ~/.ssh/deploys.pem
 pass
 Your identification has been saved in /home/vasi/.ssh/deploys.pem
@@ -98,6 +98,7 @@ The key's randomart image is:
 vim /etc/libvirt/qemu.conf
 security_driver = "none"
 sudo systemctl restart libvirtd
+</pre></div>
 
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Main window Vzirtual Machine Manager" src="images/kvm/kvm_setup_0.png"
         alt="Main window Virtual Machine Manager" width="393" height="188"/></p>
@@ -110,9 +111,11 @@ sudo systemctl restart libvirtd
 
 Создать виртуальную машину
 
-
-Основное окно программы Virtual Machine Manager (сервер ip=192.168.1.20, linux):
-<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Main window Vzirtual Machine Manager" src="images/kvm/kvm_manager1.png"
+Основное окно программы Virtual Machine Manager (сервер ip=192.168.1.20, linux):<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Main window Virtual Machine Manager" src="images/kvm/virt-manager.png"
+        alt="Main window Virtual Machine Manager" width="549" height="364"/></p>
+с Windows 10:<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Main window Virtual Machine Manager" src="images/kvm/kvm_manager1.png"
         alt="Main window Virtual Machine Manager" width="888" height="563"/></p>
 
 Основное окно программы клиента удаленного рабочего стола Remmina (ноутбук ip=192.168.1.57, linux):
