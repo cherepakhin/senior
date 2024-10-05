@@ -1,9 +1,8 @@
-<b>Проблема</b>: процесс kworker : kacpi_notify исльно грузит процессор (до 100%)<br/>
-<br/>
+<b>Проблема</b>: процесс kworker : kacpi_notify сильно грузит процессор (до 100%)<br/>
 <b>Решение</b>:
+<hr id="system-readmore" />
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-    <pre style="margin: 0; line-height: 125%"><span style="color: #000000;">
-#!/bin/bash
+<pre style="margin: 0; line-height: 125%"><span style="color: #000000;">#!/bin/bash
 kworker=$(pwd)/gpelist.txt
 echo "Check GPE..."
 # Generates GPE list
@@ -20,4 +19,5 @@ echo "disable" > $gpe
 echo Done
 fi
 </span></pre></div>
+<a href="https://github.com/cherepakhin/senior/blob/main/new_site/kworker_stop/kworker_stop.sh" rel="nofollow">https://github.com/cherepakhin/senior/blob/main/new_site/kworker_stop/kworker_stop.sh</a><br/>
 Совет отсюда: <a href="https://unix.stackexchange.com/questions/242013/disable-gpe-acpi-interrupts-on-boot/528300#528300" rel="nofollow">https://unix.stackexchange.com/questions/242013/disable-gpe-acpi-interrupts-on-boot/528300#528300</a>
