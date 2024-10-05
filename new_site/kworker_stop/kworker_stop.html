@@ -11,12 +11,12 @@ grep enabled /sys/firmware/acpi/interrupts/* > $kworker
 gpe=$(cat $kworker | egrep '[1-9][0-9][0-9][0-9]+ ' | sort -rnk 2 | head -n1 | cut -d":" -f1)
 rm $kworker
 if [ ! "$gpe" ]; then
-echo "No Kworker to Disable"
-echo Done
+    echo "No Kworker to Disable"
+    echo Done
 else
-echo "Send deactivation signal"
-echo "disable" > $gpe
-echo Done
+    echo "Send deactivation signal"
+    echo "disable" > $gpe
+    echo Done
 fi
 </span></pre></div>
 <a href="https://github.com/cherepakhin/senior/blob/main/new_site/kworker_stop/kworker_stop.sh" rel="nofollow">https://github.com/cherepakhin/senior/blob/main/new_site/kworker_stop/kworker_stop.sh</a><br/>
