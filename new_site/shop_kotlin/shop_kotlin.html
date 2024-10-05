@@ -30,6 +30,7 @@
     <a href="#spring_actuator">Spring Actuator</a>
 </p>
 <p dir="auto">
+    <a href="#micrometer">Micrometer</a><br />
     <a href="#prometheus">Prometheus</a><br />
     <a href="#show_cpu_prometheus">Пример просмотра использования CPU в Prometheus</a><br />
     <a href="#prometheus_docker">Запуск prometheus в docker</a>
@@ -528,6 +529,85 @@ aaa
 }
 </pre></div>
 (Нагрузочные тесты показали следующие результаты: 64M - приложение выпадает с OutOfMemory, со 128M - тесты проходят)
+
+<a id="micrometer"></a>
+<h3 dir="auto" tabindex="-1"><a id="user-content-micrometer" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#micrometer">Micrometer</a></h3>
+Micrometer - это , наверное, базовый инструмент для исследования <b>работающего</b> приложения и снятия характеристик.
+Пример запроса:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ http http://127.0.0.1:8988/vacancy/api/actuator/metrics/http.server.requests
+</pre></div>
+
+Ответ:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">{
+  "availableTags": [
+    {
+      "tag": "exception",
+      "values": [
+        "HttpMediaTypeNotSupportedException",
+        "HttpMessageNotReadableException",
+        "MethodArgumentTypeMismatchException",
+        "None"
+      ]
+    },
+    {
+      "tag": "method",
+      "values": [
+        "PUT",
+        "GET"
+      ]
+    },
+    {
+      "tag": "application",
+      "values": [
+        "vacancy"
+      ]
+    },
+    {
+      "tag": "uri",
+      "values": [
+        "/company/find",
+        "/company/{n}",
+        "/company/sortByColumn/{column}"
+      ]
+    },
+    {
+      "tag": "outcome",
+      "values": [
+        "CLIENT_ERROR",
+        "SUCCESS"
+      ]
+    },
+    {
+      "tag": "status",
+      "values": [
+        "400",
+        "415",
+        "200"
+      ]
+    }
+  ],
+  "baseUnit": "seconds",
+  "description": null,
+  "measurements": [
+    {
+      "statistic": "COUNT",
+      "value": 212.0
+    },
+    {
+      "statistic": "TOTAL_TIME",
+      "value": 2.386371417
+    },
+    {
+      "statistic": "MAX",
+      "value": 0.0
+    }
+  ],
+  "name": "http.server.requests"
+}
+
+
+</pre></div>
+
 
 <a id="prometheus"></a>
 <h3 dir="auto" tabindex="-1"><a id="user-content-prometheus" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#prometheus">Prometheus</a></h3>

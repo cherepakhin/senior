@@ -1,0 +1,66 @@
+{
+  "availableTags": [
+    {
+      "tag": "exception",
+      "values": [
+        "HttpMediaTypeNotSupportedException",
+        "HttpMessageNotReadableException",
+        "MethodArgumentTypeMismatchException",
+        "None"
+      ]
+    },
+    {
+      "tag": "method",
+      "values": [
+        "PUT",
+        "GET"
+      ]
+    },
+    {
+      "tag": "application",
+      "values": [
+        "vacancy"
+      ]
+    },
+    {
+      "tag": "uri",
+      "values": [
+        "/company/find",
+        "/company/{n}",
+        "/company/sortByColumn/{column}"
+      ]
+    },
+    {
+      "tag": "outcome",
+      "values": [
+        "CLIENT_ERROR",
+        "SUCCESS"
+      ]
+    },
+    {
+      "tag": "status",
+      "values": [
+        "400",
+        "415",
+        "200"
+      ]
+    }
+  ],
+  "baseUnit": "seconds",
+  "description": null,
+  "measurements": [
+    {
+      "statistic": "COUNT",
+      "value": 212.0
+    },
+    {
+      "statistic": "TOTAL_TIME",
+      "value": 2.386371417
+    },
+    {
+      "statistic": "MAX",
+      "value": 0.0
+    }
+  ],
+  "name": "http.server.requests"
+}
