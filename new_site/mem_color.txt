@@ -1,3 +1,12 @@
+https://www.commontools.org/tool/soruce-code-highlighter-20
+
 style="background: #ffffff; overflow: auto; width: auto;
 border: solid #092A8F;
 border-width: .1em .1em .1em .8em; padding: .2em .6em;"
+table убирать для code
+            </td>
+        </tr>
+        </tbody>
+    </table>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+border: solid #092A8F;
