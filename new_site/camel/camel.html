@@ -2,7 +2,16 @@
 <p><img style="display: block; margin-left: auto; margin-right: auto;" src="images/camel/capusta.png" alt="capusta" width="694" height="379" loading="lazy" data-path="local-images:/camel/capusta.png" /></p>
 <p>Camel это интеграционный клей, который соединяет компоненты системы, предоставляя коннекторы. Примеры коннекторов: rest, ftp, Spring bean и еще много всяких: <a style="text-decoration: underline; color: #3366ff;" title="https://camel.apache.org/components/next/index.html#_components" href="https://camel.apache.org/components/next/index.html#_components" target="_blank" rel="noopener noreferrer">https://camel.apache.org/components/next/index.html#_components</a>.</p>
 <hr id="system-readmore" />
-<p><b>Небольшой пример.</b><br />Задача - разослать обновления цен из офиса в подразделения (торговые точки). Ниже примеры <b>xml</b> Spring context и Camel конфигураций. (Почему Spring context задан в xml, а не использованы аннотации? Удобнее было менять логику работы комплекса <b>БЕЗ</b> перекомпиляции.) В примере настроено несколько конфигураций Camel (тег route) для рассылки обновлений в торговые точки из центра.<br />Camel context загружается вместе со Spring context. Подключение конфигурации Camel (camel.xml) в Spring context.<br />springContext.xml:</p>
+<p><b>Небольшой пример.</b><br />Задача - разослать обновления цен из офиса в подразделения (торговые точки). Ниже примеры <b>xml</b> Spring context и Camel конфигураций
+из проекта <a style="text-decoration: underline; color: #3366ff;"
+              title="https://github.com/cherepakhin/el59"
+              href="https://github.com/cherepakhin/el59"
+              target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/el59</a>.
+Проект старый, предприятия давно уже нет, поэтому опубликовал на github.
+Почему Spring context задан в xml, а не использованы аннотации? Удобнее было менять логику работы комплекса <b>БЕЗ</b> перекомпиляции.)
+В примере настроено несколько конфигураций Camel (тег route) для рассылки обновлений в торговые точки из центра.<br />
+Camel context загружается вместе со Spring context. Подключение конфигурации Camel (camel.xml) в Spring context.<br />
+<b>springContext.xml</b>:</p>
 <!-- HTML generated using hilite.me -->
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
 <pre style="margin: 0; line-height: 125%;"><span style="color: #000080; font-weight: bold;">&lt;beans&gt;</span>

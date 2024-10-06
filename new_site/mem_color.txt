@@ -14,3 +14,8 @@ border: solid #092A8F;
 <
 &lt;
 &gt;
+
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://www.masterspringboot.com/camel/using-camel-log-component/"
+   href="https://www.masterspringboot.com/camel/using-camel-log-component/"
+   target="_blank" rel="noopener noreferrer">https://www.masterspringboot.com/camel/using-camel-log-component/</a>
