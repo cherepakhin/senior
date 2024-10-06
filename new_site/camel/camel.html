@@ -295,25 +295,6 @@
 <p>Можно описывать маршруты в коде (статья на Habr <a style="text-decoration: underline; color: #3366ff;" title="Apache Camel и Spring Boot(Habr)" href="https://habr.com/ru/companies/otus/articles/557068/" target="_blank" rel="noopener noreferrer">Apache Camel и Spring Boot</a>)</p>
 <p><!-- HTML generated using hilite.me --></p>
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
-    <table>
-        <tbody>
-        <tr>
-            <td>
-<pre style="margin: 0; line-height: 125%;"> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13</pre>
-            </td>
-            <td>
 <pre style="margin: 0; line-height: 125%;">@Component
 <span style="color: #000080; font-weight: bold;">class</span> TimedJobs <span style="color: #000080; font-weight: bold;">extends</span> RouteBuilder {
 
@@ -328,10 +309,6 @@
     <span style="color: #008800; font-style: italic;">// additional route...</span>
 }
 </pre>
-            </td>
-        </tr>
-        </tbody>
-    </table>
 </div>
 <p>В начале статьи я объяснил почему я использовал xml, а не код. (Удобнее менять логику работы коплекса БЕЗ перекомпиляции.)<br /><br /><b>Maven зависимости Camel в pom.xml проекта:</b></p>
 <div style="background: #FFFFFF; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
