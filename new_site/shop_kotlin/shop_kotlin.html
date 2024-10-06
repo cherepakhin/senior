@@ -532,7 +532,10 @@ aaa
 
 <a id="micrometer"></a>
 <h3 dir="auto" tabindex="-1"><a id="user-content-micrometer" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#micrometer">Micrometer</a></h3>
-Micrometer - это , наверное, базовый инструмент для исследования <b>работающего</b> приложения и снятия характеристик.
+Micrometer - это , наверное, базовый инструмент для исследования <b>работающего</b> приложения и снятия характеристик. Входит в пакет <b>spring-boot-starter-actuator</b>:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+implementation 'org.springframework.boot:spring-boot-starter-actuator'
+</pre></div>
 Пример запроса:<br/>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ http http://127.0.0.1:8988/vacancy/api/actuator/metrics/http.server.requests
 </pre></div>
@@ -611,7 +614,8 @@ Micrometer - это , наверное, базовый инструмент дл
 
 <a id="prometheus"></a>
 <h3 dir="auto" tabindex="-1"><a id="user-content-prometheus" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#prometheus">Prometheus</a></h3>
-<p dir="auto">На моем сервере запущен Prometheus. Prometheus <strong>ОПРАШИВАЕТ</strong> приложение, согласно заданию (ниже yaml), и собирает метрики (metrics_path+targets). Пример задания для опроса в файле <a href="https://github.com/cherepakhin/shop_kotlin/doc/prometheus/prometheus.yml">doc/prometheus/prometheus.yml</a>. Содержимое <a href="https://github.com/cherepakhin/shop_kotlin/doc/prometheus/prometheus.yml">doc/prometheus/prometheus.yml</a> поместить в настройки prometheus. Пример задания:</p>
+<p dir="auto">Prometheus - это сервис (программа) работающая на одной из машин. Задача Prometheus опрашивать, снимать и
+хранить  характеристики с узлов, заданных в конфигурации. На моем сервере запущен Prometheus. Prometheus <strong>ОПРАШИВАЕТ</strong> приложение, согласно заданию (ниже yaml), и собирает метрики (metrics_path+targets). Пример задания для опроса в файле <a href="https://github.com/cherepakhin/shop_kotlin/doc/prometheus/prometheus.yml">doc/prometheus/prometheus.yml</a>. Содержимое <a href="https://github.com/cherepakhin/shop_kotlin/doc/prometheus/prometheus.yml">doc/prometheus/prometheus.yml</a> поместить в настройки prometheus. Пример задания:</p>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">scrape_configs:
 - job_name: <span style="color: #0000FF">"shop_kotlin(1.20)"</span>
   scrape_interval: 5s
@@ -620,7 +624,7 @@ Micrometer - это , наверное, базовый инструмент дл
     - targets: [<span style="color: #0000FF">"192.168.1.20:8988"</span>]
 </pre></div>
 
-<p dir="auto">Опрашивать '192.168.1.20:8988/shop_kotlin/api/actuator/prometheus' каждые 5 сек.</p>
+<p dir="auto">Опрашивать сервис '192.168.1.20:8988/shop_kotlin/api/actuator/prometheus' каждые 5 сек.</p>
 <p dir="auto">Для просмотра получаемых prometheus-ом метрик выполнить:</p>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
     <pre style="margin: 0; line-height: 125%">$ http http://127.0.0.1:8788/api/actuator/prometheus
