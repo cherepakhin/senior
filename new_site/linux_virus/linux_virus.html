@@ -68,3 +68,7 @@ systemd─┬─ModemManager───3*[{ModemManager}]
 │                └─3*[{NetworkManager}]
 ├─accounts-daemon───3*[{accounts-daemon}]
 </pre></div>
+
+Возможно, большая нагрузка на диск связана с большим количеством логируемых событий. В моем случае, во время атаки из интернета, я включил <b>полное</b> логирование фаервола ufw (практически, логировались все кривые запросы). При этом логи займут значительное место на диске. Ограничить время хранения журналов можно так:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ journalctl --vacuum-time=2d
+</pre></div>
