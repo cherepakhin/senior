@@ -1,3 +1,4 @@
+Ниже описано использование KVM. Это не руководство по установке. Установка описана в <a style="color: #3366ff; text-decoration: underline;" target="_blank" tabindex="-1" href="https://v.perm.ru/index.php/instrumenty-devops/win-lin-kvm">https://v.perm.ru/index.php/instrumenty-devops/win-lin-kvm</a>.<br/>
 <h3>Запуск службы на сервере:</h3>
 <hr id="system-readmore"/>
 Запуск службы:
@@ -41,9 +42,15 @@ vasi@v:~$ sudo libvirtd
 После ввода пароля от ssh 192.168.1.20 откроется окно
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Virtual Machine Manager" src="images/kvm/kvm_step2.png"
         alt="Virtual Machine Manager" width="547" height="302"/></p>
-Поключиться с vasi/b..o.<br/>
+Подключаться с vasi/b..o.<br/>
 
-Памяти для запуска <b>ОБЕИХ</b> машин, мягко говоря, маловато. Из <b>top</b>:
-<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Virtual Machine Manager" src="images/kvm/memory_used.png"
-        alt="Virtual Machine Manager" width="818" height="157"/></p>
+Примечания:<br/>
+<ul>
+ <li>Памяти для запуска <b>ДВУХ</b> виртуальных машин маловато. Запущено 2 машины - linux (RAM 2GB) и Windows&nbsp;10&nbsp;Стандартная (RAM 4GB).
+  Из команды <b>top</b> на хостовой машине:
+  <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Virtual Machine Manager" src="images/kvm/memory_used.png"
+          alt="Virtual Machine Manager" width="818" height="157"/></p></li>
+ <li>К Win10 можно было бы подключиться используя "Удаленный рабочий стол", но в версии Windows Домашняя эта служба не предусмотрена. Почему "Домашняя"? Потому что на нее у меня есть лицензия. В других версиях есть сервис "Удаленный рабочий стол".</li>
+ <li><a style="color: #3366ff; text-decoration: underline;" target="_blank" tabindex="-1" href="https://v.perm.ru/index.php/instrumenty-devops/win-lin-kvm">Windows из Linux KVM</a></li>
+</ul>
 
