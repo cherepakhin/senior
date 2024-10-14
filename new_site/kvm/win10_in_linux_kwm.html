@@ -274,7 +274,6 @@ alt="Result KVM" width="550" height="274"/></p>
 <hr/>
 23.10<br/>
 Если проблемы с запуском сервиса libvirtd, то запустил вручную из консоли:
-
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
 <pre style="margin: 0; line-height: 125%"><span style="color: #000000;">vasi@v:~$ sudo libvirtd
 </span></pre></div>
@@ -285,7 +284,8 @@ alt="Result KVM" width="550" height="274"/></p>
 <pre style="margin: 0; line-height: 125%"><span style="color: #000000;">note$ virt-manager -c 'qemu+ssh://vasi@192.168.1.20:22/system?keyfile=id_rsa'
 </span></pre></div>
 пароль B..7<br/>
-Открылось окно менеджера вирт. машин. W10 в нем запущено. 2 щелчок на w10 -> открылось окно windows, старт.
+Открылось окно менеджера вирт. машин. Дальше можно управлять виртуальыми машинами на сервере (старт W10). <b>Remmina НЕ используется</b>, только Virtual Machine Manager. Через его окно работать с виртуальной машиной. При этом и <b>сервис удаленных рабочих столов Windows</b> тоже не нужен, можно обойтись Windows <b>Домашняя</b>. Для работы с необходимымми windows сервисами (вспомни аппаратный ключ безопасности с драйверами <b><u>ТОЛЬКО</u></b> для windows).
+Оперативной памяти использовано 4.2 Gb. Графика - говно (полосы во время обновления экрана).
 <hr/>
 TODO:<ul>
 <li>Не описаны настройки <b>общих папок windows</b>(samba) на Server(linux)</li>
