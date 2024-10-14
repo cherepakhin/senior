@@ -1,9 +1,9 @@
-Ниже описано использование KVM. Это не руководство по установке. Установка описана в <a style="color: #3366ff; text-decoration: underline;" target="_blank" tabindex="-1" href="https://v.perm.ru/index.php/instrumenty-devops/win-lin-kvm">https://v.perm.ru/index.php/instrumenty-devops/win-lin-kvm</a>.<br/>
+Ниже описано <b>использование</b> KVM. Это не руководство по установке. Установка описана в <a style="color: #3366ff; text-decoration: underline;" target="_blank" tabindex="-1" href="https://v.perm.ru/index.php/instrumenty-devops/win-lin-kvm">https://v.perm.ru/index.php/instrumenty-devops/win-lin-kvm</a>.<br/>
 <h3>Запуск службы на сервере:</h3>
 <hr id="system-readmore"/>
 Запуск службы:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
-vasi@v:~$ sudo systemctl stop libvirtd.service
+vasi@v:~$ sudo systemctl start libvirtd.service
 </pre></div>
 Либо запустить службу вручную:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
@@ -29,7 +29,7 @@ vasi@v:~$ sudo libvirtd
 Откроется окно:
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Virtual Machine Manager" src="images/kvm/kvm_step1.png"
         alt="Virtual Machine Manager" width="547" height="302"/></p>
-
+На сервере устаовлено 2 виртуальные машины, одна с Linux, вторая с Windows 10.<br/>
 Запустить win10 на v.perm.ru (B..67)
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Virtual Machine Manager" src="images/kvm/kvm_step2.png"
         alt="Virtual Machine Manager" width="547" height="302"/></p>
@@ -44,13 +44,14 @@ vasi@v:~$ sudo libvirtd
         alt="Virtual Machine Manager" width="547" height="302"/></p>
 Подключаться с vasi/b..o.<br/>
 
-Примечания:<br/>
+<h3>Примечания:</h3>
 <ul>
- <li>Памяти для запуска <b>ДВУХ</b> виртуальных машин маловато. Запущено 2 машины - linux (RAM 2GB) и Windows&nbsp;10&nbsp;Стандартная (RAM 4GB).
+ <li>Памяти для запуска <b>ДВУХ</b> виртуальных машин на моем сервере маловато. Запущено 2 машины - linux (RAM 2GB) и Windows&nbsp;10&nbsp;Стандартная (RAM 4GB).
   Из команды <b>top</b> на хостовой машине:
   <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Virtual Machine Manager" src="images/kvm/memory_used.png"
           alt="Virtual Machine Manager" width="818" height="157"/></p></li>
- <li>К Win10 можно было бы подключиться используя "Удаленный рабочий стол", но в версии Windows Домашняя эта служба не предусмотрена. Почему "Домашняя"? Потому что на нее у меня есть лицензия. В других версиях есть сервис "Удаленный рабочий стол".</li>
+ <li>К Win10 можно было бы подключиться используя "Удаленный рабочий стол", а не через возню с KVM, но в версии Windows <b>Домашняя</b> эта служба не предусмотрена. Почему "Домашняя"? Потому что на нее у меня есть лицензия. В версиях Prof и выше есть сервис "Удаленный рабочий стол". "Удаленный помощник", если не ошибаюсь, использует сервисы компании Microsoft.</li>
  <li><a style="color: #3366ff; text-decoration: underline;" target="_blank" tabindex="-1" href="https://v.perm.ru/index.php/instrumenty-devops/win-lin-kvm">Windows из Linux KVM</a></li>
+ <li>Зачем весь этот гемор? При трудоустройстве разработчиком Kotlin в одну из компаний, оказалось <b>ОБЯЗАТЕЛЬНО НУЖНО</b> работать из Windows, т.к. на аппаратный ключ шифрования были только Windows драйвера.</li>
 </ul>
 
