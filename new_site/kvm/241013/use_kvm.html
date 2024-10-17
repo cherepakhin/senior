@@ -51,6 +51,7 @@ vasi@v:~$ sudo libvirtd
 Подключаться с vasi/b..o.<br/>
 
 <h4>Virsh</h4>
+Virsh - инструмент управления виртуальными машинами из коммандной строки.<br/>
 Получение общей информации:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo virsh nodeinfo
 CPU model:           x86_64
@@ -120,6 +121,14 @@ win10-clone.qcow2   /var/lib/libvirt/images/win10-clone.qcow2
 win10.qcow2         /var/lib/libvirt/images/win10.qcow2
 </pre></div>
 
+Создание снимков:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">sudo virsh snapshot-create-as \
+  --domain test \
+  --name "test_vm_snapshot1" \
+  --description "test vm snapshot 1-working"
+</pre></div>
+
+Другие команды, которые пригодятся:<br/>
 Из linux полезная команда (аналог df -h):
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ lsblk --output NAME,SIZE,TYPE
 NAME     SIZE TYPE
@@ -141,16 +150,10 @@ tmpfs           5,7G     0  5,7G   0% /run/qemu
 tmpfs           1,2G  196K  1,2G   1% /run/user/1000
 </pre></div>
 Есть команды создания и удаления дисков,
-изменения размера
+изменения размера. На пример, увеличить размер диска на 1Gb:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">sudo qemu-img resize /var/lib/libvirt/images/test.qcow2 +1G
 </pre></div>
-, подключения к виртуальной машине.<br/>
-Создание снимков:<br/>
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">sudo virsh snapshot-create-as \
-  --domain test \
-  --name "test_vm_snapshot1" \
-  --description "test vm snapshot 1-working"
-</pre></div>
+
 Клонирование:<br/>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo virt-clone --connect qemu:///system \
 --original linux2022 \
