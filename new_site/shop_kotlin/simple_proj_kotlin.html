@@ -142,6 +142,14 @@ allopen {
 <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew test
 </pre></div>
 
+Возможно , пригодятся параметры продолжения тестирования, если текущий тест упал:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ gradle --continue ...
+$ mvn install -Dmaven.test.failure.ignore=true
+$ mvn --fail-at-end test
+$ mvn -fae test
+</pre></div>
+
+
 <p dir="auto">Примеры отбора тестов:</p>
 <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew test --tests <span style="color: #0000FF">&#39;*EntityTest&#39;</span>
 ./gradlew test --tests <span style="color: #0000FF">&#39;*Rest*&#39;</span>
@@ -173,6 +181,13 @@ gradle test --tests *IntegTest*ui*
 gradle test --tests *IntegTest.singleMethod
 gradle someTestTask --tests *UiTest someOtherTestTask --tests *WebTest*ui
 </pre></div>
+Возможно , пригодятся параметры <b>продолжения</b> тестирования, если текущий тест упал:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ gradle --continue ...
+$ mvn install -Dmaven.test.failure.ignore=true
+$ mvn --fail-at-end test
+$ mvn -fae test
+</pre></div>
+
 <p dir="auto">Включено протоколирование тестов build.gradle.kts:</p>
 <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">...
 tasks.withType&lt;Test&gt; {
