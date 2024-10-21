@@ -1,18 +1,23 @@
-В системе настройки сделаны для java 11. В путях linux указана <b>java 11</b>. Нужно настроить maven проект на <b>java 17</b>.<br/>
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ java -version
-openjdk version <span style="color: #0000FF">"11.0.18"</span> 2023-01-17
-</pre></div>
-
-Нужна java 17, для этого нужно установить JAVA_HOME.
-<hr id="system-readmore"/>В .bashrc добавить строку
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-</pre></div>
-Проверка:<br/>
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ echo $JAVA_HOME
+<p>В системе настройки сделаны для java 11. В путях linux указана <b>java 11</b>. Нужно настроить maven проект на <b>java 17</b>.</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ java -version
+openjdk version <span style="color: #0000ff;">"11.0.18"</span> 2023-01-17
+</pre>
+</div>
+<p>Нужна java 17, для этого нужно установить JAVA_HOME.</p>
+<hr id="system-readmore" />
+<p>В .bashrc добавить строку</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+</pre>
+</div>
+<p>Проверка:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ echo $JAVA_HOME
 /usr/lib/jvm/java-17-openjdk-amd64
 
 $ /usr/lib/jvm/java-17-openjdk-amd64/bin/java -version
-openjdk version <span style="color: #0000FF">"17.0.6"</span> 2023-01-17
+openjdk version <span style="color: #0000ff;">"17.0.6"</span> 2023-01-17
 
 ~/prog/java/s253/gs-spring-boot/complete$ ./mvnw -version
 Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
@@ -26,16 +31,17 @@ Maven home: /home/vasi/.m2/wrapper/dists/apache-maven-3.6.3-bin/1iopthnavndlasol
 2023-04-29 17:26:02.184  INFO 11618 --- [           main] c.e.springboot.HelloControllerTest       :
 Starting HelloControllerTest using Java 17.0.6 on vasi-note with PID 11618 (started by vasi in /home/vasi/prog/java/s253/gs-spring-boot/complete)
 ..........
-</pre></div>
-<b>ХОТЯ! в pom.xml указано</b> properties - java.version = 11. И
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ java -version
-openjdk version <span style="color: #0000FF">"11.0.18"</span> 2023-01-17
-</pre></div>
-
-<b>Maven использует в своем скрипте JAVA_HOME! Куда указывает $PATH на бинарник java не имеет значения.</b>
-<br/>
-JAVA_HOME должна указывать на папку, содежащую bin/, lib/ и т.п.
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ echo $JAVA_HOME
+</pre>
+</div>
+<p><b>ХОТЯ! в pom.xml указано</b> properties - java.version = 11. И</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ java -version
+openjdk version <span style="color: #0000ff;">"11.0.18"</span> 2023-01-17
+</pre>
+</div>
+<p><b>Maven использует в своем скрипте JAVA_HOME! Куда указывает $PATH на бинарник java не имеет значения.</b> <br />JAVA_HOME должна указывать на папку, содежащую bin/, lib/ и т.п.</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ echo $JAVA_HOME
 /usr/lib/jvm/java-<b>17-openjdk-amd64</b>
 
 $ echo $PATH
@@ -46,7 +52,7 @@ Apache Maven 3.8.1 (05c21c65bdfed0f71a2f2ada8b84da59348c4c5d)
 Maven home: /opt/maven
 Java version: <b><u>17.0.7</u></b>, vendor: Private Build, runtime: /usr/lib/jvm/java-17-openjdk-amd64
 Default locale: ru_RU, platform encoding: UTF-8
-OS name: <span style="color: #0000FF">"linux"</span>, version: <span style="color: #0000FF">"5.4.0-150-generic"</span>, arch: <span style="color: #0000FF">"amd64"</span>, family: <span style="color: #0000FF">"unix"</span>
+OS name: <span style="color: #0000ff;">"linux"</span>, version: <span style="color: #0000ff;">"5.4.0-150-generic"</span>, arch: <span style="color: #0000ff;">"amd64"</span>, family: <span style="color: #0000ff;">"unix"</span>
 
 $ gradle -version
 
@@ -62,34 +68,115 @@ Groovy:       2.5.12
 Ant:          Apache Ant(TM) version 1.10.8 compiled on May 10 2020
 JVM:          <b><u>17.0.7</u></b> (Private Build 17.0.7+7-Ubuntu-0ubuntu118.04)
 OS:           Linux 5.4.0-150-generic amd64
-</pre></div>
-
-Добавить в .bashrc <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-</pre></div>
-
-
-Можно таким способом, средствами ОС, через link (ln -s ...) на каталог java:
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ echo $JAVA_HOME
+</pre>
+</div>
+<p>Добавить в .bashrc</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+</pre>
+</div>
+<p>Можно таким способом, средствами ОС, через link (ln -s ...) на каталог java:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ echo $JAVA_HOME
 /usr/local/sdkman/candidates/java/currents
-</pre></div>
-KOTLIN тоже использует JAVA_HOME<br/>
+</pre>
+</div>
+<p>KOTLIN тоже использует JAVA_HOME</p>
 <h3>Windows</h3>
-($ - promt command line)<br/>
-В cmd:
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ set JAVA_HOME=c:\po\java11
+<p>($ - promt command line)<br />В cmd:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ set JAVA_HOME=c:\po\java11
 $ echo %JAVA_HOME%
 c:\po\java11
-</pre></div>
-
-В PowerShell:
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">// установить переменную
+</pre>
+</div>
+<p>В PowerShell:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">// установить переменную
 $ [Environment]::SetEnvironmentVariable("JAVA_HOME","c:\po\java11")
 // проверить переменную
 $ $env:JAVA_HOME
 c:\po\java11
-</pre></div>
-
-Java Class File Versions (<a style="text-decoration: underline; color: #3366ff;"
-                             href="https://howtodoinjava.com/java/exception-handling/class-file-has-wrong-version/"
-                             target="_blank" rel="noopener noreferrer">https://howtodoinjava.com/java/exception-handling/class-file-has-wrong-version/</a>):
-<figure class="wp-block-table"><table class="has-fixed-layout"><thead><tr><th>Java Version</th><th>Class File Version</th></tr></thead><tbody><tr><td>Java 8</td><td>52.0</td></tr><tr><td>Java 9</td><td>53.0</td></tr><tr><td>Java 10</td><td>54.0</td></tr><tr><td>Java 11</td><td>55.0</td></tr><tr><td>Java 12</td><td>56.0</td></tr><tr><td>Java 13</td><td>57.0</td></tr><tr><td>Java 14</td><td>58.0</td></tr><tr><td>Java 15</td><td>59.0</td></tr><tr><td>Java 16</td><td>60.0</td></tr><tr><td>Java 17</td><td>61.0</td></tr><tr><td>Java 18</td><td>62.0</td></tr><tr><td>Java 19</td><td>63.0</td></tr><tr><td>Java 20</td><td>64.0</td></tr><tr><td>Java 21</td><td>65.0</td></tr><tr><td>Java 22</td><td>66.0</td></tr><tr><td>Java 23</td><td>67.0</td></tr><tr><td>Java 24</td><td>68.0</td></tr></tbody></table></figure>
+</pre>
+</div>
+<p>Java Class File Versions (<a style="text-decoration: underline; color: #3366ff;" href="https://howtodoinjava.com/java/exception-handling/class-file-has-wrong-version/" target="_blank" rel="noopener noreferrer">https://howtodoinjava.com/java/exception-handling/class-file-has-wrong-version/</a>):</p>
+<figure class="wp-block-table">
+    <table class="has-fixed-layout">
+        <thead>
+        <tr>
+            <th align="center">Java Version</th>
+            <th align="center">Class File Version</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td align="center">Java 8</td>
+            <td align="center">52.0</td>
+        </tr>
+        <tr>
+            <td align="center">Java 9</td>
+            <td align="center">53.0</td>
+        </tr>
+        <tr>
+            <td align="center">Java 10</td>
+            <td align="center">54.0</td>
+        </tr>
+        <tr>
+            <td align="center">Java 11</td>
+            <td align="center">55.0</td>
+        </tr>
+        <tr>
+            <td align="center">Java 12</td>
+            <td align="center">56.0</td>
+        </tr>
+        <tr>
+            <td align="center">Java 13</td>
+            <td align="center">57.0</td>
+        </tr>
+        <tr>
+            <td align="center">Java 14</td>
+            <td align="center">58.0</td>
+        </tr>
+        <tr>
+            <td align="center">Java 15</td>
+            <td align="center">59.0</td>
+        </tr>
+        <tr>
+            <td align="center">Java 16</td>
+            <td align="center">60.0</td>
+        </tr>
+        <tr>
+            <td align="center">Java 17</td>
+            <td align="center">61.0</td>
+        </tr>
+        <tr>
+            <td align="center">Java 18</td>
+            <td align="center">62.0</td>
+        </tr>
+        <tr>
+            <td align="center">Java 19</td>
+            <td align="center">63.0</td>
+        </tr>
+        <tr>
+            <td align="center">Java 20</td>
+            <td align="center">64.0</td>
+        </tr>
+        <tr>
+            <td align="center">Java 21</td>
+            <td align="center">65.0</td>
+        </tr>
+        <tr>
+            <td align="center">Java 22</td>
+            <td align="center">66.0</td>
+        </tr>
+        <tr>
+            <td align="center">Java 23</td>
+            <td align="center">67.0</td>
+        </tr>
+        <tr>
+            <td align="center">Java 24</td>
+            <td align="center">68.0</td>
+        </tr>
+        </tbody>
+    </table>
+</figure>
