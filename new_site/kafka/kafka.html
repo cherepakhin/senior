@@ -169,9 +169,33 @@ test2
 Семантики:<br/>
 <ul>
     <li><b>At most once</b>: В этой семантике продюсер считает сообщение успешно доставленным, как только оно отправлено брокеру, независимо от его фактической доставки потребителю. Это означает, что сообщения могут быть потеряны, если брокер не смог доставить их потребителям. Эта семантика обеспечивает максимальную пропускную способность, но не гарантирует доставку сообщений.</li>
-    <li><b>At least once</b>: В этой семантике продюсер ждет подтверждения (ACK) от брокера о доставке сообщения. Если продюсер не получает подтверждения в течение заданного времени, он повторно отправляет сообщение. Это гарантирует, что сообщения будут доставлены, но может привести к дублированию сообщений в случае сбоев и повторных отправок.</li>
-    <li><b>Exactly once</b>: В этой семантике гарантируется, что каждое сообщение будет доставлено ровно один раз, без дублирования. Продюсер отправляет сообщения в рамках транзакции, и брокер подтверждает их только после успешной записи в журнал и передачи потребителям. Эта семантика обеспечивает наивысший уровень гарантий, но требует дополнительных механизмов и может снижать пропускную способность.</li>
+    <li><b>At least once</b>: В этой семантике продюсер ждет подтверждения (ACK) от брокера о доставке сообщения. Если продюсер не получает подтверждения в течение заданного времени, он повторно отправляет сообщение. Это гарантирует, что сообщения будут доставлены, но может привести к дублированию сообщений в <b>случае сбоев и повторных отправок</b>.</li>
+    <li><b>Exactly once</b>: В этой семантике гарантируется, что каждое сообщение будет доставлено ровно один раз, без дублирования. Продюсер отправляет сообщения в <b>рамках транзакции</b>, и брокер подтверждает их только после успешной записи в журнал и передачи потребителям. Эта семантика обеспечивает наивысший уровень гарантий, но требует дополнительных механизмов и может снижать пропускную способность.</li>
 </ul>
+<h3>Группы Kafka</h3>
+<a title="https://habr.com/ru/companies/slurm/articles/550934/"
+   href="https://habr.com/ru/companies/slurm/articles/550934/"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://habr.com/ru/companies/slurm/articles/550934/</strong></a><br/>
+<a title="https://coralogix.com/blog/create-kafka-topics-in-3-easy-steps/"
+   href="https://coralogix.com/blog/create-kafka-topics-in-3-easy-steps/"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://coralogix.com/blog/create-kafka-topics-in-3-easy-steps/</strong></a><br/>
+
+Topic распределен по partition. Это разделение задается при создании topic (параметр --partitions):
+
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ kafka/bin/kafka-topics.sh --create \
+--zookeeper localhost:2181 \
+--replication-factor 2 \
+--partitions 3 \
+--topic unique-topic-name
+</span></pre></div>
+Работа консьюмеров хорошо описана в  <a title="https://habr.com/ru/companies/slurm/articles/550934/"
+                                        href="https://habr.com/ru/companies/slurm/articles/550934/"
+                                        target="_blank" rel="noopener noreferrer">
+    <strong>https://habr.com/ru/companies/slurm/articles/550934/</strong></a><br/>
+Простой ответ зачем нужны группы на примеере. Входящие сообщения для какого-то topic распределяются по partition (количество partition задается при создании топика).
+Каждый консьюмер имеет группу. Если количество консьюмеров в консьюмер группе будет равно количеству партиций, то НАГРУЗКА на каждый консьюмер будет одинакова.
 <h3>Ссылки</h3>
 <a title="https://v.perm.ru/index.php/instrumenty-devops/kafka-install"
    href="https://v.perm.ru/index.php/instrumenty-devops/kafka-install"
