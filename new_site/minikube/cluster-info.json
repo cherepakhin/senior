@@ -1,0 +1,280 @@
+[{
+  "kind": "EventList",
+  "apiVersion": "v1",
+  "metadata": {
+    "resourceVersion": "45585"
+  },
+  "items": [
+    {
+      "metadata": {
+        "name": "minikube.18050459242419b5",
+        "namespace": "default",
+        "uid": "c9871f37-53bb-4620-9655-0685601b15ad",
+        "resourceVersion": "43424",
+        "creationTimestamp": "2024-11-05T08:14:41Z"
+      },
+      "involvedObject": {
+        "kind": "Node",
+        "name": "minikube",
+        "uid": "minikube"
+      },
+      "reason": "Starting",
+      "message": "Starting kubelet.",
+      "source": {
+        "component": "kubelet",
+        "host": "minikube"
+      },
+      "firstTimestamp": "2024-11-05T08:13:32Z",
+      "lastTimestamp": "2024-11-05T08:13:32Z",
+      "count": 1,
+      "type": "Normal",
+      "eventTime": null,
+      "reportingComponent": "kubelet",
+      "reportingInstance": "minikube"
+    },
+    {
+      "metadata": {
+        "name": "minikube.1805045938a59445",
+        "namespace": "default",
+        "uid": "e0a59f32-4fdd-491b-af8c-b7826e9313b2",
+        "resourceVersion": "43449",
+        "creationTimestamp": "2024-11-05T08:14:42Z"
+      },
+      "involvedObject": {
+        "kind": "Node",
+        "name": "minikube",
+        "uid": "minikube"
+      },
+      "reason": "NodeHasSufficientMemory",
+      "message": "Node minikube status is now: NodeHasSufficientMemory",
+      "source": {
+        "component": "kubelet",
+        "host": "minikube"
+      },
+      "firstTimestamp": "2024-11-05T08:13:33Z",
+      "lastTimestamp": "2024-11-05T08:13:33Z",
+      "count": 8,
+      "type": "Normal",
+      "eventTime": null,
+      "reportingComponent": "kubelet",
+      "reportingInstance": "minikube"
+    },
+    {
+      "metadata": {
+        "name": "minikube.1805045938a5b595",
+        "namespace": "default",
+        "uid": "83052af9-d2de-4c94-bb28-83008636c18a",
+        "resourceVersion": "43450",
+        "creationTimestamp": "2024-11-05T08:14:42Z"
+      },
+      "involvedObject": {
+        "kind": "Node",
+        "name": "minikube",
+        "uid": "minikube"
+      },
+      "reason": "NodeHasNoDiskPressure",
+      "message": "Node minikube status is now: NodeHasNoDiskPressure",
+      "source": {
+        "component": "kubelet",
+        "host": "minikube"
+      },
+      "firstTimestamp": "2024-11-05T08:13:33Z",
+      "lastTimestamp": "2024-11-05T08:13:33Z",
+      "count": 8,
+      "type": "Normal",
+      "eventTime": null,
+      "reportingComponent": "kubelet",
+      "reportingInstance": "minikube"
+    },
+    {
+      "metadata": {
+        "name": "minikube.1805045938a5c7be",
+        "namespace": "default",
+        "uid": "1c05e16c-129f-431c-8d89-40d2b921e886",
+        "resourceVersion": "43448",
+        "creationTimestamp": "2024-11-05T08:14:42Z"
+      },
+      "involvedObject": {
+        "kind": "Node",
+        "name": "minikube",
+        "uid": "minikube"
+      },
+      "reason": "NodeHasSufficientPID",
+      "message": "Node minikube status is now: NodeHasSufficientPID",
+      "source": {
+        "component": "kubelet",
+        "host": "minikube"
+      },
+      "firstTimestamp": "2024-11-05T08:13:33Z",
+      "lastTimestamp": "2024-11-05T08:13:33Z",
+      "count": 7,
+      "type": "Normal",
+      "eventTime": null,
+      "reportingComponent": "kubelet",
+      "reportingInstance": "minikube"
+    },
+    {
+      "metadata": {
+        "name": "minikube.180504593d81dfb7",
+        "namespace": "default",
+        "uid": "cf0bf5f7-269d-4e96-9725-56098006cac8",
+        "resourceVersion": "43430",
+        "creationTimestamp": "2024-11-05T08:14:43Z"
+      },
+      "involvedObject": {
+        "kind": "Node",
+        "name": "minikube",
+        "uid": "minikube"
+      },
+      "reason": "NodeAllocatableEnforced",
+      "message": "Updated Node Allocatable limit across pods",
+      "source": {
+        "component": "kubelet",
+        "host": "minikube"
+      },
+      "firstTimestamp": "2024-11-05T08:13:33Z",
+      "lastTimestamp": "2024-11-05T08:13:33Z",
+      "count": 1,
+      "type": "Normal",
+      "eventTime": null,
+      "reportingComponent": "kubelet",
+      "reportingInstance": "minikube"
+    },
+    {
+      "metadata": {
+        "name": "minikube.1805046f6727ad36",
+        "namespace": "default",
+        "uid": "1c481b24-cab1-46c0-be57-eb97ee70a169",
+        "resourceVersion": "43499",
+        "creationTimestamp": "2024-11-05T08:15:08Z"
+      },
+      "involvedObject": {
+        "kind": "Node",
+        "name": "minikube",
+        "uid": "0ac54f3c-6f11-42d5-907a-38b4b4d48f28",
+        "apiVersion": "v1"
+      },
+      "reason": "RegisteredNode",
+      "message": "Node minikube event: Registered Node minikube in Controller",
+      "source": {
+        "component": "node-controller"
+      },
+      "firstTimestamp": "2024-11-05T08:15:08Z",
+      "lastTimestamp": "2024-11-05T08:15:08Z",
+      "count": 1,
+      "type": "Normal",
+      "eventTime": null,
+      "reportingComponent": "node-controller",
+      "reportingInstance": ""
+    },
+    {
+      "metadata": {
+        "name": "minikube.1805047b08977357",
+        "namespace": "default",
+        "uid": "4098fab8-3faa-4470-aea8-e8fba58f902b",
+        "resourceVersion": "43555",
+        "creationTimestamp": "2024-11-05T08:15:58Z"
+      },
+      "involvedObject": {
+        "kind": "Node",
+        "name": "minikube",
+        "uid": "minikube"
+      },
+      "reason": "Starting",
+      "source": {},
+      "firstTimestamp": null,
+      "lastTimestamp": null,
+      "type": "Normal",
+      "eventTime": "2024-11-05T08:15:58.265080Z",
+      "action": "StartKubeProxy",
+      "reportingComponent": "kube-proxy",
+      "reportingInstance": "kube-proxy-minikube"
+    }
+  ]
+},
+{
+  "kind": "ReplicationControllerList",
+  "apiVersion": "v1",
+  "metadata": {
+    "resourceVersion": "45585"
+  },
+  "items": []
+},
+{
+  "kind": "ServiceList",
+  "apiVersion": "v1",
+  "metadata": {
+    "resourceVersion": "45585"
+  },
+  "items": [
+    {
+      "metadata": {
+        "name": "kubernetes",
+        "namespace": "default",
+        "uid": "5fbe3556-99bf-4c18-8bec-fc05bfc4c144",
+        "resourceVersion": "287",
+        "creationTimestamp": "2024-11-04T15:06:36Z",
+        "labels": {
+          "component": "apiserver",
+          "provider": "kubernetes"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "https",
+            "protocol": "TCP",
+            "port": 443,
+            "targetPort": 8443
+          }
+        ],
+        "clusterIP": "10.96.0.1",
+        "clusterIPs": [
+          "10.96.0.1"
+        ],
+        "type": "ClusterIP",
+        "sessionAffinity": "None",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "internalTrafficPolicy": "Cluster"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    }
+  ]
+},
+{
+  "kind": "DaemonSetList",
+  "apiVersion": "apps/v1",
+  "metadata": {
+    "resourceVersion": "45585"
+  },
+  "items": []
+},
+{
+  "kind": "DeploymentList",
+  "apiVersion": "apps/v1",
+  "metadata": {
+    "resourceVersion": "45585"
+  },
+  "items": []
+},
+{
+  "kind": "ReplicaSetList",
+  "apiVersion": "apps/v1",
+  "metadata": {
+    "resourceVersion": "45585"
+  },
+  "items": []
+},
+{
+  "kind": "PodList",
+  "apiVersion": "v1",
+  "metadata": {
+    "resourceVersion": "45585"
+  },
+  "items": []
+}]

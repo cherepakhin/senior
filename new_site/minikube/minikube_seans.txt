@@ -1,0 +1,318 @@
+minikube start
+minikube delete
+minikube start
+top
+top
+cd temp/
+cd ../po
+mkdir minikube
+cd minikube/
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+ls
+sudo apt install minikube
+ls
+sudo dpkg -i minikube_latest_amd64.deb
+minikube start
+sudo systemctl start docker
+sudo systemctl status docker
+top
+sudo killall yandex_browser
+sudo systemctl stop grafana.service
+top
+sudo systemctl stop nexus.service
+top
+sudo systemctl stop jenkins.service
+top
+df -h
+sudo tail -f /var/log/syslog
+exit
+top
+ping 192.168.39.197
+ssh vasi@192.168.39.197
+ssh root@192.168.39.197
+ssh vasi@192.168.39.197
+kubectl
+ls
+ll
+chmod +x kubectl
+./kubectl
+mc
+exit
+ssh vasi@192.168.39.197
+exit
+cd tools/
+./kubectl version --client
+./kubectl cluster-info
+./kubectl cluster-info dump
+./kubectl cluster-info
+ps -ax | grep mini
+./kubectl cluster-info dump
+./kubectl cluster-info
+ifconfig
+./kubectl cluster-info
+ssh 192.168.39.197
+ssh root@192.168.39.197
+ssh vasi@192.168.39.197
+ping 192.168.39.197
+route -n
+ifconfig
+minikube status
+ifconfig
+minikube stop
+ifconfig
+minikube start
+minikube kubectl -- get pods -A
+whereis kubectl
+minikube kubectl -- get pods -A
+minikube status
+sudo apt install kubectl
+curl -LO https://dl.k8s.io/release/`curl -LS https://dl.k8s.io/release/stable.txt`/bin/linux/amd64/kubectl
+ls
+ll
+./kubectl
+./kubectl version --client
+./kubectl cluster-info
+./kubectl cluster-info dump
+./kubectl cluster-info
+./kubectl cluster-info dump
+./kubectl cluster-info
+clear
+./kubectl cluster-info dump
+ifconfig
+ping 10.96.0.1
+./kubectl cluster-info dump
+./kubectl pods
+kubectl get --raw "/api/v1/nodes/<node-name>/proxy/logs/?query=kubelet"
+./kubectl cluster-info dump
+./kubectl pods
+./kubectl get --raw "/api/v1/nodes/v/proxy/logs/?query=kubelet"
+./kubectl get --raw "/api/v1/nodes/kubernetes/proxy/logs/?query=kubelet"
+./kubectl pods
+./kubectl cluster-info dump
+ping 192.168.39.197
+ping 192.168.122.226
+ssh 192.168.39.197
+ssh-keygen -f '/home/vasi/.ssh/known_hosts' -R '192.168.39.197'
+ssh 192.168.39.197
+ssh vasi@192.168.39.197
+./kubectl cluster-info
+kubectl cluster-info dump
+./kubectl cluster-info dump
+ls
+mc
+~/tools/kubectl cluster-info
+~/tools/kubectl cluster-info dump
+./kubectl cluster-info dump
+~/tools/kubectl cluster-info dump
+./kubectl
+cd ~/tools/
+ls
+./kubectl cluster-info
+minikube status
+minikube stop
+minikube start --vm-driver=kvm2
+minikube kubectl -- get pods -A
+minikube start --vm-driver=kvm2
+ssh vasi@192.168.39.197
+ssh-keygen -f '/home/vasi/.ssh/known_hosts' -R '192.168.39.197'
+ssh vasi@192.168.39.197
+ssh root@192.168.39.197
+ssh root@192.168.122.226
+ssh vasi@192.168.122.226
+minikube kubectl -- get pods -A
+ssh vasi@192.168.122.226
+ping 192.168.122.226
+ssh vasi@192.168.122.226
+ping 192.168.122.226
+route
+ip route
+ping 192.168.122.226
+ssh 192.168.122.226
+minikube kubectl -- get pods -A
+ssh 192.168.122.226
+minikube kubectl -- get pods -A
+minikube kubectl version --client
+minikube kubectl -- get pods -A
+minikube kubectl version
+minikube kubectl version --client
+minikube kubectl version
+minikube kubectl --classic
+minikube kubectl --help
+minikube kubectl --get pods
+minikube kubectl --get pods
+minikube kubectl --get pods
+minikube kubectl --help
+minikube kubectl -- get pods
+minikube kubectl -- get pods --namespace kube-system~
+minikube kubectl -- get pods --namespace kube-system
+minikube kubectl create deployment kubernetes-bootcamp --image=gcr.io/google-samples/kubernetes-bootcamp:v1
+ssh 192.168.122.226
+mc
+./mvnw spring-boot:start
+./docker_build.sh
+sudo systemctl start docker
+sudo systemctl status docker
+./docker_build.sh
+sudo rm kapt3
+sudo rm -r kapt3
+./docker_build.sh
+chmod 777 build
+sudo rm -r *
+./docker_build.sh
+sudo ./docker_build.sh
+http
+http http://localhost:7080/aaaa
+http http://localhost:7080/ddd
+http http://localhost:8080/ddd
+http http://localhost:7080/ddd
+http POST http://localhost:7080/ddd
+http POST http://localhost:7080/ddd < echo ffffffffffffff
+http POST http://localhost:7080/ddd < echo 'ffffffffffffff'
+echo aaa
+http POST http://localhost:7080/ddd <  'ffffffffffffff'
+echo 'ssss' | http POST http://localhost:7080/ddd
+echo 'ssss123' | http POST http://localhost:7080/ddd
+minikube kubectl -- get po -A
+./kubectl get deployments
+cd tools/
+./kubectl get deployments
+./kubectl get pods
+echo 'ssss123' | http POST http://localhost:7080
+echo 'ssss124' | http POST http://localhost:7080
+echo 'ssss124' | http POST http://localhost:8080
+echo 'ssss124' | http POST http://localhost:7080
+echo 'ssss123' | http POST http://localhost:7080
+echo 'ssss123' | http POST http://localhost:8080
+echo 'ssss123' | http POST http://localhost:7080
+top
+echo 'ssss123' | http POST http://localhost:7080
+minikube status
+docker ps
+sudo docker ps
+eval $(minikube podman-env)
+podman-remote help
+sudo apt install podman-remote
+docker build --tag $(minikube ip):5000/test-img .
+top
+ps -ax | grep jenkins
+ps -ax | grep nexs
+ps -ax | grep nexus
+top
+sudo systemctl stop prometheus
+sudo systemctl stop nexus
+top
+ps -ax | grep nexus
+ps -ax | grep jenkins
+ps -ax | grep java
+sudo systemctl status shop_kotlin.service
+sudo systemctl stop shop_kotlin.service
+top
+ps -ax | grep java
+kill 1640892
+ps -ax | grep java
+kill 1639557
+ps -ax | grep java
+top
+ps -ax | grep yandex
+kill 1616079
+ps -ax | grep yandex
+kill 1616079
+ps -ax | grep yandex
+top
+sudo systemctl stop kafka_ui
+mc
+cd tools/
+ls
+./kubectl cluster-info
+kubectl cluster-info dump
+./kubectl cluster-info dump
+kubectl cluster-info dump
+kubectl cluster-info dump > ~/temp/cluster_info.txt
+./kubectl cluster-info dump
+./kubectl cluster-info dump > ~/temp/cluster-info.txt
+mcedit temp/1.txt
+kubectl get po -A
+cd tools/
+kubectl get po -A
+./kubectl get po -A
+minikube kubectl -- get po -A
+minikube dashboard
+kubectl create deployment hello-minikube --image=kicbase/echo-server:1.0
+minikube kubectl create deployment hello-minikube --image=kicbase/echo-server:1.0
+minikube dashboard
+cd tools/
+ls
+./kubectl create deployment hello-minikube --image=kicbase/echo-server:1.0
+./kubectl get services hello-minikube
+kubectl get deployments
+./kubectl get deployments
+minikube service hello-minikube
+./kubectl get deployments
+minikube service hello-minikube
+./kubectl get deployments
+minikube service hello-minikube
+minikube pods hello-minikube
+minikube pod hello-minikube
+minikube
+minikube kubectl
+kubectl get services hello-minikube
+./kubectl get services hello-minikube
+minikube kubectl get services hello-minikube
+minikube service hello-minikube
+minikube service echo-server
+
+minikube service hello-minikube
+minikube service list
+minikube pods list
+minikube pod list
+kubectl expose deployment hello-minikube --type=NodePort --port=8080
+./kubectl expose deployment hello-minikube --type=NodePort --port=8080
+httpie 127.0.0.1:8080/aaa
+http 127.0.0.1:8080/aaa
+
+kubectl port-forward service/hello-minikube 7080:8080
+./kubectl port-forward service/hello-minikube 7080:8080
+
+====================================================
+----------------------------------------------------
+6/11
+vasi@v:~$ minikube start
+😄  minikube v1.34.0 on Linuxmint 22
+✨  Using the kvm2 driver based on existing profile
+👍  Starting "minikube" primary control-plane node in "minikube" cluster
+🔄  Restarting existing kvm2 VM for "minikube" ...
+ЖДАТЬ 5-10 мин
+----
+vasi@v:~$ cd tools/
+vasi@v:~/tools$ ./kubectl cluster-info
+Kubernetes control plane is running at https://192.168.39.197:8443
+CoreDNS is running at https://192.168.39.197:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+------------------------------
+6/11
+Заработал dashboard
+$ minikube start
+$ minikube dashboard
+Откроется в окне браузера
+=============================
+Работа с minikube
+https://www.baeldung.com/ops/docker-local-images-minikube
+
+vasi@v:~/tools$ minikube image ls --format table
+|-----------------------------------------|----------|---------------|--------|
+|                  Image                  |   Tag    |   Image ID    |  Size  |
+|-----------------------------------------|----------|---------------|--------|
+| registry.k8s.io/coredns/coredns         | v1.11.1  | cbb01a7bd410d | 59.8MB |
+| gcr.io/k8s-minikube/storage-provisioner | v5       | 6e38f40d628db | 31.5MB |
+| registry.k8s.io/kube-apiserver          | v1.31.0  | 604f5db92eaa8 | 94.2MB |
+| registry.k8s.io/kube-controller-manager | v1.31.0  | 045733566833c | 88.4MB |
+| registry.k8s.io/kube-scheduler          | v1.31.0  | 1766f54c897f0 | 67.4MB |
+| registry.k8s.io/kube-proxy              | v1.31.0  | ad83b2ca7b09e | 91.5MB |
+| docker.io/kubernetesui/metrics-scraper  | <none>   | 115053965e86b | 43.8MB |
+| registry.k8s.io/etcd                    | 3.5.15-0 | 2e96e5913fc06 | 148MB  |
+| registry.k8s.io/pause                   | 3.10     | 873ed75102791 | 736kB  |
+| docker.io/kubernetesui/dashboard        | <none>   | 07655ddf2eebe | 246MB  |
+| docker.io/kicbase/echo-server           | 1.0      | 9056ab77afb8e | 4.94MB |
+|-----------------------------------------|----------|---------------|--------|
+
+
+
