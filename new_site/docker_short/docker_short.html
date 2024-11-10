@@ -8,7 +8,7 @@
     <b>-p 8000:80</b> - запросы снаружи на порт 8000 перенаправляются на 80 порт программы внутри docker<br />
     <b>-d</b> - detach режим запуска. После запуска будет возврат в основную ОС. Но образ будет работать внутри Docker.<br />
 Будет доступен ресурс в браузере: <a style="text-decoration: underline; color: #3366ff;" title="http://127.0.0.1:8000/tutorial/" href="http://127.0.0.1:8000/tutorial/" target="_blank" rel="noopener noreferrer">http://127.0.0.1:8000/tutorial/</a>.<br/><br/>
-    <img style="display: block; margin-left: auto; margin-right: auto;" title="start_docker" src="images/docker/start_docker.png" alt="start_docker" width="1143" height="457" /></p>
+<img style="display: block; margin-left: auto; margin-right: auto;" title="start_docker" src="images/docker/start_docker.png" alt="start_docker" width="1143" height="457" /></p>
 <hr id="system-readmore" />
 <p>Список контейнеров:</p>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
@@ -53,9 +53,83 @@ node                     12-alpine   bb6d28039b8c   18 months ago    91MB
 <pre style="margin: 0; line-height: 125%">$ docker rm container 3e1
 </pre></div>
 
-
 <p>Удаление всех image:</p>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
 <pre style="margin: 0; line-height: 125%">$ docker image prune -a
 </pre></div>
-<p><br /><b>Ссылки:</b><br /><a style="text-decoration: underline; color: #3366ff;" title="Шпаргалка с командами Docker" href="https://habr.com/ru/companies/flant/articles/336654/" target="_blank" rel="noopener noreferrer">https://habr.com/ru/companies/flant/articles/336654/</a></p>
+
+<p>Информация о сетях:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ docker network ls
+NETWORK ID     NAME                    DRIVER    SCOPE
+eceed310493a   bridge                  bridge    local
+089bec5b4996   host                    host      local
+67e9fd578a45   kafka-cluster_default   bridge    local
+92d87ecb6bc2   none                    null      local
+</pre></div>
+
+<b>bridge</b> - сеть, создаваемая Docker когда запускаетя команда docker run ...<br/>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ docker container ls
+CONTAINER ID   IMAGE                           COMMAND              CREATED       STATUS       PORTS                                                      NAMES
+bf9f3655ac19   shop_kotlin:0.24.0924.1         "/cnb/process/web"   3 hours ago   Up 3 hours                                                              shop_kotlin_container
+21dacf5c4200   portainer/portainer-ce:latest   "/portainer"         3 hours ago   Up 3 hours   0.0.0.0:8000->8000/tcp, 0.0.0.0:9443->9443/tcp, 9000/tcp   portainer
+
+$ docker exec bf9f3655ac19 cat /etc/hosts
+127.0.0.1	localhost
+::1	localhost ip6-localhost ip6-loopback
+fe00::0	ip6-localnet
+ff00::0	ip6-mcastprefix
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+172.17.0.3	bf9f3655ac19
+
+$ docker exec -it bf9 /bin/bash
+cnb@bf9f3655ac19:/$
+
+</pre></div>
+
+Вход под root:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">docker exec -it -u 0 bf9 /bin/bash
+</pre></div>
+Запуск midnight-commander в docker:
+https://www.blackvoid.club/midnight-commander-via-docker/
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ docker pull blackvoidclub/midnight-commander
+$ docker run -it --name=mc -v /:/mnt/host blackvoidclub/midnight-commander
+</pre></div>
+Хостовая файловая система в docker будет по пути <b>/mnt/host</b>. <br/>
+Остановка и удаление docker container:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+$ docker ps -a
+CONTAINER ID   IMAGE                              COMMAND              CREATED         STATUS                     PORTS                                                      NAMES
+ad43dbd0f4e6   blackvoidclub/midnight-commander   "mc ./mc"            7 minutes ago   Exited (0) 6 minutes ago
+
+$ docker stop ad43
+$ docker rm ad43
+</pre></div>
+
+( docker stop <container name>
+docker rm <container name> )
+
+Запуск и подключениие к остановленному container:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ docker ps -a
+CONTAINER ID   IMAGE                              COMMAND              CREATED              STATUS                     PORTS                                                      NAMES
+46666f46d8f8   blackvoidclub/midnight-commander   "mc ./mc"            About a minute ago   Exited (0) 5 seconds ago                                                              mc
+$ docker container start 4666
+$ docker container attach 4666
+</pre></div>
+откроется окно с запущенным mc.
+<img style="display: block; margin-left: auto; margin-right: auto;" title="mc_in_docker.png" src="images/docker_short/mc_in_docker.png" alt="mc_in_docker" width="824" height="531" />
+Файловая система хостовой машины будет по пути /mnt/host. Переподключение:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ docker container start 4666
+$ docker container attach 4666
+</pre></div>
+
+<br />
+<b>Ссылки:</b><br /><a style="text-decoration: underline; color: #3366ff;" title="Шпаргалка с командами Docker" href="https://habr.com/ru/companies/flant/articles/336654/" target="_blank" rel="noopener noreferrer">https://habr.com/ru/companies/flant/articles/336654/</a>
