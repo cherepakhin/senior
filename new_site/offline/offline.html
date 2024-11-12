@@ -5,6 +5,7 @@
 
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">$ mvn dependency:go-offline  //загрузка зависимостей
 $ mvn -o clean install
+// -o использовать offline зависимости
 $ mvn -o test</span>
 </pre></div>
 
@@ -26,7 +27,15 @@ $ mvn -o test</span>
 <br/><br/>
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Maven offline" src="images/offline/maven_offline.png"
         alt="Maven offline" width="987" height="522"/></p>
-
+Можно включить offline режим для всех проектов. Для этого в ~/.m2/settings.xml указать:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">
+&lt;settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      https://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;
+    &lt;offline&gt;true&lt;/offline&gt;
+&lt;/settings&gt;
+</pre></div>
 <br/>
 <h3>Gradle</h3>
 
