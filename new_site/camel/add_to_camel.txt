@@ -1,0 +1,8 @@
+Message Translator EIP
+
+вх.сообщение -> транслятор -> исх.сообщение
+
+Camel provides three ways of using this pattern:
+    - Using a Processor
+    - Using beans
+    - Using <transform>
