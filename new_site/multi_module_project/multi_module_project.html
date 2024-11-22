@@ -66,3 +66,28 @@ $ ./gradlew :library:publish
 Пересборка модуля после deploy зависимого модуля:<br/>
 <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$./gradlew --refresh-dependencies :application:compileJava
 </pre></div>
+
+<b>Замечание для многомодульного проекта Maven</b><br/>
+Версии библиотек можно указать в корневом pom.xml в секции <b>dependencyManagement</b>:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">&lt;dependencyManagement&gt;
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;group-a&lt;/groupId&gt;
+        &lt;artifactId&gt;artefact1&lt;/artifactId&gt;
+        &lt;version&gt;1.0.0&lt;/version&gt;
+    &lt;/dependency&gt;
+    ...
+  &lt;/dependencies&gt;
+&lt;/dependencyManagement&gt;
+</span></pre></div>
+
+И в модулях версию dependency можно не указывать:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;group-a&lt;/groupId&gt;
+        &lt;artifactId&gt;artefact1&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</span></pre></div>
+<a style="color: #3366ff; text-decoration: underline;" tabindex="-1" href="https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Dependency_Management">https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Dependency_Management</a>.<br/>
+
