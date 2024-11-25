@@ -229,6 +229,27 @@ content-type: application/json
     }
 }
 </pre></div>
+Состояние сервиса:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">curl -X GET "http://192.168.1.20:9200/_cluster/health?pretty"
+{
+    "cluster_name" : "elasticsearch",
+    "status" : "green",
+    "timed_out" : false,
+    "number_of_nodes" : 1,
+    "number_of_data_nodes" : 1,
+    "active_primary_shards" : 13,
+    "active_shards" : 13,
+    "relocating_shards" : 0,
+    "initializing_shards" : 0,
+    "unassigned_shards" : 0,
+    "delayed_unassigned_shards" : 0,
+    "number_of_pending_tasks" : 0,
+    "number_of_in_flight_fetch" : 0,
+    "task_max_waiting_in_queue_millis" : 0,
+    "active_shards_percent_as_number" : 100.0
+}
+</pre></div>
+
 <h3>Запуск как демон</h3>
 Памяти сожррет около 6GB!
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
@@ -315,7 +336,17 @@ cluster.initial_master_nodes: ["v.perm.ru"]
 # Connections are encrypted and require user authentication
 http.host: [_local_, _site_]
 </pre></div>
-Остальные параметры по умолчанию.
+Настройка выделения памяти делается в /home/vasi/po/elasticsearch-8.1.1/config/jvm.options:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+....
+################################################################
+## IMPORTANT: JVM heap size
+################################################################....
+-Xms2g
+-Xmx2g
+....
+</pre></div>
+Остальные параметры по умолчанию.<br/>
 <b>Ссылки:</b><br/>
 <a style="text-decoration: underline; color: #3366ff;" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/run-elasticsearch-locally.html" target="_blank" rel="noopener noreferrer">Run Elasticsearch locally</a><br/>
 <a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/articles/538840/" target="_blank" rel="noopener noreferrer">Изучаем ELK. Часть I — Установка Elasticsearch (Habr)</a><br/>
@@ -323,3 +354,5 @@ http.host: [_local_, _site_]
 <a style="text-decoration: underline; color: #3366ff;" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html" target="_blank" rel="noopener noreferrer">Install Elasticsearch with Docker</a><br/>
 <a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/index.php/instrumenty-devops/autostart-service" target="_blank" rel="noopener noreferrer">Autostart сервиса в linux</a><br/>
 <a style="text-decoration: underline; color: #3366ff;" href="https://hub.docker.com/_/elasticsearch" target="_blank" rel="noopener noreferrer">Docker image ElasticSearch</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://mirror.yandex.ru/mirrors/elastic/8/pool/main/k/kibana/" target="_blank" rel="noopener noreferrer">Дистрибутивы Kibana</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://mirror.yandex.ru/mirrors/elastic/8/pool/main/e/elasticsearch/" target="_blank" rel="noopener noreferrer">Дистрибутивы ElasticSearch</a><br/>

@@ -195,3 +195,37 @@ $ ./bin/elasticsearch -d -p pid
 $ pkill -F pid
 =============================================
 Основная конфигурация в /home/vasi/po/elasticsearch-8.1.1/config/elasticsearch.yml
+
+/home/vasi/po/elasticsearch-8.1.1
+[2024-11-23T22:51:34.523+05:00][ERROR][elasticsearch-service] This version of
+Kibana (v8.15.2) is incompatible with the following Elasticsearch nodes in your
+
+Elasticsearch: v8.1.1 @ 192.168.1.20:9200 (192.168.1.20)
+vasi@v:~/po/elasticsearch-8.1.1/bin$ curl -XGET 'localhost:9200'
+{
+  "name" : "v.perm.ru",
+  "cluster_name" : "elasticsearch",
+  "cluster_uuid" : "g3ojVaUHRuefR6zTbSa-FA",
+  "version" : {
+    "number" : "8.1.1",
+    "build_flavor" : "default",
+    "build_type" : "tar",
+    "build_hash" : "d0925dd6f22e07b935750420a3155db6e5c58381",
+    "build_date" : "2022-03-17T22:01:32.658689558Z",
+    "build_snapshot" : false,
+    "lucene_version" : "9.0.0",
+    "minimum_wire_compatibility_version" : "7.17.0",
+    "minimum_index_compatibility_version" : "7.0.0"
+  },
+  "tagline" : "You Know, for Search"
+}
+-----------------------------------------------------------------
+
+Выделение памяти для ElasticSearch
+Параметры JVM  в /home/vasi/po/elasticsearch-8.1.1/config/jvm.options
+....
+-Xms2g
+-Xmx2g
+....
+
+-----------------------------------------------------------------
