@@ -180,7 +180,9 @@ do_reload()
 }
 </pre></div>
 
-Для Prometheus нужно настроить задания для сбора метрик. Пример заданий в <b>/etc/prometheus/prometheus.yml (указано выше в /etc/init.d/prometheus, параметр "CFGFILE")</b> :
+Для Prometheus нужно настроить задания для сбора метрик. Пример заданий в <a title="https://github.com/cherepakhin/senior/blob/main/new_site/grafana_prometheus/prometheus.yml"
+                                                                             target="_blank" rel="noopener noreferrer">
+    <strong>/etc/prometheus/prometheus.yml</strong></a>:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
 global:
 scrape_interval:     15s
@@ -246,3 +248,4 @@ scrape_configs:
   static_configs:
     - targets: ["192.168.1.20:8988"]
 </pre></div>
+Путь к файлу заданий указан в параметре "CFGFILE" файла /etc/init.d/prometheus (см.выше "CFGFILE=/etc/prometheus/prometheus.yml")

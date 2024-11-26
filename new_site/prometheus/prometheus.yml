@@ -1,0 +1,63 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+  external_labels:
+      monitor: 'example'
+
+rule_files:
+  - "rules.yml"
+
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    scrape_timeout: 5s
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: "camel_kafka_consumer_extdto(1.57)"
+    scrape_interval: 5s
+    metrics_path: "/camel_kafka_consumer_extdto/api/actuator/prometheus/"
+    static_configs:
+      - targets: ["192.168.1.57:8992"]
+
+  - job_name: "shop_kotlin(1.20)"
+    scrape_interval: 5s
+    metrics_path: "/shop_kotlin/api/actuator/prometheus"
+    static_configs:
+      - targets: ["192.168.1.20:8988"]
+
+  - job_name: "camel_kafka_consumer_extdto(1.20)"
+    scrape_interval: 5s
+    metrics_path: "/camel_kafka_consumer_extdto/api/actuator/prometheus"
+    static_configs:
+      - targets: ["192.168.1.20:8992"]
+
+  - job_name: "shop_kafka_consumer(1.20)"
+    scrape_interval: 5s
+    metrics_path: "/camel_kafka_consumer_extdto/api/actuator/prometheus"
+    static_configs:
+      - targets: ["192.168.1.20:8992"]
+
+  - job_name: "shop_kafka_consumer(1.57:8698)"
+    scrape_interval: 5s
+    metrics_path: "/shop_kafka_consumer/api/actuator/prometheus"
+    static_configs:
+      - targets: ["192.168.1.57:8698"]
+
+  - job_name: "shop_kotlin(1.57:8988)"
+    scrape_interval: 5s
+    metrics_path: "/shop_kotlin/api/actuator/prometheus"
+    static_configs:
+      - targets: ["192.168.1.57:8988"]
+
+  - job_name: "vacancy_backend(1.57:8988)"
+    scrape_interval: 5s
+    metrics_path: "/vacancy/api/actuator/prometheus"
+    static_configs:
+      - targets: ["192.168.1.57:8988"]
+
+  - job_name: "vacancy_backend(1.20:8988)"
+    scrape_interval: 5s
+    metrics_path: "/vacancy/api/actuator/prometheus"
+    static_configs:
+      - targets: ["192.168.1.20:8988"]
