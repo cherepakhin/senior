@@ -229,3 +229,8 @@ vasi@v:~/po/elasticsearch-8.1.1/bin$ curl -XGET 'localhost:9200'
 ....
 
 -----------------------------------------------------------------
+
+https://habr.com/ru/articles/662527/
+23 апр 2022 в 11:43
+OpenSearch – система полнотекстового поиска. Является ФОРКОМ Elasticsearch. Разработана компанией A9.com, дочерней компанией Amazon.com. В 2021 году Amazon создает новый форк и называет его «OpenSearch».
+Стэк OpenSearch (OpenSearch + Logstash-oss-with-OpenSearch-output-plugin + OpenSearch–Dashboards) является бесплатным аналогом с отрытым исходным кодом стэку ELK (Elasticsearch + Logstash + Kibana). В совокупности с Beat’ами (Filebeat, Winlogbeat, и т.д.) образуют полный цикл управления логами: сбор, систематизация, поиск.

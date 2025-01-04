@@ -66,7 +66,7 @@ DB methods:
 	db.version() current version of the server
 ````
 
- list of all databases:
+Получение всех баз данных:
 
  ````shell
 > show dbs
@@ -77,7 +77,7 @@ DB methods:
  local   0.000GB
  ````
 
-To create a new database:
+Создание новой базы данных:
 
 ````shell
 > use DATABASE_NAME
@@ -86,23 +86,23 @@ To create a new database:
 switched to db db5
 ````
 
-Get current database:
+Какая текущая база данных:
 
 ````shell
 > db
 db5
 ````
 
-Drop database:
+Удаление базы:
 
 ````shell
 > use db5
 > db.dropDatabase()
 ````
 
-__Collection__
+__Коллекции__
 
-Create:
+Создание __КОЛЛЕКЦИИ__:
 
 ````shell
 > use dbTest
@@ -112,14 +112,14 @@ Create:
 Empl1
 ````
 
-Drop:
+Удаление __КОЛЛЕКЦИИ__:
 
 ````shell
 > db.Empl1.drop()
 > show collections
 ````
 
-Insert document in collection:
+Вставка __ДОКУМЕНТА__ в __КОЛЛЕКЦИЮ__:
 
 ````shell
 > db.COLLECTION_NAME.insert(document)
@@ -135,7 +135,7 @@ WriteResult({ "nInserted" : 1 })
 
 ````
 
-Update document:
+Обновление __ДОКУМЕНТА__ в __КОЛЛЕКЦИИ__:
 
 ````shell
 >db.COLLECTION_NAME.update(SELECTION_CRITERIA, UPDATED_DATA)
@@ -154,12 +154,14 @@ WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
 > db.EmplList.update({address: 'NEW ADDR2'},{$set:{'name':'NAME2', 'address': 'ADDR2'}})
 ````
 
-Save DOCUMENT:
+Сохранение __DOCUMENT__:
 
+Синтаксис:
 ````shell
 > db.COLLECTION_NAME.save({_id:ObjectId(),NEW_DATA})
 ````
 
+Пример:
 ```shell
 > db.EmplList.save({"_id": new ObjectId("6778c9d63e90cb7a981b32a6"), name: "NAME_SAVED", address: "ADDR_SAVED"});
 
@@ -168,12 +170,14 @@ Save DOCUMENT:
 { "_id" : ObjectId("6778c9d63e90cb7a981b32a6"), "name" : "NAME_SAVED", "address" : "ADDR_SAVED" }
 ```
 
-Delete DOCUMENT:
+Удаление __DOCUMENT__:
 
+Синтаксис:
 ````shell
 >db.COLLECTION_NAME.remove(DELLETION_CRITTERIA)
 ````
 
+Пример:
 ````shell
 > db.EmplList.find()
 { "_id" : ObjectId("6778c9d63e90cb7a981b32a5"), "name" : "NAME2", "address" : "ADDR2" }
