@@ -1,4 +1,4 @@
-Основные команды mongo (https://blog.e-zest.com/basic-commands-for-mongodb)
+Основные команды mongo [https://blog.e-zest.com/basic-commands-for-mongodb](https://blog.e-zest.com/basic-commands-for-mongodb)
 
 Запуск:
 
@@ -9,7 +9,7 @@ $ mongo
 Помощь:
 
 ````shell
-$ db.help()
+> db.help()
 
 DB methods:
 	db.adminCommand(nameOrDocument) - switches to 'admin' db, and runs command [just calls db.runCommand(...)]
@@ -69,7 +69,7 @@ DB methods:
  list of all databases:
 
  ````shell
-$ show dbs
+> show dbs
 
  admin   0.000GB
  config  0.000GB
@@ -80,7 +80,108 @@ $ show dbs
 To create a new database:
 
 ````shell
-$ use DATABASE_NAME
+> use DATABASE_NAME
+
+> use db5
+switched to db db5
 ````
 
+Get current database:
 
+````shell
+> db
+db5
+````
+
+Drop database:
+
+````shell
+> use db5
+> db.dropDatabase()
+````
+
+__Collection__
+
+Create:
+
+````shell
+> use dbTest
+> db.createCollection('Empl1')
+{ "ok" : 1 }
+> show collections
+Empl1
+````
+
+Drop:
+
+````shell
+> db.Empl1.drop()
+> show collections
+````
+
+Insert document in collection:
+
+````shell
+> db.COLLECTION_NAME.insert(document)
+````
+
+````shell
+> db.createCollection('EmplList')
+{ "ok" : 1 }
+> db.EmplList.insert({name: 'NAME1', address: 'ADDR1'})
+WriteResult({ "nInserted" : 1 })
+> db.EmplList.find()
+{ "_id" : ObjectId("6778c9d63e90cb7a981b32a5"), "name" : "NAME1", "address" : "ADDR1" }
+
+````
+
+Update document:
+
+````shell
+>db.COLLECTION_NAME.update(SELECTION_CRITERIA, UPDATED_DATA)
+````
+
+````shell
+> db.EmplList.update({name: 'NAME1'},{$set:{'name':'NEW NAME1', 'address': 'NEW ADDR1'}})
+> db.EmplList.find()
+{ "_id" : ObjectId("6778c9d63e90cb7a981b32a5"), "name" : "NEW NAME1", "address" : "ADDR1" }
+
+> db.EmplList.update({name: 'NEW NAME1'},{$set:{'name':'NEW NAME2', 'address': 'NEW ADDR2'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.EmplList.find()
+{ "_id" : ObjectId("6778c9d63e90cb7a981b32a5"), "name" : "NEW NAME2", "address" : "NEW ADDR2" }
+
+> db.EmplList.update({address: 'NEW ADDR2'},{$set:{'name':'NAME2', 'address': 'ADDR2'}})
+````
+
+Save DOCUMENT:
+
+````shell
+> db.COLLECTION_NAME.save({_id:ObjectId(),NEW_DATA})
+````
+
+```shell
+> db.EmplList.save({"_id": new ObjectId("6778c9d63e90cb7a981b32a6"), name: "NAME_SAVED", address: "ADDR_SAVED"});
+
+> db.EmplList.find()
+{ "_id" : ObjectId("6778c9d63e90cb7a981b32a5"), "name" : "NAME2", "address" : "ADDR2" }
+{ "_id" : ObjectId("6778c9d63e90cb7a981b32a6"), "name" : "NAME_SAVED", "address" : "ADDR_SAVED" }
+```
+
+Delete DOCUMENT:
+
+````shell
+>db.COLLECTION_NAME.remove(DELLETION_CRITTERIA)
+````
+
+````shell
+> db.EmplList.find()
+{ "_id" : ObjectId("6778c9d63e90cb7a981b32a5"), "name" : "NAME2", "address" : "ADDR2" }
+{ "_id" : ObjectId("6778c9d63e90cb7a981b32a6"), "name" : "NAME_SAVED", "address" : "ADDR_SAVED" }
+
+>db.EmplList.remove({"name" : "NAME_SAVED"})
+WriteResult({ "nRemoved" : 1 })
+
+> db.EmplList.find()
+{ "_id" : ObjectId("6778c9d63e90cb7a981b32a5"), "name" : "NAME2", "address" : "ADDR2" }
+````
