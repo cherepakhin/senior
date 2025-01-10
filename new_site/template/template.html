@@ -1,0 +1,76 @@
+Шаблоны проектов Spring Boot, Java, Kotlin.<br/>
+<hr id="system-readmore" />
+<b>Kotlin, Spring 2.7.9, Gradle</b>:
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/kotlin_up_gradle_spring279"
+   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/kotlin_up_gradle_spring279</a>.
+<br/>
+Set JAVA 17:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+$ export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+$ echo $JAVA_HOME
+/usr/lib/jvm/java-17-openjdk-amd64
+</pre>
+</div>
+Run unit test:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./gradlew test
+</pre>
+</div>
+Run app:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./gradlew bootRun
+</pre>
+</div>
+<b>Offline</b> режим:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./gradlew --offline test
+./gradlew --offline bootRun
+</pre>
+</div>
+
+<b>Java, Spring Boot 2.5.6, Maven</b>:
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/s256"
+   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/s256</a>.
+<br/>
+Set JAVA 11:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+$ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+$ echo $JAVA_HOME
+/usr/lib/jvm/java-11-openjdk-amd64
+</pre>
+</div>
+
+Run unit test:
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./mvnw test
+</pre>
+</div>
+Run app:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./mvnw spring-boot:run
+</pre>
+</div>
+Request test:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+http :8780/api/echo/
+</pre>
+</div>
+<b>Offline</b> режим:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./mvnw -o test
+./mvnw -o spring-boot:run
+</pre>
+</div>
+
+<h3 dir="auto">Ссылки:</h3>
+<p><a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/index.php/instrumenty-devops/offline" target="_blank" rel="noopener noreferrer">Разработка в offline режиме</a></p>
