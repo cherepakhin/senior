@@ -1,0 +1,96 @@
+Wicket предназначен для разработки web приложений, но это не совсем template framework, это больше
+(что-то типа React? Vue? Очень примитивно работа React выглядит так. Есть View, Action, State. View вызывает Acton, который меняет State, а View отслеживает изменения в State. В Wicket примерно также: View отслеживает изменения в Model).<br/>
+Примеры из книги "Wicket in action": <a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/cherepakhin/wicket_test_examples"
+   href="https://github.com/cherepakhin/wicket_test_examples"
+   target="_blank" rel="noopener noreferrer">Wicket test examples на моем github</a>.
+Не все примеры, только парочка, для того, чтобы понять работу Wicket. Все примеры в
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/perty/wicket-test-examples"
+   href="https://github.com/perty/wicket-test-examples"
+   target="_blank" rel="noopener noreferrer">https://github.com/perty/wicket-test-examples</a>
+<br/>
+<hr id="system-readmore" />
+Установки:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+vasi-note:~/prog/java/wicket/Wicket-tutorial-examples/HelloWorldExample
+echo $JAVA_HOME
+/usr/lib/jvm/java-17-openjdk-amd64
+</pre>
+</div>
+
+изменил в pom.xml:
+<pre style="font-family:monospace;color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-weight: 400; "><span style="color: rgb(0, 0, 0); background-color: rgb(239, 239, 239); font-weight: 400;">&lt;<span style="color: rgb(0, 0, 128); font-weight: 700;">packaging</span>&gt;</span>war<span style="color: rgb(0, 0, 0); background-color: rgb(239, 239, 239); font-weight: 400;">&lt;/<span style="color: rgb(0, 0, 128); font-weight: 700;">packaging</span>&gt;</span>;</pre>
+
+
+и в pom.xml добавил:
+
+<pre style="font-family:monospace;color: rgb(36, 41, 46); background-color: rgb(255, 255, 255); font-weight: 400; "><span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;<span style="color: rgb(34, 134, 58); font-weight: 400;">plugin</span>&gt;</span>
+    <span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;<span style="color: rgb(34, 134, 58); font-weight: 400;">groupId</span>&gt;</span>org.apache.tomcat.maven<span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;/<span style="color: rgb(34, 134, 58); font-weight: 400;">groupId</span>&gt;</span>
+    <span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;<span style="color: rgb(34, 134, 58); font-weight: 400;">artifactId</span>&gt;</span>tomcat7-maven-plugin<span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;/<span style="color: rgb(34, 134, 58); font-weight: 400;">artifactId</span>&gt;</span>
+    <span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;<span style="color: rgb(34, 134, 58); font-weight: 400;">version</span>&gt;</span>2.2<span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;/<span style="color: rgb(34, 134, 58); font-weight: 400;">version</span>&gt;</span>
+    <span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;<span style="color: rgb(34, 134, 58); font-weight: 400;">configuration</span>&gt;</span>
+        <span style="color: rgb(106, 115, 125); font-weight: 400;">&lt;!-- http port --&gt;</span>
+        <span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;<span style="color: rgb(34, 134, 58); font-weight: 400;">port</span>&gt;</span>9090<span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;/<span style="color: rgb(34, 134, 58); font-weight: 400;">port</span>&gt;</span>
+        <span style="color: rgb(106, 115, 125); font-weight: 400;">&lt;!-- application path always starts with /--&gt;</span>
+        <span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;<span style="color: rgb(34, 134, 58); font-weight: 400;">path</span>&gt;</span>/<span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;/<span style="color: rgb(34, 134, 58); font-weight: 400;">path</span>&gt;</span>
+        <span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;<span style="color: rgb(34, 134, 58); font-weight: 400;">contextReloadable</span>&gt;</span>true<span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;/<span style="color: rgb(34, 134, 58); font-weight: 400;">contextReloadable</span>&gt;</span>
+    <span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;/<span style="color: rgb(34, 134, 58); font-weight: 400;">configuration</span>&gt;</span>
+<span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;/<span style="color: rgb(34, 134, 58); font-weight: 400;">plugin</span>&gt;</span>
+</pre>
+
+Связь Java файла и HTML представления делается следующим образом. Путь Java, его package, должен соответствовать пути HTML файла в resources:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="link_java_to_resources" src="images/wicket/link_java_to_recources.png"
+        alt="Link java to resources" width="491" height="352"/></p>
+Запуск:
+<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+$ mvn jetty:run
+</pre>
+</div>
+<br/>
+Запуск в режиме разработки:
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+$ mvn -Dwicket.configuration=deployment jetty:run
+</pre>
+</div>
+
+Открыть <a style="text-decoration: underline; color: #3366ff;"
+           href="http://127.0.0.1:8080/wicket-test-examples/"
+           target="_blank" rel="noopener noreferrer">http://127.0.0.1:8080/wicket-test-examples/</a>
+<br/>
+<h4>Ссылки:</h4>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/cherepakhin/wicket_test_examples"
+   target="_blank" rel="noopener noreferrer">Wicket test examples на моем gihub</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://wicketguide.comsysto.com/guide/"
+   target="_blank" rel="noopener noreferrer">Apache Wicket User Guide - Reference Documentation</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://examples8x.wicket.apache.org/index.html"
+   href="https://examples8x.wicket.apache.org/index.html"
+   target="_blank" rel="noopener noreferrer">Примеры Wicket</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/apache/wicket"
+   href="https://github.com/apache/wicket"
+   target="_blank" rel="noopener noreferrer">https://github.com/apache/wicket</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://mkyong.com/tutorials/wicket-tutorials/"
+   href="https://mkyong.com/tutorials/wicket-tutorials/"
+   target="_blank" rel="noopener noreferrer">https://mkyong.com/tutorials/wicket-tutorials/</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://resources.oreilly.com/examples/9781849511605"
+   href="https://resources.oreilly.com/examples/9781849511605"
+   target="_blank" rel="noopener noreferrer">Examples from Apache Wicket Cookbook</a>
+<br/>
+
+
