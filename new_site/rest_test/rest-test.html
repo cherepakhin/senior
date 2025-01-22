@@ -35,6 +35,16 @@
 <p>Смысл простой: через RestTemplate обращаться к целевому сервису и полученный ответ как-то проверять (JSONPath, Vert.x).
     Или с помощью ObjectMapper конвертировать JSON в Java class и там уже использовать обычные Java тесты.</p>
 
+<p><b>RestClient (Spring Boot <u>3.2</u>)</b></p>
+<p>Тактика такая же как и с RestTemplate.
+    <a style="text-decoration: underline; color: #3366ff;"
+       href="https://habr.com/ru/companies/spring_aio/articles/822529/"
+       target="_blank" rel="noopener noreferrer">. Spring Boot <b>3.2</b>: замените свой RestTemplate на RestClient (habr 2024)</a>
+    "RestClient предлагает нам более современные и интуитивно понятные способы взаимодействия с RESTful сервисами."
+    <b>Но версия Spring Boot 3.2</b>!
+    Хронология клиентов:  RestTemplate-&gt;WebClient-&gt;RestClient(Spring Boot 3.2)
+</p>
+
 <p><b>OkHttp</b></p>
 <p>
     <a style="text-decoration: underline; color: #3366ff;"
