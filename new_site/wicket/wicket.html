@@ -71,6 +71,38 @@ $ mvn -Dwicket.configuration=deployment jetty:run
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="link_java_to_resources" src="images/wicket/drop_down.png"
         alt="Link java to resources" width="899" height="237"/></p>
 
+Stateless(bookmarkable) и Statefull страницы в Wicket:<br/>
+Wicket хранит последнюю просмотренную страницу в сессии.
+<b>Stateless(bookmarkable)</b> page — это страница не имеющая состояния, <b>Statefull</b> page — это страница с состоянием.<br/>
+При каждом запросе к <b>Stateless</b> page, её экземпляр создаётся заново.
+К <b>Statefull</b> page присваивается версия.
+
+Чтобы страница стала stateless необходимо выполнить два условия:
+<ul>
+    <li>В первую очередь страница должна быть bookmarkable.</li>
+    <li>Страница должна использовать только stateless компоненты.</li>
+</ul>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://cwiki.apache.org/confluence/display/WICKET/Bookmarkable+pages+and+links"
+   target="_blank" rel="noopener noreferrer">Bookmarkable pages and links</a>
+<br/>
+Класс stateless страницы должен иметь пустой конструктов или конструктор, который принимает PageParameters аргумент (который оборачивает аргументы запроса к странице).
+В случае если класс имеет оба конструктора, то при создании страницы по умолчанию будет использоваться конструктор с параметрами.
+И еще: если на странице используется хотя бы один компонент, который не является stateless,
+то вся страница становится statefull, и полностью сериализуется и сохраняется в сессии и далее в истории на диске.
+Если страница не имеет конструктора с параметрами, то при переходе на страницу будет использован конструктор без параметров
+(без каких-либо ошибок и предупреждений), потому что wicket не проверяет, действительно ли для нее существуют параметры запроса,
+и wicket не знает, действительно ли они предназначены для этой страницы или нет.<br/>
+Переход на stateless страницу:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+new Link() {
+    public void onClick() {
+        setResponsePage(new MyPage(...)); // stateless page
+    }
+}
+</pre></div>
+
 <h4>Ссылки:</h4>
 <a style="text-decoration: underline; color: #3366ff;"
    href="https://github.com/cherepakhin/wicket_test_examples"
@@ -120,10 +152,20 @@ $ mvn -Dwicket.configuration=deployment jetty:run
    href="https://dzone.com/articles/enhance-wicket-with-spring-boot"
    target="_blank" rel="noopener noreferrer">Enhance Wicket With Spring Boot</a>
 <br/>
+<!--   href="images/wicket/wicket-in-action.pdf"-->
 <a style="text-decoration: underline; color: #3366ff;"
    title="Wicket in action"
-   href="images/wicket/wicket-in-action.pdf"
    target="_blank" rel="noopener noreferrer">Wicket in action</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="Wicket in action"
+   href="images/wicket/rc063-010d-apache_wicket_1.pdf"
+   target="_blank" rel="noopener noreferrer">Getting Started with Apache Wicket (DZone Refcard)</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="Stateless и Statefull страницы в Wicket 1.4"
+   href="https://habr.com/ru/articles/143346/"
+   target="_blank" rel="noopener noreferrer">Stateless и Statefull страницы в Wicket 1.4 (Habr)</a>
 <br/>
 
 
