@@ -109,10 +109,23 @@ new Link() {
 <a style="text-decoration: underline; color: #3366ff;"
    href="https://cwiki.apache.org/confluence/display/WICKET/Unit+Test"
    target="_blank" rel="noopener noreferrer">https://cwiki.apache.org/confluence/display/WICKET/Unit+Test</a>
-или других. На пример
-<a style="text-decoration: underline; color: #3366ff;"
+или других.
+На пример <a style="text-decoration: underline; color: #3366ff;"
    href="https://jsoup.org/"
    target="_blank" rel="noopener noreferrer">https://jsoup.org/</a>.
+<br/>
+Пример для теста:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+Document doc = Jsoup.connect("https://en.wikipedia.org/").get();
+log(doc.title());
+Elements newsHeadlines = doc.select("#mp-itn b a");
+for (Element headline : newsHeadlines) {
+    log("%s\n\t%s",headline.attr("title"), headline.absUrl("href"));
+    // тесты headline.attr("title"), headline.absUrl("href")
+}
+</pre></div>
+<br/>
 Ссылки на примеры использования jsoup:
 <ul>
     <li><a style="text-decoration: underline; color: #3366ff;"
