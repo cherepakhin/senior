@@ -1,4 +1,4 @@
-Интеграционное тестирование Rest подойдет для интеграционных, behave тестов
+Интеграционное тестирование REST подойдет для интеграционных, behave тестов
 
 <a style="text-decoration: underline; color: #3366ff;"
    title="Интеграционное тестирование Rest"
@@ -55,4 +55,16 @@
 Результаты:
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Результаты тестирования" src="images/hierarchy_test/hierarchy_of_allure.png"
         alt="Результаты тестирования"/></p>
-
+<br/>
+Очень полезны параметризованные тесты (и не только в интеграционном тестировании) -
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://www.baeldung.com/parameterized-tests-junit-5"
+   href="https://www.baeldung.com/parameterized-tests-junit-5"
+   target="_blank" rel="noopener noreferrer">https://www.baeldung.com/parameterized-tests-junit-5</a>.
+Пример:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@ParameterizedTest
+@ValueSource(ints = {1, 3, 5, -3, 15, Integer.MAX_VALUE}) // six numbers
+void isOdd_ShouldReturnTrueForOddNumbers(int number) {
+  assertTrue(Numbers.isOdd(number));
+}
+</pre></div>
