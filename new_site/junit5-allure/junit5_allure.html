@@ -245,15 +245,32 @@ tasks.withType&lt;Test&gt; {
 
 }
 </pre></div>
-Очень полезны параметризованные тесты (и не только в интеграционном тестировании) -
+Полезны <b>параметризованные</b> тесты (и не только в интеграционном тестировании):<br/>
 <a style="text-decoration: underline; color: #3366ff;"
    title="https://www.baeldung.com/parameterized-tests-junit-5"
    href="https://www.baeldung.com/parameterized-tests-junit-5"
-   target="_blank" rel="noopener noreferrer">https://www.baeldung.com/parameterized-tests-junit-5</a>.
+   target="_blank" rel="noopener noreferrer">https://www.baeldung.com/parameterized-tests-junit-5</a><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://habr.com/ru/articles/591007/"
+   target="_blank" rel="noopener noreferrer">Туториал по JUnit 5 - Аннотация @ParameterizedTest (Habr)</a><br/>
+
 Пример:<br/>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@ParameterizedTest
-@ValueSource(ints = {1, 3, 5, -3, 15, Integer.MAX_VALUE}) // six numbers
-void isOdd_ShouldReturnTrueForOddNumbers(int number) {
-  assertTrue(Numbers.isOdd(number));
+@ValueSource(ints = [1, 2])
+fun getByWithParamN(N: Long) {
+	val priceTypeService = PriceTypeServiceImpl(priceTypeRepository)
+
+	assertEquals(N, priceTypeService.getByN(N).n)
+}
+
+@ParameterizedTest
+@CsvSource("1,'Normal price'", "2,'Discount price'")
+fun getByWithParamFromCasv(N: Long, NAME:String) {
+	val priceTypeService = PriceTypeServiceImpl(priceTypeRepository)
+
+	assertEquals(NAME, priceTypeService.getByN(N).name)
 }
 </pre></div>
+<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Вид в Idea" src="images/junit5-allure/idea_param_test.png"
+		alt="Результаты тестирования"/></p>
