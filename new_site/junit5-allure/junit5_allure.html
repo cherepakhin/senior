@@ -83,6 +83,7 @@ dependencies {
 ./gradlew test --tests '*IntegTest*ui*'
 ./gradlew test --tests '*IntegTest.singleMethod'
 </pre></div><br/>
+<b>ВНИМАНИЕ на '*'. '*' - позволяет не указывать пакет.</b>
 Еще один момент - Gradle пропускает уже пройденные тесты, если код не изменился. В случае с тестирования внешнего сервися, сами тесты не меняются, а тестируюмая система может измениться.
 Нужно прогонять все тесты заново. Варианты решения:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
