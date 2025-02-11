@@ -4,7 +4,26 @@
 В <b>appication.yaml</b> нужно указать:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">spring.profiles.active: "dev"
 </pre></div>
-указано <b>ПО УМОЛЧАНИЮ</b> использовать профиль <b>dev</b><br/>
+Этот профиль будет использован ПО УМОЛЧАНИЮ при запуске приложения.<br/> Профиль можно указать при запуске приложения:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">java -D<span style="color: #0000FF">&quot;spring.profiles.active=dev&quot;</span> -jar app.jar
+</pre></div>
+
+<p dir="auto">или установить env переменную:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">SPRING_PROFILES_ACTIVE = dev
+</pre></div>
+
+<p dir="auto">Запуск с gradle:</p>
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew bootRun --args=<span style="color: #0000FF">&#39;--spring.profiles.active=dev&#39;</span>
+</pre></div>
+
+<p dir="auto">или</p>
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">SPRING_PROFILES_ACTIVE=dev ./gradlew clean bootRun
+</pre></div>
+(<a style="text-decoration: underline; color: #3366ff;"
+   title="https://v.perm.ru/index.php/component/content/article/simple-kotlin?catid=13&Itemid=101#spring_profiles"
+   href="https://v.perm.ru/index.php/component/content/article/simple-kotlin?catid=13&Itemid=101#spring_profiles"
+   target="_blank" rel="noopener noreferrer">https://v.perm.ru/index.php/component/content/article/simple-kotlin?catid=13&Itemid=101#spring_profiles</a>)
+<br/>
 Но, допустим, для некоторых ТЕСТОВ нужно использовать какой-то другой профиль. Для этого нужно создать файл <b>src/test/resources/application-test.yaml</b> и в
 тесте указать этот профиль:
 
@@ -31,3 +50,19 @@
                     title="https://github.com/cherepakhin/vacancy_wicket_k"
                     href="https://github.com/cherepakhin/vacancy_wicket_k"
                     target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/vacancy_wicket_k</a>
+<br/>
+src/main/resources/application.yaml:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">spring.profiles.active: "dev"
+</pre></div>
+src/main/resources/application-dev.yaml:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">myconfig:
+    remoteHost: http://127.0.0.1:8980/vacancy/api
+    companyRestUrl: /company
+    vacancyRestUrl: /vacancy
+</pre></div>
+src/test/resources/application-test.yaml:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">myconfig:
+    remoteHost: http://127.0.0.1:8980/vacancy/test/api
+    companyRestUrl: /company
+    vacancyRestUrl: /vacancy
+</pre></div>
