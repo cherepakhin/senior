@@ -1,0 +1,33 @@
+<b>Задача</b><br/>
+Нужно несколько профилей: "prod", "dev", "test", ...<br/>
+<hr id="system-readmore" />
+В <b>appication.yaml</b> нужно указать:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">spring.profiles.active: "dev"
+</pre></div>
+указано <b>ПО УМОЛЧАНИЮ</b> использовать профиль <b>dev</b><br/>
+Но, допустим, для некоторых ТЕСТОВ нужно использовать какой-то другой профиль. Для этого нужно создать файл <b>src/test/resources/application-test.yaml</b> и в
+тесте указать этот профиль:
+
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@SpringBootTest
+@ActiveProfiles(<span style="color: #0000FF">&quot;test&quot;</span>)  <span style="color: #008800; font-style: italic">// Значения задаются в файле:</span>
+<span style="color: #008800; font-style: italic">// src/test/resources/application-test.yaml</span>
+<span style="color: #008800; font-style: italic">// @ActiveProfiles(&quot;test&quot;) -&gt; TEST/resources/application-test.yaml</span>
+<span style="color: #008800; font-style: italic">// &quot;test&quot; -&gt; application-test.yaml</span>
+<span style="color: #008800; font-style: italic">// application-test.yaml есть только в src/TEST/resources</span>
+<span style="color: #008800; font-style: italic">// Если application-test.yaml нет существует (ни в main, ни в test), то тогда ниоткуда не берутся</span>
+
+<span style="color: #000080; font-weight: bold">class</span> ConfigForMainDev {
+    @Value(<span style="color: #0000FF">&quot;\${myconfig.remoteHost}&quot;</span>)
+    <span style="color: #000080; font-weight: bold">val</span> remoteHost: String? = <span style="color: #000080; font-weight: bold">null</span>
+
+    @Test
+    <span style="color: #000080; font-weight: bold">fun</span> getMyConfigRemoteHost() {
+        assertEquals(<span style="color: #0000FF">&quot;http://127.0.0.1:8980/vacancy/test/api&quot;</span>, remoteHost)
+    }
+}
+</pre></div>
+
+Пример в проекте <a style="text-decoration: underline; color: #3366ff;"
+                    title="https://github.com/cherepakhin/vacancy_wicket_k"
+                    href="https://github.com/cherepakhin/vacancy_wicket_k"
+                    target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/vacancy_wicket_k</a>
