@@ -34,19 +34,84 @@ minikube addons enable metrics-server
 Opening in existing browser session.
 </pre>
 </div>
-<br/>
 Запуск proxy для доступа к minikube из сети:<br/>
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
 <pre style="margin: 0; line-height: 125%;">vasi@v:~/tools$vasi@v:~$ kubectl proxy --address='0.0.0.0' --disable-filter=true &
 [2] 651193
-vasi@v:~$ W0214 15:09:01.808784  651193 proxy.go:177] Request filter disabled, your proxy is vulnerable to XSRF attacks, please be cautious
+W0214 15:09:01.808784  651193 proxy.go:177] Request filter disabled, your proxy is vulnerable to XSRF attacks, please be cautious
 Starting to serve on [::]:8001
 </pre>
 </div>
-
-Открыть с ноута:
+Порт <b>8001</b>. Можно открыть из сети (192.168.1.20 - ip адрес компьютера с minikube):
 <a style="text-decoration: underline; color: #3366ff;" href="http://192.168.1.20:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/workloads?namespace=default"
    target="_blank" rel="noopener noreferrer">http://192.168.1.20:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/workloads?namespace=default</a>
 <br/>
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="minikube_start.png" src="images/minikube/minikube_start.png"
         alt="minikube_start.png" width="1343" height="612"/></p>
+
+<h4>Проверка работы.</h4>
+Вместе с minikube, для тестов, поставляется приложение <b>hello_minikube</b>.<br/>
+Описание <b>hello_minikube</b><br/>
+Deployments:<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="deployments_hello_minikube.png" src="images/minikube/deployments_hello_minikube.png"
+        alt="deployments_hello_minikube.png" width="1245" height="628"/></p>
+
+Services:<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="services_minikube.png" src="images/minikube/services_minikube.png"
+        alt="services_minikube.png" width="1259" height="630"/></p>
+Внутренний порт (порт приложения) 8080 перенаправляется на внешний порт (снаружи kubernetes) 30449.<br/>
+Детали сервиса. Путь в меню: Service - Services - "hello-minikube":<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="services_metadata.png" src="images/minikube/services_metadata.png"
+        alt="services_metadata.png" width="1252" height="613"/></p>
+
+Проверка работы сервиса:<br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://minikube.sigs.k8s.io/docs/handbook/accessing/"
+   target="_blank" rel="noopener noreferrer">https://minikube.sigs.k8s.io/docs/handbook/accessing/</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/hartzler/hello-minikube"
+   target="_blank" rel="noopener noreferrer">https://github.com/hartzler/hello-minikube</a><br/>
+
+Получить порты приложений Kubernetes:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">vasi@v:~$ kubectl get svc
+NAME             TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+hello-minikube   NodePort    10.97.14.155   <none>        8080:30449/TCP   21h
+kubernetes       ClusterIP   10.96.0.1      <none>        443/TCP          22h
+</pre>
+</div>
+Или так (отобразится еще и адрес):<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">vasi@v:~$ minikube service hello-minikube --url
+http://192.168.67.2:30449
+</pre>
+</div>
+Порт приложения <b>8080</b> hello-minikube перенаправлен на внешний порт <b>30449</b>.<br/>
+Проверка снаружи minikube:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ http http://192.168.67.2:30449/
+HTTP/1.1 200 OK
+Content-Length: 186
+Content-Type: text/plain
+
+Request served by hello-minikube-ffcbb5874-fjf64
+
+HTTP/1.1 GET /
+
+Host: 192.168.67.2:30449
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+User-Agent: HTTPie/3.2.2
+</pre>
+</div>
+
+Остановка сервиса:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ minikube stop
+✋  Stopping node "minikube"  ...
+🛑  Powering off "minikube" via SSH ...
+✋  Stopping node "minikube"  ...
+🛑  Powering off "minikube" via SSH ...
+✋  Stopping node "minikube"  ...
+🛑  1 node stopped.
+</pre>
+</div>
