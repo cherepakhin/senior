@@ -121,7 +121,9 @@ vasi@v:~$ minikube start
 НЕ SUDO!!!
 
 ЖДАТЬ! ДОЛГО!
+"minikube start" запускается как виртуальная машина. Состояние можно посмотреть в Virtual Machine Manager: virt_manager.png
 
+Kubectl установлена в tools. Но не работает. Использовать замену minikube так:
 vasi@v:~$ minikube kubectl -- get pods -A
 NAMESPACE              NAME                                        READY   STATUS    RESTARTS         AGE
 default                hello-minikube-7d48979fd6-rzrpl             1/1     Running   2 (7m28s ago)    98d
@@ -197,4 +199,10 @@ Opening in existing browser session.
 
 ОТКРЫЛОСЬ НА v:
 http://127.0.0.1:36781/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/workloads?namespace=default
-с ноута не открывается!
+с ноута не открывается. Для того, чтобы открыть с удаленного компа, нужно выполнить :
+vasi@v:~/tools$ kubectl proxy --address='0.0.0.0' --disable-filter=true
+
+После этого на удаленной машине открывается:
+http://192.168.1.20:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/workloads?namespace=default
+
+Совет отсюда https://stackoverflow.com/questions/47173463/how-to-access-local-kubernetes-minikube-dashboard-remotely.
