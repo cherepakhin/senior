@@ -1,6 +1,6 @@
 Задача организовать удобное UNIT и интеграционное тестирование.<br/>
 Пример проекта с gradle <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/vacancy_backend" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/vacancy_backend</a><br/>
-Кратко.<br/>
+Зачем? Интеграционные тесты должны быть отделены от unit тестов, т.к. нет смысла проводить интеграционное тестирование, если unit тесты упали (аксиома, но оказывается, это нужно говорить). Кратко:<br/>
 В build.gradle.kts (<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/vacancy_backend/blob/dev/build.gradle.kts" target="_blank" rel="noopener noreferrer">пример</a>) добавить:<br/>
 <hr id="system-readmore" />
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
@@ -32,3 +32,16 @@ tasks.withType<Test> {
 ./gradlew test -Dtest.profile=integration
 </pre>
 </div>
+
+<br/>
+<h4>Ссылки:</h4>
+<a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/index.php/component/content/article/integrtestallure?catid=15&Itemid=101"
+   target="_blank" rel="noopener noreferrer">Интеграционное тестирование с JUnit</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/index.php/component/content/article/before-after-in-tests?catid=15&Itemid=101"
+   target="_blank" rel="noopener noreferrer">@Before @After в тестах</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/index.php/component/content/article/simple-kotlin?catid=13&Itemid=101#integration_test"
+   target="_blank" rel="noopener noreferrer">Простой проект на Kotlin и Spring Boot</a><br/>
+
+
+
+
