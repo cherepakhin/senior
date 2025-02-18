@@ -1,3 +1,7 @@
+Проверка статуса сервиса ufw, конфигурация портов:
+<hr id="system-readmore" />
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
 vasi@v ~ $ sudo ufw status verbose
 Status: active
 Logging: on (medium)
@@ -56,41 +60,27 @@ Anywhere (v6)              ALLOW IN    Anywhere (v6)
 5601 (v6) on enp4s0        ALLOW IN    Anywhere (v6)
 33259 (v6) on enp4s0       ALLOW IN    Anywhere (v6)
 5601 (v6)                  ALLOW IN    Anywhere (v6)
-
-
-https://selectel.ru/blog/tutorials/how-to-configure-firewall-with-ufw-on-ubuntu-20/
-sudo ufw status verbose
---------------------------------------------------
-RESTART NETWORK
-(https://operavps.com/docs/restart-network-in-linux/):
-sudo systemctl restart systemd-networkd
-sudo systemctl restart NetworkManager.service
-sudo nmcli networking off & sudo nmcli networking on
-systemctl status NetworkManager
---------------------------------------------------
-
-https://routerus.com/how-to-setup-a-firewall-with-ufw-on-ubuntu-20-04/
-https://www.sim-networks.com/ru/kb/ubuntu-config-firewall-ufw-utility
-https://tokmakov.msk.ru/blog/item/465
-
-sudo systemctl reload ufw
-sudo systemctl restart ufw
-sudo systemctl reload apache2
-
-ps -Flww -p 7341
-
-Разрешить DNS:
-$ sudo ufw allow 53/tcp
+</pre></div><br/>
+Restart network:<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://operavps.com/docs/restart-network-in-linux/"
+   target="_blank" rel="noopener noreferrer">7 Ways to Restart Network in Linux Ubuntu, Debian, CentOS</a><br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+$ sudo systemctl restart systemd-networkd
+$ sudo systemctl restart NetworkManager.service
+$ sudo nmcli networking off & sudo nmcli networking on
+$ systemctl status NetworkManager
+</pre></div><br/>
+Разрешить DNS:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ sudo ufw allow 53/tcp
 $ sudo ufw allow 53/udp
+</pre></div><br/>
 
-sudo ufw status verbose
-sudo ufw status numbered verbose
-sudo ufw delete NUMBER_RULE
-
-
-
-===========Эксперименты с 8980
------------DENY AND LOG on ALL INTERFACES
+Эксперименты с произвольным портом (8980):<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">-----------DENY AND LOG on ALL INTERFACES
 sudo ufw insert 1 deny log-all 8980
 
 http http://v.perm.ru:8980/vacancy/api/company/
@@ -329,6 +319,19 @@ root@v:/etc/ufw# cat user.rules
 -A ufw-user-limit-accept -j ACCEPT
 ### END RATE LIMITING ###
 COMMIT
+</pre></div><br/>
+<b>Ссылки:</b><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://selectel.ru/blog/tutorials/how-to-configure-firewall-with-ufw-on-ubuntu-20/"
+   target="_blank" rel="noopener noreferrer">Настройка файрвола в Ubuntu с помощью утилиты UFW в Ubuntu 20</a><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://routerus.com/how-to-setup-a-firewall-with-ufw-on-ubuntu-20-04/"
+   target="_blank" rel="noopener noreferrer">Как настроить брандмауэр с UFW в Ubuntu 20.04</a><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://www.sim-networks.com/ru/kb/ubuntu-config-firewall-ufw-utility"
+   target="_blank" rel="noopener noreferrer">Настройка firewall в Ubuntu с помощью утилиты UFW</a><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://tokmakov.msk.ru/blog/item/465"
+   target="_blank" rel="noopener noreferrer">Узелки на память. Использование утилиты UFW на Ubuntu 18.04 LTS</a><br/>
 
-https://telegra.ph/Kak-nastroit-brandmauehr-UFW-v-sistemah-Linux-05-14
-https://www.baeldung.com/linux/server-router-configure
+
