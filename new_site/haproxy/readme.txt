@@ -2,7 +2,7 @@
     офис -> haproxy v -> mts
     интернет -> haproxy el59 -> офис и магазины el59 (+vpn)
     офис -> haproxy v  -> домашний note
-    сотрудник domru - portmapper -> domru
+    сотрудник domru - portmapper -> vpn -> domru
 
 Устанавливаем балансировщик нагрузки HAProxy на CentOS https://habr.com/ru/companies/otus/articles/512238/
 Установка и настройка HAProxy на Linux https://www.dmosk.ru/miniinstruktions.php?mini=haproxy-centos7
