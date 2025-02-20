@@ -332,3 +332,4 @@ COMMIT
 
 https://telegra.ph/Kak-nastroit-brandmauehr-UFW-v-sistemah-Linux-05-14
 https://www.baeldung.com/linux/server-router-configure
+Использование утилиты UFW на Ubuntu 18.04 LTS (12.01.2020) - https://tokmakov.msk.ru/blog/item/465
