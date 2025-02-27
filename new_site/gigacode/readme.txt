@@ -8,3 +8,7 @@
 (https://id.cloud.ru/login?tab=NDgzYWUwNDAtZTJhOC00NDY3LWExMjgtYTljMDYyODA4ZGJiJmdpdHZlcnNl.2510eee82115d551607570829f7b3bace5bceec52ad379261e5b3f8e5aa3bf23)
 vasi.che@gmail.com/B.._1970
 Код из СМС
+
+Новая GPT от Yandex:
+https://alice.yandex.ru/
+https://alice.yandex.ru/chat/0195483f-796a-409a-97d7-f8d782949fb9/
