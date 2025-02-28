@@ -30,3 +30,5 @@ function loadDoc() {
 
 </body>
 </html>
+
+https://habr.com/ru/articles/14246/
