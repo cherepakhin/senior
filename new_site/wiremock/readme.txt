@@ -1,5 +1,6 @@
 WireMock – швейцарский нож в арсенале тестировщика.
 Часть 1 https://habr.com/ru/companies/rostelecom/articles/679276/
+Часть 2 https://habr.com/ru/company/rostelecom/blog/679330/
 
 Можно использовать для эмуляции стороннего сервиса.
 На пример: разрабатываю proxy сервис для работы с удаленным сервисом.
