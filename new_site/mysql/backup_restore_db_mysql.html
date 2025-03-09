@@ -8,8 +8,8 @@
 $ cd /tmp
 $ zip j3_dump.sql.zip j3_dump.sql
 $ rm j3_dump.sql
-</code>
 </pre>
+</div>
 <h3>Restore (база данных <b>j3</b>):</h3>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ mysql -u root -p
 >pass: ***
@@ -17,6 +17,15 @@ mysql> drop database j3;
 mysql> create database j3;
 mysql> use j3;
 mysql> source /tmp/j3_dump.sql
+</pre></div>
+Еще пример:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+# Пересоздание таблиц БД
+# hv - это хост host = v
+# evg - название базы данных MySql
+mysql --user=igor --password=pass evg -hv < ./create_db.sql
+# Загрузка данных
+mysql --user=igor --password=pass evg -hv < ./load_db.sql
 </pre></div>
 
 
