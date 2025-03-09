@@ -73,6 +73,46 @@ Here it is!
 </div>
 В схеме интеграционного BDD тестирования <a style="text-decoration: underline; color: #3366ff;" href="https://en.wikipedia.org/wiki/Behavior-driven_development"
 											target="_blank" rel="noopener noreferrer">"Given-When-Then"</a> можно использовать в <b>"Given"</b>.<br/>
+
+Есть возможность настройки и проведения теста с помощью <b>java кода</b> (<a style="text-decoration: underline; color: #3366ff;" href="https://wiremock.org/docs/junit-jupiter/"
+																	  target="_blank" rel="noopener noreferrer">https://wiremock.org/docs/junit-jupiter/</a>):<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">public class ProgrammaticWireMockTest {
+	@RegisterExtension
+	static WireMockExtension wm1 = WireMockExtension.newInstance()
+		.options(wireMockConfig().dynamicPort().dynamicHttpsPort())
+		.build();
+
+	@RegisterExtension
+	static WireMockExtension wm2 = WireMockExtension.newInstance()
+		.options(wireMockConfig()
+		.dynamicPort()
+		.extensions(new ResponseTemplateTransformer(
+				getTemplateEngine(),
+				options.getResponseTemplatingGlobal(),
+				getFiles(),
+				templateModelProviders
+			)
+		)
+	.build();
+
+	@Test
+	void test_something_with_wiremock() {
+		// You can get ports, base URL etc. via WireMockRuntimeInfo
+		WireMockRuntimeInfo wm1RuntimeInfo = wm1.getRuntimeInfo();
+		int httpsPort = wm1RuntimeInfo.getHttpsPort();
+
+		// or directly via the extension field
+		int httpPort = wm1.port();
+
+		// You can use the DSL directly from the extension field
+		wm1.stubFor(get("/api-1-thing").willReturn(ok()));
+
+		wm2.stubFor(get("/api-2-stuff").willReturn(ok()));
+	}
+}
+</pre>
+</div>
 Ссылки:<br/>
 <ul>
 	<li><a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/companies/rostelecom/articles/679276/"
@@ -81,6 +121,8 @@ Here it is!
 		   target="_blank" rel="noopener noreferrer">"WireMock – швейцарский нож в арсенале тестировщика. Часть2"</a></li>
 	<li><a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/companies/beeline_tech/articles/878368/"
 		   target="_blank" rel="noopener noreferrer">"WireMock: Легкий путь к эффективному тестированию"</a></li>
+	<li><a style="text-decoration: underline; color: #3366ff;" href="https://wiremock.org/docs/spring-boot/"
+		   target="_blank" rel="noopener noreferrer">"WireMock + Spring Boot"</a></li>
 	<li><a style="text-decoration: underline; color: #3366ff;" href="https://site.mockito.org/"
 		   target="_blank" rel="noopener noreferrer">mockito.org</a></li>
 	<li><a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/companies/otus/articles/780090/"
