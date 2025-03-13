@@ -5,34 +5,29 @@
 <br/>
 Распаковать apache-tomcat-9.0.98.zip в /usr/share/tomcat9/<br/>
 Запустить:<br/>
+<hr id="system-readmore" />
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">/usr/share/tomcat9/bin@ ./startup.sh</span>
 </pre></div>
+Открыть: <a href="http://192.168.1.20:8080/" target="_blank" rel="noopener noreferrer"> <strong>http://192.168.1.20:8080/</strong></a><br/>
+<a href="http://localhost:8080/manager/html" target="_blank" rel="noopener noreferrer"> <strong>http://localhost:8080/manager/html</strong></a><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="tomcat9" src="images/tomcat9/tomcat9.png"
+        alt="tomcat9" width="966" height="600"/></p><br/>
+Проверить с компьютера с Tomcat и удаленного компьютера:
+<a href="http://192.168.1.20:8080/" target="_blank" rel="noopener noreferrer"> <strong>http://192.168.1.20:8080/</strong></a><br/>
 Остановить:<br/>
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">/usr/share/tomcat9/bin@./shutdown.sh</span>
 </pre></div>
-Открыть: <a href="http://192.168.1.20:8080/" target="_blank" rel="noopener noreferrer"> <strong>http://192.168.1.20:8080/</strong></a><br/>
 Настроить имя и пароль админов в файле /usr/share/tomcat9/conf/tomcat-users.xml:
-<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">````
+  &lt;user username="admin" password="password" roles="manager-gui"/&gt;
+  &lt;user username="vasi" password="password" roles="manager-script"/&gt;
 ````
-  <user username="admin" password="password" roles="manager-gui"/>
-  <user username="vasi" password="password" roles="manager-script"/>
-````
-</span>
 </pre></div>
-Проверить с компьютера с Tomcat и удаленного компьютера:
-<a href="http://192.168.1.20:8080/" target="_blank" rel="noopener noreferrer"> <strong>http://192.168.1.20:8080/</strong></a><br/>
-<a href="http://localhost:8080/manager/html" target="_blank" rel="noopener noreferrer"> <strong>http://localhost:8080/manager/html</strong></a><br/>
 
-<h3>Настройка автозапуска сервиса в linux</h3>
-<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">
-$ systemctl daemon-reload
-$ systemctl enable tomcat9.service
-$ systemctl stop tomcat9.service
-$ systemctl start tomcat9.service
-$ systemctl status tomcat9.service
-</span></pre></div>
-Файл tomcat9.service:<br/>
-<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">
+<h3>Настройка сервиса в linux и автозапуск</h3>
+Файл /etc/init.d/tomcat9:<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">/etc/init.d# cat tomcat9
 #!/bin/bash
 
 ### BEGIN INIT INFO
@@ -45,7 +40,7 @@ $ systemctl status tomcat9.service
 # Description:       Start Tomcat at boot time
 ### END INIT INFO
 
-export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64
+export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
 export CATALINA_HOME=/usr/share/tomcat9
 export JAVA_OPTS="-Xms250m -Xmx1024m"
 
@@ -72,4 +67,11 @@ stop)
 esac
 
 exit $RETVAL
+</span></pre></div>
+Запуск сервиса:<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">$ systemctl daemon-reload
+$ systemctl enable tomcat9.service
+$ systemctl stop tomcat9.service
+$ systemctl start tomcat9.service
+$ systemctl status tomcat9.service
 </span></pre></div>
