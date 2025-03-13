@@ -26,7 +26,8 @@
 </pre></div>
 
 <h3>Настройка сервиса в linux и автозапуск</h3>
-Файл /etc/init.d/tomcat9:<br/>
+Файл <a href="https://github.com/cherepakhin/senior/blob/main/new_site/tomcat9/tomcat9" target="_blank" rel="noopener noreferrer"> <strong>/etc/init.d/tomcat9</strong></a>:
+<br/>
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">/etc/init.d# cat tomcat9
 #!/bin/bash
 
@@ -74,4 +75,11 @@ $ systemctl enable tomcat9.service
 $ systemctl stop tomcat9.service
 $ systemctl start tomcat9.service
 $ systemctl status tomcat9.service
+● tomcat9.service - LSB: Start Tomcat at boot time
+     Loaded: loaded (/etc/init.d/tomcat9; generated)
+     Active: active (exited) since Thu 2021-03-13 12:26:54 +05; 29min ago
+       Docs: man:systemd-sysv-generator(8)
+    Process: 1759603 ExecStart=/etc/init.d/tomcat9 start (code=exited, status=0/SUCCESS)
+        CPU: 10ms
+
 </span></pre></div>
