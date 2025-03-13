@@ -32,3 +32,6 @@ public class HomePage extends WebPage {
 
 https://moldstud.com/articles/p-integrating-apache-wicket-with-spring-best-practices-for-seamless-integration
 (13 October 2024)
+
+Статья: https://www.coderdreams.com/spring-mvc-vs-wicket/
+Код из статьи: https://github.com/RomanSery/codesnippets
