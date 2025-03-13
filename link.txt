@@ -25,3 +25,5 @@ border:solid #020274
 Картинка с github:
 <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/swagger.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/swagger.png" alt="swagger" /></a></p>
 
+&lt;
+&gt;
