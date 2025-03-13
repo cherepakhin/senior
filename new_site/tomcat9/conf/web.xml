@@ -4752,4 +4752,8 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
+    <context-param>
+	<param-name>org.apache.jasper.servlet.JspServlet.params.tldSkip</param-name>
+	<param-value>[...].jar,[...].jar</param-value>
+    </context-param>
 </web-app>

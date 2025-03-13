@@ -18,7 +18,20 @@ http://192.168.1.20:8080/
   <user username="vasi" password="pass" roles="manager-script"/>
 ````
 
-
+http://192.168.1.20:8080/ - OK
 http://localhost:8080/manager/html - OK admin/pass
-http://192.168.1.20:8080/manager/html - BAD
+http://v:8080/manager/html - OK с ноута
 http://v:8080/manager/html - OK admin/pass
+
+файл "tomcat9" скопировать в /etc/init.d/
+Папку "conf" в /usr/share/tomcat9/conf
+После этого выполнить:
+systemctl daemon-reload
+systemctl enable tomcat9.service
+systemctl stop tomcat9.service
+systemctl start tomcat9.service
+systemctl status tomcat9.service
+
+
+http://v:8080/ - OK (заходить через "v" , а не через 192.168.1.20). С ноута работает.
+
