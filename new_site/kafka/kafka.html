@@ -212,8 +212,158 @@ Hello World3
 </span></pre></div>
 Отправка сообщений с помощью KafkaCat:<br/>
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ echo "Hello World3" | kafkacat -b v:9092 -t hello-topic
-</span></pre></div>
-<br/>
+</span></pre></div><br/>
+Форматированный вывод:<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ kafkacat -b v:9092 -t hello-topic -f '\nKey (%K bytes): %k\tValue (%S bytes): %s\nTimestamp: %T\tPartition: %p\tOffset: %o\n--\n'
+Key (-1 bytes):
+Value (12 bytes): Hello World3
+Timestamp: 1741713079913	Partition: 0	Offset: 3
+--
+
+Key (-1 bytes):
+Value (12 bytes): Hello World3
+Timestamp: 1741713826402	Partition: 0	Offset: 4
+--
+
+Key (-1 bytes):
+Value (12 bytes): Hello World3
+Timestamp: 1741713827894	Partition: 0	Offset: 5
+--
+
+Key (-1 bytes):
+Value (12 bytes): Hello World3
+Timestamp: 1741714481961	Partition: 0	Offset: 6
+--
+% Reached end of topic hello-topic [0] at offset 7
+</span></pre></div><br/>
+Отправка текстового файла:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ kafkacat -b v:9092 -t hello-topic -T -P -l ~/temp/1.json
+</span></pre></div><br/>
+Отправка текстового файла построчно (каждая строка в отдельном сообщении):
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ kafkacat -b v:9092 -t hello-topic -T -P -l ./file_for_send.txt
+</span></pre></div><br/>
+Ключи:<br/>
+-b - адрес Kafka (bootstrap server)
+-t - topic
+-P -  продюсер (-C consummer)
+-T - вывод в stdout
+-l - одна строка - одно сообщение<br/>
+Все ключи:<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ kafkacat --help
+Usage: kafkacat &lt;options&gt; [file1 file2 .. | topic1 topic2 ..]]
+kafkacat - Apache Kafka producer and consumer tool
+https://github.com/edenhill/kafkacat
+Copyright (c) 2014-2015, Magnus Edenhill
+Version 1.3.1 (JSON) (librdkafka 0.11.3 builtin.features=gzip,snappy,ssl,sasl,regex,lz4,sasl_gssapi,sasl_plain,sasl_scram,plugins)
+
+
+General options:
+  -C | -P | -L | -Q  Mode: Consume, Produce, Metadata List, Query mode
+  -G &lt;group-id&gt;      Mode: High-level KafkaConsumer (Kafka 0.9 balanced consumer groups)
+                     Expects a list of topics to subscribe to
+  -t &lt;topic&gt;         Topic to consume from, produce to, or list
+  -p &lt;partition&gt;     Partition
+  -b &lt;brokers,..&gt;    Bootstrap broker(s) (host[:port])
+  -D &lt;delim&gt;         Message delimiter character:
+                     a-z.. | \r | \n | \t | \xNN
+                     Default: \n
+  -E                 Do not exit on non fatal error
+  -K &lt;delim&gt;         Key delimiter (same format as -D)
+  -c &lt;cnt&gt;           Limit message count
+  -X list            List available librdkafka configuration properties
+  -X prop=val        Set librdkafka configuration property.
+                     Properties prefixed with "topic." are
+                     applied as topic properties.
+  -X dump            Dump configuration and exit.
+  -d &lt;dbg1,...&gt;      Enable librdkafka debugging:
+                     all,generic,broker,topic,metadata,queue,msg,protocol,cgrp,security,fetch,feature
+  -q                 Be quiet (verbosity set to 0)
+  -v                 Increase verbosity
+  -V                 Print version
+  -h                 Print usage help
+
+Producer options:
+  -z snappy|gzip     Message compression. Default: none
+  -p -1              Use random partitioner
+  -D &lt;delim&gt;         Delimiter to split input into messages
+  -K &lt;delim&gt;         Delimiter to split input key and message
+  -l                 Send messages from a file separated by
+                     delimiter, as with stdin.
+                     (only one file allowed)
+  -T                 Output sent messages to stdout, acting like tee.
+  -c &lt;cnt&gt;           Exit after producing this number of messages
+  -Z                 Send empty messages as NULL messages
+  file1 file2..      Read messages from files.
+                     With -l, only one file permitted.
+                     Otherwise, the entire file contents will
+                     be sent as one single message.
+
+Consumer options:
+  -o &lt;offset&gt;        Offset to start consuming from:
+                     beginning | end | stored |
+                     &lt;value&gt;  (absolute offset) |
+                     -&lt;value&gt; (relative offset from end)
+  -e                 Exit successfully when last message received
+  -f &lt;fmt..&gt;         Output formatting string, see below.
+                     Takes precedence over -D and -K.
+  -J                 Output with JSON envelope
+  -D &lt;delim&gt;         Delimiter to separate messages on output
+  -K &lt;delim&gt;         Print message keys prefixing the message
+                     with specified delimiter.
+  -O                 Print message offset using -K delimiter
+  -c &lt;cnt&gt;           Exit after consuming this number of messages
+  -Z                 Print NULL messages and keys as "NULL"(instead of empty)
+  -u                 Unbuffered output
+
+Metadata options (-L):
+  -t &lt;topic&gt;         Topic to query (optional)
+
+Query options (-Q):
+  -t &lt;t&gt;:&lt;p&gt;:&lt;ts&gt;    Get offset for topic &lt;t&gt;,
+                     partition &lt;p&gt;, timestamp &lt;ts&gt;.
+                     Timestamp is the number of milliseconds
+                     since epoch UTC.
+                     Requires broker &gt;= 0.10.0.0 and librdkafka &gt;= 0.9.3.
+                     Multiple -t .. are allowed but a partition
+                     must only occur once.
+
+Format string tokens:
+  %s                 Message payload
+  %S                 Message payload length (or -1 for NULL)
+  %R                 Message payload length (or -1 for NULL) serialized
+                     as a binary big endian 32-bit signed integer
+  %k                 Message key
+  %K                 Message key length (or -1 for NULL)
+  %T                 Message timestamp (milliseconds since epoch UTC)
+  %t                 Topic
+  %p                 Partition
+  %o                 Message offset
+  \n \r \t           Newlines, tab
+  \xXX \xNNN         Any ASCII character
+ Example:
+  -f 'Topic %t [%p] at offset %o: key %k: %s\n'
+
+
+Consumer mode (writes messages to stdout):
+  kafkacat -b &lt;broker&gt; -t &lt;topic&gt; -p &lt;partition&gt;
+ or:
+  kafkacat -C -b ...
+
+High-level KafkaConsumer mode:
+  kafkacat -b &lt;broker&gt; -G &lt;group-id&gt; topic1 top2 ^aregex\d+
+
+Producer mode (reads messages from stdin):
+  ... | kafkacat -b &lt;broker&gt; -t &lt;topic&gt; -p &lt;partition&gt;
+ or:
+  kafkacat -P -b ...
+
+Metadata listing:
+  kafkacat -L -b &lt;broker&gt; [-t &lt;topic&gt;]
+
+Query offset by timestamp:
+  kafkacat -Q -b broker -t &lt;topic&gt;:&lt;partition&gt;:&lt;timestamp&gt;
+</span></pre></div><br/>
+
 <h3>Ссылки</h3>
 <a title="https://v.perm.ru/index.php/instrumenty-devops/kafka-install"
    href="https://v.perm.ru/index.php/instrumenty-devops/kafka-install"
@@ -226,3 +376,8 @@ Hello World3
    href="https://slurm.io/blog/tpost/2x5ftglf11-poleznie-instrumenti-dlya-razrabotchikov"
    target="_blank" rel="noopener noreferrer">
     <strong>Полезные инструменты для разработчиков Apache Kafka</strong></a><br/>
+<a title="https://900913.ru/tldr/common/en/kafkacat/"
+   href="https://900913.ru/tldr/common/en/kafkacat/"
+   target="_blank" rel="noopener noreferrer">
+    <strong>Команда kafkacat: опции, ключи и примеры использования</strong></a><br/>
+
