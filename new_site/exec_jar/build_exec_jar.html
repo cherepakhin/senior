@@ -1,6 +1,8 @@
 <h3 dir="auto">Оглавление:</h3>
 <ul>
     <li><a href="#maven-assembly-plugin">maven-assembly-plugin</a></li>
+    <li><a href="#run-maven-spring-boot">Запуск Spring Boot приложения с MAVEN</a></li>
+    <li><a href="#run-gradle-spring-boot">Запуск Spring Boot приложения  с GRADLE</a></li>
     <li><a href="#other_example">Другие примеры</a></li>
     <li><a href="#links">Ссылки</a></li>
 </ul>
@@ -73,5 +75,32 @@
 <p><a style="text-decoration: underline; color: #3366ff;" title="https://v.perm.ru/main/index.php/homepage/71-modulnyj-proekt-gradle" href="main/index.php/homepage/71-modulnyj-proekt-gradle" target="_blank" rel="noopener noreferrer">Многомодульный проект Gradle</a> <br />
 <a style="text-decoration: underline; color: #3366ff;" title="https://v.perm.ru/main/index.php/homepage/69-prostoj-proekt-na-kotlin-i-spring-boot#bootjar" href="main/index.php/homepage/69-prostoj-proekt-na-kotlin-i-spring-boot#bootjar" target="_blank" rel="noopener noreferrer">Дополнительные инструменты для проекта на Kotlin и Spring Boot (Создание запускаемого файла и его запуск)</a><br />
 </p>
+<br/>
+<h3 dir="auto">Запуск Spring boot приложения:</h3>
+<b>Только запуск</b>, без сборки jar и т.п.
+<p><a id="run-maven-spring-boot"></a></p>
+<p>
+    <a style="text-decoration: underline; color: #3366ff;"
+       href="https://docs.spring.io/spring-boot/docs/1.5.22.RELEASE/reference/html/using-boot-running-your-application.html#using-boot-running-with-the-maven-plugin"
+       target="_blank" rel="noopener noreferrer">Using the Maven plugin</a><br />
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+$ export MAVEN_OPTS=-Xmx1024m -XX:MaxPermSize=128M
+$ mvn spring-boot:run
+</pre></div>
+<p><a id="run-gradle-spring-boot"></a></p>
+<a style="text-decoration: underline; color: #3366ff;"
+       href="https://docs.spring.io/spring-boot/docs/1.5.22.RELEASE/reference/html/using-boot-running-your-application.html#using-boot-running-with-the-gradle-plugin" target="_blank"
+      rel="noopener noreferrer">Using the Gradle plugin</a> <br />
+"...The bootRun task is added whenever you import the spring-boot-gradle-plugin..."
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+$ export JAVA_OPTS=-Xmx1024m -XX:MaxPermSize=128M
+$ gradle bootRun
+</pre></div>
+<br/>
 <h3 dir="auto">Ссылки:</h3>
-<p><a style="text-decoration: underline; color: #3366ff;" title="https://habr.com/ru/articles/716554/" href="https://habr.com/ru/articles/716554/" target="_blank" rel="noopener noreferrer">https://habr.com/ru/articles/716554/</a></p>
+<ul>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/articles/716554/" target="_blank" rel="noopener noreferrer">https://habr.com/ru/articles/716554/</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://docs.spring.io/spring-boot/docs/1.5.22.RELEASE/reference/html/using-boot-running-your-application.html" target="_blank" rel="noopener noreferrer">19. Running your application. Part III. Using Spring Boot</a></li>
+</ul>
