@@ -1,0 +1,82 @@
+https://blog.skillfactory.ru/glossary/bem/
+
+БЭМ - Блок, Элемент, Модификатор
+Это система ИМЕНОВАНИЯ.
+
+Блок — это абсолютно независимый компонент страницы. Он отвечает только за отображение элементов — то есть, например, у него не может быть внешних отступов margin. Блоки могут включать в себя другие блоки. Имя блока совпадает с именем селектора по классу:
+Пример: <div class="traffic"></div>
+Примеры блоков: "menu_block", "search_block", "logo_block"
+
+Элемент — это часть блока, которая имеет смысл только внутри своего блока и отдельно от него НЕ ИСПОЛЬЗУЕТСЯ. Имя селектора включает имя класса и — через ДВОЙНОЕ подчёркивание — имя элемента.
+Пример: <div class="traffic__light"></div>
+Пример элемента: "menu_item"
+
+Модификатор — это сущность, которая описывает атрибуты блока или элемента: положение, состояние, поведение. Для разделения слов в именах всех сущностей используются дефисы. Модификатор в селекторе именуется через ОДНО подчёркивание после имени элемента или блока.
+Пример: <div class="traffic_light__traffic_light_red"></div>
+Пример модификатора: "menu_item_selected"
+
+в имени модификатора лучше указывать название состояния, а не конкретного атрибута, связанного с этим состоянием. Вот так:
+
+trafic__light_action_stop;  (не red)
+trafic__light_action_wait;  (не yellow)
+trafic__light_action_go;    (не green)
+
+(хотя ниже для простоты red, yellow, green)
+
+Пример "светофор":
+
+HTML:
+// "traffic" - БЛОК
+<div class="traffic">
+  // "traffic__light" - элемент
+  // "traffic__light_stop" - модификатор
+  <div class="traffic__light traffic__light_stop">RED</div>
+
+  <div class="traffic__light traffic__light_wait">YELLOW</div>
+  <div class="traffic__light traffic__light_go">RED</div>
+</div>
+
+CSS:
+
+// БЛОК
+.traffic {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+// ЭЛЕМЕНТ. д.б. использован внутри блока с class ".traffic"
+.traffic__light {
+  width: 50px;
+  height: 50px;
+}
+
+//МОДИФИКАТОР. использование: <div class="traffic__light traffic__light_go">RED</div>
+.traffic__light_go {
+  background-color: #00ff00;
+}
+
+.traffic__light_stop {
+  background-color: #ff0000;
+}
+
+.traffic__light_wait {
+  background-color: #ffff00;
+}
+
+
+========================
+Перекрытие
+
+https://sky.pro/wiki/html/perekrytie-div-elementov-v-css-pozitsionirovanie-i-vyravnivanie/
+
+========================
+Пример использования селектора потомков:
+
+article p {
+  color: gray;
+  line-height: 1.6;
+}
+
+В данном примере все абзацы (<p>), которые находятся внутри элемента <article>, будут окрашены в gray цвет и получат межстрочный интервал в полтора размера шрифта.
+========================
