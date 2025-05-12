@@ -363,6 +363,71 @@ Metadata listing:
 Query offset by timestamp:
   kafkacat -Q -b broker -t &lt;topic&gt;:&lt;partition&gt;:&lt;timestamp&gt;
 </span></pre></div><br/>
+
+Каждый консьюмер Kafka обычно является частью какой-нибудь консьюмер-группы.
+
+Каждая группа имеет уникальное название и регистрируется брокерами в кластере Kafka.
+Данные из одного и того же топика могут считываться множеством консьюмер-групп ОДНОВРЕМЕННО
+Консьюмеры в разных группах будут получать сообщения ПАРАЛЛЕЛЬНО.
+
+Т.е. когда несколько консьюмеров читают данные из Kafka и являются членами одной и той же группы,
+то каждый из них получает сообщения из разных партиций топика, таким образом распределяя нагрузку.
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+@Component
+@RequiredArgsConstructor
+@Slf4j
+public class KafkaConsumerListeners {
+
+// Ниже 2 получателя (handle1, handle2) для одного топика
+// Сообщения будут доставлены ОБОИМ получателям
+@KafkaListener(
+    // Группа консюмера
+    id = "consumer-group-1",
+    // Топик
+    topics = "${kafka.topics.test-topic}",
+    // ВАЖНО: определяет фабрику, которую мы используем.
+    // Иначе используется фабрика по умолчанию и многопоточность не работает
+    containerFactory = "kafkaListenerContainerFactory")
+    public void handle1(@Payload JsonMessage message) {
+    printMessage(message, "consumer-group-1_handle1");
+}
+
+@KafkaListener(
+    // Группа консюмера
+    id = "consumer-group-2",
+    // Топик
+    topics = "${kafka.topics.test-topic}",
+    // ВАЖНО: определить фабрику.
+    // Иначе используется фабрика по умолчанию и многопоточность не работает
+    containerFactory = "kafkaListenerContainerFactory")
+    public void handle2(@Payload JsonMessage message) {
+        printMessage(message, "consumer-group-2");
+    }
+
+    public void printMessage(JsonMessage message, String idConsumerGroup) {
+        long number = message.getNumber();
+        // Имя потока для интереса. Никакой функциональной ценности не несет.
+        String currentThreadName = Thread.currentThread().getName();
+        log.info("Получено idConsumerGroup={} сообщение {} в потоке: {} ", idConsumerGroup, message, currentThreadName);
+    }
+}
+</pre></div>
+Лог:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+(~/prog/java/kafka/kafka-cluster)
+[r-group-2-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : consumer-group-2: partitions assigned: [topic1-0]
+[r-group-1-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : consumer-group-1: partitions assigned: [topic1-0]
+[r-group-1-0-C-1] r.h.k.consumer.KafkaConsumerListeners    : Получено idConsumerGroup=consumer-group-1_handle1 сообщение JsonMessage{number=1, message='message number 1'} в потоке: consumer-group-1-0-C-1
+[r-group-1-0-C-1] r.h.k.consumer.KafkaConsumerListeners    : Получено idConsumerGroup=consumer-group-1_handle1 сообщение JsonMessage{number=2, message='message number 2'} в потоке: consumer-group-1-0-C-1
+[r-group-2-0-C-1] r.h.k.consumer.KafkaConsumerListeners    : Получено idConsumerGroup=consumer-group-2 сообщение JsonMessage{number=1, message='message number 1'} в потоке: consumer-group-2-0-C-1
+[r-group-1-0-C-1] r.h.k.consumer.KafkaConsumerListeners    : Получено idConsumerGroup=consumer-group-1_handle1 сообщение JsonMessage{number=3, message='message number 3'} в потоке: consumer-group-1-0-C-1
+[r-group-2-0-C-1] r.h.k.consumer.KafkaConsumerListeners    : Получено idConsumerGroup=consumer-group-2 сообщение JsonMessage{number=2, message='message number 2'} в потоке: consumer-group-2-0-C-1
+[r-group-2-0-C-1] r.h.k.consumer.KafkaConsumerListeners    : Получено idConsumerGroup=consumer-group-2 сообщение JsonMessage{number=3, message='message number 3'} в потоке: consumer-group-2-0-C-1
+</pre></div>
+
 Перед написанием своих программ для работы с Kafka взглянуть на
 <a title="https://ru.linux-console.net/?p=33713"
    href="https://ru.linux-console.net/?p=33713"
