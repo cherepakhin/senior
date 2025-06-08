@@ -197,3 +197,9 @@ update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/java to provid
 </pre></div>
 
 В Linux, после установки JAVA_HOME, нужно <b>перезайти</b> в shell.
+<br/>
+Для генерации wrapper для Maven 3.5.2 нужно запустить:
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <pre style="margin: 0; line-height: 125%;">$ mvn -N wrapper:wrapper -Dmaven=3.5.2
+</pre></div>
