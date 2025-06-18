@@ -1,0 +1,137 @@
+Конспект https://www.geeksforgeeks.org/reactjs/react-redux-hooks-useselector-and-usedispatch/
+useSelector - доступ к store
+useDispatch -  позволяет функциональным компонентам отправлять действия в хранилище Redux
+
+-------------------------------
+useSelector - доступ к store
+
+Он ПОДПИСЫВАЕТСЯ на хранилище Redux, и всякий раз, когда хранилище ОБНОВЛЯЕТСЯ, компонент ПЕРЕРИСОВЫВАЕТСЯ, чтобы отразить изменения.
+
+import {useSelector} from "react-redux";
+const counter = useSelector(state => state.counter);
+
+-------------------------------
+useDispatch -  позволяет функциональным компонентам отправлять действия в хранилище Redux
+
+Пример:
+----------- App.jsx
+import "./App.css";
+import Example from "./components/Example";
+
+function App() {
+  return (
+    <div className="App">
+      <h1>Counter Using useSelector</h1>
+      <Example/>
+    </div>
+  );
+}
+
+export default App;
+
+----------- Example.js
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { increment } from '../actions/actions'; // import ACTION "increment" ( {type: 'INCREMENT'} )
+
+const Example = () => {
+    const counter = useSelector(state => state.counter); // USE_SELECTOR!!! будет изменяться при обновлении
+    const dispatch = useDispatch(); // определение dispatch для отправки action
+
+    const handleIncrement = () => {
+        dispatch(increment()); // DISPATCH ACTION!!!!
+    };
+
+    return (
+        <div>
+            <p>Counter: {counter}</p>
+            <button onClick={handleIncrement}>Increment</button>
+        </div>
+    );
+};
+
+export default Example;
+
+----------- actions.js
+export const increment = () => { // для простоты нет параметров action
+  return {
+    type: 'INCREMENT'
+  };
+};
+
+----------- reducers.js
+// отрабатывает action, отправленные через dispatch
+const initialState = {
+    counter: 0
+};
+
+const rootReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case 'INCREMENT':
+            return {
+                ...state,
+                counter: state.counter + 1
+            };
+        default:
+            return state;
+    }
+};
+
+export default rootReducer;
+
+----------- store.js
+import { createStore } from 'redux';
+import rootReducer from "../src/reducers/reducer"
+
+const store = createStore(rootReducer);
+
+export default store;
+
+=====================================================================================
+State Hooks
+
+Усовершентсвованный способ работы с Redux через useState.
+
+Перехватчик useState - это функция, которая позволяет добавлять состояние к функциональному компоненту.
+Это АЛЬТЕРНАТИВА перехватчику useReducer, который является предпочтительным, когда нам требуется базовое обновление.
+С useReducer было так:
+----------- Example.js
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { increment } from '../actions/actions'; // import ACTION "increment" ( {type: 'INCREMENT'} )
+
+const Example = () => {
+    const counter = useSelector(state => state.counter); // USE_SELECTOR!!! будет изменяться при обновлении
+    const dispatch = useDispatch(); // определение dispatch для отправки action
+-----------
+С useState так:
+-----------
+const [count, setCount] = useState(0); // useState!!!
+-----------
+
+Перехватчики useState используются для добавления переменных состояния в компоненты.
+
+Синтаксис:
+const [state, setState] = useState(initialState);
+Короткий пример:
+const [count, setCount] = useState(0); // useState!!!
+
+Полный пример:
+import React, { useState } from "react";
+
+function App() {
+    const [count, setCount] = useState(0); // useState!!!
+    const increment = () => setCount(count + 1);
+    const decrement = () => setCount(count - 1);
+
+    return (
+        <div>
+            <h1>Count: {count}</h1> {/* Display the current count */}
+            <button onClick={increment}>Increment</button> {/* Increment the count */}
+            <button onClick={decrement}>Decrement</button> {/* Decrement the count */}
+        </div>
+    );
+}
+
+export default App;
+----------
