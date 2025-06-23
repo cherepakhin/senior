@@ -11,10 +11,12 @@
 <pre style="margin: 0; line-height: 125%;">
 @v:/var/lib/minidlna/videos$ cat load.sh
 yt-dlp -o vecher https://smotrim.ru/video/2985941
+sudo minidlna -R
 </pre>
 </div>
 /var/lib/minidlna/videos - папка куда сохраняется файл и одновременно источник для minidlna.<br/>
 vecher - название файла, может быть любое. Если убрать название файла, то сохранится с оригинальным именем файла из интернета.<br/>
+"sudo minidlna -R" - обновление базы данных minidlna.
 
 <h4>Запуск сервиса minidlna</h4>
 Файл запуска:
