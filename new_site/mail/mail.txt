@@ -1,0 +1,27 @@
+https://help.ubuntu.ru/wiki/postfix_relay_yandex
+------------yandex
+vasi@v:/etc/postfix$ echo "test" | mail -s "test79" bob1970@yandex.ru
+OK
+------------gmail
+echo "test" | mail -s "test79" vasi.che@gmail.com
+
+This is the mail system at host v.perm.ru.
+
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients. It's attached below.
+
+For further assistance, please send mail to postmaster.
+
+If you do so, please include this problem report. You can
+delete your own text from the attached returned message.
+
+                   The mail system
+
+<vasi.che@gmail.com>: host gmail-smtp-in.l.google.com[74.125.131.26] said:
+    550-5.7.1 [46.146.232.50] The IP you're using to send mail is not
+    authorized to 550-5.7.1 send email directly to our servers. Please use the
+    SMTP relay at your 550-5.7.1 service provider instead. For more
+    information, go to 550 5.7.1
+    https://support.google.com/mail/?p=NotAuthorizedError
+    2adb3069b0e04-5593c7bbf02si3882734e87.26 - gsmtp (in reply to end of DATA
+    command)
