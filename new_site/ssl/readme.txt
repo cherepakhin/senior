@@ -1,7 +1,8 @@
 В "sert_testing" опыты из https://test.playincloud.ru/index.php/spravochnik/43-certs
 
 =================================================
-$ cd ~/temp/ssl/Enable-https-SSL-for-Spring-Boot~/temp/ssl/Enable-https-SSL-for-Spring-Boot
+$ cd ~/temp/ssl/Enable-https-SSL-for-Spring-Boot
+
 (проект в ssl/proj/)
 
 $ echo $JAVA_HOME
