@@ -1,0 +1,16 @@
+Отправка простого сообщения:
+<hr id="system-readmore" />
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+echo "message" | mail -s "Test title attach" bob1970@yandex.ru
+</pre></div>
+-s - subject
+<br/>
+Отправка сообщения с вложением::
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+echo "message" | mail -s "Test title attach1" -A /home/vasi/temp/body.txt bob1970@yandex.ru
+echo "message" | mail -s "with fu.jpg" -A /home/vasi/temp/fu.jpg bob1970@yandex.ru
+</pre></div>
+
+<b>Ссылки:</b><br/>
+<a href="https://www.tecmint.com/send-email-attachment-from-linux-commandline/"
+   target="_blank" rel="noopener noreferrer">4 Ways to Send Email Attachment from Linux Command Line</a><br/>
