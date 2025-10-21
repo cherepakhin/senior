@@ -8,3 +8,22 @@ vasi@vasi-note:~/prog/java/vaadin/vaadin-todo
 
 Пример приложения - https://crm.demo.vaadin.com/
 git этого примера - https://github.com/vaadin/flow-crm-tutorial.git
+
+https://habr.com/ru/articles/734380/
+
+Using Vaadin with Spring Boot : [https://vaadin.com/docs/latest/flow/integrations/spring/spring-boot](https://vaadin.com/docs/latest/flow/integrations/spring/spring-boot)
+Generate spring-boot-vaadin project: [https://start.vaadin.com/app](https://start.vaadin.com/app)
+vaadin/Generate_Starter_Project.png
+
+### Примеры Vaadin
+[https://vaadin.com/examples-and-demos](https://vaadin.com/examples-and-demos)
+[https://vaadin-rest-example.demo.vaadin.com/](https://vaadin-rest-example.demo.vaadin.com/)
+
+Использование со SpringBoot и БД на notebook в
+/home/vasi/prog/java/vaadin/spring_demo/spring-boot-vaadin-demo
+[Экран](new_site/vaadin/screen1.png)
+и
+/home/vasi/prog/java/vaadin/vaadin-database-example
+
+Тестирование на notebook в /home/vasi/prog/java/vaadin/uiunittest-demo
+Использование БД на notebook в /home/vasi/prog/java/vaadin/vaadin-database-example
