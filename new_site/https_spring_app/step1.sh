@@ -1,0 +1,1 @@
+keytool -genkey -alias v.perm.ru -keyalg RSA -keystore KeyStore.jks -keysize 2048
