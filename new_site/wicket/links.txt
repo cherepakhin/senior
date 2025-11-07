@@ -35,3 +35,5 @@ https://moldstud.com/articles/p-integrating-apache-wicket-with-spring-best-pract
 
 Статья: https://www.coderdreams.com/spring-mvc-vs-wicket/
 Код из статьи: https://github.com/RomanSery/codesnippets
+
+Free Online Guide for Apache Wicket framework (вроде неплохой учебник): https://wicketguide.comsysto.com/guide/single.html
