@@ -1,0 +1,11 @@
+C:\Users\vasi\AppData\Local\Python\pythoncore-3.14-64\python.exe -m pip install --upgrade pip
+
+$ py list
+Tag           Name                 Managed By  Version  Alias
+3.14[-64]  *  Python 3.14.0        PythonCore  3.14.0   python3[-64].exe, python3.14[-64].exe
+
+* These runtimes were found, but cannot be updated or uninstalled. *
+3.13          Python 3.13 (Store)  PythonCore  3.13
+
+Установлено в C:\Users\vasi\AppData\Local\Python\pythoncore-3.14-64\python.exe
+и C:\Users\vasi\AppData\Local\Python\bin\python.exe
