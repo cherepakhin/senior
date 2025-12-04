@@ -228,7 +228,7 @@ Eclipse RAP:<br/>
 <a style="text-decoration: underline; color: #3366ff;"
    title="https://github.com/martin-g/wicket-bootstrap/"
    href="https://github.com/martin-g/wicket-bootstrap/"
-   target="_blank" rel="noopener noreferrer">github Wicket+Bootstrap</a>
+   target="_blank" rel="noopener noreferrer">github Wicket+Bootstrap (не смог запустить!!!)</a>
 <br/>
 <a style="text-decoration: underline; color: #3366ff;"
    title="https://github.com/martin-g/wicket-bootstrap/blob/wicket-10.x-bootstrap-5.x/"
@@ -240,6 +240,71 @@ Eclipse RAP:<br/>
    href="https://dzone.com/articles/enhance-wicket-with-spring-boot"
    target="_blank" rel="noopener noreferrer">Enhance Wicket With Spring Boot</a>
 <br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/MarcGiffing/wicket-spring-boot"
+   href="https://github.com/MarcGiffing/wicket-spring-boot"
+   target="_blank" rel="noopener noreferrer">Wicket With Spring Boot (https://github.com/MarcGiffing)</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/MarcGiffing/wicket-spring-boot-examples"
+   href="https://github.com/MarcGiffing/wicket-spring-boot-examples"
+   target="_blank" rel="noopener noreferrer">Examples Wicket With Spring Boot (https://github.com/MarcGiffing)</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/Pentadrago/spring-boot-example-wicket.git"
+   target="_blank" rel="noopener noreferrer">Еще пример Spring Boot+Wicket с gradle и компиляцией в war</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://mkyong.com/tutorials/wicket-tutorials/"
+   target="_blank" rel="noopener noreferrer">Wicket Tutorial от Mkyong (ссылки на примеры битые)</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://www.petrikainulainen.net/programming/tips-and-tricks/mocking-spring-beans-with-apache-wicket-and-mockito/"
+   target="_blank" rel="noopener noreferrer">Тестирование Wicket с Mockito</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/MarcGiffing/wicket-spring-boot"
+   target="_blank" rel="noopener noreferrer">wicket-spring-boot-starter</a>
+<br/>
+
+Пример wicket-spring-boot-starter:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+&lt;dependency&gt;
+    &lt;groupId>com.giffing.wicket.spring.boot.starter&lt;/groupId&gt;
+    &lt;artifactId>wicket-spring-boot-starter&lt;/artifactId&gt;
+&lt;/dependency&gt;
+    </pre>
+</div>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+@SpringBootApplication
+public class WicketApplication {
+    public static void main(String[] args) throws Exception {
+        new SpringApplicationBuilder().sources(WicketApplication.class).run(args);
+    }
+}
+
+@WicketHomePage
+public class HomePage extends WebPage {
+}
+
+
+&lt;html xmlns:wicket="http://wicket.apache.org"&gt;
+    &lt;head>&lt;/head&gt;
+    &lt;body&gt;
+        You content
+        &lt;wicket:child/&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+</div>
+
+
+
+
+
 <!--   href="images/wicket/wicket-in-action.pdf"-->
 <a style="text-decoration: underline; color: #3366ff;"
        href="https://github.com/cherepakhin/senior/tree/main/new_site/wicket"
