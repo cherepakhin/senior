@@ -6,7 +6,30 @@ openjdk version <span style="color: #0000ff;">"11.0.18"</span> 2023-01-17
 </div>
 <p>Нужна java 17, для этого нужно установить JAVA_HOME.</p>
 <hr id="system-readmore" />
-<p>В .bashrc добавить строку</p>
+Для временной установки в консоли выполнить:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
+</pre>
+</div>
+Для установки JAVA_HOME скриптом set_java17.sh:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+#!/bin/bash
+echo $JAVA_HOME
+export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
+echo $JAVA_HOME
+</pre>
+</div>
+выполнить:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+source ./set_java_home.sh
+</pre>
+</div>
+(Команда source в Bash — встроенная функция, которая выполняет команды из файла в <b>текущей</b> среде оболочки, а не запускает <b>новый дочерний процесс</b>.)
+<br/>
+Для постоянной установки в .bashrc добавить строку
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
 <pre style="margin: 0; line-height: 125%;">export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 </pre>
