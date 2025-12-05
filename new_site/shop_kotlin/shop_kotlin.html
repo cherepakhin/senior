@@ -334,8 +334,12 @@ aaa
 <p dir="auto">POST запрос на изменение Product:</p>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">$ </span>http POST :8980/shop_kotlin/api/product/ < ./src/test/json_test/product.json
 </pre></div>
-
-
+Для тестирования HTTPS:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+https --verify=no https://127.0.0.1:8443/api/echo/MESSAGE_ECHO
+httpx --no-verify https://127.0.0.1:8443/api/echo/MESSAGE_ECHO
+curl -k https://127.0.0.1:8443/api/echo/MESSAGE_ECHO
+</pre></div>
 
 <a id="datajpa_restassured_test"></a>
 <h3 dir="auto" tabindex="-1">
