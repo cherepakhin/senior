@@ -106,3 +106,23 @@ The mission is to create a more secure and privacy-respecting World-Wide Web by 
 Let’s Encrypt certificates are valid for 90 days, during which renewal can take place at any time. This is handled by an automated process designed to overcome manual creatio. Validation, signing, installation, and renewal of certificates for secure websites.
 
 The project claims its goal is to make encrypted connections to World Wide Web servers ubiquitous. By eliminating payment, web server configuration, validation email management and certificate renewal tasks. It is meant to significantly lower the complexity of setting up and maintaining TLS encryption.
+
+========================================================
+Еще статья https://wikival.bmstu.ru/doku.php?id=letsencrypt_certbot
+========================================================
+Значек HTTPS для Apache сайта нормальный , не КРАСНЫЙ!
+(значек для моих сервисов и java программ будут КРАСНЫМИ. Забил на импорт сертификатов)
+========================================================
+Настройка роутера
+См. картинку ![new_site/https_site/router_mapping.png](new_site/https_site/router_mapping.png)
+
+Доступ к роутеру: http://192.168.1.1/cgi-bin/luci/;stok=8c34fd0e7fb65824d0ae3b80089adcc5/web/home#router
+
+Mapping портов:
+443 -> 192.168.1.20:443 (сайт)
+80  -> 192.168.1.20:80
+
+Маппинг для МОИХ java сервисов:
+8080 -> 192.168.1.20:8080 (tomcat)
+8443 -> 192.168.1.20:8443 (tomcat для программ, работающих через HTTPS, значок HTTPS красный)
+
