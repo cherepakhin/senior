@@ -88,4 +88,48 @@ IMPORTANT NOTES:
    Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
    Donating to EFF:                    https://eff.org/donate-le
 
+----------------------------------
+Проверка сертификата
+https://www.ssllabs.com/ssltest/analyze.html?d=v.perm.ru#whyNotTrusted
+http://192.168.1.20/html/ - 404
+https://v.perm.ru/html/   - OK
+https://v/html/           - OK
+
+https://v.perm.ru/test/dir2/.file_d2.txt - название файла с точкой.
+Этот файл НЕ отображается при обращении к https://v.perm.ru/test/dir2/ (похоже срабатывает линуксовое правило не показывать файлы, начинаюшиеся с точки)
+НО содержимое ДОСТУПНО при обращении к https://v.perm.ru/test/dir2/.file_d2.txt
+
+Тоже самое поведение с каталогами
+В каталоге /test/ 3 подкаталога
+/var/www/main/test/dir1
+/var/www/main/test/.dir2 (с точкой!!!)
+/var/www/main/test/dir2
+НО при обращении к https://v.perm.ru/test/ отображаются только 2:
+dir1  (/var/www/main/test/dir1)
+dir2  (/var/www/main/test/dir2)
+НО, содержимое каталога с точкой доступно: https://v.perm.ru/test/.dir2/
+
+В общем, это такое же поведение, как и в системе ls/ls -a
+
+vasi@v:/var/www/main/test$ ls
+dir1  dir2  h1.html  test.txt
+(.dir2 НЕ показан)
+vasi@v:/var/www/main/test$ ls -a
+dir1  .dir2  dir2  h1.html  test.txt
+(.dir2 ПОКАЗАН)
+
+https://v.perm.ru/.wellknow/aaa.txt - OK
+
+-------------Вариант с acme
+# Установка
+curl https://get.acme.sh | sh
+
+# Получение сертификата
+acme.sh --issue -d example.com -w /var/www/html
+
+# Установка сертификата для Nginx
+acme.sh --install-cert -d example.com \
+  --key-file /etc/nginx/ssl/example.com.key \
+  --fullchain-file /etc/nginx/ssl/example.com.crt \
+  --reloadcmd "systemctl reload nginx"
 
