@@ -110,8 +110,7 @@ The project claims its goal is to make encrypted connections to World Wide Web s
 ========================================================
 Еще статья https://wikival.bmstu.ru/doku.php?id=letsencrypt_certbot
 ========================================================
-Значек HTTPS для Apache сайта нормальный , не КРАСНЫЙ!
-(значек для моих сервисов и java программ будут КРАСНЫМИ. Забил на импорт сертификатов)
+Значок HTTPS для Apache сайта КРАСНЫЙ!
 ========================================================
 Настройка роутера
 См. картинку ![new_site/https_site/router_mapping.png](new_site/https_site/router_mapping.png)
