@@ -1,3 +1,4 @@
+TODO: Install GigaIde
 1. GigaCode работает в GigaIde через телефон.
 2. Через wifi тоже РАБОТАЕТ.
 
@@ -12,3 +13,9 @@ vasi.che@gmail.com/B.._1970
 Новая GPT от Yandex:
 https://alice.yandex.ru/
 https://alice.yandex.ru/chat/0195483f-796a-409a-97d7-f8d782949fb9/
+
+При проблемах с gigaide, удалить все устройства из
+https://gitverse.ru/services/gigacode?code=9ea6228a8dddd17f3b479638599b61fe627f51527b04e35a8438a8095d1d95df&ide=GIGA%20IDE
+
+Добавить активацию из gigaide из "Activation".
+Проверить из java кода (значек GIGACODE в ide остается серым).
