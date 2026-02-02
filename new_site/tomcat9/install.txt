@@ -1,0 +1,37 @@
+### Установка
+Распаковать apache-tomcat-9.0.98.zip в /usr/share/tomcat9/
+
+Запустить в фоновом режиме:
+root@v:/usr/share/tomcat9/bin# ./startup.sh
+
+Остановить:
+root@v:/usr/share/tomcat9/bin# ./shutdown.sh
+
+Открыть:
+http://192.168.1.20:8080/
+
+### Настроить доступ
+В файле /usr/share/tomcat9/conf/tomcat-users.xml
+
+````
+  <user username="admin" password="pass" roles="manager-gui"/>
+  <user username="vasi" password="pass" roles="manager-script"/>
+````
+
+http://192.168.1.20:8080/ - OK
+http://localhost:8080/manager/html - OK admin/pass
+http://v:8080/manager/html - OK с ноута
+http://v:8080/manager/html - OK admin/pass
+
+файл "tomcat9" скопировать в /etc/init.d/
+Папку "conf" в /usr/share/tomcat9/conf
+После этого выполнить:
+systemctl daemon-reload
+systemctl enable tomcat9.service
+systemctl stop tomcat9.service
+systemctl start tomcat9.service
+systemctl status tomcat9.service
+
+
+http://v:8080/ - OK (заходить через "v" , а не через 192.168.1.20). С ноута работает.
+

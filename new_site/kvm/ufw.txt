@@ -1,0 +1,70 @@
+запустить win10 на v.perm.ru в "Менеджер виртуальных столов QUMU/KVM" (Virtual Machine Manager)
+vasi@v ~ $ sudo ufw status
+Состояние: активен
+
+В                          Действие    Из
+-                          --------    --
+443 on enp4s0              ALLOW       Anywhere
+53 on enp4s0               ALLOW       Anywhere
+Anywhere                   ALLOW       10.10.1.10
+5432/tcp                   ALLOW       10.10.1.10
+53/tcp                     ALLOW       10.10.1.10
+53/udp                     ALLOW       192.168.1.57
+443/udp                    ALLOW       192.168.1.57
+8.8.8.8 443/udp            ALLOW       192.168.1.57
+8.8.8.8 443/udp            ALLOW       192.168.1.0/24
+8.8.8.8 53/udp             ALLOW       192.168.1.0/24
+8.8.8.8 53/tcp             ALLOW       192.168.1.0/24
+3389 on enp4s0             ALLOW       Anywhere
+4000 on enp4s0             ALLOW       Anywhere
+22 on kuberbr42            ALLOW       Anywhere
+8888 on enp4s0             ALLOW       Anywhere
+8082 on enp4s0             ALLOW       Anywhere
+5432 on ppp0               DENY        Anywhere
+5432 on enp4s0             ALLOW       Anywhere
+80 on ppp0                 ALLOW       Anywhere
+80 on enp4s0               ALLOW       Anywhere
+22 on ppp0                 DENY        Anywhere
+22 on enp4s0               ALLOW       Anywhere
+21 on ppp0                 DENY        Anywhere
+21 on enp4s0               ALLOW       Anywhere
+3389 on ppp0               DENY        Anywhere
+1521 on ppp0               DENY        Anywhere
+8888 on ppp0               DENY        Anywhere
+8888 on enp3s0             DENY        Anywhere
+Anywhere                   ALLOW       10.10.1.15
+Anywhere                   ALLOW       192.168.1.57
+8.8.8.8 80/tcp             ALLOW       192.168.1.0/24
+8.8.8.8 443/tcp            ALLOW       192.168.1.0/24
+Samba                      ALLOW       Anywhere
+Anywhere                   ALLOW       10.0.1.10
+443                        ALLOW       Anywhere
+4000 (v6) on enp4s0        ALLOW       Anywhere (v6)
+22 (v6) on kuberbr42       ALLOW       Anywhere (v6)
+8888 (v6) on enp4s0        ALLOW       Anywhere (v6)
+8082 (v6) on enp4s0        ALLOW       Anywhere (v6)
+5432 (v6) on ppp0          DENY        Anywhere (v6)
+5432 (v6) on enp4s0        ALLOW       Anywhere (v6)
+80 (v6) on enp4s0          ALLOW       Anywhere (v6)
+22 (v6) on ppp0            DENY        Anywhere (v6)
+21 (v6) on ppp0            DENY        Anywhere (v6)
+22 (v6) on enp4s0          ALLOW       Anywhere (v6)
+21 (v6) on enp4s0          ALLOW       Anywhere (v6)
+4000 (v6) on ppp0          DENY        Anywhere (v6)
+Samba (v6)                 ALLOW       Anywhere (v6)
+443 (v6) on enp4s0         ALLOW       Anywhere (v6)
+53 (v6) on enp4s0          ALLOW       Anywhere (v6)
+443 (v6)                   ALLOW       Anywhere (v6)
+
+https://selectel.ru/blog/tutorials/how-to-configure-firewall-with-ufw-on-ubuntu-20/
+sudo ufw status verbose
+--------------------------------------------------
+RESTART NETWORK
+(https://operavps.com/docs/restart-network-in-linux/):
+sudo systemctl restart systemd-networkd
+sudo systemctl restart NetworkManager.service
+sudo nmcli networking off & sudo nmcli networking on
+systemctl status NetworkManager
+--------------------------------------------------
+
+https://routerus.com/how-to-setup-a-firewall-with-ufw-on-ubuntu-20-04/

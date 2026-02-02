@@ -1,0 +1,104 @@
+<p>Интересно было узнать о возможностях CompletableFeature.<br/> Проект и описание находится тут
+<a style="text-decoration: underline; color: #3366ff;"
+       title="https://github.com/cherepakhin/completablefeature_many_benchmark"
+       href="https://github.com/cherepakhin/completablefeature_many_benchmark" target="_blank"
+       rel="noopener noreferrer">https://github.com/cherepakhin/completablefeature_many_benchmark</a></p>
+
+<hr id="system-readmore"/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">    ExecutorService executorService = Executors.newCachedThreadPool();
+
+    String getContext() {
+        <span style="color: #000080; font-weight: bold">return</span> StringUtils.repeat(<span style="color: #0000FF">"-"</span>, <span style="color: #0000FF">1000</span>);
+    }
+
+    <span style="color: #008800; font-style: italic">// Имитация работы какого-то внешнего сервиса</span>
+    <span style="color: #000080; font-weight: bold">void</span> sleep() {
+        <span style="color: #000080; font-weight: bold">try</span> {
+            TimeUnit.MILLISECONDS.sleep(<span style="color: #0000FF">1000</span>);
+        } <span style="color: #000080; font-weight: bold">catch</span> (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @GetMapping(<span style="color: #0000FF">"/"</span>)
+    <span style="color: #000080; font-weight: bold">public</span> String trivial() {
+        sleep();
+        <span style="color: #000080; font-weight: bold">return</span> getContext();
+    }
+
+    @GetMapping(<span style="color: #0000FF">"/simple"</span>)
+    <span style="color: #000080; font-weight: bold">public</span> CompletableFuture<String> simple() {
+        <span style="color: #000080; font-weight: bold">return</span> CompletableFuture.supplyAsync(() -> {
+            sleep();
+            <span style="color: #000080; font-weight: bold">return</span> getContext();
+        }, executorService);
+    }
+
+    @GetMapping(<span style="color: #0000FF">"/nested"</span>)
+    <span style="color: #000080; font-weight: bold">public</span> CompletableFuture<String> nested() {
+        <span style="color: #000080; font-weight: bold">return</span> CompletableFuture.supplyAsync(() -> {
+            <span style="color: #000080; font-weight: bold">return</span> CompletableFuture.supplyAsync(() -> {
+                        sleep();
+                        <span style="color: #000080; font-weight: bold">return</span> getContext();
+                    },executorService
+            );
+        },executorService).get();
+    }
+</pre></div>
+Ниже описаны только итоги.
+<div dir="auto">
+    <p dir="auto">Нагрузка во всех вариантах 500rps</p>
+</div>
+<table style="float: right;" border="1" cellpadding="5">
+    <tbody>
+    <tr style="border-width: 1px;">
+        <td style="border-width: 1px;"><strong>Схема кэширования</strong></td>
+        <td style="border-width: 1px;"><strong>Среднее время ответа (мс)</strong></td>
+        <td style="border-width: 1px;"><strong>К-во тредов (шт)</strong></td>
+        <td style="border-width: 1px;"><strong>Память (Мб)</strong></td>
+    </tr>
+    <tr style="border-width: 1px;">
+        <td style="border-width: 1px;">Без CompletableFeature</td>
+        <td style="text-align: right; border-width: 1px;">5 000</td>
+        <td style="border-width: 1px; text-align: right;">229</td>
+        <td style="border-width: 1px; text-align: right;">150</td>
+    </tr>
+    <tr style="border-width: 1px;">
+        <td>С CompletableFeature Executors.newCachedThreadPool()</td>
+        <td style="border-width: 1px; text-align: right;">1 000</td>
+        <td style="border-width: 1px; text-align: right;">847</td>
+        <td style="border-width: 1px; text-align: right;">~230</td>
+    </tr>
+    <tr style="border-width: 1px;">
+        <td style="border-width: 1px;">Кол-во выделяемых сервисом тредов меньше нагрузки (нагрузка 500 rps, а тредов выделено 100) .
+            CompletableFeature executorService = Executors.newFixedThreadPool(100)
+        </td>
+        <td style="border-width: 1px; text-align: right;">&gt;10 000</td>
+        <td style="border-width: 1px; text-align: right;">188</td>
+        <td style="border-width: 1px; text-align: right;">200-350</td>
+    </tr>
+    </tbody>
+</table>
+<p> </p>
+<div dir="auto">
+    <p dir="auto">С CompletableFeature время ответа сократилось аж в 5 раз! Но, увеличился расход памяти. Неоднозначные
+        результаты в третьей строке (Кол-во выделяемых сервисом тредов меньше нагрузки).</p>
+</div>
+<div dir="auto">
+    <p dir="auto">И все таки насколько ценен CompletableFeature? Какую проблему мы решаем, используя это решение? Может
+        быть лучшие результаты даст кеш или оптимизация самих сервисов? По своему опыту скажу, что разработка,
+        тестирование с CompletableFeature, мягко говоря, имеет свою специфику. Возвращая CompletableFeature в методе, вы
+        принуждаете клиента его обрабатывать и перекладывете проблему дальше, и кому-то все-равно придется ее разрулить.
+        Если уж решили использовать CompletableFeature, то сам его тут же и разруливай. Грубо говоря, это
+        локальное(техническое) решение, на уровне приватных методов класса. Не должно путаться в бизнес логике. Остальные классы не должны быть замешаны в
+        эту кашу. Еще большие сомнения, использование CompletableFeature в Spring окружении, т.к. Spring сам решает эту проблему.</p>
+</div>
+<div dir="auto">
+    <p dir="auto">O CompletableFeature<br/>
+        <a style="text-decoration: underline; color: #3366ff;"
+           title="https://www.baeldung.com/java-completablefuture"
+           href="https://www.baeldung.com/java-completablefuture" target="_blank" rel="noopener noreferrer">
+            https://www.baeldung.com/java-completablefuture
+        </a><br/>
+    </p>
+</div>

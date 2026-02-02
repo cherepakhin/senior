@@ -1,0 +1,60 @@
+Задача организовать удобное UNIT и интеграционное тестирование.<br/>
+Пример проекта с gradle <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/vacancy_backend" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/vacancy_backend</a><br/>
+Зачем? Интеграционные тесты должны быть отделены от unit тестов, т.к. нет смысла проводить интеграционное тестирование, если unit тесты упали (аксиома, но оказывается, это нужно говорить). Кратко:<br/>
+В build.gradle.kts (<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/vacancy_backend/blob/dev/build.gradle.kts" target="_blank" rel="noopener noreferrer">пример</a>) добавить:<br/>
+<hr id="system-readmore" />
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+tasks.withType<Test> {
+    useJUnitPlatform()
+    // Show test log
+    testLogging {
+        // events("standardOut", "started", "passed", "skipped", "failed")
+        events("passed", "skipped", "failed")
+    }
+    // for run Integration test: ./gradlew test -Dtest.profile=integration
+    if (System.getProperty("test.profile") != "integration") {
+        exclude("**/*IntegrationTest*")
+    }
+}
+</pre>
+</div>
+При этом Unit тесты запускаются, как обычно (интеграционные тесты будут пропущены):
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./gradlew test
+</pre>
+</div>
+
+Для прогона интеграционных тестов выполнить:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./gradlew test -Dtest.profile=integration
+</pre>
+</div>
+
+Для тестированмя сервисов, работающих с базой данных, использовать DBUnit (
+<a style="text-decoration: underline; color: #3366ff;" href="https://www.dbunit.org/" target="_blank" rel="noopener noreferrer">https://www.dbunit.org/</a>,
+<a style="text-decoration: underline; color: #3366ff;" href="https://www.baeldung.com/java-dbunit" target="_blank" rel="noopener noreferrer">Introduction to DBUnit (Baeldung)</a>,
+<a style="text-decoration: underline; color: #3366ff;" href="https://dzone.com/articles/database-unit-testing-dbunit" target="_blank" rel="noopener noreferrer">Database unit testing with DBUnit, Spring and TestNG (DZone)</a>,
+)
+<br/>
+<h4>Ссылки:</h4>
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/vacancy_backend_restassured"
+   target="_blank" rel="noopener noreferrer">Интеграционное тестирование с JUnit, RestAssured, Cucumber</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/index.php/component/content/article/integrtestallure?catid=15&Itemid=101"
+   target="_blank" rel="noopener noreferrer">Интеграционное тестирование с JUnit</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/index.php/component/content/article/before-after-in-tests?catid=15&Itemid=101"
+   target="_blank" rel="noopener noreferrer">@Before @After в тестах</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/index.php/component/content/article/simple-kotlin?catid=13&Itemid=101#integration_test"
+   target="_blank" rel="noopener noreferrer">Простой проект на Kotlin и Spring Boot</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://site.mockito.org/javadoc/current/org/mockito/BDDMockito.html"
+   target="_blank" rel="noopener noreferrer">BDDMockito - возможности в форме, более подходящей для BDD</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://www.baeldung.com/bdd-mockito"
+   target="_blank" rel="noopener noreferrer">Quick Guide to BDDMockito (Baeldung)</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/articles/700286/"
+   target="_blank" rel="noopener noreferrer">Testcontainers: тестирование с реальными зависимостями (habr)</a><br/>
+
+
+
+

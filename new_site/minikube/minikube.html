@@ -1,0 +1,204 @@
+Перед запуском освободить память:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">vasi@v:~$ sudo systemctl stop elasticsearch.service
+vasi@v:~$ sudo systemctl stop nexus.service</pre>
+</div>
+Minikube запускается в виртуальной машине. Описание установки и запуска описано в
+<a style="color: #3366ff; text-decoration: underline;" tabindex="-1" href="https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fdebian+package">https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fdebian+package</a>.<br/>
+<hr id="system-readmore" />
+Запуск виртуальной машины:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">vasi@v:~/po/minikube$ sudo libvirtd</pre>
+</div>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="idea_multi_module" src="images/minikube/virt_manager.png"
+        alt="coverage_class.png" width="557" height="408"/></p>
+Проверка работы:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">vasi@v:~$ minikube kubectl get services hello-minikube
+NAME             TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+hello-minikube   NodePort   10.108.134.29   none        8080:31516/TCP   98d
+</pre>
+</div>
+У меня настроена специальная версия kubectl, и поэтому можно просто запускать:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">vasi@v:~$ kubectl get services hello-minikube
+NAME             TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+hello-minikube   NodePort   10.108.134.29   none        8080:31516/TCP   98d
+</pre>
+</div>
+Запуск dashboard Kubernetes:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+vasi@v:~/tools$ minikube dashboard &
+🤔  Verifying dashboard health ...
+🚀  Launching proxy ...
+🤔  Verifying proxy health ...
+🎉  Opening http://127.0.0.1:36441/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ in your default browser...
+Found ffmpeg: /opt/yandex/browser/libffmpeg.so
+avcodec: 3999080
+avformat: 3998567
+avutil: 3871588
+Ffmpeg version is OK! Let's use it.
+Opening in existing browser session.
+</pre>
+</div>
+
+Открыть в браузере полученный URL(http://127.0.0.1:36441/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/)
+Порт будет все время разный.
+=============Другой способ=============
+2----------------------
+$ minikube start
+ЖДАТЬ минут 10! В Virtual Machine Manager запустится "minikube root/nopassword"
+😄  minikube v1.34.0 on Linuxmint 22
+✨  Using the kvm2 driver based on existing profile
+👍  Starting "minikube" primary control-plane node in "minikube" cluster
+🏃  Updating the running kvm2 "minikube" VM ...
+🐳  Preparing Kubernetes v1.31.0 on Docker 27.2.0 ...
+🔗  Configuring bridge CNI (Container Networking Interface) ...
+🔎  Verifying Kubernetes components...
+▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+▪ Using image docker.io/kubernetesui/metrics-scraper:v1.0.8
+▪ Using image docker.io/kubernetesui/dashboard:v2.7.0
+💡  Some dashboard features require the metrics-server addon. To enable all features please run:
+
+minikube addons enable metrics-server
+
+🌟  Enabled addons: default-storageclass, storage-provisioner, dashboard
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+
+
+vasi@v:~$ minikube ip
+192.168.39.197
+
+vasi@v:~$ kubectl get svc
+NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+hello-minikube   NodePort    10.108.134.29   <none>        8080:31516/TCP   98d
+kubernetes       ClusterIP   10.96.0.1       <none>        443/TCP          99d
+
+Запуск dashboard
+$  minikube dashboard &
+🤔  Verifying dashboard health ...
+🚀  Launching proxy ...
+🤔  Verifying proxy health ...
+🎉  Opening http://127.0.0.1:39687/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ in your default browser...
+Found ffmpeg: /opt/yandex/browser/libffmpeg.so
+avcodec: 3999080
+avformat: 3998567
+avutil: 3871588
+Ffmpeg version is OK! Let's use it.
+Opening in existing browser session.
+
+Откроется окно dashboard в браузере.
+
+$ minikube stop dashboard
+
+Для доступа из сети запустить (после '$ minikube dashboard &'):
+vasi@v:~$ kubectl proxy --address='0.0.0.0' --disable-filter=true &
+W0212 19:31:41.589284  124907 proxy.go:177] Request filter disabled, your proxy is vulnerable to XSRF attacks, please be cautious
+Starting to serve on [::]:8001
+
+Порт proxy 8001. По этому порту можно обращаться снаружи (из сетки).
+После запуска proxy можно открыть с ноута:
+http://192.168.1.20:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/workloads?namespace=default
+http://192.168.1.20:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/pod?namespace=_all
+
+$ minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+
+Проверка запущенных pods:
+$ minikube kubectl -- get pods -A
+NAMESPACE              NAME                                        READY   STATUS    RESTARTS       AGE
+default                hello-minikube-7d48979fd6-rzrpl             1/1     Running   7 (19m ago)    98d
+kube-system            coredns-6f6b679f8f-s88vl                    1/1     Running   10 (19m ago)   99d
+kube-system            etcd-minikube                               1/1     Running   13 (19m ago)   99d
+kube-system            kube-apiserver-minikube                     1/1     Running   16 (19m ago)   99d
+kube-system            kube-controller-manager-minikube            1/1     Running   22 (19m ago)   99d
+kube-system            kube-proxy-m9qrf                            1/1     Running   11 (19m ago)   99d
+kube-system            kube-scheduler-minikube                     1/1     Running   12 (19m ago)   99d
+kube-system            storage-provisioner                         1/1     Running   24 (16m ago)   99d
+kubernetes-dashboard   dashboard-metrics-scraper-c5db448b4-dxz29   1/1     Running   7 (19m ago)    99d
+kubernetes-dashboard   kubernetes-dashboard-695b96c756-7mjb7       1/1     Running   12 (19m ago)   99d
+
+Запущен hello-minikube. Узнать его URL:
+vasi@v:~$ minikube service hello-minikube --url
+http://192.168.39.197:31516
+
+Отправка запроса сервису hello-minikube:
+v:~$ http http://192.168.39.197:31516
+HTTP/1.1 200 OK
+Content-Length: 189
+Content-Type: text/plain
+Date: Wed, 12 Feb 2025 14:58:28 GMT
+
+Request served by hello-minikube-7d48979fd6-rzrpl
+
+HTTP/1.1 GET /
+
+Host: 192.168.39.197:31516
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+User-Agent: HTTPie/3.2.2
+
+Порт для доступа снаружи Kubernetes можно узнать в dashboard Service > Services
+        hello-minikube:8080 TCP
+        hello-minikube:31516 TCP
+http://192.168.1.20:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/service?namespace=default
+====================13/02/24
+vasi@v:~$ minikube start
+vasi@v:~$ kubectl proxy --address='0.0.0.0' --disable-filter=true
+vasi@v:~$ minikube dashboard &
+vasi@v:~$ minikube logs
+
+
+====================13/02/24 Новая установка
+https://kubernetes.io/ru/docs/tasks/tools/install-minikube/
+minikube delete
+
+sudo minikube start --vm-driver=kvm2
+😄  minikube v1.34.0 on Linuxmint 22
+✨  Using the kvm2 driver based on user configuration
+👍  Starting "minikube" primary control-plane node in "minikube" cluster
+🔥  Creating kvm2 VM (CPUs=2, Memory=2900MB, Disk=20000MB) ...
+
+====================14/02/24 Новая установка
+vasi@v:~/tools$ minikube start --driver=podman &
+😄  minikube v1.35.0 on Linuxmint 22
+✨  Using the podman driver based on existing profile
+👍  Starting "minikube" primary control-plane node in "minikube" cluster
+🚜  Pulling base image v0.0.46 ...
+E0213 19:55:57.018957  292421 cache.go:222] Error downloading kic artifacts:  not yet implemented, see issue #8426
+🔄  Restarting existing podman container for "minikube" ...
+❗️  Failing to connect to https://registry.k8s.io/ from inside the minikube container
+💡  To pull new external images, you may need to configure a proxy: https://minikube.sigs.k8s.io/docs/reference/networking/proxy/
+🐳  Preparing Kubernetes v1.32.0 on Docker 27.4.1 ...
+🔎  Verifying Kubernetes components...
+▪️ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+▪️ Using image docker.io/kubernetesui/dashboard:v2.7.0
+▪️ Using image docker.io/kubernetesui/metrics-scraper:v1.0.8
+💡  Some dashboard features require the metrics-server addon. To enable all features please run:
+
+minikube addons enable metrics-server
+
+🌟  Enabled addons: dashboard, default-storageclass, storage-provisioner
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+
+vasi@v:~/tools$ minikube dashboard &
+🤔  Verifying dashboard health ...
+🚀  Launching proxy ...
+🤔  Verifying proxy health ...
+🎉  Opening http://127.0.0.1:37435/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ in your default browser...
+Opening in existing browser session.
+
+vasi@v:~$ kubectl proxy --address='0.0.0.0' --disable-filter=true &
+[2] 651193
+vasi@v:~$ W0214 15:09:01.808784  651193 proxy.go:177] Request filter disabled, your proxy is vulnerable to XSRF attacks, please be cautious
+Starting to serve on [::]:8001
+
+Открыть с ноута http://192.168.1.20:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/workloads?namespace=default

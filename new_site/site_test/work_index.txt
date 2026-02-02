@@ -1,0 +1,20 @@
+https://v.perm.ru/index.nginx-debian.html
+Welcome to nginx!...
+/var/www/html/index.nginx-debian.html
+
+https://v.perm.ru/
+3This is the default welcome
+/var/www/html/index.html
+
+https://v.perm.ru/j4/index.html
+3This is the default welcom
+
+Убрал phpinfo.php
+https://v.perm.ru/j4/phpinfo.php
+PHP Version 8.3.10...
+
+https://v.perm.ru/j4/j4.html
+j4
+
+WORK!
+http://192.168.1.20/j4/index2.php

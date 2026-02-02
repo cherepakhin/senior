@@ -1,0 +1,73 @@
+https://github.com/cherepakhin/easybot_job/blob/dev/src/main/java/ru/perm/v/easybot/repository/ProductRepository.java
+
+package ru.perm.v.easybot.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.annotation.Transactional;
+import ru.perm.v.easybot.entity.ProductEntity;
+
+import javax.persistence.Table;
+import java.util.List;
+
+@Repository
+@Transactional
+@Table(name = "product")
+public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
+    List<ProductEntity> findAllByOrderByIdAsc();
+
+    @Query(value = "SELECT max(id) FROM ProductEntity")
+    Long getMaxId();
+
+    List<ProductEntity> findByGroupProductIdOrderByIdAsc(Long groupId);
+
+    @Query(value = "delete FROM ProductEntity")
+//    @Sql("classpath:import_test.sql") // можно так
+    @Modifying
+    void reset();
+}
+
+package ru.perm.v.easybot.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import ru.perm.v.easybot.entity.GroupProductEntity;
+
+import java.util.List;
+
+@Repository
+@Transactional
+public interface GroupProductRepository extends JpaRepository<GroupProductEntity, Long> {
+    List<GroupProductEntity> findAllByOrderByIdAsc();
+
+   /**
+   * Get with SQL query
+   */
+    @Query(value = "SELECT max(id) FROM GroupProductEntity")
+    Long getMaxId();
+
+   /**
+   * Select with JPA
+   * select * from product where parent_id = :id order by id asc
+   */
+    List<GroupProductEntity> findByParentIdOrderByParentIdAsc(Long id);
+
+   /**
+   * Select with JPA
+   */
+    List<GroupProductEntity> findByParentIdOrderByParentIdAscIdAsc(Long id);
+
+    /**
+     * delete except ROOT with id=1 "IT products"
+     * delete with query. @Modifying!!!
+     */
+    @Query(value = "delete FROM GroupProductEntity where ID>1")
+    @Modifying
+    void reset();
+}

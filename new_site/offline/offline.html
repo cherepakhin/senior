@@ -1,0 +1,55 @@
+Проблема: доступ в интернет или к репозиториям проекта сильно ограничен, практически, околонулевой. Решение - кешировать зависимости.
+<hr id="system-readmore" />
+<h3>Maven</h3>
+Включить режим offline (ключ <b>-o</b>).
+
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">$ mvn dependency:go-offline  //загрузка зависимостей
+$ mvn -o clean install
+// -o использовать offline зависимости
+$ mvn -o test</span>
+</pre></div>
+
+или
+
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">$ mvn dependency:go-offline</span>
+</pre></div>
+
+Либо хранить зависимости вместе с проектом:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">$ mvn -Dmaven.repo.local=dependencies install</span>
+</pre></div>
+
+Зависимости будут скопированы в папку <b>dependencies</b>.
+<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Maven offline" src="images/offline/idea_dependies.png"
+        alt="Maven offline" width="365" height="264"/></p>
+<br/>
+В <b>Idea</b> включение offline режима для <b>maven</b> в меню <b>File -> Settings -> Build, Execution, Deployment -> Build Tools -> Maven -> and check/uncheck Work offline</b>.
+<br/><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Maven offline" src="images/offline/maven_offline.png"
+        alt="Maven offline" width="987" height="522"/></p>
+Можно включить offline режим для всех проектов. Для этого в ~/.m2/settings.xml указать:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">
+&lt;settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      https://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;
+    &lt;offline&gt;true&lt;/offline&gt;
+&lt;/settings&gt;
+</pre></div>
+<br/>
+<h3>Gradle</h3>
+
+Ключ <b>--offline</b>.<br/>
+
+Тестирование в offline:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">$ ./gradlew --offline test</span>
+</pre></div>
+
+Сборка
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">$ ./gradlew --offline build</span>
+</pre></div>
+
+
+В Idea:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Maven offline" src="images/offline/gradle_offline_idea.png"
+        alt="Maven offline" width="1053" height="189"/></p>

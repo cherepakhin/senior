@@ -1,0 +1,95 @@
+Что такое неизменяемый объект? Когда вы создаете новое значение для такого объекта, на самом деле создается новый объект,
+и старый объект остается неизменяемым. Это будет более эффективным по времени и памяти, чем изменение изначального объекта.
+Это обеспечивает безопасность многопоточного программирования, поскольку неизменяемые объекты могут быть разделены <b>между несколькими потоками</b> без риска изменений и ошибок.<br/>
+<hr id="system-readmore"/>
+<b>Массивы</b> в Java изменяемый (<b>mutable</b>) тип. Пример решения:<br/>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">class</span> ImmutableIntArray {
+    <span style="color: #000080; font-weight: bold">private</span> <span style="color: #000080; font-weight: bold">final</span> <span style="color: #000080; font-weight: bold">int</span>[] array;
+
+    <span style="color: #000080; font-weight: bold">public</span> ImmutableIntArray(<span style="color: #000080; font-weight: bold">int</span>[] array) {
+        <span style="color: #000080; font-weight: bold">this</span>.<span style="color: #FF0000">array</span> = array.<span style="color: #FF0000">clone</span>();  <span style="color: #008800; font-style: italic">// clone!!!</span>
+    }
+
+    <span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">int</span>[] getValue() {
+        <span style="color: #000080; font-weight: bold">return</span> <span style="color: #000080; font-weight: bold">this</span>.<span style="color: #FF0000">clone</span>(); <span style="color: #008800; font-style: italic">// get clone!!!</span>
+    }
+}
+</pre></div>
+
+<ul>
+    <li>нет сеттеров</li>
+    <li>установка свойств только через <b>конструктор</b></li>
+    <li>получение свойства через <b>clone</b></li>
+</ul>
+Пример для immutable <b>класса</b> :
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">final</span> <span style="color: #000080; font-weight: bold">class</span> Person {
+    <span style="color: #000080; font-weight: bold">private</span> <span style="color: #000080; font-weight: bold">final</span> String name;
+    <span style="color: #000080; font-weight: bold">private</span> <span style="color: #000080; font-weight: bold">final</span> Integer age;
+
+    <span style="color: #000080; font-weight: bold">public</span> Person(String name, Integer age) {
+        <span style="color: #000080; font-weight: bold">this</span>.<span style="color: #FF0000">name</span> = name;
+        <span style="color: #000080; font-weight: bold">this</span>.<span style="color: #FF0000">ssn</span> = age;
+    }
+
+    <span style="color: #000080; font-weight: bold">public</span> String getName() {
+        <span style="color: #000080; font-weight: bold">return</span> name;
+    }
+
+    <span style="color: #000080; font-weight: bold">public</span> String getAge() {
+        <span style="color: #000080; font-weight: bold">return</span> age;
+    }
+}
+</pre></div>
+
+<ul>
+    <li>нет <b>сеттеров</b></li>
+    <li>свойства задаются <b>только через конструктор</b></li>
+    <li>свойства <b>final</b></li>
+</ul>
+
+Пример для immutable класса с <b>коллекциями</b> :
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">import</span> java.util.List;
+
+<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">class</span> PizzaDto {
+
+    <span style="color: #000080; font-weight: bold">private</span> <span style="color: #000080; font-weight: bold">final</span> String name;
+    <span style="color: #000080; font-weight: bold">private</span> <span style="color: #000080; font-weight: bold">final</span> List&lt;String&gt; ingredients; <span style="color: #008800; font-style: italic">// final!!!</span>
+
+    <span style="color: #000080; font-weight: bold">public</span> PizzaDto(String name, List&lt;String&gt; ingredients) {
+        <span style="color: #000080; font-weight: bold">this</span>.<span style="color: #FF0000">name</span> = name;
+        <span style="color: #000080; font-weight: bold">if</span> (ingredients != <span style="color: #000080; font-weight: bold">null</span>) {
+            ingredients = List.<span style="color: #FF0000">copyOf</span>(ingredients); <span style="color: #008800; font-style: italic">// List.copyOf!!!</span>
+        }
+        <span style="color: #000080; font-weight: bold">this</span>.<span style="color: #FF0000">ingredients</span> = ingredients;
+    }
+
+    <span style="color: #000080; font-weight: bold">public</span> String getName() {
+        <span style="color: #000080; font-weight: bold">return</span> name;
+    }
+
+    <span style="color: #000080; font-weight: bold">public</span> List&lt;String&gt; getIngredients() {
+        <span style="color: #000080; font-weight: bold">return</span> ingredients;
+    }
+}
+</pre></div>
+Проверка:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">dto.getIngredients().remove("Sugar"); // вызывает UnsupportedOperationException
+</pre></div>
+либо возвращать clone версию:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">public</span> List<String> getNames() {
+    <span style="color: #000080; font-weight: bold">return</span> <span style="color: #000080; font-weight: bold">new</span> ArrayList<String>(<span style="color: #000080; font-weight: bold">this</span>.<span style="color: #FF0000">ingredients</span>); <span style="color: #008800; font-style: italic">// или можно использовать List.copyOf</span>
+}
+</pre></div>
+
+Но внутренние объекты, все равно, нужно держать под контролем. В Spring есть <a style="color: #3366ff; text-decoration: underline;" href=https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cglib/beans/ImmutableBean.html" target="_blank" rel="noopener noreferrer">ImmutableBean</a>.
+<br/>
+<br/>
+В Kotlin immutable коллекции представлены listOf(), setOf(), mapOf()
+<a style="color: #3366ff; text-decoration: underline;" href="https://www.kotlinsos.com/basics/kotlin-and-immutable-collections/" target="_blank" rel="noopener noreferrer">https://www.kotlinsos.com/basics/kotlin-and-immutable-collections/</a>,
+<a style="color: #3366ff; text-decoration: underline;" href="https://www.baeldung.com/kotlin/immutable-collections" target="_blank" rel="noopener noreferrer">https://www.baeldung.com/kotlin/immutable-collections,</a>
+
+<br/>
+<br/>
+Ссылки:<br/>
+<a style="color: #3366ff; text-decoration: underline;" href=https://learntutorials.net/ru/java/topic/2807/неизменяемые-объекты" target="_blank" rel="noopener noreferrer">https://learntutorials.net/ru/java/topic/2807/неизменяемые-объекты</a>

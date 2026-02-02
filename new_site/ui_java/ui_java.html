@@ -1,0 +1,113 @@
+<h3 dir="auto">Оглавление:</h3>
+<ul>
+    <li><a href="#spring_boot_admin">Spring Boot Admin</a></li>
+    <li><a href="#gwt">GWT</a></li>
+    <li><a href="#wicket">Wicket</a></li>
+    <li><a href="#kweb">KWeb (Kotlin!)</a></li>
+    <li><a href="#vaadin">Vaadin</a></li>
+    <li><a href="#eclipse">Eclipse projects</a></li>
+    <li><a href="#controlsfx">ControlsFX (Java FX)</a></li>
+</ul>
+<hr id="system-readmore" />
+<h3 dir="auto">Spring Boot Admin</h3>
+<p><a id="spring_boot_admin"></a></p>
+Документация: <a style="text-decoration: underline; color: #3366ff;" href="https://docs.spring-boot-admin.com/3.5.5/docs/index" target="_blank" rel="noopener noreferrer">https://docs.spring-boot-admin.com/3.5.5/docs/index</a>.<br/>
+Каталог на ноуте: vasi@vasi-note:~/prog/java/spring-boot/spring-boot-admin<br/>
+
+Пример:
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/dbelob/twitter-emulation/tree/master/twitter-emulation-spring-boot-admin" target="_blank" rel="noopener noreferrer">    https://github.com/dbelob/twitter-emulation/tree/master/twitter-emulation-spring-boot-admin</a><br/>
+<br/>
+Запуск:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+export JAVA_HOME=/usr/lib/jvm/java-1.21.0-openjdk-amd64
+./mvnw spring-boot:run
+</pre></div><br/>
+Открыть в браузере (url будет выведен в консоли):
+<a style="text-decoration: underline; color: #3366ff;" href="http://127.0.0.1:9000/instances/2d1a8c0e14fe/details" target="_blank" rel="noopener noreferrer">http://127.0.0.1:9000/instances/2d1a8c0e14fe/details</a><br/>
+
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="images/ui_java/spring_admin_screen1.png"
+        alt="example100.png" width="648" height="409"/></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="images/ui_java/spring_admin_screen2.png"
+        alt="example100.png" width="1348" height="440"/></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="images/ui_java/spring_admin_screen_about.png"
+        alt="example100.png" width="1294" height="608"/></p>
+Пример запуска в docker:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+sudo docker run --rm -p 8080:8080 --add-host=host.docker.internal:host-gateway michayaak/spring-boot-admin:2.2.3-1
+</pre></div><br/>
+
+<h3 dir="auto">GWT</h3>
+<p><a id="gwt"></a></p>
+<a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/index.php/component/content/article/gwt-spring-boot?catid=15&Itemid=101" target="_blank" rel="noopener noreferrer">GWT + Spring Boot</a><br/>
+Пример приложения: <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/gwt-boot-sample-ui-gwtmaterial" target="_blank" rel="noopener noreferrer">GWT + Material UI + Spring Boot</a><br/>
+Демо: <a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/gwtmaterial/" target="_blank" rel="noopener noreferrer">https://v.perm.ru/gwtmaterial/</a><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="gwt-boot-sample-ui-gwtmaterial_screen.png" src="images/ui_java/gwt-boot-sample-ui-gwtmaterial_screen.png"
+        alt="gwt-boot-sample-ui-gwtmaterial_screen.png" width="1356" height="442"/></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="gwt_material_combo.png" src="images/ui_java/gwt_material_combo.png"
+        alt="gwt_material_combo.png" width="448" height="263"/></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="gwt_material_message.png" src="images/ui_java/gwt_material_message.png"
+        alt="gwt_material_message.png" width="307" height="289"/></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="gwt_bootstrap1.png" src="images/ui_java/gwt_bootstrap1.png"
+        alt="gwt_bootstrap1.png" width="1349" height="280"/></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="gwtbootstrap3.png" src="images/ui_java/gwtbootstrap3.png"
+        alt="gwtbootstrap3.png" width="1360" height="323"/></p>
+<br/>
+Еще примеры:<br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/boot_gwt" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/boot_gwt</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/spring-boot-gwt" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/spring-boot-gwt</a><br/>
+Версия 2.10.0 GWT в maven:
+<a style="text-decoration: underline; color: #3366ff;" href="https://repo.maven.apache.org/maven2/com/google/gwt/gwt/2.10.0/" target="_blank" rel="noopener noreferrer">https://repo.maven.apache.org/maven2/com/google/gwt/gwt/2.10.0/</a>
+от 2022-06-22<br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/index.php/component/content/article/gwt-spring-boot?catid=15&Itemid=101" target="_blank" rel="noopener noreferrer">GWT + Spring Boot</a><br/>
+<h3 dir="auto">Wicket</h3>
+<p><a id="wicket"></a></p>
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/hello_world_wicket" target="_blank" rel="noopener noreferrer">Hello world Wicket!</a><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="images/ui_java/wicket_hello.png"
+        alt="gwtbootstrap3.png" width="1173" height="626"/></p>
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/spring-wicket-noticeboard" target="_blank" rel="noopener noreferrer">Spring Boot + Wicket</a><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="images/ui_java/wicket_board.png"
+        alt="wicket_board.png" width="1164" height="511"/></p>
+<h3 dir="auto">KWeb</h3>
+<p><a id="kweb"></a></p>
+<a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/index.php/component/content/article/kweb-example" target="_blank" rel="noopener noreferrer">KWeb - Kotlin библиотека для построения WEB интерфейса.</a><br/>
+Примеры:<br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/kweb_helloworld" target="_blank" rel="noopener noreferrer">KWeb Hello World</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/kweb_todo_list" target="_blank" rel="noopener noreferrer">KWeb Todo List</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/kweb_modal_dialog" target="_blank" rel="noopener noreferrer">KWeb Modal Dialog</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/gwtbootstrap3" target="_blank" rel="noopener noreferrer">GWT+Bootstrap3</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://gwtbootstrap3.github.io/gwtbootstrap3-demo/" target="_blank" rel="noopener noreferrer">Demo GWT+Bootstrap3</a><br/>
+
+<h3 dir="auto">Vaadin</h3>
+<p><a id="vaadin"></a></p>
+<a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/index.php/component/content/article/vaadin?catid=15" target="_blank" rel="noopener noreferrer">Vaadin (v.perm.ru)</a><br/>
+
+<h3 dir="auto">Eclipse projects</h3>
+<p><a id="eclipse"></a></p>
+В рамках проекта Eclipse есть несколько подпроектов для разработки UI:
+<ul>
+    <li>Для Web <a style="text-decoration: underline; color: #3366ff;" href="https://eclipse.dev/rap/" target="_blank" rel="noopener noreferrer">Eclipse RAP</a> </li>
+    <li>Для Desktop <a style="text-decoration: underline; color: #3366ff;" href="https://eclipsesource.com/technology/eclipse-rcp-technology/" target="_blank" rel="noopener noreferrer">Eclipse RCP</a> (+проект <a style="text-decoration: underline; color: #3366ff;" href="https://projects.eclipse.org/projects/technology.nebula" target="_blank" rel="noopener noreferrer">Nebula</a> со множеством доработанных виджетов)
+        + <a style="text-decoration: underline; color: #3366ff;" href="https://www.vogella.com/tutorials/EclipseRCP/article.html" target="_blank" rel="noopener noreferrer">Tutorials Eclipse RCP</a>,
+        <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/vogella?tab=repositories" target="_blank" rel="noopener noreferrer">Много примеров использование в Vogells GitHub</a>.
+        Тут же стоит обратить внимание на проект <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/vogella/tycho" target="_blank" rel="noopener noreferrer">Tycho (это использование Spring в проектах Eclipse RCP)</a> и <a style="text-decoration: underline; color: #3366ff;" href="https://projects.eclipse.org/projects/technology.osgi" target="_blank" rel="noopener noreferrer">OSGI technology</a>.
+
+    </li>
+</ul>
+<h3 dir="auto">ControlsFX (Java FX)</h3>
+<p><a id="controlsfx"></a></p>
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/controlsfx/" target="_blank" rel="noopener noreferrer">https://github.com/controlsfx/</a>
+<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+ControlsFX is an open source project for JavaFX that aims to provide really high quality UI controls and other tools to complement the core JavaFX distribution
+</pre></div><br/>
+Для создания <b>DESKTOP</b> приложений.<br/>
+Пример:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="images/ui_java/controlfx_tableview.png"
+        alt="controlfx_tableview.png" width="1021" height="597"/></p>
+Клон репозитория на моем github: <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/controlsfx" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/controlsfx</a>
+
+
+

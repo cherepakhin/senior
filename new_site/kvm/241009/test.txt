@@ -1,0 +1,221 @@
+https://winitpro.ru/index.php/2020/02/10/virsh-upravlenie-virtualnymi-mashinami-kvm/
+
+Запустил в linux в KVM
+
+v:~$ sudo virsh list --all
+ Id   Name        State
+---------------------------
+ 3    linux2022   running
+
+НО!!!!
+sudo virsh net-list --all
+[sudo] password for vasi:
+ Name      State      Autostart   Persistent
+----------------------------------------------
+ default   inactive   no          yes
+
+какие сетевые интерфейсы созданы на хосте:
+
+$ brctl show
+bridge name	bridge id		STP enabled	interfaces
+docker0		8000.0242e562829d	no		vnet2
+
+
+vnet2: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::fc54:ff:feb4:c9ad  prefixlen 64  scopeid 0x20<link>
+        ether fe:54:00:b4:c9:ad  txqueuelen 1000  (Ethernet)
+        RX packets 1284  bytes 117880 (117.8 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 545  bytes 137672 (137.6 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+v $ virsh attach-interface linux2022 --type bridge --source docker0 --persistent
+Interface attached successfully
+vasi@v:~$ virsh start linux2022
+
+Появился новый сетевой интерфейс (аж ДВА!!!)
+vasi@v:~$ brctl show
+bridge name	bridge id		STP enabled	interfaces
+docker0		8000.0242e562829d	no		vnet3
+							            vnet4
+vasi@v:~$ ifconfig
+vnet3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::fc54:ff:feb4:c9ad  prefixlen 64  scopeid 0x20<link>
+        ether fe:54:00:b4:c9:ad  txqueuelen 1000  (Ethernet)
+        RX packets 205  bytes 18133 (18.1 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 126  bytes 25337 (25.3 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+vnet4: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::fc54:ff:fed5:9258  prefixlen 64  scopeid 0x20<link>
+        ether fe:54:00:d5:92:58  txqueuelen 1000  (Ethernet)
+        RX packets 48  bytes 8224 (8.2 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 109  bytes 20872 (20.8 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+=============================================
+=============================================
+=============================================
+Заработало!
+linux в виртуальной машине ip: 172.17.0.2 gw: 172.17.0.1
+
+ifconfig в v:
+
+docker0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
+        inet6 fe80::42:e5ff:fe62:829d  prefixlen 64  scopeid 0x20<link>
+        ether 02:42:e5:62:82:9d  txqueuelen 0  (Ethernet)
+        RX packets 13392  bytes 565176 (565.1 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 2404  bytes 532532 (532.5 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+enp3s0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        ether 30:85:a9:96:31:b7  txqueuelen 1000  (Ethernet)
+        RX packets 17444861  bytes 23165225211 (23.1 GB)
+        RX errors 0  dropped 184247  overruns 0  frame 0
+        TX packets 9451054  bytes 1238509671 (1.2 GB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+enp4s0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.1.20  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 fe80::1822:e529:8bdd:7ae6  prefixlen 64  scopeid 0x20<link>
+        ether 00:11:95:5b:fe:7d  txqueuelen 1000  (Ethernet)
+        RX packets 1632983  bytes 581555312 (581.5 MB)
+        RX errors 0  dropped 5  overruns 0  frame 0
+        TX packets 3218838  bytes 2118588578 (2.1 GB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 1962807  bytes 1790350880 (1.7 GB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1962807  bytes 1790350880 (1.7 GB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+ppp0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST>  mtu 1492
+        inet 46.146.232.50  netmask 255.255.255.255  destination 10.95.254.254
+        inet6 fe80::f4b6:42c0:88af:b177  prefixlen 64  scopeid 0x20<link>
+        inet6 fe80::8175:c1b4:45b2:2033  prefixlen 64  scopeid 0x20<link>
+        ppp  txqueuelen 3  (Point-to-Point Protocol)
+        RX packets 17254340  bytes 22774193515 (22.7 GB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 9444794  bytes 1030345644 (1.0 GB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+vnet3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::fc54:ff:feb4:c9ad  prefixlen 64  scopeid 0x20<link>
+        ether fe:54:00:b4:c9:ad  txqueuelen 1000  (Ethernet)
+        RX packets 544  bytes 49948 (49.9 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 956  bytes 199213 (199.2 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+vnet4: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::fc54:ff:fed5:9258  prefixlen 64  scopeid 0x20<link>
+        ether fe:54:00:d5:92:58  txqueuelen 1000  (Ethernet)
+        RX packets 654  bytes 92807 (92.8 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 592  bytes 142219 (142.2 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+---------------------
+В виртуальной машине:
+vasi@virt1:~$ ifconfig
+enp8s0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        ether 52:54:00:b4:c9:ad  txqueuelen 1000  (Ethernet)
+        RX packets 1077  bytes 235783 (230.2 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 544  bytes 49948 (48.7 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+ens1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.17.0.2  netmask 255.255.255.0  broadcast 172.17.0.255
+        inet6 fe80::5110:e62c:29f5:835f  prefixlen 64  scopeid 0x20<link>
+        ether 52:54:00:d5:92:58  txqueuelen 1000  (Ethernet)
+        RX packets 424  bytes 106054 (103.5 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 691  bytes 100355 (98.0 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 1041
+Странно в виртуальной машине нашелся интерфейс enp8s0 из хостовой машины v.perm.ru vnet3
+
+И не только он , но и все виртуальные интерфейсы:
+ether 52:54:00:d5:92:58
+ether 52:54:00:b4:c9:ad
+
+на v.perm.ru:
+vnet3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::fc54:ff:feb4:c9ad  prefixlen 64  scopeid 0x20<link>
+        ether fe:54:00:b4:c9:ad
+в вирт.машине это enp8s0
+-----
+vnet4: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::fc54:ff:fed5:9258  prefixlen 64  scopeid 0x20<link>
+        ether fe:54:00:d5:92:58
+в вирт.машине это ens1
+-----
+
+В вирт.машине linux2022 используется 54:00:d5:92:58 (ens1),
+второй интерфейс в вирт.машине 54:00:b4:c9:ad (enp8s0) не активирован, отключен!
+
+vasi@virt1:~$ ifconfig
+enp8s0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        ether 52:54:00:b4:c9:ad  txqueuelen 1000  (Ethernet)
+        RX packets 1239  bytes 284487 (277.8 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 544  bytes 49948 (48.7 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+ens1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.17.0.2  netmask 255.255.255.0  broadcast 172.17.0.255
+        inet6 fe80::5110:e62c:29f5:835f  prefixlen 64  scopeid 0x20<link>
+        ether 52:54:00:d5:92:58  txqueuelen 1000  (Ethernet)
+        RX packets 655  bytes 160914 (157.1 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 768  bytes 117607 (114.8 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 1418
+============
+Удалил из KVM из вирт.машины linux2022 интерфейс enp8s0 (...c9:ad). Остался только один ( ...92:58):
+vasi@virt1:~$ ifconfig
+...
+ens1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.17.0.2  netmask 255.255.255.0  broadcast 172.17.0.255
+        inet6 fe80::5110:e62c:29f5:835f  prefixlen 64  scopeid 0x20<link>
+        ether 52:54:00:d5:92:58
+....
+============
+Итого на 9.10 17:07
+
+1) с v.perm.ru
+vasi@v:~$ ping 172.17.0.2
+PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
+64 bytes from 172.17.0.2: icmp_seq=1 ttl=64 time=0.530 ms
+
+2) с ноута
+vasi@vasi-note:~$ ping 172.17.0.2
+PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
+64 bytes from 172.17.0.2: icmp_seq=1 ttl=63 time=1.97 ms
+
+ssh 172.17.0.2 OK
+
+3) из вирт.машины
+-----
+vasi@virt1:~$ ping 192.168.1.20
+PING 192.168.1.20 (192.168.1.20) 56(84) bytes of data.
+64 bytes from 192.168.1.20: icmp_seq=1 ttl=64 time=0.617 ms
+64 bytes from 192.168.1.20: icmp_seq=2 ttl=64 time=0.476 ms
+
+vasi@virt1:~$ ping 192.168.1.57
+PING 192.168.1.57 (192.168.1.57) 56(84) bytes of data.
+64 bytes from 192.168.1.57: icmp_seq=1 ttl=63 time=1.71 ms
+64 bytes from 192.168.1.57: icmp_seq=2 ttl=63 time=1.90 ms
+
+ssh на ноут OK
+ssh на 1.20 ERR!!! (ufw???, а ping ЕСТЬ)
+
+vasi@virt1:~$ ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+ERROR
+

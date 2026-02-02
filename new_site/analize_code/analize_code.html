@@ -1,0 +1,42 @@
+Несмотря на то, что код может быть рабочим, его СТИЛИСТИКА, компоновка может быть ошибочна.
+Есть такие понятия <b>"чистый код"</b> и для достижения этой цели применяется <b>рефакторинг</b>.
+Написано несколько книг, среди которых, наверное, самая популярная Боба Мартина "Чистый код". Вышло еще несколько книг:
+
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Книги по рефакторингу" src="images/refactoring/books.png"
+        alt="Книги по рефакторингу"/></p>
+<hr id="system-readmore"/>
+Есть инструментальные стредства для анализа кода в Idea, помогающие с рефакторингом:<br/>
+<b>1. Сторонний plugin SonarLint Plugin</b><br/>
+<a href="https://plugins.jetbrains.com/plugin/7973-sonarlint"
+                                        style="text-decoration: underline; color: #3366ff;"
+                                        target="_blank" rel="noopener noreferrer">https://plugins.jetbrains.com/plugin/7973-sonarlint</a>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="sonarlint_plugin" src="images/refactoring/sonarlint_plugin.png"
+        alt="sonarlint_plugin"/></p>
+вызывается контекстное меню (через правую клавишу мыши на пакете, классе в проводнике Idea) -> SonarLint -> Analize with SonarLint.<br/>
+Результаты:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="images/refactoring/idea_sonarqube_result1.png"
+        alt="idea_sonarqube_result1.png"/></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="images/refactoring/idea_sonarqube_result2.png"
+        alt="idea_sonarqube_result2.png"/></p><br/>
+<b>2. Встроенный в Idea через меню контекстное меню->Analize/Inspect Code.</b><br/>
+указать что анализировать:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="images/refactoring/idea_analize_when.png"
+        alt="idea_analize_when.png"/></p>
+Замечания структированы:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="images/refactoring/idea_analize_variants.png"
+        alt="idea_analize_variants.png"/></p>
+И по каждому замечанию показано что и где не так:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="images/refactoring/idea_sonarqube_result2.png"
+        alt="idea_sonarqube_result2.png"/></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="images/refactoring/idea_result.png"
+        alt="idea_result.png"/></p>
+
+В большинстве случаев реально дельные советы, помогающие не включать мозг, там где может справиться компьютер.<br/>
+<br/>
+Отдельно про книгу "Горький вкус Java" (Брюс Тейт). Если оcтальные книги показывают как надо писать код,
+то эта книга помогает распознать, так называемые, антипаттерны, т.е. устойчивые , но <b>кривые</b> приемы. Книжка почти художественная.
+<b>PS</b>:<br/>
+<ul>
+    <li>Почему книги, а не интернет, телефон и т.п. в наш век интернета? Чисто из практических соображений. Больше свободы. У книги "большой" экран, не привязан к розетке, юзабельность (просмотр предыдущих фрагментов...) выше и т.п.</li>
+    <li>Книги старые, но до сих пор актуальные.</li>
+</ul>

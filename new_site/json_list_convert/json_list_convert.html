@@ -1,0 +1,220 @@
+<p>Пример на Kotlin для конвертирования JSON массива в список объектов. Дан <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/vacancy_backend/blob/dev/src/main/kotlin/ru/perm/v/vacancy/rest/CompanyCtrl.kt" target="_blank" rel="noopener noreferrer">сервис:</a></p>
+<hr id="system-readmore" />
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;"><code>
+@RestController
+@RequestMapping("/company")
+@Api(tags = ["Rest Company"])
+class CompanyCtrl(val companyService: CompanyService) {
+    @GetMapping("/")
+    @ApiOperation("Get all companies")
+    fun getAll(): List {
+        logger.info("Get all companies")
+        val companies = companyService.getAllSortedByField("n")
+        logger.info(companies.toString())
+        return companies
+    }
+}
+</code></pre>
+</div>
+<p>возвращающий JSON со списком объектов. Получение списка от сервиса:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ http :8980/vacancy/api/company/
+HTTP/1.1 200
+Content-Type: application/json
+
+[
+    {"n": -1, "name": "-"},
+    {"n": 1, "name": "COMPANY_1"},
+    {"n": 2, "name": "COMPANY_2"},
+    {"n": 3, "name": "3_COMPANY"}
+]
+</pre>
+</div>
+<p>JSON <b>неправильный</b>. Правильно будет как-то так:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">{
+    "companies": [
+        {"n": -1, "name": "-"},
+        {"n": 1, "name": "COMPANY_1"},
+        {"n": 2, "name": "COMPANY_2"},
+        {"n": 3, "name": "3_COMPANY"}
+    ]
+}
+</pre>
+</div>
+<p>Тем не менее, нужно тестировать. Показаны примеры для Jackson и Gson. <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/vacancy_wicket_k/tree/master/src/test/kotlin/ru/perm/v/vacancy/service/RestTemplateForServicesTest.kt" target="_blank" rel="noopener noreferrer">Интеграционный тест</a>:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">package ru.perm.v.vacancy.service
+
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
+import org.springframework.web.client.RestTemplate
+import ru.perm.v.vacancy.dto.CompanyDto
+
+/**
+ * Test with projectRestTemplate
+ */
+@SpringBootTest
+@ActiveProfiles("dev")
+class RestTemplateForServicesTest {
+    @Autowired
+    val projectRestTemplate: ProjectRestTemplate? = null
+
+    @Value("\${myconfig.remoteHost}")
+    val remoteHost: String? = null
+
+    private val logger = LoggerFactory.getLogger(this.javaClass.name)
+
+    @Test
+    fun getMyConfigRemoteHost() {
+        assertEquals("http://127.0.0.1:8980/vacancy/api", remoteHost)
+    }
+
+    @Test
+    fun getByN_WithProjectRestTemplate() {
+        val company = projectRestTemplate?.getForObjectCompany(remoteHost + "/company/1")
+
+        assertEquals(CompanyDto(1, "COMPANY_1"), company)
+    }
+
+    @Test
+    fun getAllCheckBody_WithProjectRestTemplateAndGson() {
+        val json = RestTemplate().getForEntity(remoteHost + "/company/", String::class.java).body
+        val typeToken = object : TypeToken&lt;kotlin.collections.List&gt;() {}.type
+        val companies = Gson().fromJson&lt;List&gt;(json, typeToken)
+
+        assertEquals(4, companies.size)
+        assertEquals(CompanyDto(-1L, "-"), companies[0])
+        assertEquals(CompanyDto(1, "COMPANY_1"), companies[1])
+        assertEquals(CompanyDto(2, "COMPANY_2"), companies.get(2))
+        assertEquals(CompanyDto(3, "3_COMPANY"), companies.get(3))
+    }
+
+    @Test
+    fun getAllCheckBody_WithProjectRestTemplateAsReceiveStringToJackson() {
+
+        val jacksonMapper = jacksonObjectMapper()
+        val json = RestTemplate().getForEntity(remoteHost + "/company/", String::class.java).body
+        val companies: List = jacksonMapper.readValue(json)
+
+        assertEquals(4, companies.size)
+        assertEquals(CompanyDto(-1L, "-"), companies[0])
+        assertEquals(CompanyDto(1, "COMPANY_1"), companies[1])
+        assertEquals(CompanyDto(2, "COMPANY_2"), companies.get(2))
+        assertEquals(CompanyDto(3, "3_COMPANY"), companies.get(3))
+    }
+
+    // received LinkedHashMap
+    @Test
+    fun getAllCheckBody_WithProjectRestTemplateAndJacksonAndBodyAsArray() {
+        val response = RestTemplate().getForEntity(remoteHost + "/company/", Array::class.java).body
+        assertEquals(4, response.size)
+        assertEquals(java.util.LinkedHashMap::class.java, response[0]!!.javaClass)
+    }
+
+    @Test
+    fun getAllCheckBody_WithProjectRestTemplateAndJacksonAndBodyConvert() {
+        val jsonString = RestTemplate().getForEntity(remoteHost + "/company/",
+            String::class.java).body
+        val mapper = ObjectMapper()
+        // convert to LIST with TYPE CompanyDto
+        val type = mapper.getTypeFactory().constructParametricType(
+            List::class.java, CompanyDto::class.java);
+        val companies = mapper.readValue&lt;List&gt;(jsonString, type)
+
+        assertEquals(4, companies.size)
+        assertEquals(CompanyDto(-1L, "-"), companies[0])
+        assertEquals(CompanyDto(1, "COMPANY_1"), companies[1])
+        assertEquals(CompanyDto(2, "COMPANY_2"), companies.get(2))
+        assertEquals(CompanyDto(3, "3_COMPANY"), companies.get(3))
+    }
+
+    // Оставлен для примера где может появиться  LinkedHashMap
+    @Test
+    fun getAllCheckBody_WithProjectRestTemplate() {
+        val response = RestTemplate().getForEntity(remoteHost + "/company/",
+            Array::class.java).body
+        assertEquals(4, response.size)
+        assertEquals(java.util.LinkedHashMap::class.java, response[0]!!.javaClass)
+    }
+}
+</pre>
+</div>
+<p>Еще <a style="text-decoration: underline; color: #3366ff;" title="https://github.com/cherepakhin/vacancy_wicket_k/blob/master/src/test/kotlin/ru/perm/v/vacancy/service/ProjectRestTemplateIntegrationTest.kt"
+          href="https://github.com/cherepakhin/vacancy_wicket_k/blob/master/src/test/kotlin/ru/perm/v/vacancy/service/ProjectRestTemplateIntegrationTest.kt" target="_blank" rel="noopener noreferrer">пример:</a>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;"><code>
+package ru.perm.v.vacancy.service
+
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
+import org.springframework.web.client.RestTemplate
+import ru.perm.v.vacancy.dto.CompanyDto
+
+@SpringBootTest
+@ActiveProfiles("test")
+class ProjectRestTemplateIntegrationTest {
+    @Value("\${myconfig.remoteHost}")
+    val remoteHost: String? = null
+
+    @Autowired
+    lateinit var projectRestTemplate: ProjectRestTemplate
+
+    @Test
+    fun checkRemoteHostValue() {
+        assertEquals("http://127.0.0.1:8980/vacancy/api", remoteHost)
+    }
+
+    @Test
+    fun checkWorkRestTemplate() {
+        val COMPANY_N = 1L
+        val companyDTO = projectRestTemplate?.getForObjectCompany("http://127.0.0.1:8980/vacancy/api/company/${COMPANY_N}")
+
+        assert(companyDTO != null)
+        assertEquals(CompanyDto(COMPANY_N, "COMPANY_1"), companyDTO)
+    }
+
+    @Test
+    fun forEntity() {
+        val url = "http://127.0.0.1:8980/vacancy/api/company/1"
+
+        val company = RestTemplate().getForEntity(url, CompanyDto::class.java).body as CompanyDto
+
+        assertEquals(1, company.n)
+    }
+
+    @Test
+    fun forResponseEntity() {
+        val url = "http://127.0.0.1:8980/vacancy/api/company/1"
+
+      val responseEntity = RestTemplate().getForEntity(url, CompanyDto::class.java)
+
+        assertEquals(CompanyDto(1,"COMPANY_1"), responseEntity.body)
+    }
+
+    @Test
+    fun forList() {
+        val url = "http://127.0.0.1:8980/vacancy/api/company/"
+        val companies = RestTemplate().getForEntity(url, List::class.java).body as List
+
+        assertEquals(4, companies.size)
+    }
+
+</code></pre>
+</div>
+<p><br />Ссылки:<br /><a style="text-decoration: underline; color: #3366ff;" title="https://github.com/cherepakhin/wicket_test_examples" href="https://github.com/cherepakhin/wicket_test_examples" target="_blank" rel="noopener noreferrer">Примеры для Kotlin конвертирования из JSON списка объектов</a></p>

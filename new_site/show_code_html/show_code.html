@@ -1,0 +1,295 @@
+<p>Описаны способы оформления <b>кода</b> на <b>html</b> странице в <b>Joomla</b>.</p>
+<hr id="system-readmore" />
+<h3>Только с помощью Joomla</h3>
+<p>В редакторе Joomla есть такая возможность:</p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="joomla_menu" src="images/show_code/joomla_menu.png" alt="joomla_menu" /></p>
+<p>Вставится пара: &lt;pre class="language-java"&gt;&lt;code&gt;<br />Выглядит так:</p>
+<pre class="language-java"><code>public class CompanyCritery {
+    private String shortname = "";
+
+    public String getShortname() {
+        return shortname;
+    }
+
+    public void setShortname(String shortname) {
+        this.shortname = shortname;
+    }
+}
+</code></pre>
+Код не подсвечен, но выровнен и "мало-мало" выделен.
+<hr />
+<h3>highlightjs</h3>
+<p><a style="text-decoration: underline; color: #3366ff;" href="https://highlightjs.org/demo#lang=&amp;v=1&amp;theme=atom-one-dark" target="_blank" rel="noopener noreferrer">https://highlightjs.org/demo#lang=&amp;v=1&amp;theme=atom-one-dark</a></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="highlightjs.org" src="images/show_code/highlightjs.png" alt="highlightjs" /></p>
+<hr />
+<h3>hilite.me</h3>
+<p><a style="text-decoration: underline; color: #3366ff;" href="http://hilite.me/" target="_blank" rel="noopener noreferrer">http://hilite.me/</a></p>
+Так выглядит страница инструмента для shell кода:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="hilite.me" src="images/show_code/hilite_shell.png" alt="hilite.me" /></p>
+Так выглядит страница инструмента для java кода:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="hilite.me" src="images/show_code/hilite_code.png" alt="hilite.me" /></p>
+(Language: Java, Style: Borland, css: border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;)
+Так выглядит код на моем сайте:
+<!-- HTML generated using hilite.me -->
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <table>
+        <tbody>
+        <tr>
+            <td>
+<pre style="margin: 0; line-height: 125%;"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28</pre>
+            </td>
+            <td>
+<pre style="margin: 0; line-height: 125%;"><span style="color: #000080; font-weight: bold;">package</span> ru.<span style="color: #ff0000;">perm</span>.<span style="color: #ff0000;">v</span>.<span style="color: #ff0000;">companies</span>.<span style="color: #ff0000;">critery</span>;
+
+<span style="color: #000080; font-weight: bold;">import</span> java.util.Objects;
+
+<span style="color: #000080; font-weight: bold;">public</span> <span style="color: #000080; font-weight: bold;">class</span> CompanyCritery {
+    <span style="color: #000080; font-weight: bold;">private</span> String shortname = <span style="color: #0000ff;">""</span>;
+
+    <span style="color: #000080; font-weight: bold;">public</span> String getShortname() {
+        <span style="color: #000080; font-weight: bold;">return</span> shortname;
+    }
+
+    <span style="color: #000080; font-weight: bold;">public</span> <span style="color: #000080; font-weight: bold;">void</span> setShortname(String shortname) {
+        <span style="color: #000080; font-weight: bold;">this</span>.<span style="color: #ff0000;">shortname</span> = shortname;
+    }
+
+    @Override
+    <span style="color: #000080; font-weight: bold;">public</span> <span style="color: #000080; font-weight: bold;">boolean</span> equals(Object o) {
+        <span style="color: #000080; font-weight: bold;">if</span> (<span style="color: #000080; font-weight: bold;">this</span> == o) <span style="color: #000080; font-weight: bold;">return</span> <span style="color: #000080; font-weight: bold;">true</span>;
+        <span style="color: #000080; font-weight: bold;">if</span> (!(o <span style="color: #000080; font-weight: bold;">instanceof</span> CompanyCritery)) <span style="color: #000080; font-weight: bold;">return</span> <span style="color: #000080; font-weight: bold;">false</span>;
+        CompanyCritery that = (CompanyCritery) o;
+        <span style="color: #000080; font-weight: bold;">return</span> Objects.<span style="color: #ff0000;">equals</span>(shortname, that.<span style="color: #ff0000;">shortname</span>);
+    }
+
+    @Override
+    <span style="color: #000080; font-weight: bold;">public</span> <span style="color: #000080; font-weight: bold;">int</span> hashCode() {
+        <span style="color: #000080; font-weight: bold;">return</span> Objects.<span style="color: #ff0000;">hash</span>(shortname);
+    }
+}
+</pre>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div style="color: red;">Какие-то косячки с цветом "package ru.perm...", "this.shortname...".</div>
+<hr />
+<h3>commontools.org</h3>
+<p><a style="text-decoration: underline; color: #3366ff;" href="https://www.commontools.org/tool/soruce-code-highlighter-20" target="_blank" rel="noopener noreferrer">https://www.commontools.org/tool/soruce-code-highlighter-20</a></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="commontools.org" src="images/show_code/commontools_org.png" alt="commontools.org" /></p>
+Пример для Java:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border: solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #204a87; font-weight: bold">package </span><span style="color: #ce5c00; font-weight: bold">ru.perm.v.companies.service.impl;</span>
+
+<span style="color: #204a87; font-weight: bold">import</span> <span style="color: #000000">org.junit.jupiter.api.Test</span><span style="color: #ce5c00; font-weight: bold">;</span>
+<span style="color: #204a87; font-weight: bold">import</span> <span style="color: #000000">ru.perm.v.companies.dto.CompanyDto</span><span style="color: #ce5c00; font-weight: bold">;</span>
+<span style="color: #204a87; font-weight: bold">import</span> <span style="color: #000000">ru.perm.v.companies.dto.EmployeeDto</span><span style="color: #ce5c00; font-weight: bold">;</span>
+<span style="color: #204a87; font-weight: bold">import</span> <span style="color: #000000">ru.perm.v.companies.entity.CompanyEntity</span><span style="color: #ce5c00; font-weight: bold">;</span>
+<span style="color: #204a87; font-weight: bold">import</span> <span style="color: #000000">ru.perm.v.companies.entity.EmployeeEntity</span><span style="color: #ce5c00; font-weight: bold">;</span>
+<span style="color: #204a87; font-weight: bold">import</span> <span style="color: #000000">ru.perm.v.companies.mappers.CompanyMapper</span><span style="color: #ce5c00; font-weight: bold">;</span>
+<span style="color: #204a87; font-weight: bold">import</span> <span style="color: #000000">ru.perm.v.companies.repository.CompanyRepository</span><span style="color: #ce5c00; font-weight: bold">;</span>
+<span style="color: #204a87; font-weight: bold">import</span> <span style="color: #000000">ru.perm.v.companies.service.CompanyService</span><span style="color: #ce5c00; font-weight: bold">;</span>
+
+<span style="color: #204a87; font-weight: bold">import</span> <span style="color: #000000">java.util.Arrays</span><span style="color: #ce5c00; font-weight: bold">;</span>
+<span style="color: #204a87; font-weight: bold">import</span> <span style="color: #000000">java.util.List</span><span style="color: #ce5c00; font-weight: bold">;</span>
+<span style="color: #204a87; font-weight: bold">import</span> <span style="color: #000000">java.util.Optional</span><span style="color: #ce5c00; font-weight: bold">;</span>
+
+<span style="color: #204a87; font-weight: bold">import</span> <span style="color: #000000">static</span> <span style="color: #000000">org.junit.jupiter.api.Assertions.*;</span>
+<span style="color: #204a87; font-weight: bold">import</span> <span style="color: #000000">static</span> <span style="color: #000000">org</span><span style="color: #ce5c00; font-weight: bold">.</span><span style="color: #c4a000">mockito</span><span style="color: #ce5c00; font-weight: bold">.</span><span style="color: #c4a000">Mockito</span><span style="color: #ce5c00; font-weight: bold">.*;</span>
+
+<span style="color: #204a87; font-weight: bold">public</span> <span style="color: #204a87; font-weight: bold">class</span> <span style="color: #000000">CompanyServiceImplTest</span> <span style="color: #ce5c00; font-weight: bold">{</span>
+    <span style="color: #000000">CompanyRepository</span> <span style="color: #000000">companyRepository</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">mock</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">CompanyRepository</span><span style="color: #ce5c00; font-weight: bold">.</span><span style="color: #c4a000">class</span><span style="color: #ce5c00; font-weight: bold">);</span>
+
+    <span style="color: #5c35cc; font-weight: bold">@Test</span>
+    <span style="color: #204a87; font-weight: bold">public</span> <span style="color: #204a87; font-weight: bold">void</span> <span style="color: #000000">getAll</span><span style="color: #ce5c00; font-weight: bold">()</span> <span style="color: #ce5c00; font-weight: bold">{</span>
+        <span style="color: #000000">CompanyEntity</span> <span style="color: #000000">company1</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #204a87; font-weight: bold">new</span> <span style="color: #000000">CompanyEntity</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #ce5c00; font-weight: bold">);</span>
+        <span style="color: #000000">CompanyEntity</span> <span style="color: #000000">company2</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #204a87; font-weight: bold">new</span> <span style="color: #000000">CompanyEntity</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #0000cf; font-weight: bold">2</span><span style="color: #ce5c00; font-weight: bold">);</span>
+        <span style="color: #000000">when</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">companyRepository</span><span style="color: #ce5c00; font-weight: bold">.</span><span style="color: #c4a000">findAll</span><span style="color: #ce5c00; font-weight: bold">()).</span><span style="color: #c4a000">thenReturn</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">List</span><span style="color: #ce5c00; font-weight: bold">.</span><span style="color: #c4a000">of</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">company1</span><span style="color: #ce5c00; font-weight: bold">,</span> <span style="color: #000000">company2</span><span style="color: #ce5c00; font-weight: bold">));</span>
+        <span style="color: #000000">CompanyService</span> <span style="color: #000000">companyService</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #204a87; font-weight: bold">new</span> <span style="color: #000000">CompanyServiceImpl</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">companyRepository</span><span style="color: #ce5c00; font-weight: bold">);</span>
+
+        <span style="color: #000000">assertEquals</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #0000cf; font-weight: bold">2</span><span style="color: #ce5c00; font-weight: bold">,</span> <span style="color: #000000">companyService</span><span style="color: #ce5c00; font-weight: bold">.</span><span style="color: #c4a000">getAll</span><span style="color: #ce5c00; font-weight: bold">().</span><span style="color: #c4a000">size</span><span style="color: #ce5c00; font-weight: bold">());</span>
+    <span style="color: #ce5c00; font-weight: bold">}</span>
+    <span style="color: #ce5c00; font-weight: bold">...</span>
+<span style="color: #ce5c00; font-weight: bold">}</span>
+</pre></td></tr></table></div>
+
+Пример для Kotlin (стиль tango):
+<div style="background: #f8f8f8; overflow:auto;width:auto;border: solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #204a87; font-weight: bold">package</span> <span style="color: #000000">ru.perm.v.vacancy.dto</span>
+
+<span style="color: #000000">import</span> <span style="color: #000000">javax</span><span style="color: #000000; font-weight: bold">.</span><span style="color: #000000">validation</span><span style="color: #000000; font-weight: bold">.</span><span style="color: #000000">constraints</span><span style="color: #000000; font-weight: bold">.</span><span style="color: #000000">Size</span>
+
+<span style="color: #204a87; font-weight: bold">class</span> <span style="color: #000000">CompanyDto</span> <span style="color: #000000; font-weight: bold">{</span>
+    <span style="color: #204a87; font-weight: bold">val</span> <span style="color: #000000">n</span><span style="color: #000000; font-weight: bold">:</span> <span style="color: #000000">Long</span>
+
+    <span style="color: #000000">@field</span><span style="color: #000000; font-weight: bold">:</span><span style="color: #000000">Size</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">min</span><span style="color: #000000; font-weight: bold">=</span><span style="color: #0000cf; font-weight: bold">5</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">max</span><span style="color: #000000; font-weight: bold">=</span><span style="color: #0000cf; font-weight: bold">50</span><span style="color: #000000; font-weight: bold">)</span>
+    <span style="color: #204a87; font-weight: bold">val</span> <span style="color: #000000">name</span><span style="color: #000000; font-weight: bold">:</span> <span style="color: #000000">String</span>
+
+    <span style="color: #000000">constructor</span><span style="color: #000000; font-weight: bold">()</span> <span style="color: #000000; font-weight: bold">{</span>
+        <span style="color: #204a87; font-weight: bold">this</span><span style="color: #000000; font-weight: bold">.</span><span style="color: #000000">n</span> <span style="color: #000000; font-weight: bold">=</span> <span style="color: #0000cf; font-weight: bold">0</span>
+        <span style="color: #204a87; font-weight: bold">this</span><span style="color: #000000; font-weight: bold">.</span><span style="color: #000000">name</span> <span style="color: #000000; font-weight: bold">=</span> <span style="color: #4e9a06">""</span>
+    <span style="color: #000000; font-weight: bold">}</span>
+
+    <span style="color: #000000">constructor</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">n</span><span style="color: #000000; font-weight: bold">:</span> <span style="color: #000000">Long</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">name</span><span style="color: #000000; font-weight: bold">:</span> <span style="color: #000000">String</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+        <span style="color: #204a87; font-weight: bold">this</span><span style="color: #000000; font-weight: bold">.</span><span style="color: #000000">n</span> <span style="color: #000000; font-weight: bold">=</span> <span style="color: #000000">n</span>
+        <span style="color: #204a87; font-weight: bold">this</span><span style="color: #000000; font-weight: bold">.</span><span style="color: #000000">name</span> <span style="color: #000000; font-weight: bold">=</span> <span style="color: #000000">name</span>
+    <span style="color: #000000; font-weight: bold">}</span>
+    <span style="color: #204a87; font-weight: bold">override</span> <span style="color: #204a87; font-weight: bold">fun</span> <span style="color: #000000">toString</span><span style="color: #000000; font-weight: bold">():</span> <span style="color: #000000">String</span> <span style="color: #000000; font-weight: bold">{</span>
+        <span style="color: #204a87; font-weight: bold">return</span> <span style="color: #4e9a06">"CompanyDto(n=$n, name='$name')"</span>
+    <span style="color: #000000; font-weight: bold">}</span>
+
+    <span style="color: #204a87; font-weight: bold">override</span> <span style="color: #204a87; font-weight: bold">fun</span> <span style="color: #000000">equals</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">other</span><span style="color: #000000; font-weight: bold">:</span> <span style="color: #000000">Any</span><span style="color: #000000; font-weight: bold">?):</span> <span style="color: #000000">Boolean</span> <span style="color: #000000; font-weight: bold">{</span>
+        <span style="color: #204a87; font-weight: bold">if</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #204a87; font-weight: bold">this</span> <span style="color: #000000; font-weight: bold">===</span> <span style="color: #000000">other</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #204a87; font-weight: bold">return</span> <span style="color: #204a87; font-weight: bold">true</span>
+        <span style="color: #204a87; font-weight: bold">if</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">other</span> <span style="color: #000000; font-weight: bold">!</span><span style="color: #204a87; font-weight: bold">is</span> <span style="color: #000000">CompanyDto</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #204a87; font-weight: bold">return</span> <span style="color: #204a87; font-weight: bold">false</span>
+
+        <span style="color: #204a87; font-weight: bold">if</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">n</span> <span style="color: #000000; font-weight: bold">!=</span> <span style="color: #000000">other</span><span style="color: #000000; font-weight: bold">.</span><span style="color: #000000">n</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #204a87; font-weight: bold">return</span> <span style="color: #204a87; font-weight: bold">false</span>
+        <span style="color: #204a87; font-weight: bold">if</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">name</span> <span style="color: #000000; font-weight: bold">!=</span> <span style="color: #000000">other</span><span style="color: #000000; font-weight: bold">.</span><span style="color: #000000">name</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #204a87; font-weight: bold">return</span> <span style="color: #204a87; font-weight: bold">false</span>
+
+        <span style="color: #204a87; font-weight: bold">return</span> <span style="color: #204a87; font-weight: bold">true</span>
+    <span style="color: #000000; font-weight: bold">}</span>
+
+    <span style="color: #204a87; font-weight: bold">override</span> <span style="color: #204a87; font-weight: bold">fun</span> <span style="color: #000000">hashCode</span><span style="color: #000000; font-weight: bold">():</span> <span style="color: #000000">Int</span> <span style="color: #000000; font-weight: bold">{</span>
+        <span style="color: #204a87; font-weight: bold">var</span> <span style="color: #000000">result</span> <span style="color: #000000; font-weight: bold">=</span> <span style="color: #000000">n</span><span style="color: #000000; font-weight: bold">.</span><span style="color: #000000">hashCode</span><span style="color: #000000; font-weight: bold">()</span>
+        <span style="color: #000000">result</span> <span style="color: #000000; font-weight: bold">=</span> <span style="color: #0000cf; font-weight: bold">31</span> <span style="color: #000000; font-weight: bold">*</span> <span style="color: #000000">result</span> <span style="color: #000000; font-weight: bold">+</span> <span style="color: #000000">name</span><span style="color: #000000; font-weight: bold">.</span><span style="color: #000000">hashCode</span><span style="color: #000000; font-weight: bold">()</span>
+        <span style="color: #204a87; font-weight: bold">return</span> <span style="color: #000000">result</span>
+    <span style="color: #000000; font-weight: bold">}</span>
+<span style="color: #000000; font-weight: bold">}</span>
+</pre></div>
+Пример для Kotlin (стиль borland):
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">package</span> ru.perm.v.vacancy.dto
+
+import javax.validation.constraints.Size
+
+<span style="color: #000080; font-weight: bold">class</span> CompanyDto {
+    <span style="color: #000080; font-weight: bold">val</span> n: Long
+
+    @field:Size(min=<span style="color: #0000FF">5</span>, max=<span style="color: #0000FF">50</span>)
+    <span style="color: #000080; font-weight: bold">val</span> name: String
+
+    constructor() {
+        <span style="color: #000080; font-weight: bold">this</span>.n = <span style="color: #0000FF">0</span>
+        <span style="color: #000080; font-weight: bold">this</span>.name = <span style="color: #0000FF">""</span>
+    }
+
+    constructor(n: Long, name: String) {
+        <span style="color: #000080; font-weight: bold">this</span>.n = n
+        <span style="color: #000080; font-weight: bold">this</span>.name = name
+    }
+    <span style="color: #000080; font-weight: bold">override</span> <span style="color: #000080; font-weight: bold">fun</span> toString(): String {
+        <span style="color: #000080; font-weight: bold">return</span> <span style="color: #0000FF">"CompanyDto(n=$n, name='$name')"</span>
+    }
+
+    <span style="color: #000080; font-weight: bold">override</span> <span style="color: #000080; font-weight: bold">fun</span> equals(other: Any?): Boolean {
+        <span style="color: #000080; font-weight: bold">if</span> (<span style="color: #000080; font-weight: bold">this</span> === other) <span style="color: #000080; font-weight: bold">return</span> <span style="color: #000080; font-weight: bold">true</span>
+        <span style="color: #000080; font-weight: bold">if</span> (other !<span style="color: #000080; font-weight: bold">is</span> CompanyDto) <span style="color: #000080; font-weight: bold">return</span> <span style="color: #000080; font-weight: bold">false</span>
+
+        <span style="color: #000080; font-weight: bold">if</span> (n != other.n) <span style="color: #000080; font-weight: bold">return</span> <span style="color: #000080; font-weight: bold">false</span>
+        <span style="color: #000080; font-weight: bold">if</span> (name != other.name) <span style="color: #000080; font-weight: bold">return</span> <span style="color: #000080; font-weight: bold">false</span>
+
+        <span style="color: #000080; font-weight: bold">return</span> <span style="color: #000080; font-weight: bold">true</span>
+    }
+
+    <span style="color: #000080; font-weight: bold">override</span> <span style="color: #000080; font-weight: bold">fun</span> hashCode(): Int {
+        <span style="color: #000080; font-weight: bold">var</span> result = n.hashCode()
+        result = <span style="color: #0000FF">31</span> * result + name.hashCode()
+        <span style="color: #000080; font-weight: bold">return</span> result
+    }
+}
+</pre></td></tr></table></div>
+<div style="color: green;">Пока, наилучший выбор.</div>
+

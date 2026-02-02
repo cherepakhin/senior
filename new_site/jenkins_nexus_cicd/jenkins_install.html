@@ -1,0 +1,88 @@
+https://pkg.jenkins.io/debian-stable/
+
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+sudo apt-get update
+sudo apt-get install fontconfig openjdk-17-jre
+sudo apt-get install jenkins
+
+Будет получено сообщение об установке:
+Created symlink /etc/systemd/system/multi-user.target.wants/jenkins.service → /usr/lib/systemd/system/jenkins.service.
+Установилась версия Jenkins 2.462.2
+
+Исправить порт в /usr/lib/systemd/system/jenkins.service
+Environment="JENKINS_PORT=8888"
+
+При запуске установлен пароль:
+Sep 17 13:12:51 v.perm.ru jenkins[253595]: 1aecf76726af4ccb9721600ab4a95073
+Sep 17 13:12:51 v.perm.ru jenkins[253595]: This may also be found at: /var/lib/jenkins/secrets/initialAdminPassword
+$ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+1aecf76726af4ccb9721600ab4a95073
+
+Доступ все-равно с порта 8080 (не с 8888). Зашел на http://192.168.1.20:8080/login?from=%2F
+Ввел пароль 1aecf76726af4ccb9721600ab4a95073
+
+Выбрал "Install suggested plugins"
+
+Предложено "Create First Admin User"
+Ввел:
+    user: vasi
+    password: pass
+    email: vasi.che@gmail.com
+
+Установил plugin "Maven Integration" в http://192.168.1.20:8080/manage/pluginManager/available
+
+root@v:/var# ps -ax | grep jenkins
+253595 ?        Ssl    1:20 /usr/bin/java -Djava.awt.headless=true -jar /usr/share/java/jenkins.war --webroot=/var/cache/jenkins/war --httpPort=8080
+
+Скрипт запуска и параметры в /etc/default/jenkins
+Исправил в нем порт в строке
+HTTP_PORT=8888
+
+systemctl daemon-reload
+systemctl restart jenkins
+Зашел на http://192.168.1.20:8888/
+
+Плагины maven и gradle установлены по умолчанию и активны.
+--------------------------
+
+Создал item с pipeline "companies with pipeline"
+В секции "Pipeline" выбрано "Pipeline script" вставил содержимое Jenkinsfile из README проекта
+--------------------------
+
+Попытка 1.
+собрать: ОШИБКА. Описание ошибки в "Console output"
+    WorkflowScript: 3: Expected an option @ line 3, column 14.
+        options {internal
+
+Попытка 2.
+/var/lib/jenkins/workspace/companies with pipeline@tmp/durable-2abb9a3e/script.sh.copy: 1: git: not found
+Оказывается git в новой машине не установлен. Установил. Вроде, пошла сборка.
+
+Остановилось на:
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-deploy-plugin:2.8.2:deploy
+    (default-deploy) on project companies: Failed to deploy artifacts:
+        Could not transfer artifact ru.perm.v:companies:jar:0.0.4 from/to ru.perm.v (
+            http://v:8081/repository/ru.perm.v): Transfer failed for
+                http://v:8081/repository/ru.perm.v/ru/perm/v/companies/0.0.4/companies-0.0.4.jar 401 Unauthorized -> [Help 1]
+
+Удалил все в /var/lib/jenkins/workspace$ sudo rm -r -f *
+
+Попытка 3.
+Удалил всю старую сборку.
+Остановилось на
+Failed to execute goal org.apache.maven.plugins:maven-deploy-plugin:2.8.2:deploy
+    (default-deploy) on project companies: Failed to deploy artifacts:
+        Could not transfer artifact ru.perm.v:companies:jar:0.0.4 from/to ru.perm.v
+        (http://v:8081/repository/ru.perm.v): Transfer failed for http://v:8081/repository/ru.perm.v/ru/perm/v/companies/0.0.4/companies-0.0.4.jar
+            401 Unauthorized -> [Help 1]
+        Путь правильный
+
+Попытка 4.
+    Удалил из nexus версию 4
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-deploy-plugin:2.8.2:deploy (default-deploy)
+on project companies: Failed to deploy artifacts: Could not transfer artifact ru.perm.v:companies:jar:0.0.4
+from/to ru.perm.v (http://v:8081/repository/ru.perm.v): Transfer failed for http://v:8081/repository/ru.perm.v/ru/perm/v/companies/0.0.4/companies-0.0.4.jar 401 Unauthorized -> [Help 1]
+

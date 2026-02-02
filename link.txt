@@ -1,0 +1,29 @@
+<a style="text-decoration: underline; color: #3366ff;" title="resources/beans.xml" href="https://github.com/cherepakhin/spring_config_k/blob/master/src/main/resources/beans.xml" target="_blank" rel="noopener noreferrer">resources/beans.xml</a>:<br/>
+
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #020274; font-weight: bold">
+
+Блок с кодом:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+    </pre>
+</div>
+
+Синяя левая граница блока с кодом:
+border:solid #020274
+#020274
+
+Простой блок с кодом:
+<pre style="margin: 0; line-height: 125%">$ cat tank-run.sh
+</pre></div>
+
+
+Картинка:
+<p><span style="font-weight: 400;">
+    <img class="pull-center" src="images/camunda/camunda_proj.png" alt="" />
+</span></p>
+
+Картинка с github:
+<a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/swagger.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/swagger.png" alt="swagger" /></a></p>
+
+&lt;
+&gt;

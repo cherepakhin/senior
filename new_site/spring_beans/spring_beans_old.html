@@ -1,0 +1,92 @@
+Проект для демонстрации на Kotlin <a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/cherepakhin/spring_config_k"
+   href="https://github.com/cherepakhin/spring_config_k"
+   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/spring_config_k</a>
+<br/>
+Аналогичный проект на Java <a style="text-decoration: underline; color: #3366ff;"
+                              title="https://github.com/cherepakhin/spring_config"
+                              href="https://github.com/cherepakhin/spring_config"
+                              target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/spring_config</a>
+<br/>
+<ul>
+    <li><a href="#beans_from_xml"><b>Настройки Spring beans с помощью xml-файла resources/beans.xml</b></a></li>
+    <li><a href="#beans_from_annotation"><b>Настройки Spring beans с помощью аннотаций @Configuration и @Bean в conf/ConfigFromJava</b></a></li>
+    <li><a href="#dynamic_bean"><b>Настройка bean из внешнего источника(н.п. базы данных)</b></a></li>
+    <li><a href="#set_java_11"><b>Установки для Java 11</b></a></li>
+    <li><a href="#other"><b>Примечание</b></a></li>
+</ul>
+<hr id="system-readmore" />
+<a id="beans_from_xml"></a>
+<h3><b>Настройки Spring beans с помощью xml-файла resources/beans.xml.</b></h3>
+Определение beans в resources/beans.xml:<br/>
+<pre class="notranslate"><code lang="xml">&lt;bean id="russianGreeter" class="ru.perm.v.springconfig_k.greeters.RussianGreeter"/&gt;
+&lt;bean id="germanyGreeter" class="ru.perm.v.springconfig_k.greeters.GermanyGreeter"/&gt;
+&lt;bean id="englishGreeter" class="ru.perm.v.springconfig_k.greeters.EnglishGreeter"/&gt;
+
+&lt;bean id="selectedGreeterService" class="ru.perm.v.springconfig.service.GreeterService"&gt;
+    &lt;property name="greeter" ref="russianGreeter"/&gt;
+&lt;/bean&gt;
+</code></pre>
+
+Для импортирования бинов, определенных в beans.xml, создан класс conf/BeansFromXmlConfiguration.kt:
+<pre class="notranslate" lang="kotlin"><code>package ru.perm.v.springconfig_k.conf
+@Configuration
+@ImportResource("classpath*:beans.xml")
+class BeansFromXmlConfiguration {
+}
+</code></pre>
+
+<a id="beans_from_annotation"></a>
+<h3><b>С помощью аннотаций @Configuration и @Bean в conf/BeansFromCodeConfiguration.kt.</b></h3>
+<pre class="notranslate" lang="kotlin"><code>@Configuration
+class BeansFromCodeConfiguration {
+
+/**
+* for injection use
+* @Autowired
+* lateinit var staticBean:String
+*/
+@Bean("staticBean")
+fun getMyStaticBean() = "STATIC_BEAN"
+
+@Bean
+fun beanOneConfigFromCode() = "BEAN_ONE"
+</code></pre>
+Более подробно в <a title="Различные способы задания конфигурации Spring Beans с Kotlin"
+                    style="text-decoration: underline; color: #3366ff;"
+                    target="_blank"
+                    href="https://github.com/cherepakhin/spring_config_k"
+                    rel="noopener noreferrer">https://github.com/cherepakhin/spring_config_k</a>
+<a id="dynamic_bean"></a>
+<h3><b>Настройка bean из внешнего источника (н.п. базы данных).</b></h3>
+TODO: Пример в проекте МТС.
+<a id="set_java_11"></a>
+<h3><b>Установки для Java 11.</b></h3>
+Использована Java 11.
+<pre class="notranslate" lang="text"><code>$ echo $JAVA_HOME
+> /usr/lib/jvm/java-1.11.0-openjdk-amd64
+</code></pre>
+
+Для установки выполнить:
+<pre class="notranslate" lang="text"><code>export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64
+</code></pre>
+В Idea установить File->Project Structure->Project Settings->Project->SDK
+<p dir="auto"><a href="https://github.com/cherepakhin/spring_config_k/blob/master/doc/java11.png"
+                 target="_blank" rel="noopener noreferrer">
+    <img src="https://github.com/cherepakhin/spring_config_k/raw/master/doc/java11.png" alt="idea_java_11" /></a></p>
+
+<a id="other"></a>
+<h3><b>Примечания.</b></h3>
+Используется Java 11:
+<pre class="notranslate" lang="shell"><code>~/prog/kotlin/spring_config_k$ export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64
+~/prog/kotlin/spring_config_k$ ./gradlew clean test
+</code></pre>
+<br/>
+В <b>build.gradle.kts</b> можно использовать переменные из <b>application.yaml</b>. Пример:
+<pre class="notranslate" lang="shell"><code>tasks.withType&lt;Test&gt;() {
+    allureConfig
+    useJUnitPlatform()
+    systemProperties["PORT"] = <b>properties["port"]</b>
+    systemProperties["URL"] = <b>properties["url"]</b>
+}</code></pre>
+

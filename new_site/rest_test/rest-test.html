@@ -1,0 +1,197 @@
+<p>В заметке описаны инструменты тестирования REST и примеры использования.</p>
+<p><b>А чем, собственно, проблема?</b></p>
+<img style="display: block; margin-left: auto; margin-right: auto;" title="Тестирование" src="images/rest-test/slon.jpg"
+     alt="Тестирование"/></p>
+<hr id="system-readmore"/>
+На тех проектах, где работал, тестировщики в основном использовали <b>ручное</b> тестирование.
+И даже больше - интеграционное тестирование backend как-то не очень-то и проводится.
+Тут и философия scrum "помогает" не тратить много время на тестирование,
+когда каждый релиз выпускается с какими-то оговорками. И, с другой стороны, ограничения службы безопасности и т.д. и т.п.
+Мне, как разработчику backend, интересно протестировать сервис, а конкретно REST, со стороны backend.
+И unit тесты тут не помогут. Ручное тестирование (Postman, httpie) только для каких-то разовых операций.
+Нужно автоматизированное тестирование REST и просмотр результатов в читабельном формате (allure).
+<br/>
+<hr/>
+<p><h3>Тестирование Python инструментами</h3></p>
+<p><b>Behave-restful</b></p>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/behave-restful/behave-restful"
+   href="https://github.com/behave-restful/behave-restful"
+   target="_blank" rel="noopener noreferrer">https://github.com/behave-restful/behave-restful</a>
+<br/>
+<p>Первый ОЧЕНЬ МОЩНЫЙ инструмент, с которым я встретился, и в котором есть все, что нужно. Но <b>Python</b>.
+    Тестировщик должен его знать и корпоративные условия (секьюрность, сам python, библиотеки) должны позволять его использовать.
+    А сам инструмент фантастика! Понятно, что появились наследники идеи (см. ниже JBehave и позже RestAssured).</p>
+<hr/>
+<p><h3>Тестирование Java инструментами</h3></p>
+Схема тестирования: создать отдельный проект с тестами, и с помощью maven/gradle проводить тестирование сервисов.
+<br/>
+<p><b>JUnit</b></p>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://v.perm.ru/index.php/component/content/article/integrtestallure?catid=15&Itemid=101"
+   target="_blank" rel="noopener noreferrer">Интеграционное тестирование JUnit5 с выводом результатов в Allure</a>
+
+<p><b>RestTemplate</b></p>
+<p>Смысл простой: через RestTemplate обращаться к целевому сервису и полученный ответ как-то проверять (JSONPath, Vert.x).
+    Или с помощью ObjectMapper конвертировать JSON в Java class и там уже использовать обычные Java тесты.</p>
+
+<p><b>RestClient (Spring Boot <u>3.2</u>)</b></p>
+<p>Тактика такая же как и с RestTemplate.
+    <a style="text-decoration: underline; color: #3366ff;"
+       href="https://habr.com/ru/companies/spring_aio/articles/822529/"
+       target="_blank" rel="noopener noreferrer">. Spring Boot <b>3.2</b>: замените свой RestTemplate на RestClient (habr 2024)</a>
+    "RestClient предлагает нам более современные и интуитивно понятные способы взаимодействия с RESTful сервисами."
+    <b>Но версия Spring Boot 3.2</b>!
+    Хронология клиентов:  RestTemplate-&gt;WebClient-&gt;RestClient(Spring Boot 3.2)
+</p>
+
+<p><b>OkHttp</b></p>
+<p>
+    <a style="text-decoration: underline; color: #3366ff;"
+       title="OkHttp"
+       href="https://square.github.io/okhttp/"
+       target="_blank" rel="noopener noreferrer">https://square.github.io/okhttp/</a>
+</p>
+<p><b>Feign client</b></p>
+<p>
+    Другой клиент для обращения к Rest, но сразу-же можно получать Java объекты. Т.е. проверяются не "голые" JSON, а объекты Java.
+    <a style="text-decoration: underline; color: #3366ff;"
+       title="https://www.baeldung.com/intro-to-feign"
+       href="https://www.baeldung.com/intro-to-feign"
+       target="_blank" rel="noopener noreferrer">https://www.baeldung.com/intro-to-feign</a><br/>
+    NOTE: Не может работать с binary данными (загрузка, получение файлов).
+</p>
+<p><b>JBehave</b></p>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://jbehave.org/"
+   href="https://jbehave.org/"
+   target="_blank" rel="noopener noreferrer">https://jbehave.org/</a>
+<br/>
+
+<p><b>Retrofit</b></p>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://square.github.io/retrofit/"
+   href="https://square.github.io/retrofit/"
+   target="_blank" rel="noopener noreferrer">https://square.github.io/retrofit/</a>
+<p>Примеры:<br/>
+    <a style="text-decoration: underline; color: #3366ff;"
+       title="https://www.vogella.com/tutorials/Retrofit/article.html"
+       href="https://www.vogella.com/tutorials/Retrofit/article.html"
+       target="_blank" rel="noopener noreferrer">https://www.vogella.com/tutorials/Retrofit/article.html</a>
+
+</p>
+
+<p><b>RestAssured</b></p>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://rest-assured.io/"
+   href="https://rest-assured.io/"
+   target="_blank" rel="noopener noreferrer">https://rest-assured.io/</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/cherepakhin/animals-rest-assured-test"
+   href="https://github.com/cherepakhin/animals-rest-assured-test"
+   target="_blank" rel="noopener noreferrer">Пример использования</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://www.toolsqa.com/rest-assured-tutorial/"
+   href="https://www.toolsqa.com/rest-assured-tutorial/"
+   target="_blank" rel="noopener noreferrer">Rest Assured Tutorial</a>
+<br/>
+<br/>
+Пример теста:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@Test
+<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> lotto_resource_returns_200_with_expected_id_and_winners() {
+    when().
+        get(<span style="color: #0000FF">"/lotto/{id}"</span>, <span style="color: #0000FF">5</span>).
+    then().
+        statusCode(<span style="color: #0000FF">200</span>).
+        body(<span style="color: #0000FF">"lotto.lottoId"</span>, equalTo(<span style="color: #0000FF">5</span>),
+            <span style="color: #0000FF">"lotto.winners.winnerId"</span>, hasItems(<span style="color: #0000FF">23</span>, <span style="color: #0000FF">54</span>));
+}
+</pre></div>
+Возможно , пригодятся параметры <b>продолжения</b> тестирования, если текущий тест упал:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ gradle --continue ...
+$ mvn install -Dmaven.test.failure.ignore=true
+$ mvn --fail-at-end test
+$ mvn -fae test
+</pre></div>
+<hr/>
+<p><b>Вопросы</b></p>
+<ul>
+    <li>
+        Где вести проект с интеграционными тестами? В отдельном проекте.
+        Возможно, придется копировать слой DTO (или организовывать DTO как отдельную библиотеку?).
+        Интеграционное тестирование подразумевает не завязываться на библиотеки проекта и
+        организовывать тестирование, как бы, взглядом тестировщика,
+        и тогда тестировщик должен вести свой слой DTO, согласно постановке задачи, как он ее видит.
+    </li>
+    <li>Разделение на тесты и перенос полученных значений одного теста в другой тест. Одно из решений с помощью RestAssured:
+        <a style="text-decoration: underline; color: #3366ff;"
+           title="https://www.codingninjas.com/codestudio/library/rest-assured--how-to-pass-value-from-one-api-to-another-api-using-testng--itestcontext"
+           href="https://www.codingninjas.com/codestudio/library/rest-assured--how-to-pass-value-from-one-api-to-another-api-using-testng--itestcontext"
+           target="_blank" rel="noopener noreferrer">Pass Value From One API to Another</a>
+    <li>Это не UNIT тесты, это интеграционные тесты. При обычном UNIT тестировании,
+        можно откатить, например, состояние базы данных установкой режима транзакций. Но интеграционное тестирование это не только база данных.</li>
+    <li>И всегда-ли возможно установить состояние базы данных в состояние на которое рассчитывает тест (что-то типа "mvn flyway:migrate")?
+        И что такое начальное состояние БД для конкретного теста? Реализация одного из решений в <a style="text-decoration: underline; color: #3366ff;"
+                                                                                                    title="https://github.com/cherepakhin/vacancy_backend_rest_test/blob/main/src/test/kotlin/ru/perm/v/vacancy/restassured/rest/VacancyRestTest.kt"
+                                                                                                    href="https://github.com/cherepakhin/vacancy_backend_rest_test/blob/main/src/test/kotlin/ru/perm/v/vacancy/restassured/rest/VacancyRestTest.kt"
+                                                                                                    target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/vacancy_backend_rest_test/blob/main/src/test/kotlin/ru/perm/v/vacancy/restassured/rest/VacancyRestTest.kt</a></li>
+    <li>Другие внешние ресурсы (очереди, др. смежные сервисы). Как-то бы мокать все эти дела или использовать <b>@Before..</b>/<b>@After..</b>. Реализация одного из решений в <a style="text-decoration: underline; color: #3366ff;"
+                                                                                                                                                                                  title="https://github.com/cherepakhin/vacancy_backend_rest_test/blob/main/src/test/kotlin/ru/perm/v/vacancy/restassured/rest/VacancyRestTest.kt"
+                                                                                                                                                                                  href="https://github.com/cherepakhin/vacancy_backend_rest_test/blob/main/src/test/kotlin/ru/perm/v/vacancy/restassured/rest/VacancyRestTest.kt"
+                                                                                                                                                                                  target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/vacancy_backend_rest_test/blob/main/src/test/kotlin/ru/perm/v/vacancy/restassured/rest/VacancyRestTest.kt</a></li>
+    <li>Авторизация</li>
+    <li>Тестирование бизнес ПРОЦЕССОВ и уже УСТАНОВЛЕНОГО ГДЕ-ТО СОСТОЯНИЯ процесса. (эххх... где они, эти бизнес процессы?) На одном из проектов удалось внедрить Camunda, но чего это стоило...</li>
+</ul>
+<p><b>Еще материалы</b></p>
+<p>Всякие мелочи типа валидатора JSON схемы и т.п. (Конкретно, для JSON, например, есть такой
+    <a style="text-decoration: underline; color: #3366ff;"
+       title="https://github.com/networknt/json-schema-validator"
+       href="https://github.com/networknt/json-schema-validator"
+       target="_blank" rel="noopener noreferrer">https://github.com/networknt/json-schema-validator</a>.
+
+    Примеры использования:
+    <a style="text-decoration: underline; color: #3366ff;"
+       title="Пример использования"
+       href="https://www.baeldung.com/introduction-to-json-schema-in-java"
+       target="_blank" rel="noopener noreferrer">https://www.baeldung.com/introduction-to-json-schema-in-java/</a>
+    )
+</p>
+Пример на Kotlin:<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/cherepakhin/vacancy_wicket_k#конвертирование-json-с-массивом-в-список-объектов"
+   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/vacancy_wicket_k#конвертирование-json-с-массивом-в-список-объектов</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/cherepakhin/vacancy_wicket_k/blob/master/src/test/kotlin/ru/perm/v/vacancy/service/ProjectRestTemplateIntegrationTest.kt"
+   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/vacancy_wicket_k/blob/master/src/test/kotlin/ru/perm/v/vacancy/service/ProjectRestTemplateIntegrationTest.kt</a>
+<br/>
+Много примеров в самых разных вариантах тестирования (Java, Kotlin, JUnit4, JUnit5, Gradle, Maven ...) с выводом в Allure Reports:
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/allure-examples"
+   href="https://github.com/allure-examples"
+   target="_blank" rel="noopener noreferrer">https://github.com/allure-examples</a>
+
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/allure-examples"
+   href="https://github.com/allure-examples"
+   target="_blank" rel="noopener noreferrer">https://github.com/allure-examples</a>
+<br/>
+<br/>
+Возможности Allure
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://allure-framework.github.io/allure-demo/5/"
+   href="https://allure-framework.github.io/allure-demo/5/"
+   target="_blank" rel="noopener noreferrer">https://allure-framework.github.io/allure-demo/5/</a>
+<br/>
+<br/>
+"Также имейте ввиду, каким бы http клиентом вы не пользовались, добавляйте в запрос заголовок
+User-Agent с значением например Chrome/81.0.4044.138. По этому заголовку сервер определяет с какого
+устройстрва вы подключились. Без этого заголовка сервер считает вас ботом и может забанить." (<a style="text-decoration: underline; color: #3366ff;"
+   title="https://javarush.com/groups/posts/2767-parsing-html-bibliotekoy-jsoup-"
+   href="https://javarush.com/groups/posts/2767-parsing-html-bibliotekoy-jsoup-"
+   target="_blank" rel="noopener noreferrer">https://javarush.com/groups/posts/2767-parsing-html-bibliotekoy-jsoup-</a>)
+<br/>
+<br/>
+

@@ -1,0 +1,74 @@
+При установке Jenkins словил поганку (похоже, скачал Jenkins с какого-то левого сайта).
+<hr id="system-readmore"/>
+Маскируется под процессы /usr/sbin/docker-proxy, /usr/sbin/docker-compose.
+Висят в памяти и отжирают 100% CPU. Процессы можно убить, но они снова запускаются. Файлы не удаляются:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo rm -f docker-cache
+rm: невозможно удалить <span style="color: #0000FF">'docker-cache'</span>: Операция не позволена
+</pre></div>
+<b>НЕ УДАЛЯЕТСЯ ДАЖЕ ИЗ ПОД ROOT!</b><br/>
+<b>Лечение:</b>
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo chattr -i -a docker-cache //!!! вот решение
+$ sudo rm -f docker-cache
+</pre></div>
+
+Рецепт отсюда: <a style="text-decoration: underline; color: #3366ff;"
+                  title="https://unix.stackexchange.com/questions/29902/unable-to-delete-file-even-when-running-as-root"
+                  href="https://unix.stackexchange.com/questions/29902/unable-to-delete-file-even-when-running-as-root"
+                  target="_blank" rel="noopener noreferrer">https://unix.stackexchange.com/questions/29902/unable-to-delete-file-even-when-running-as-root</a>
+
+<h5>Разное</h5>
+Получение <b><u>ПОЛНОЙ</u> строки запуска процесса</b> (на примере <b>Spring Boot Kotlin приложения</b>) <b>ps -Flww -p &lt;PID&gt;</b>:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ ps -Flww -p 7482
+F S UID          PID    PPID  C PRI  NI ADDR SZ WCHAN    RSS PSR STIME TTY          TIME CMD
+0 S vasi        7482    7341  0  80   0 - 1639216 futex_ 331720 2 Sep28 ?       00:04:40 /usr/lib/jvm/java-17-openjdk-amd64/bin/java
+    -XX:TieredStopAtLevel=1
+    -Dfile.encoding=UTF-8
+    -Duser.country=US
+    -Duser.language=en
+    -Duser.variant
+    -cp /home/vasi/prog/kotlin/shop_kotlin/build/classes/java/main:
+        /home/vasi/prog/kotlin/shop_kotlin/build/classes/kotlin/main:
+        /home/vasi/prog/kotlin/shop_kotlin/build/tmp/kapt3/classes/main:
+        ...тут миллион зависимостей...
+        ru.perm.v.shopkotlin.ShopKotlinApplication
+</pre></div>
+Еще пример. Запущенный Jenkins:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">F S UID          PID    PPID  C PRI  NI ADDR SZ WCHAN    RSS PSR STIME TTY          TIME CMD
+4 S jenkins     3504       1  0  80   0 - 1710698 -    722952  0 Sep28 ?        00:05:07 /usr/bin/java
+    -Djava.awt.headless=true
+    -jar /usr/share/java/jenkins.war
+    --webroot=/var/cache/jenkins/war
+    --httpPort=8888
+</pre></div>
+Это просто примеры для демонстрации получения информации о процессе. С вирусом никак не связаны, но полезны.<br/>
+Полезные ключи <b>axf</b> команды <b>ps</b> для исследоваия процессов:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ ps axf
+....
+   1019 ?        Ssl    0:00 /usr/sbin/NetworkManager --no-daemon
+   1540 ?        Sl     0:00  \_ /usr/sbin/pppd nodetach lock nodefaultroute ipv6 , user USER plugin rp-ppp
+....
+</pre></div>
+В примере <b>NetworkManager</b> запустил <b>pppd</b><br/>
+Еще пример:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+3192 ?        Ss     0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+3194 ?        Ss     0:00  \_ sshd: vasi [priv]
+3239 ?        S      0:00  |   \_ sshd: vasi@pts/0
+3240 pts/0    Ss     0:00  |       \_ -bash
+6772 pts/0    S+     0:00  |           \_ mc
+6774 pts/1    Ss     0:00  |               \_ bash -rcfile .bashrc
+7260 pts/1    S+     0:00  |                   \_ sudo ps axf
+</pre></div>
+ssh -> mc -> bash -> sudo ps axf
+<br/>
+Еще полезная команда для исследования <b>pstree</b>:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+systemd─┬─ModemManager───3*[{ModemManager}]
+├─NetworkManager─┬─pppd───3*[{pppd}]
+│                └─3*[{NetworkManager}]
+├─accounts-daemon───3*[{accounts-daemon}]
+</pre></div>
+
+Возможно, большая нагрузка на диск связана с большим количеством логируемых событий. В моем случае, во время атаки из интернета, я включил <b>полное</b> логирование фаервола ufw (практически, логировались все кривые запросы). При этом логи займут значительное место на диске. Ограничить время хранения журналов можно так:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ journalctl --vacuum-time=2d
+</pre></div>

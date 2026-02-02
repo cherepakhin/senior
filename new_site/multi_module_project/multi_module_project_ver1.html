@@ -1,0 +1,67 @@
+Заготовка проекта:
+<a style="color: #3366ff; text-decoration: underline;" target="_blank" tabindex="-1" href="https://github.com/cherepakhin/multi-module">https://github.com/cherepakhin/multi-module</a>.
+В проекте два модуля <b>Application</b> и <b>Library</b>.
+<hr id="system-readmore" />
+<b>settings.gradle</b> всего проекта:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">rootProject</span><span style="color: #000000; font-weight: bold">.</span>name='multi'
+include 'library'
+include 'application'
+</pre></div>
+В Idea выглядит так:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="idea_multi_module" src="images/multi_module/idea_multi_module.png"
+        alt="allure_result_test" width="415" height="447"/></p>
+
+Log сборки:<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">multi_module$</span> <span style="color: #000000; font-weight: bold">.</span><span style="color: #ce5c00; font-weight: bold">/</span><span style="color: #000000">gradlew</span> <span style="color: #000000">build</span>
+<span style="color: #000000">Module</span> <span style="color: #000000">Application</span><span style="color: #000000; font-weight: bold">.</span> <span style="color: #000000">On</span> <span style="color: #000000">JavaCompile</span><span style="color: #000000; font-weight: bold">.</span> <span style="color: #000000">Executing</span> <span style="color: #000000">TASK</span><span style="color: #ce5c00; font-weight: bold">:</span> <span style="color: #000000">compileJava</span>
+<span style="color: #ce5c00; font-weight: bold">----------------</span>
+<span style="color: #000000">Module</span> <span style="color: #000000">Application</span><span style="color: #000000; font-weight: bold">.</span> <span style="color: #000000">On</span> <span style="color: #000000">JavaCompile</span><span style="color: #000000; font-weight: bold">.</span> <span style="color: #000000">Executing</span> <span style="color: #000000">TASK</span><span style="color: #ce5c00; font-weight: bold">:</span> <span style="color: #000000">compileTestJava</span>
+<span style="color: #ce5c00; font-weight: bold">----------------</span>
+<span style="color: #000000">Module</span> <span style="color: #000000">Library</span><span style="color: #000000; font-weight: bold">.</span> <span style="color: #000000">On</span> <span style="color: #000000">JavaCompile</span><span style="color: #000000; font-weight: bold">.</span> <span style="color: #000000">Executing</span> <span style="color: #000000">TASK</span><span style="color: #ce5c00; font-weight: bold">:</span> <span style="color: #000000">compileJava</span>
+<span style="color: #ce5c00; font-weight: bold">----------------</span>
+<span style="color: #000000">Module</span> <span style="color: #000000">Library</span><span style="color: #000000; font-weight: bold">.</span> <span style="color: #000000">On</span> <span style="color: #000000">JavaCompile</span><span style="color: #000000; font-weight: bold">.</span> <span style="color: #000000">Executing</span> <span style="color: #000000">TASK</span><span style="color: #ce5c00; font-weight: bold">:</span> <span style="color: #000000">compileTestJava</span>
+<span style="color: #ce5c00; font-weight: bold">----------------</span>
+<span style="color: #000000">Module</span> <span style="color: #000000">Application</span><span style="color: #000000; font-weight: bold">.</span> <span style="color: #000000">On</span> <span style="color: #000000">Test</span><span style="color: #000000; font-weight: bold">.</span> <span style="color: #000000">Executing</span> <span style="color: #000000">TASK</span><span style="color: #ce5c00; font-weight: bold">:</span> <span style="color: #000000">test</span>
+<span style="color: #ce5c00; font-weight: bold">----------------</span>
+<span style="color: #000000">Module</span> <span style="color: #000000">Library</span><span style="color: #000000; font-weight: bold">.</span> <span style="color: #000000">On</span> <span style="color: #000000">Test</span><span style="color: #000000; font-weight: bold">.</span> <span style="color: #000000">Executing</span> <span style="color: #000000">TASK</span><span style="color: #ce5c00; font-weight: bold">:</span> <span style="color: #000000">test</span>
+<span style="color: #ce5c00; font-weight: bold">----------------</span>
+
+<span style="color: #000000">BUILD</span> <span style="color: #000000">SUCCESSFUL</span> <span style="color: #204a87; font-weight: bold">in</span> <span style="color: #0000cf; font-weight: bold">4</span><span style="color: #000000">s</span>
+</pre></div>
+
+
+При сборке, сначала все модули компилируются (<b>...On JavaCompile...</b>) в след. порядке:<br/>
+Module <b>Application</b>:
+<ul>
+    <li>compile Application <b>MAIN</b></li>
+    <li>compile Application <b>TEST</b></li>
+</ul>
+Module <b>Library</b>:
+<ul>
+    <li>compile Library <b>MAIN</b></li>
+    <li>compile Library <b>TEST</b></li>
+</ul>
+Затем выполняются тесты (On Test) (т.к. build):<br/>
+<ul>
+    <li>Test Module <b>Application</b></li>
+    <li>Test Module <b>Library</b></li>
+</ul>
+
+Тест отдельного модуля:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ ./gradlew :library:test</pre></div>
+
+Сборка и deploy отдельных модулей:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ ./gradlew :application:publish
+$ ./gradlew :library:publish</pre></div>
+
+Результат:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="nexus_multi_module" src="images/multi_module/nexus_multi_module.png"
+        alt="nexus_multi_module" width="930" height="644"/></p>
+
+Пересборка модуля после deploy зависимого модуля:<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$./gradlew --refresh-dependencies :office:compileJava</pre></div>
+
+

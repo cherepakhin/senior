@@ -1,0 +1,430 @@
+<blockquote><i>
+"Wicket относится к категории программных каркасов (application framework).
+Являясь надстройкой над Servlet API, Wicket предоставляет всю необходимую инфраструктуру для
+функционирования приложений, включая средства для управления жизненным циклом объектов,
+разграничения прав доступа, локализации, обработки исключительных ситуаций,
+поддержки сессий пользователей и т.п."</i> (
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://rsdn.org/article/inet/Wicket.xml"
+   target="_blank" rel="noopener noreferrer">Разработка Web-приложений с использованием Wicket</a>)
+</blockquote>
+(что-то типа React? Vue? Очень примитивно работа React выглядит так. Есть View, Action, State. View вызывает Acton, который меняет State, а View отслеживает изменения в State. В Wicket примерно также: View отслеживает изменения в Model).<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://www.baeldung.com/spring-template-engines"
+   target="_blank" rel="noopener noreferrer">Template Engines for Spring</a><br/>
+
+
+Примеры из книги "Wicket in action": <a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/cherepakhin/wicket_test_examples"
+   href="https://github.com/cherepakhin/wicket_test_examples"
+   target="_blank" rel="noopener noreferrer">Wicket test examples на моем github</a>.
+Не все примеры, только несколько, для того, чтобы понять работу Wicket. Все примеры в
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/perty/wicket-test-examples"
+   href="https://github.com/perty/wicket-test-examples"
+   target="_blank" rel="noopener noreferrer">https://github.com/perty/wicket-test-examples</a>
+<br/>
+<hr id="system-readmore" />
+Установки:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+vasi-note:~/prog/java/wicket/Wicket-tutorial-examples/HelloWorldExample
+echo $JAVA_HOME
+/usr/lib/jvm/java-17-openjdk-amd64
+</pre>
+</div>
+
+изменил в pom.xml:
+<pre style="font-family:monospace;color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-weight: 400; "><span style="color: rgb(0, 0, 0); background-color: rgb(239, 239, 239); font-weight: 400;">&lt;<span style="color: rgb(0, 0, 128); font-weight: 700;">packaging</span>&gt;</span>war<span style="color: rgb(0, 0, 0); background-color: rgb(239, 239, 239); font-weight: 400;">&lt;/<span style="color: rgb(0, 0, 128); font-weight: 700;">packaging</span>&gt;</span>;</pre>
+
+
+и в pom.xml добавил:
+
+<pre style="font-family:monospace;color: rgb(36, 41, 46); background-color: rgb(255, 255, 255); font-weight: 400; "><span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;<span style="color: rgb(34, 134, 58); font-weight: 400;">plugin</span>&gt;</span>
+    <span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;<span style="color: rgb(34, 134, 58); font-weight: 400;">groupId</span>&gt;</span>org.apache.tomcat.maven<span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;/<span style="color: rgb(34, 134, 58); font-weight: 400;">groupId</span>&gt;</span>
+    <span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;<span style="color: rgb(34, 134, 58); font-weight: 400;">artifactId</span>&gt;</span>tomcat7-maven-plugin<span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;/<span style="color: rgb(34, 134, 58); font-weight: 400;">artifactId</span>&gt;</span>
+    <span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;<span style="color: rgb(34, 134, 58); font-weight: 400;">version</span>&gt;</span>2.2<span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;/<span style="color: rgb(34, 134, 58); font-weight: 400;">version</span>&gt;</span>
+    <span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;<span style="color: rgb(34, 134, 58); font-weight: 400;">configuration</span>&gt;</span>
+        <span style="color: rgb(106, 115, 125); font-weight: 400;">&lt;!-- http port --&gt;</span>
+        <span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;<span style="color: rgb(34, 134, 58); font-weight: 400;">port</span>&gt;</span>9090<span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;/<span style="color: rgb(34, 134, 58); font-weight: 400;">port</span>&gt;</span>
+        <span style="color: rgb(106, 115, 125); font-weight: 400;">&lt;!-- application path always starts with /--&gt;</span>
+        <span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;<span style="color: rgb(34, 134, 58); font-weight: 400;">path</span>&gt;</span>/<span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;/<span style="color: rgb(34, 134, 58); font-weight: 400;">path</span>&gt;</span>
+        <span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;<span style="color: rgb(34, 134, 58); font-weight: 400;">contextReloadable</span>&gt;</span>true<span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;/<span style="color: rgb(34, 134, 58); font-weight: 400;">contextReloadable</span>&gt;</span>
+    <span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;/<span style="color: rgb(34, 134, 58); font-weight: 400;">configuration</span>&gt;</span>
+<span style="color: rgb(36, 41, 46); font-weight: 400;">&lt;/<span style="color: rgb(34, 134, 58); font-weight: 400;">plugin</span>&gt;</span>
+</pre>
+
+Связь Java файла и HTML представления делается следующим образом. Путь Java, его package, должен соответствовать пути HTML файла в resources:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="link_java_to_resources" src="images/wicket/link_java_to_recources.png"
+        alt="Link java to resources" width="491" height="352"/></p>
+Запуск:
+<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+$ mvn jetty:run
+</pre>
+</div>
+<br/>
+Запуск в режиме разработки:
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+$ mvn -Dwicket.configuration=deployment jetty:run
+</pre>
+</div>
+
+Открыть <a style="text-decoration: underline; color: #3366ff;"
+           href="http://127.0.0.1:8080/wicket-test-examples/"
+           target="_blank" rel="noopener noreferrer">http://127.0.0.1:8080/wicket-test-examples/</a>
+<br/>
+Примеры:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="link_java_to_resources" src="images/wicket/radio_group.png"
+        alt="Link java to resources" width="899" height="237"/></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="link_java_to_resources" src="images/wicket/check_box_page.png"
+        alt="Link java to resources" width="899" height="237"/></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="link_java_to_resources" src="images/wicket/drop_down.png"
+        alt="Link java to resources" width="899" height="237"/></p>
+
+Stateless(bookmarkable) и Statefull страницы в Wicket:<br/>
+Wicket хранит последнюю просмотренную страницу в сессии.
+<b>Stateless(bookmarkable)</b> page — это страница не имеющая состояния, <b>Statefull</b> page — это страница с состоянием.<br/>
+При каждом запросе к <b>Stateless</b> page, её экземпляр создаётся заново.
+К <b>Statefull</b> page присваивается версия.
+
+Чтобы страница стала stateless необходимо выполнить два условия:
+<ul>
+    <li>В первую очередь страница должна быть bookmarkable.</li>
+    <li>Страница должна использовать только stateless компоненты.</li>
+</ul>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://cwiki.apache.org/confluence/display/WICKET/Bookmarkable+pages+and+links"
+   target="_blank" rel="noopener noreferrer">Bookmarkable pages and links</a>
+<br/>
+Класс stateless страницы должен иметь пустой конструктов или конструктор, который принимает PageParameters аргумент (который оборачивает аргументы запроса к странице).
+В случае если класс имеет оба конструктора, то при создании страницы по умолчанию будет использоваться конструктор с параметрами.
+И еще: если на странице используется хотя бы один компонент, который не является stateless,
+то вся страница становится statefull, и полностью сериализуется и сохраняется в сессии и далее в истории на диске.
+Если страница не имеет конструктора с параметрами, то при переходе на страницу будет использован конструктор без параметров
+(без каких-либо ошибок и предупреждений), потому что wicket не проверяет, действительно ли для нее существуют параметры запроса,
+и wicket не знает, действительно ли они предназначены для этой страницы или нет.<br/>
+Переход на stateless страницу:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+new Link() {
+    public void onClick() {
+        setResponsePage(new MyPage(...)); // stateless page
+    }
+}
+</pre></div>
+<br/>
+
+<h4>Тестирование</h4>
+Тестировать html страницы можно с использованием встроенных инструментов Wicket
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://cwiki.apache.org/confluence/display/WICKET/Unit+Test"
+   target="_blank" rel="noopener noreferrer">https://cwiki.apache.org/confluence/display/WICKET/Unit+Test</a>
+или других.
+На пример <a style="text-decoration: underline; color: #3366ff;"
+   href="https://jsoup.org/"
+   target="_blank" rel="noopener noreferrer">https://jsoup.org/</a>.
+<br/>
+Пример для теста:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+Document doc = Jsoup.connect("https://en.wikipedia.org/").get();
+log(doc.title());
+Elements newsHeadlines = doc.select("#mp-itn b a");
+for (Element headline : newsHeadlines) {
+    log("%s\n\t%s",headline.attr("title"), headline.absUrl("href"));
+    // тесты headline.attr("title"), headline.absUrl("href")
+}
+</pre></div>
+<br/>
+Ссылки на примеры использования jsoup:
+<ul>
+    <li><a style="text-decoration: underline; color: #3366ff;"
+           href="https://javarush.com/groups/posts/2767-parsing-html-bibliotekoy-jsoup-"
+           target="_blank" rel="noopener noreferrer">jsoup</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;"
+           href="https://www.baeldung.com/java-with-jsoup"
+           target="_blank" rel="noopener noreferrer">Parsing HTML in Java with Jsoup (baeldung)</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;"
+           href="https://javarush.com/groups/posts/2767-parsing-html-bibliotekoy-jsoup-"
+           target="_blank" rel="noopener noreferrer">Парсинг html библиотекой jsoup (javarush)</a></li>
+</ul>
+<h4>Запуск приложений</h4>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+$ mvn jetty:run
+# с портом 9090
+$ mvn jetty:run -Djetty.port=9090
+</pre>
+</div>
+
+
+<h4>Альтернативы Wicket:</h4>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://docs.spring.io/spring-framework/reference/web/webmvc.html"
+   target="_blank" rel="noopener noreferrer">Spring MVC</a>
+<br/>
+Vaadin:<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://vaadin.com/"
+   target="_blank" rel="noopener noreferrer">Vaadin (код java компилируется в js с помощью компилятора Vaadin Compiler, основанного на Google Web Toolkit (GWT))</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://demo.vaadin.com/valo-theme/#!common"
+   target="_blank" rel="noopener noreferrer">Vaadin demo</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://www.baeldung.com/vaadin"
+   target="_blank" rel="noopener noreferrer">https://www.baeldung.com/vaadin</a>
+<br/>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://docs.spring.io/spring-framework/reference/web/webmvc-view/mvc-freemarker.html"
+   target="_blank" rel="noopener noreferrer">FreeMarker и Spring MVC</a>
+<br/>
+<br/>
+Eclipse RAP:<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://eclipse.dev/rap/"
+   target="_blank" rel="noopener noreferrer">Eclipse RAP</a>
+<br/>
+<h4>Ссылки:</h4>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/cherepakhin/wicket_test_examples"
+   target="_blank" rel="noopener noreferrer">Wicket test examples на моем gihub</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://wicketguide.comsysto.com/guide/"
+   target="_blank" rel="noopener noreferrer">Apache Wicket User Guide - Reference Documentation</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://examples8x.wicket.apache.org/index.html"
+   href="https://examples8x.wicket.apache.org/index.html"
+   target="_blank" rel="noopener noreferrer">Примеры Wicket</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/apache/wicket"
+   href="https://github.com/apache/wicket"
+   target="_blank" rel="noopener noreferrer">https://github.com/apache/wicket</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://resources.oreilly.com/examples/9781849511605"
+   href="https://resources.oreilly.com/examples/9781849511605"
+   target="_blank" rel="noopener noreferrer">Examples from Apache Wicket Cookbook</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://www.html.it/articoli/wicket-programmazione-web-component-oriented/"
+   target="_blank" rel="noopener noreferrer">Java Web: Introduzione ad Apache Wicket</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/55minutes/fiftyfive-wicket"
+   href="https://github.com/55minutes/fiftyfive-wicket"
+   target="_blank" rel="noopener noreferrer">github 55 Minutes Wicket Project (<b>Репозиторию 12 лет. "...This project requires JDK 6 and Wicket 1.5. Not compatible with Wicket 6..."</b>)</a>
+<br/>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/martin-g/wicket-bootstrap/"
+   href="https://github.com/martin-g/wicket-bootstrap/"
+   target="_blank" rel="noopener noreferrer">github Wicket+Bootstrap (не смог запустить!!!)</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/martin-g/wicket-bootstrap/blob/wicket-10.x-bootstrap-5.x/"
+   href="https://github.com/martin-g/wicket-bootstrap/blob/wicket-10.x-bootstrap-5.x/"
+   target="_blank" rel="noopener noreferrer">github Wicket 10+Bootstrap 5.x</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://dzone.com/articles/enhance-wicket-with-spring-boot"
+   href="https://dzone.com/articles/enhance-wicket-with-spring-boot"
+   target="_blank" rel="noopener noreferrer">Enhance Wicket With Spring Boot</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/MarcGiffing/wicket-spring-boot"
+   href="https://github.com/MarcGiffing/wicket-spring-boot"
+   target="_blank" rel="noopener noreferrer">Wicket With Spring Boot (https://github.com/MarcGiffing)</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/MarcGiffing/wicket-spring-boot-examples"
+   href="https://github.com/MarcGiffing/wicket-spring-boot-examples"
+   target="_blank" rel="noopener noreferrer">Examples Wicket With Spring Boot (https://github.com/MarcGiffing)</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/Pentadrago/spring-boot-example-wicket.git"
+   target="_blank" rel="noopener noreferrer">Еще пример Spring Boot+Wicket с gradle и компиляцией в war</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://mkyong.com/tutorials/wicket-tutorials/"
+   target="_blank" rel="noopener noreferrer">Wicket Tutorial от Mkyong (ссылки на примеры битые)</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://www.petrikainulainen.net/programming/tips-and-tricks/mocking-spring-beans-with-apache-wicket-and-mockito/"
+   target="_blank" rel="noopener noreferrer">Тестирование Wicket с Mockito</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/MarcGiffing/wicket-spring-boot"
+   target="_blank" rel="noopener noreferrer">wicket-spring-boot-starter</a>
+<br/>
+
+Пример wicket-spring-boot-starter:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+&lt;dependency&gt;
+    &lt;groupId>com.giffing.wicket.spring.boot.starter&lt;/groupId&gt;
+    &lt;artifactId>wicket-spring-boot-starter&lt;/artifactId&gt;
+&lt;/dependency&gt;
+    </pre>
+</div>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+@SpringBootApplication
+public class WicketApplication {
+    public static void main(String[] args) throws Exception {
+        new SpringApplicationBuilder().sources(WicketApplication.class).run(args);
+    }
+}
+
+@WicketHomePage
+public class HomePage extends WebPage {
+}
+
+
+&lt;html xmlns:wicket="http://wicket.apache.org"&gt;
+    &lt;head>&lt;/head&gt;
+    &lt;body&gt;
+        You content
+        &lt;wicket:child/&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+</div>
+
+
+
+
+
+<!--   href="images/wicket/wicket-in-action.pdf"-->
+<a style="text-decoration: underline; color: #3366ff;"
+       href="https://github.com/cherepakhin/senior/tree/main/new_site/wicket"
+       target="_blank" rel="noopener noreferrer">Wicket in action (https://github.com/cherepakhin/senior/tree/main/new_site/wicket)/>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="images/wicket/rc063-010d-apache_wicket_1.pdf"
+   target="_blank" rel="noopener noreferrer">Getting Started with Apache Wicket (DZone Refcard)</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="Stateless и Statefull страницы в Wicket 1.4"
+   href="https://habr.com/ru/articles/143346/"
+   target="_blank" rel="noopener noreferrer">Stateless и Statefull страницы в Wicket 1.4 (Habr)</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="Wicket,Spring wiki"
+   href="https://cwiki.apache.org/confluence/display/wicket/spring"
+   target="_blank" rel="noopener noreferrer">https://cwiki.apache.org/confluence/display/wicket/spring</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="Intro to the Wicket"
+   href="https://www.baeldung.com/intro-to-the-wicket-framework"
+   target="_blank" rel="noopener noreferrer">https://www.baeldung.com/intro-to-the-wicket-framework</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="Apache Wicket 10 User Guide Examples"
+   href="http://wicket-tutorial-examples.it:8080/"
+   target="_blank" rel="noopener noreferrer">Apache Wicket 10 User Guide Examples</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="Examples Apache Wicket"
+   href="https://examples7x.wicket.apache.org/index.html"
+   target="_blank" rel="noopener noreferrer">Examples Apache Wicket</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="Apache Wicket 10 User Guide Examples"
+   href="https://habr.com/ru/companies/orienteer/articles/514938/"
+   target="_blank" rel="noopener noreferrer">Знакомство с Vuecket (Habr, Wicket+Vue)</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="Wicket 10.x Reference Guide"
+   href="https://nightlies.apache.org/wicket/guide/10.x/single.html"
+   target="_blank" rel="noopener noreferrer">Wicket 10.x Reference Guide</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/holy-shit/wicket-spring-security-example?tab=readme-ov-file"
+   target="_blank" rel="noopener noreferrer">Wicket SpringSecurity Example</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://www.javatips.net/api/wicket-master/wicket-examples/src/main/java/org/apache/wicket/examples/HelloWorldServlet.java"
+   target="_blank" rel="noopener noreferrer"><b>ОЧЕНЬ МНОГО</b> примеров (www.javatips.net, НО ИНТЕРФЕЙС ресурса... )</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/bitstorm/Wicket-tutorial-examples"
+   target="_blank" rel="noopener noreferrer">https://github.com/bitstorm/Wicket-tutorial-examples</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/dbelob/helloworld-web/tree/master/helloworld-web-wicket"
+   target="_blank" rel="noopener noreferrer">Hello world web wicket (github)</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://habr.com/ru/articles/89642/"
+   target="_blank" rel="noopener noreferrer">Wicket: HelloWorld (habr, 2010)</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://rsdn.org/article/inet/Wicket.xml"
+   target="_blank" rel="noopener noreferrer">Разработка Web-приложений с использованием Wicket (rsdn.org)</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://coderlessons.com/articles/java/chistyi-podkhod-k-modeliam-wicket"
+   target="_blank" rel="noopener noreferrer">Чистый подход к моделям Wicket (coderlessons.com)</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="Migrating to Apache Wicket (rutube)"
+   href="https://rutube.ru/video/4d63dc10b38d379c274f351fb3ca5bc6/"
+   target="_blank" rel="noopener noreferrer">Migrating to Apache Wicket (rutube)</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://rutube.ru/video/04d879209459e4dbc6ed7d0c0914d18f/"
+   target="_blank" rel="noopener noreferrer">Setup Apache Wicket project with IntelliJ IDEA (rutube)</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://www.baeldung.com/spring-template-engines"
+   target="_blank" rel="noopener noreferrer">Template Engines for Spring</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://nightlies.apache.org/wicket/guide/9.x/single.html"
+   target="_blank" rel="noopener noreferrer">Wicket 9.x Reference Guidef</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://wicket.apache.org/start/quickstart.html"
+   target="_blank" rel="noopener noreferrer">Create a Wicket Quickstart</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://web.itu.edu.tr/uyar/wicket-application-development/basics.html"
+   target="_blank" rel="noopener noreferrer">Wicket Application Development</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/astrapi69/wicket-examples/tree/develop"
+   target="_blank" rel="noopener noreferrer">https://github.com/astrapi69/wicket-examples/tree/develop</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://wicketguide.comsysto.com/guide/single.html"
+   target="_blank" rel="noopener noreferrer">Free Online Guide for Apache Wicket framework (вроде неплохой учебник)</a>
+<br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

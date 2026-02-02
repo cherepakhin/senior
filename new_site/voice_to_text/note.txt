@@ -1,0 +1,67 @@
+------------
+Vosk
+https://alphacephei.com/vosk/index.ru
+
+Статья с примерами на Java https://www.codetd.com/en/article/16487210
+https://github.com/alphacep/vosk-api/blob/master/java/lib/src/test/java/org/vosk/test/DecoderTest.java
+https://www.baeldung.com/linux/wav-mp3-to-text-speech-recognize
+------------
+10 лучших бесплатных инструментов распознавания речи Linux – программное обеспечение с открытым исходным кодом
+https://dzen.ru/a/YjOGGQbn2whfsb_K
+В этой статье освещается лучшее программное обеспечение для распознавания речи с открытым исходным кодом для Linux.
+
+DeepSpeech https://github.com/mozilla/DeepSpeech (Mozilla)
+wav2letter++
+Julius  https://github.com/julius-speech/julius
+CMUSphinx https://cmusphinx.github.io
+Simon   www.simon-listens.org  (Вы можете открывать программы, URL-адреса, вводить настраиваемые фрагменты текста, имитировать ярлыки, управлять мышью и клавиатурой и многое другое.)
+------------
+Wisper
+https://v-ai-labs.ru/blog/whisper-windows-install
+- Работает без интернета
+- Поддерживает русский язык
+- Бесплатный и с открытым кодом
+- Подходит для автоматизации расшифровок
+- Полный контроль над файлами
+
+Пример RPC: https://github.com/wisper-rpc/wisper-java
+------------
+
+v.perm.ru
+
+Рабочий опыт:
+python
+v.perm.ru@/home/vasi/tools/voice-to-text
+из файла mp3 сконвертирован файл result.txt
+------------
+
+Как работают системы распознавания речи
+https://habr.com/ru/companies/amvera/articles/691288/
+
+https://blog.skillfactory.ru/kak-rabotaet-tehnologiya-raspoznavaniya-rechi/
+https://habr.com/ru/articles/755114/
+------------
+Google speech recognize
+------------
+Bert (rubert, ....)
+------------
+https://dzen.ru/a/Zyt225m6T3lAx09C
+1.- Dictation.io
+бесплатный онлайн-сервис для преобразования речи в текст, доступный на русском языке
+2.- Bear File Converter
+Полностью бесплатный: Все функции Bear File Converter доступны бесплатно, что позволяет пользоваться сервисом без ограничений.
+3.- oTranscribe
+oTranscribe является полностью бесплатным сервисом без скрытых платежей или ограничений по функционалу.
+4.- Приложение Google Keep
+Google Keep предоставляется бесплатно для всех пользователей с аккаунтом Google.
+5 - Express Scribe доступен в двух версиях:
+Бесплатная версия: поддерживает основные функции и совместима с современными аудиоформатами, такими как MP3, WAV и WMA.
+7.- Speechpad
+Базовые функции: Голосовой ввод текста и транскрибация аудио/видео файлов длительностью до 15 минут доступны бесплатно.
+8.- Онлайн-текстовый редактор Google Docs
+Бесплатная версия: Предоставляет доступ к основным функциям, включая создание и редактирование документов, совместную работу и голосовой ввод.
+9.- Speechnotes
+Бесплатная версия: Предоставляет доступ к основным функциям, включая голосовой ввод и автоматическую пунктуацию.
+10.- VoxNote
+Бесплатная версия: Предоставляет доступ к основным функциям для файлов до 15 минут, что отлично подходит для кратких записей и заметок.
+

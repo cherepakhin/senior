@@ -1,0 +1,72 @@
+<p><b>Задача</b><br />Нужно несколько профилей: "prod", "dev", "test", ...</p>
+<hr id="system-readmore" />
+<p>В <b>appication.yaml</b> нужно указать:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #020274; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">spring.profiles.active: "dev"
+</pre>
+</div>
+<p>Этот профиль будет использован ПО УМОЛЧАНИЮ при запуске приложения.<br />Профиль можно указать при запуске приложения:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">java -D<span style="color: #0000ff;">"spring.profiles.active=dev"</span> -jar app.jar
+</pre>
+</div>
+<p dir="auto">или установить env переменную:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">SPRING_PROFILES_ACTIVE = dev
+</pre>
+</div>
+<p dir="auto">Запуск с gradle:</p>
+<!-- HTML generated using hilite.me -->
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">./gradlew bootRun --args=<span style="color: #0000ff;">'--spring.profiles.active=dev'</span>
+</pre>
+</div>
+<p dir="auto">или</p>
+<!-- HTML generated using hilite.me -->
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">SPRING_PROFILES_ACTIVE=dev ./gradlew clean bootRun
+</pre>
+</div>
+<p>(<a style="text-decoration: underline; color: #3366ff;" title="https://v.perm.ru/index.php/component/content/article/simple-kotlin?catid=13&amp;Itemid=101#spring_profiles" href="index.php/component/content/article/simple-kotlin?catid=13&amp;Itemid=101#spring_profiles" target="_blank" rel="noopener noreferrer">https://v.perm.ru/index.php/component/content/article/simple-kotlin?catid=13&amp;Itemid=101#spring_profiles</a>) <br />Но, допустим, для некоторых ТЕСТОВ нужно использовать какой-то другой профиль. Для этого нужно создать файл <b>src/test/resources/application-test.yaml</b> и в тесте указать этот профиль:</p>
+<!-- HTML generated using hilite.me -->
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #020274; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">@SpringBootTest
+@ActiveProfiles(<span style="color: #0000ff;">"test"</span>)  <span style="color: #008800; font-style: italic;">// Значения задаются в файле:</span>
+<span style="color: #008800; font-style: italic;">// src/test/resources/application-test.yaml</span>
+<span style="color: #008800; font-style: italic;">// @ActiveProfiles("test") -&gt; TEST/resources/application-test.yaml</span>
+<span style="color: #008800; font-style: italic;">// "test" -&gt; application-test.yaml</span>
+<span style="color: #008800; font-style: italic;">// application-test.yaml есть только в src/TEST/resources</span>
+<span style="color: #008800; font-style: italic;">// Если application-test.yaml нет существует (ни в main, ни в test), то тогда ниоткуда не берутся</span>
+
+<span style="color: #000080; font-weight: bold;">class</span> ConfigForMainDev {
+    @Value(<span style="color: #0000ff;">"\${myconfig.remoteHost}"</span>)
+    <span style="color: #000080; font-weight: bold;">val</span> remoteHost: String? = <span style="color: #000080; font-weight: bold;">null</span>
+
+    @Test
+    <span style="color: #000080; font-weight: bold;">fun</span> getMyConfigRemoteHost() {
+        assertEquals(<span style="color: #0000ff;">"http://127.0.0.1:8980/vacancy/test/api"</span>, remoteHost)
+    }
+}
+</pre>
+</div>
+<p>Пример в проекте <a style="text-decoration: underline; color: #3366ff;" title="https://github.com/cherepakhin/vacancy_wicket_k" href="https://github.com/cherepakhin/vacancy_wicket_k" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/vacancy_wicket_k</a> <br />src/<b>main</b>/resources/application.yaml:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">spring.profiles.active: <b>"dev"</b>
+</pre>
+</div>
+<p>src/<b>main</b>/resources/application-<b>dev</b>.yaml:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">myconfig:
+    remoteHost: http://127.0.0.1:8980/vacancy/api
+    companyRestUrl: /company
+    vacancyRestUrl: /vacancy
+</pre>
+</div>
+<p>src/<b>test</b>/resources/application-<b>test</b>.yaml:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">myconfig:
+    remoteHost: http://127.0.0.1:8980/vacancy/<b>test</b>/api
+    companyRestUrl: /company
+    vacancyRestUrl: /vacancy
+</pre>
+</div>

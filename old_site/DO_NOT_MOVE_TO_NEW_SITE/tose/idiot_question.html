@@ -1,0 +1,44 @@
+Вопрос: Что тут не так?
+<pre class="language-java"><code>public class AnimalDto {
+
+
+    private Long id = 0L;
+    private String name = "";
+
+    public static String staticString = ""; // Идиотский вопрос с собеса см. ForIdiotStaticTest. Это переменная класса.
+
+    // еще и в конструктор засунули, тем самым ОБЯЗЫВАЮТ менять переменную класса и ломать ВСЮ логику
+    public AnimalDto(Long id, String name, String s) {
+        staticString = s;
+        this.id = id;
+        this.name = name;
+    }
+
+    // Правильный конструктор
+    public AnimalDto(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+
+public class ForIdiotStaticTest {
+
+    @Test
+    void staticTest() {
+        AnimalDto animalDto1 = new AnimalDto(1L,"DTO1", "STATIC1");
+
+        assertEquals("STATIC1", animalDto1.staticString);
+
+        // staticString переменная КЛАССА. При изменении меняется во всех ЭКЗЕМПЛЯРАХ
+        // "STATIC1" -> "STATIC2"
+        AnimalDto animalDto2 = new AnimalDto(1L,"DTO1", "STATIC2");
+        assertEquals("STATIC2", animalDto2.staticString);
+        assertEquals("STATIC2", AnimalDto.staticString);
+
+        animalDto2.staticString = "ЧУШЬ";
+        assertEquals("ЧУШЬ", animalDto2.staticString);
+        assertEquals("ЧУШЬ", AnimalDto.staticString);
+    }
+}
+</code></pre><br/>
+Ответ: В башке у тебя не так.

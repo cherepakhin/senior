@@ -1,0 +1,144 @@
+Конспект демо-занятия курса "Java Developer. Advanced. Apache Camel: масштабируемые интеграции для Highload" Сергей Проханов<br/
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://vkvideo.ru/video-145052891_456250314"
+   target="_blank" rel="noopener noreferrer">Демо-занятие курса «Java Developer. Advanced» Сергей Проханов</a>
+<br/>
+0:10:00<br/>
+Книга "Шаблоны интеграции корпоративных приложений" Грегор Хоп, Бобби Вульф<br/>
+<br/>
+0:24:00<br/>
+50 форматов данных<br/>
+Camel K - Camel для Kubernetes (K)<br/>
+CRD - Custom, Resource, Deployment. Деплоит в кубер как Pod/Deployment<br/>
+<br/>
+0:32:00<br/>
+Camel Quarkus - расширение Camel для Quarkus. Quarkus - генерит исполняемые файлы (быстрый старт, горячая перезагрузка, контейнеризация).
+Примеры: camel-quarkus-kafka, camel-quarkus-rest, camel-quarkus-jdbc, camel-quarkus-http, camel-quarkus-mail и т.д.
+<br/>
+0:35:31<br/>
+Camel Kafka Connector - встраивает Camel _внутрь_ Kafka _Connect_. Тут же использование с Kafka _Stream_.<br/>
+источник - source<br/>
+приемник - sink<br/>
+Дает возможность не писать код на Java/Kotlin/Scala/Go<br/>
+Обрабатывает исключения!<br/>
+
+0:39:28 -----------------
+Camel Spring Boot. Примеры:
+camel-kafka-starter
+camel-rest-starter
+camel-jdbc-starter
+camel-postgresql-starter
+camel-mail-starter
+camel-openapi-java-starter
+
+0:41:39 -----------------
+Camel Karaf (OSGi)
+
+0:43:30 -----------------
+Camel Karavan - это изуальный иструмент (UI + IDE) - позволяет создавать, редактировать, запускать и деплоить
+интеграционные _МАРШРУТЫ_ Camel без глубокого программирования, а через граф.интерфейс.
+low-code ???
+
+0:46:20 -----------------
+Apache Camel JBang - инструмент позволяет начать работу без установки Maven, Gradle, IDE и др. тяжелых runtime.
+"Простыми словами это Jbang+Camel в одном флаконе - запускаешь команду, пишешь интеграцию в одном файле (Java, Kotlin, Groovy, YAML)
+и она сразу работает как полноценое Camel приложение.
+Прототипирование, временное решение, для обучения.
+
+0:48:52 -----------------
+Практическая часть
+Camel-Spring Boot предоставляет автоконфигурацию CamelContext.
+берет на себя регистрацию Producer Template в качестве бинов Spring
+
+BOM Spring Boot - согласовывает версии Spring Boot. Есть 2 BOM:
+1) camel-spring-boot-bom - требует ручного разрешения конфликтов
+2) camel-spring-boot-dependencies - минимизирует риск конфликтов
+
+
+0:53:13 -----------------
+Пример конфигурации. В ней 2 зависимости в _dependenctManagement_:
+
+artifactId -> camel-spring-boot-bom
+type -> pom
+scope -> import
+
+и как обычно:
+artifactId -> spring-boot-dependencies
+type -> pom
+scope -> import
+
+0:56:26 -----------------
+Добавление стартеров и запуск контекста
+Приложение стартует  добавлением основного стартера, а его функциональность _РАСШИРЯЕТСЯ_
+подключением _СТАРТЕРОВ_ компонентов.
+
+В standalone-режиме (без web сервера) необходимо указать параметр camel.main.run-controller=true,
+чтобы главный поток не завершался сразу после старта.
+
+0:58:11 -----------------
+Добавление стартеров и запуск контекста
+starter - не нужно указывать версии, т.к. они определены в BOM Spring boot (?)
+<dependencies>
+    <!-- Camel Starter -->
+    <dependency>
+        <groupId>org.apache.camel.springboot</groupId>
+        <artifactId>camel-spring-boot-starter</artifactId> // запуск Camel контекста (вспомни как ебался с xml)
+    </dependency>
+    <!-- Camel Starter JMS -->
+    <dependency>
+        <groupId>org.apache.camel.springboot</groupId>
+        <artifactId>camel-jms-starter</artifactId>
+    </dependency>
+</dependencies>
+
+1:00:34 -----------------
+В application.properties добавить:
+camel.main.run-controller=true
+есть разница для web приложений. Эта настройка КРИТИЧЕСКИ важна для spring-boot приложения
+Работа в фоне. Не останавливается после старта). В обычных boot приложениях не останавливает
+приложение tomcat или jetty, а тут не дает выгрузиться Camel.
+
+1:05: -----------------
+Единый стиль конфигурации через своства Spring boot
+Синтаксис следует единому шаблону:
+camel.component.[component-name].[parameter]=[value]
+Пример в application.properties:
+camel.component.paho-mqtt5.broker-url=tcp://localhost:61616
+(MQTT - Протокол Message Queuing Telemetry Transport. Это протокол обмена сообщениями по шаблону издатель-подписчик (pub/sub))
+(paho-mqtt5 - библиотека для взаимодействия с MQTT-сервером)
+
+1:06:59 -----------------
+Объявление маршрутов для Spring Boot:
+1. Декларативный подход (идеально)
+
+@Component
+public class NameClass extends RouteBuilder {
+    @Override
+    public void configure() {
+        from("...")
+        .to("...");
+    }
+}
+
+2. Практика
+1.11 -----------------
+Задача пересылки сообщений из очередей RabbitMQ в топики Kafka
+В проекте как-то использован kafka-drop (в application.yaml)
+Использован Docker Compose
+
+
+1.35 ------------------
+Объясняет суть проекта
+
+0:: -----------------
+
+Шикарная лекция
+1. Темп речи
+2. Умение рассказывать. Связная речь.
+3. Последовательность (от общего описания к частностям)
+4. Яркий пример
+
+================================
+Где исходники?
+================================
+Где-то есть исходники. Обещал дать.

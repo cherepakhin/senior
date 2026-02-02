@@ -1,0 +1,110 @@
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QL6CK97WJZ"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-QL6CK97WJZ');
+</script>
+Сравнение инструментов ИИ для разработки java/kotlin.
+<ul>
+    <li><a href="#Copilot">Copilot</a></li>
+    <li><a href="#Codeium">Codeium</a></li>
+    <li><a href="#Gigacode">Gigacode</a></li>
+    <li><a href="#Easycode">Easycode</a></li>
+</ul>
+<hr id="system-readmore"/>
+Подопытный проект:
+<a title="https://github.com/cherepakhin/shop_kotlin" href="https://github.com/cherepakhin/shop_kotlin"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/shop_kotlin</a>
+<a id="Copilot"></a>
+<h3 dir="auto">Copilot</h3>
+<a title="https://habr.com/ru/articles/716554/" href="https://habr.com/ru/articles/716554/"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">https://habr.com/ru/articles/716554/</a>
+<br/>
+"Copilot дает пробные 2 месяца, потом оплата по 10$ в месяц."
+Проходим мимо...
+
+<a id="Codeium"></a>
+<h3 dir="auto">Codeium</h3>
+<a title="https://codeium.com/"
+   href="https://codeium.com/"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">https://codeium.com/</a>
+<br/>
+<a title="https://tproger.ru/articles/codeium-avtodopolnenie-koda-pri-pomoshhi-ai"
+   href="https://tproger.ru/articles/codeium-avtodopolnenie-koda-pri-pomoshhi-ai"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">Codeium: автодополнение кода при помощи AI</a>
+<br/>
+<a title="https://plugins.jetbrains.com/plugin/20540-codeium-ai-autocomplete-and-chat-for-python-js-ts-java-go-"
+   href="https://plugins.jetbrains.com/plugin/20540-codeium-ai-autocomplete-and-chat-for-python-js-ts-java-go-"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">Codeium. Plugin for idea.</a>
+<br/>
+<a id="Gigacode"></a>
+<h3 dir="auto">Gigacode</h3>
+<a title="https://gigacode.ru/"
+   href="https://gigacode.ru/"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">https://gigacode.ru/</a>
+
+Какие-то непроходимые траблы со Сбербанком. Ответ от этой, так называемой, корпорации так и не получен в течении 2 недель. Ни разу не удивлен.
+И спустя какие-то недели активация все-таки сработала.
+
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="gigacode" src="images/chatgpt/gigacode.png"
+        alt="gigacode" width="402" height="47"/></p>
+Хорош! Не без СБ заморочек, но ХОРОШ!
+<a title="https://v.perm.ru/main/index.php/homepage/69-prostoj-proekt-na-kotlin-i-spring-boot"
+   href="https://v.perm.ru/main/index.php/homepage/69-prostoj-proekt-na-kotlin-i-spring-boot"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">Дополнительные инструменты и приемы для проекта на Kotlin и Spring Boot</a>
+<br/>
+
+<a id="Easycode"></a>
+<h3 dir="auto">Easycode</h3>
+<a title="https://easycode.ru/"
+   href="https://easycode.ru/"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">https://easycode.ru/</a>
+<br/>
+Idea plugin есть
+<br/>
+выделить код и в контекстном меню выбрать из вариантов:
+<ul>
+<li>"What does this do?"</li>
+<li>"Write Unit tests"</li>
+<li>"Refactor code"</li>
+<li>"Custom Prompt"</li>
+</ul>
+в панели EasyCode будет ответ. <br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="EasyCode generate unit test" src="images/chatgpt/easycode_work.png"
+            alt="Example" width="985" height="622"/></p>
+    Пример ответа для prompt "Write Unit tests":<pre class="language-java"><code>@RunWith(MockitoJUnitRunner.class)
+public class AnimalsServiceImplTest {
+
+    @Mock
+    private AnimalRepository animalRepository;
+
+    @InjectMocks
+    private AnimalsServiceImpl animalsService;
+
+    @Test
+    public void testGetAll() {
+        // Arrange
+        List<> animals = new ArrayList<>();
+        animals.add(new Animal());
+        Mockito.when(animalRepository.findAll()).thenReturn(animals);
+
+        // Act
+        List<> result = animalsService.getAll();
+
+        // Assert
+        Mockito.verify(animalRepository, Mockito.times(1)).findAll();
+        Assert.assertEquals(animals, result);
+    }
+}
+</code></pre>

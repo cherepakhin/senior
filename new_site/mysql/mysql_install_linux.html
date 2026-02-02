@@ -1,0 +1,83 @@
+Неплохая статья: <a style="color: #3366ff; text-decoration: underline;" tabindex="-1" href="https://antons-organization-1.gitbook.io/administrirovanie-linux/servisy-linux/sistemy-upravleniya-bazami-dannykh/ustanovka-i-nastroika-subd-mysql">https://antons-organization-1.gitbook.io/administrirovanie-linux/servisy-linux/sistemy-upravleniya-bazami-dannykh/ustanovka-i-nastroika-subd-mysql</a>.<br/>
+
+Установка:
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo apt install mysql-server
+$ mysql --version
+$ sudo mysql
+mysql&gt; <span style="color: #0000FF">\q</span>
+</pre></div>
+<hr id="system-readmore" />
+Создание пользователя:
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo mysql
+CREATE USER <span style="color: #0000FF">&#39;vasi&#39;</span>@<span style="color: #0000FF">&#39;localhost&#39;</span> IDENTIFIED BY <span style="color: #0000FF">&#39;pass&#39;</span>;
+============================================================
+Пользователи:
+<span style="color: #000080; font-weight: bold">select </span>host, user from user;
++-----------+------------------+
+| host      | user             |
++-----------+------------------+
+| localhost | debian-sys-maint |
+| localhost | mysql.infoschema |
+| localhost | mysql.session    |
+| localhost | mysql.sys        |
+| localhost | root             |
+| localhost | vasi             |
++-----------+------------------+
+6 rows in set (0,00 sec)
+============================================================
+</pre></div>
+
+Для разрешения доступа к определенной БД:
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">mysql&gt; grant all privileges on *.* to <span style="color: #0000FF">&#39;vasi&#39;</span>@<span style="color: #0000FF">&#39;localhost&#39;</span>;
+mysql&gt; grant all on *.* to vasi@<span style="color: #0000FF">&#39;%&#39;</span>;
+</pre></div>
+
+Проверка:
+
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">systemctl status mysql
+&gt;...
+&gt; Active: active (running)
+&gt;...
+============================================================
+mysql -u vasi -ppass
+============================================================
+</pre></div>
+
+Для разрешения доступа из сети, в /etc/mysql/mysql.conf.d закоментить строку:
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-style: italic">#bind-address		= 127.0.0.1</span>
+</pre></div>
+
+и перезапустить
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">sudo systemctl restart mysql.service
+</pre></div>
+
+
+Создать пользователя:
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">CREATE USER <span style="color: #0000FF">&#39;vasi&#39;</span>@<span style="color: #0000FF">&#39;%&#39;</span> IDENTIFIED BY <span style="color: #0000FF">&#39;pass&#39;</span>;
+</pre></div>
+
+Проверка с ноута:
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">mysql -u vasi -ppass -h192.168.1.20
+</pre></div>
+<br/>
+<h4>Backup и restore БД MySql в linux</h4>
+
+<b>j3</b> - имя базы данных<br/>
+<b>root</b> - имя пользователя<br/>
+Backup:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ mysqldump -v -h127.0.0.1 -uroot -p j3 > /tmp/j3_dump.sql
+$ cd /tmp
+$ zip j3_dump.sql.zip j3_dump.sql
+$ rm j3_dump.sql
+    </code>
+</pre></div>
+Restore:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ mysql -u root -p
+>pass: ***
+mysql> drop database j3;
+mysql> create database j3;
+mysql> use j3;
+mysql> source /tmp/j3_dump.sql
+</pre></div>
+
+

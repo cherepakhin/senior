@@ -1,0 +1,82 @@
+TestNG - еще одна система тестирвания. Можно использовать для интеграционных тестов.
+
+https://www.baeldung.com/testng
+
+Пример с DataProvider:
+
+--------------Пример 1--------------
+@DataProvider(name = "numbers")
+public static Object[][] evenNumbers() {
+    return new Object[][]{{1, false}, {2, true}, {4, true}};
+}
+
+@Test(dataProvider = "numbers")
+public void
+  givenNumberFromDataProvider_ifEvenCheckOK_thenCorrect(Integer number, boolean expected) {
+    assertEquals(expected, number % 2 == 0);
+}
+------------------------------------
+
+--------------Пример 2--------------
+@DataProvider for objects:
+
+@Test(dataProvider = "numbersObject")
+public void givenNumberObjectFromDataProvider_ifEvenCheckOK_thenCorrect(EvenNumber number) {
+    assertEquals(number.isEven(), number.getValue() % 2 == 0);
+}
+
+@DataProvider(name = "numbersObject")
+public Object[][] parameterProvider() {
+    return new Object[][]{{new EvenNumber(1, false)},
+      {new EvenNumber(2, true)}, {new EvenNumber(4, true)}};
+}
+------------------------------------
+
+------------------------------------
+Есть зависимые тесты (Dependent Tests). Т.е. не проводить тесты, если какой-то конкретный тест упал
+@Test
+public void givenEmail_ifValid_thenTrue() {
+    boolean valid = email.contains("@");
+
+    assertEquals(valid, true);
+}
+
+@Test(dependsOnMethods = {"givenEmail_ifValid_thenTrue"})
+public void givenValidEmail_whenLoggedIn_thenTrue() {
+    LOGGER.info("Email {} valid >> logging in", email);
+}
+------------------------------------
+
+Можно настроить тестирование в параллель
+
+<suite name="suite" parallel="classes" thread-count="2">
+    <test name="test suite">
+        <classes>
+	    <class name="baeldung.com.RegistrationTest" />
+            <class name="baeldung.com.SignInTest" />
+        </classes>
+    </test>
+</suite>
+------------------------------------
+
+ Интеграционные тесты
+ https://www.baeldung.com/integration-testing-a-rest-api
+
+ @Test
+ public void givenUserDoesNotExists_whenUserInfoIsRetrieved_then404IsReceived()
+   throws ClientProtocolException, IOException {
+
+     // Given
+     String name = RandomStringUtils.randomAlphabetic( 8 );
+     // Используется HttpGet (https://www.concretepage.com/apache-api/apache-httpclient-get)
+     HttpUriRequest request = new HttpGet( "https://api.github.com/users/" + name );
+
+     // When
+     HttpResponse httpResponse = HttpClientBuilder.create().build().execute( request );
+
+     // Then
+     assertThat(
+       httpResponse.getStatusLine().getStatusCode(),
+       equalTo(HttpStatus.SC_NOT_FOUND));
+ }
+------------------------------------

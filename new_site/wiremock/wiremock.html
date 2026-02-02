@@ -1,0 +1,130 @@
+Для unit тестов хватает Mockito (ссылки в конце заметки).<br/>
+Но, допустим, я хочу провести интеграционный тест своего сервиса, который взаимодействует через REST с другим сервисом.
+<hr id="system-readmore" />
+Пример такой связки: <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/vacancy_wicket_k"
+						target="_blank" rel="noopener noreferrer">frontend с Wicket</a>
+обращается к <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/vacancy_backend"
+				target="_blank" rel="noopener noreferrer">backend</a>.
+Нужно протестировать frontend с Wicket.<br/>
+Может быть есть возможность запустить сторонний сервис (<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/vacancy_backend"
+														   target="_blank" rel="noopener noreferrer">backend</a>) с какими-то тестовыми данными.
+Можно написать простенький (или не очень) эмулятор этого другого сервиса. А можно использовать
+<a style="text-decoration: underline; color: #3366ff;" href="https://wiremock.org/"
+   target="_blank" rel="noopener noreferrer">WireMock</a>.
+Из ссылок в конце заметки должно быть все понятно. Далее просто описание примера.<br/>
+1. Запуск wiremock (<a style="text-decoration: underline; color: #3366ff;" href="https://wiremock.org/docs/standalone/"
+   target="_blank" rel="noopener noreferrer">https://wiremock.org/docs/standalone/</a>):<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">java -jar wiremock-standalone-3.12.1.jar
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+ /$$      /$$ /$$                     /$$      /$$                     /$$
+| $$  /$ | $$|__/                    | $$$    /$$$                    | $$
+| $$ /$$$| $$ /$$  /$$$$$$   /$$$$$$ | $$$$  /$$$$  /$$$$$$   /$$$$$$$| $$   /$$
+| $$/$$ $$ $$| $$ /$$__  $$ /$$__  $$| $$ $$/$$ $$ /$$__  $$ /$$_____/| $$  /$$/
+| $$$$_  $$$$| $$| $$  \__/| $$$$$$$$| $$  $$$| $$| $$  \ $$| $$      | $$$$$$/
+| $$$/ \  $$$| $$| $$      | $$_____/| $$\  $ | $$| $$  | $$| $$      | $$_  $$
+| $$/   \  $$| $$| $$      |  $$$$$$$| $$ \/  | $$|  $$$$$$/|  $$$$$$$| $$ \  $$
+|__/     \__/|__/|__/       \_______/|__/     |__/ \______/  \_______/|__/  \__/
+
+port:                         8080
+enable-browser-proxying:      false
+disable-banner:               false
+no-request-journal:           false
+verbose:                      false
+
+</pre>
+</div>
+wiremock-standalone-3.12.1.jar из <a style="text-decoration: underline; color: #3366ff;" href="https://wiremock.org/docs/standalone/"
+									 target="_blank" rel="noopener noreferrer">https://wiremock.org/docs/standalone/</a>
+<br/>
+2. Настройка ответов wiremock (собственно сама настройка эмулятора):<br/>
+через curl:<br/>
+При HTTP GET запросе на http://localhost:8080/get/this ответить  "Here it is!".<br/>
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ curl -X POST \
+	--data '{ "request": { "url": "/get/this", "method": "GET" }, "response": { "status": 200, "body": "Here it is!\n" }}' \
+	http://localhost:8080/__admin/mappings
+</pre>
+</div>
+Ответ:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">{
+"id" : "378e5f51-dce2-4b22-9c43-9a6453fceecc",
+"request" : {
+"url" : "/get/this",
+"method" : "GET"
+},
+"response" : {
+"status" : 200,
+"body" : "Here it is!\n"
+},
+"uuid" : "378e5f51-dce2-4b22-9c43-9a6453fceecc"
+</pre>
+</div>
+
+<b>Проверка с curl</b>:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ curl http://localhost:8080/get/this
+Here it is!
+</pre>
+</div>
+В схеме интеграционного BDD тестирования <a style="text-decoration: underline; color: #3366ff;" href="https://en.wikipedia.org/wiki/Behavior-driven_development"
+											target="_blank" rel="noopener noreferrer">"Given-When-Then"</a> можно использовать в <b>"Given"</b>.<br/>
+
+Есть возможность настройки и проведения теста с помощью <b>java кода</b> (<a style="text-decoration: underline; color: #3366ff;" href="https://wiremock.org/docs/junit-jupiter/"
+																	  target="_blank" rel="noopener noreferrer">https://wiremock.org/docs/junit-jupiter/</a>):<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">public class ProgrammaticWireMockTest {
+	@RegisterExtension
+	static WireMockExtension wm1 = WireMockExtension.newInstance()
+		.options(wireMockConfig().dynamicPort().dynamicHttpsPort())
+		.build();
+
+	@RegisterExtension
+	static WireMockExtension wm2 = WireMockExtension.newInstance()
+		.options(wireMockConfig()
+		.dynamicPort()
+		.extensions(new ResponseTemplateTransformer(
+				getTemplateEngine(),
+				options.getResponseTemplatingGlobal(),
+				getFiles(),
+				templateModelProviders
+			)
+		)
+	.build();
+
+	@Test
+	void test_something_with_wiremock() {
+		// You can get ports, base URL etc. via WireMockRuntimeInfo
+		WireMockRuntimeInfo wm1RuntimeInfo = wm1.getRuntimeInfo();
+		int httpsPort = wm1RuntimeInfo.getHttpsPort();
+
+		// or directly via the extension field
+		int httpPort = wm1.port();
+
+		// You can use the DSL directly from the extension field
+		wm1.stubFor(get("/api-1-thing").willReturn(ok()));
+
+		wm2.stubFor(get("/api-2-stuff").willReturn(ok()));
+	}
+}
+</pre>
+</div>
+Ссылки:<br/>
+<ul>
+	<li><a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/companies/rostelecom/articles/679276/"
+		   target="_blank" rel="noopener noreferrer">"WireMock – швейцарский нож в арсенале тестировщика. Часть1"</a></li>
+	<li><a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/company/rostelecom/blog/679330/"
+		   target="_blank" rel="noopener noreferrer">"WireMock – швейцарский нож в арсенале тестировщика. Часть2"</a></li>
+	<li><a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/companies/beeline_tech/articles/878368/"
+		   target="_blank" rel="noopener noreferrer">"WireMock: Легкий путь к эффективному тестированию"</a></li>
+	<li><a style="text-decoration: underline; color: #3366ff;" href="https://wiremock.org/docs/spring-boot/"
+		   target="_blank" rel="noopener noreferrer">"WireMock + Spring Boot"</a></li>
+	<li><a style="text-decoration: underline; color: #3366ff;" href="https://site.mockito.org/"
+		   target="_blank" rel="noopener noreferrer">mockito.org</a></li>
+	<li><a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/companies/otus/articles/780090/"
+		   target="_blank" rel="noopener noreferrer">"Mockito и как им пользоваться"</a></li>
+</ul>

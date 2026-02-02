@@ -1,0 +1,10 @@
+Spring MVC от OTUS
+https://github.com/OtusTeam/Spring/tree/master/2024-05/spring-17-mvc
+https://github.com/OtusTeam/Spring/tree/master/2024-05/spring-18-view
+https://github.com/OtusTeam/Spring/blob/master/2024-05/spring-19-ajax/spring-boot-and-react-demo
+
+Много чего учебного, в том числе и Spring MVC
+https://github.com/javadevjournal/javadevjournal
+
+Camel
+https://github.com/javadevjournal/javadevjournal/tree/master/Spring-Boot/spring-boot-apache-camel

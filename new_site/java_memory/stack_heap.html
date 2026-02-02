@@ -1,0 +1,92 @@
+<p><b>Stack</b> – Каждый поток имеет свой стек, который создается в тоже время, <b>когда создается поток</b>.
+Стек (локальная или рабочая память потока) содержит фреймы, которые создаются при каждом вызове метода и хранят локальные переменные и
+промежуточные результаты, возвращают значения для методов и выбрасывают исключения, если это необходимо. Задается параметром Xss (default 1Mb, примеры: -Xss1m, -Xss1024k).
+<hr id="system-readmore" />
+Хранит Примитивы, static, вызовы функций и ссылки на Heap, значение для нового потока (new Thread()).
+Фрейм разрушается, когда вызов метода завершается, неважно является это завершение успешным или с исключением.
+Ниже приведен пример кода:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%">1
+2
+3
+4
+5</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">class</span> Memory {
+        <span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">static</span> <span style="color: #000080; font-weight: bold">void</span> main(String[] args) {
+            main(args);
+        }
+}
+</pre></td></tr></table></div>
+Его результатом будет исключение <b>StackOverflowError</b>, потому что этот код бесконечно
+вызывает сам себя, соответственно память в стеке заканчивается. Существуют возможности
+увеличить размер стека, для этого необходимо при запуске добавить аргумент для виртуальной
+машины <b>–Xss1024k</b>. Это установит размер стека равным 1 мегабайту. Программа выше выдает 444 строки для -Xss=128k, в то время как 256k дает ~ 1025 строк.
+</p>
+<p><b>Heap</b> – создается в момент запуска виртуальной машины, это область памяти в
+которой хранятся все созданные в процессе работы программы <b>ССЫЛОЧНЫЕ</b> типы данных. Он
+существует только один и разделяется между всеми потоками, существующими в программе.
+Для очистки от более неиспользуемых объектов (те объекты, на которые никто больше не
+ссылается) используется <b>сборщик мусора (garbage collector)</b>. Аргумент для виртуальной
+машины <b>-Xmx1024k</b> (Xms - начальное значение, Xmx - макс. значение. пример: Xmx2048m). Ошибка <b>OutOfMemory</b>.
+</p>
+<p><b>Volatile</b> – говорит потоку что переменная может меняться другими потоками, и информирует
+поток о необходимости обращаться к последней версии (<b>heap</b>), а не к хешированной копии (<b>stack</b>) и своевременно
+распространять изменения.
+Например, когда мы в многопоточном приложении используем паттерн Синглтон в котором <b>применяем синхронизацию <u>synchronized...</u> (stack -&gt; heap)</b>
+и хотим чтобы синхронизация осуществлялась <b>только один раз при инициализации объекта</b>,
+а не каждый раз, когда мы вызываем getInstance(), тогда модификатор volatile используем для объектной ссылки :
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">class</span> Singleton {
+    <span style="color: #000080; font-weight: bold">private</span> <span style="color: #000080; font-weight: bold">static</span> <span style="color: #000080; font-weight: bold">volatile</span> Singleton instance;   <span style="color: #008800; font-style: italic">// ! может меняться другими потоками</span>
+    <span style="color: #000080; font-weight: bold">private</span> Singleton(){
+    }
+    <span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">static</span> Singleton getInstance() {
+        <span style="color: #000080; font-weight: bold">if</span> (instance == <span style="color: #000080; font-weight: bold">null</span>) {
+            <span style="color: #000080; font-weight: bold">synchronized</span>(Singleton.<span style="color: #FF0000">class</span>) {       <span style="color: #008800; font-style: italic">// ! При выходе из synchronized</span>
+                <span style="color: #000080; font-weight: bold">if</span> (instance == <span style="color: #000080; font-weight: bold">null</span>)             <span style="color: #008800; font-style: italic">// ! синхронизироать stack -> heap</span>
+                    instance = <span style="color: #000080; font-weight: bold">new</span> Singleton();   <span style="color: #008800; font-style: italic">// !</span>
+            }                                     <span style="color: #008800; font-style: italic">// !</span>
+        }
+        <span style="color: #000080; font-weight: bold">return</span> instance;
+    }
+}
+</pre></td></tr></table></div>
+
+(Внимание на <b>static</b>, <b>volatile</b>, <b>synchronized</b>)<br/>
+Еще одно объяснение: <a title="Еще одно объяснение"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank"
+   href="https://timmson.github.io/java-interview/009-concurrency.html"
+   rel="noopener noreferrer">https://timmson.github.io/java-interview/009-concurrency.html</a>.
+С точки зрения Java все переменные (за исключением локальных переменных, объявленных внутри метода) хранятся в <u>главной</u> памяти, которая доступна всем потокам. Кроме этого, каждый поток имеет <u>локальную</u>(рабочую) память, где он хранит копии переменных, с которыми он работает, и при выполнении программы поток работает только с этими копиями.<br/><br/>
+<b>При входе</b> в <u>synchronized</u> метод или блок поток обновляет содержимое <u>локальной</u> памяти, а <b>при выходе</b> из synchronized метода или блока поток записывает изменения, сделанные в <u>локальной</u> памяти, в <u>главную</u>.<br/>
+<br/>
+Еще ключи запуска java интересные в этой теме:<br/>
+<b>-verbose:gc</b> - регистрирует, запуски сборщика мусора и сколько времени они занимают.<br/>
+<b>-XX:+PrintGCDetails</b> - включает в себя данные из -verbose:gc, но также добавляет информацию о размере нового поколения и более точных временных параметрах.<br/>
+<b>-XX:-PrintGCTimeStamps</b> - печатать метки времени при сборке мусора.<br/>
+<br/>
+<b>Ссылки:</b><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   target="_blank"
+   href="https://www.baeldung.com/java-stack-heap"
+   rel="noopener noreferrer">https://www.baeldung.com/java-stack-heap</a><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   target="_blank"
+   href="https://java-ru-blog.blogspot.com/2019/12/jvm-options.html"
+   rel="noopener noreferrer">https://java-ru-blog.blogspot.com/2019/12/jvm-options.html</a><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   target="_blank"
+   href="https://v.perm.ru/images/java_model/jvm_model.pdf"
+   rel="noopener noreferrer">jvm_model.pdf</a><br/>
+

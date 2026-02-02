@@ -1,0 +1,208 @@
+-------------------------------
+vasi@v:~/po/minikube$ sudo systemctl start docker
+-------------------------------
+vasi@v:~/po/minikube$ sudo systemctl status docker
+● docker.service - Docker Application Container Engine
+     Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled; preset: enabled)
+     Active: active (running) since Sat 2024-10-19 17:16:43 +05; 2 weeks 2 days ago
+TriggeredBy: ● docker.socket
+       Docs: https://docs.docker.com
+   Main PID: 2727 (dockerd)
+      Tasks: 10
+     Memory: 18.0M (peak: 108.4M swap: 9.4M swap peak: 9.6M)
+        CPU: 3min 26.602s
+     CGroup: /system.slice/docker.service
+             └─2727 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+-------------------------------
+https://kubernetes.io/docs/tutorials/hello-minikube/
+-------------------------------
+vasi@v:~$ minikube delete
+-------------------------------
+vasi@v:~/po/minikube$ minikube start
+😄  minikube v1.34.0 on Linuxmint 22
+✨  Automatically selected the kvm2 driver
+👍  Starting "minikube" primary control-plane node in "minikube" cluster
+🔥  Creating kvm2 VM (CPUs=2, Memory=2900MB, Disk=20000MB) ...
+🐳  Preparing Kubernetes v1.31.0 on Docker 27.2.0 ...
+    ▪ Generating certificates and keys ...
+    ▪ Booting up control plane ...
+    ▪ Configuring RBAC rules ...
+🔗  Configuring bridge CNI (Container Networking Interface) ...
+🔎  Verifying Kubernetes components...
+    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+🌟  Enabled addons: storage-provisioner, default-storageclass
+💡  kubectl not found. If you need it, try: 'minikube kubectl -- get pods -A'
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+
+-------------------------------
+vasi@v:~$./kubectl cluster-info
+
+-------------------------------
+vasi@v:~$./kubectl cluster-info dump
+-------------------------------
+vasi@v:~/tools$ ssh vasi@192.168.39.197
+pass
+-------------------------------
+$ minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Stopped
+apiserver: Stopped
+kubeconfig: Configured
+-------------------------------
+Установка dashboard (https://kubernetes.io/docs/tutorials/hello-minikube/):
+v$ minikube dashboard
+-------------------------------
+http://127.0.0.1:40233/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/
+-------------------------------
+vasi@v:~/tools$ ./kubectl cluster-info
+Kubernetes control plane is running at https://192.168.39.197:8443
+CoreDNS is running at https://192.168.39.197:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+
+-------------------12/02/2025
+https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fdebian+package
+
+vasi@v:~/po/minikube$ sudo minikube start
+😄  minikube v1.34.0 on Linuxmint 22
+🎉  minikube 1.35.0 is available! Download it: https://github.com/kubernetes/minikube/releases/tag/v1.35.0
+💡  To disable this notice, run: 'minikube config set WantUpdateNotification false'
+
+👎  Unable to pick a default driver. Here is what was considered, in preference order:
+    ▪ kvm2: Not healthy: libvirt group membership check failed:
+user is not a member of the appropriate libvirt group
+    ▪ kvm2: Suggestion: Check that libvirtd is properly installed and that you are a member of the appropriate libvirt group (remember to relogin for group changes to take effect!) <https://minikube.sigs.k8s.io/docs/reference/drivers/kvm2/>
+💡  Alternatively you could install one of these drivers:
+    ▪ docker: Not installed: <nil>
+    ▪ podman: Not installed: exec: "podman": executable file not found in $PATH
+    ▪ qemu2: Not installed: stat /usr/share/OVMF/OVMF_CODE.fd: no such file or directory
+    ▪ virtualbox: Not installed: unable to find VBoxManage in $PATH
+
+❌  Exiting due to DRV_NOT_HEALTHY: Found driver(s) but none were healthy. See above for suggestions how to fix installed drivers.
+-----------------------------
+Освободить память:
+vasi@v:~$ sudo systemctl stop elasticsearch.service
+[sudo] password for vasi:
+vasi@v:~$ sudo systemctl stop nexus.service
+
+Просто в терминале запустить:
+vasi@v:~/po/minikube$ sudo libvirtd
+2025-02-11 21:13:04.288+0000: 19300: info : libvirt version: 10.0.0, package: 10.0.0-2ubuntu8.5 (Ubuntu)
+2025-02-11 21:13:04.288+0000: 19300: info : hostname: v.perm.ru
+2025-02-11 21:13:04.288+0000: 19300: warning : virSecurityManagerNew:194 : Configured security driver "none" disables default policy to create confined guests
+
+Minikube:
+https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fdebian+package
+
+vasi@v:~$ minikube start
+😄  minikube v1.34.0 on Linuxmint 22
+✨  Using the kvm2 driver based on existing profile
+👍  Starting "minikube" primary control-plane node in "minikube" cluster
+🎉  minikube 1.35.0 is available! Download it: https://github.com/kubernetes/minikube/releases/tag/v1.35.0
+🔄  Restarting existing kvm2 VM for "minikube" ...
+💡  To disable this notice, run: 'minikube config set WantUpdateNotification false'
+
+🐳  Preparing Kubernetes v1.31.0 on Docker 27.2.0 ...-
+🔗  Configuring bridge CNI (Container Networking Interface) ...
+🔎  Verifying Kubernetes components...
+    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+    ▪ Using image docker.io/kubernetesui/dashboard:v2.7.0
+    ▪ Using image docker.io/kubernetesui/metrics-scraper:v1.0.8
+💡  Some dashboard features require the metrics-server addon. To enable all features please run:
+
+	minikube addons enable metrics-server
+
+🌟  Enabled addons: default-storageclass, storage-provisioner, dashboard
+💡  kubectl not found. If you need it, try: 'minikube kubectl -- get pods -A'
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+
+НЕ SUDO!!!
+
+ЖДАТЬ! ДОЛГО!
+"minikube start" запускается как виртуальная машина. Состояние можно посмотреть в Virtual Machine Manager: virt_manager.png
+
+Kubectl установлена в tools. Но не работает. Использовать замену minikube так:
+vasi@v:~$ minikube kubectl -- get pods -A
+NAMESPACE              NAME                                        READY   STATUS    RESTARTS         AGE
+default                hello-minikube-7d48979fd6-rzrpl             1/1     Running   2 (7m28s ago)    98d
+kube-system            coredns-6f6b679f8f-s88vl                    1/1     Running   5 (7m28s ago)    99d
+kube-system            etcd-minikube                               1/1     Running   6 (7m28s ago)    99d
+kube-system            kube-apiserver-minikube                     1/1     Running   9 (7m28s ago)    99d
+kube-system            kube-controller-manager-minikube            1/1     Running   11 (5m21s ago)   99d
+kube-system            kube-proxy-m9qrf                            1/1     Running   5 (7m28s ago)    99d
+kube-system            kube-scheduler-minikube                     1/1     Running   5 (7m28s ago)    99d
+kube-system            storage-provisioner                         1/1     Running   12 (2m38s ago)   99d
+kubernetes-dashboard   dashboard-metrics-scraper-c5db448b4-dxz29   1/1     Running   2 (7m28s ago)    98d
+kubernetes-dashboard   kubernetes-dashboard-695b96c756-7mjb7       1/1     Running   7 (118s ago)     98d
+
+vasi@v:~/tools$ ./kubectl cluster-info
+Kubernetes control plane is running at https://192.168.39.197:8443
+CoreDNS is running at https://192.168.39.197:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+$ minikube dashboard
+
+🤷  Unable to get control-plane node minikube apiserver status: https://192.168.39.197:8443/healthz returned error 500:
+[+]ping ok
+[+]log ok
+[-]etcd failed: reason withheld
+[+]poststarthook/start-apiserver-admission-initializer ok
+[+]poststarthook/generic-apiserver-start-informers ok
+[+]poststarthook/priority-and-fairness-config-consumer ok
+[+]poststarthook/priority-and-fairness-filter ok
+[+]poststarthook/storage-object-count-tracker-hook ok
+[+]poststarthook/start-apiextensions-informers ok
+[+]poststarthook/start-apiextensions-controllers ok
+[+]poststarthook/crd-informer-synced ok
+[+]poststarthook/start-system-namespaces-controller ok
+[+]poststarthook/start-cluster-authentication-info-controller ok
+[+]poststarthook/start-kube-apiserver-identity-lease-controller ok
+[+]poststarthook/start-kube-apiserver-identity-lease-garbage-collector ok
+[+]poststarthook/start-legacy-token-tracking-controller ok
+[+]poststarthook/start-service-ip-repair-controllers ok
+[+]poststarthook/rbac/bootstrap-roles ok
+[+]poststarthook/scheduling/bootstrap-system-priority-classes ok
+[+]poststarthook/priority-and-fairness-config-producer ok
+[+]poststarthook/bootstrap-controller ok
+[+]poststarthook/aggregator-reload-proxy-client-cert ok
+[+]poststarthook/start-kube-aggregator-informers ok
+[+]poststarthook/apiservice-status-local-available-controller ok
+[+]poststarthook/apiservice-status-remote-available-controller ok
+[+]poststarthook/apiservice-registration-controller ok
+[+]poststarthook/apiservice-discovery-controller ok
+[+]poststarthook/kube-apiserver-autoregistration ok
+[+]autoregister-completion ok
+[+]poststarthook/apiservice-openapi-controller ok
+[+]poststarthook/apiservice-openapiv3-controller ok
+healthz check failed
+
+👉  To start a cluster, run: "minikube delete"
+
+vasi@v:~/tools$ ./kubectl get services hello-minikube
+NAME             TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+hello-minikube   NodePort   10.108.134.29   <none>        8080:31516/TCP   98d
+
+ПОДОЖДАТЬ!
+
+vasi@v:~/tools$ minikube dashboard
+🤔  Verifying dashboard health ...
+🚀  Launching proxy ...
+🤔  Verifying proxy health ...
+🎉  Opening http://127.0.0.1:36781/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ in your default browser...
+Found ffmpeg: /opt/yandex/browser/libffmpeg.so
+	avcodec: 3999080
+	avformat: 3998567
+	avutil: 3871588
+Ffmpeg version is OK! Let's use it.
+Opening in existing browser session.
+
+ОТКРЫЛОСЬ НА v:
+http://127.0.0.1:36781/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/workloads?namespace=default
+с ноута не открывается. Для того, чтобы открыть с удаленного компа, нужно выполнить :
+vasi@v:~/tools$ kubectl proxy --address='0.0.0.0' --disable-filter=true
+
+После этого на удаленной машине открывается:
+http://192.168.1.20:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/workloads?namespace=default
+
+Совет отсюда https://stackoverflow.com/questions/47173463/how-to-access-local-kubernetes-minikube-dashboard-remotely.

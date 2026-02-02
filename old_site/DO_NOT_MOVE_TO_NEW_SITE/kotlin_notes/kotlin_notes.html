@@ -1,0 +1,37 @@
+<p>Источники:<br />Object,Companion Object <a style="text-decoration: underline; color: #3366ff;" title="https://bimlibik.github.io/posts/kotlin-object-keyword/" href="https://bimlibik.github.io/posts/kotlin-object-keyword/" target="_blank" rel="noopener noreferrer">https://bimlibik.github.io/posts/kotlin-object-keyword/</a> <br />Kotlin + JPA <a style="text-decoration: underline; color: #3366ff;" title="Kotlin + Hibernate: всё сложно" href="https://habr.com/ru/companies/haulmont/articles/572574/" target="_blank" rel="noopener noreferrer">Kotlin + Hibernate: всё сложно</a>.</p>
+<hr id="system-readmore" />
+<p>Классы данных(data class) — <b>не лучший вариант для сущностей</b>, т.к:<br />1. Класс сущности должен иметь <b>конструктор без параметров</b>. Класс сущности также может иметь другие конструкторы. Конструктор без параметров должен быть public или protected. Без него Hibernate не сможет создавать экземпляры сущности и будет бросать исключение: org.hibernate.InstantiationException: No default constructor for entity. Можно вручную определить конструктор без параметров для всех сущностей в проекте. Но есть плагин для компилятора kotlin-jpa. Чтобы включить kotlin-jpa, его надо добавить в зависимости kotlin-maven-plugin и указать его в compilerPlugins:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <div>
+        <pre>&lt;plugin&gt;<br />    &lt;artifactId&gt;kotlin-maven-plugin&lt;/artifactId&gt;<br />    &lt;groupId&gt;org.jetbrains.kotlin&lt;/groupId&gt;<br />    &lt;version&gt;1.8.0&lt;/version&gt;<br />    &lt;configuration&gt;<br />         &lt;compilerPlugins&gt;<br />             &lt;plugin&gt;spring&lt;/plugin&gt;<br />             &lt;plugin&gt;jpa&lt;/plugin&gt;<br />         &lt;/compilerPlugins&gt;<br />    &lt;/configuration&gt;<br />    &lt;dependencies&gt;<br />        &lt;dependency&gt;<br />        &lt;groupId&gt;org.jetbrains.kotlin&lt;/groupId&gt;<br />        &lt;artifactId&gt;kotlin-maven-noarg&lt;/artifactId&gt;<br />        &lt;version&gt;1.8.0&lt;/version&gt;<br />        &lt;/dependency&gt;<br />    &lt;/dependencies&gt;<br />    &lt;!--...--&gt;<br />&lt;/plugin&gt;</pre>
+    </div>
+</div>
+<p>(Источник: <a title="Источник" href="https://www.baeldung.com/kotlin/jpa">https://www.baeldung.com/kotlin/jpa</a>)</p>
+<p>В Gradle:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">plugins {
+  id "org.jetbrains.kotlin.plugin.jpa" version "1.5.21"
+}
+</pre>
+</div>
+<p>2. В Kotlin классы, свойства и методы по умолчанию final. Класс сущности <b>не</b> должен быть final. Никакие методы и атрибуты сущности не могут быть final, поэтому их нужно явно помечать ключевым словом <b>open</b>.<br />3. Реализации equals() и hashCode() должны учитывать мутабельность сущностей.<br />4. Как и в java, нужно учитывать работу с lazy коллекциями.<br />Для ID, генерируемый в БД следующее решение с <b>@NAturalId</b>:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">@Table(name = <span style="color: #0000ff;">"contact"</span>)
+@Entity
+data <span style="color: #000080; font-weight: bold;">class</span> Contact(
+   @NaturalId
+   @Column(name = <span style="color: #0000ff;">"email"</span>, nullable = <span style="color: #000080; font-weight: bold;">false</span>, updatable = <span style="color: #000080; font-weight: bold;">false</span>)
+   val email: String
+) {
+   @Id
+   @GeneratedValue(strategy = GenerationType.<span style="color: #ff0000;">IDENTITY</span>)
+   @Column(name = <span style="color: #0000ff;">"id"</span>, nullable = <span style="color: #000080; font-weight: bold;">false</span>)
+   var id: Long? = <span style="color: #000080; font-weight: bold;">null</span>
+
+   <span style="color: #008800; font-style: italic;">// other properties omitted</span>
+}
+</pre>
+</div>
+<p>Так делать можно, но нужно ли? Такой подход сводит пользу от классов данных на нет, поскольку делает декомпозицию бесполезной и использует только одно поле в методе toString().</p>
+<h3><b>Итого: Обычный класс подойдет для сущностей лучше</b></h3>
+<p>.</p>

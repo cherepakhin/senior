@@ -1,0 +1,34 @@
+vasi@v:~/tools$ minikube start --driver=podman &
+😄  minikube v1.35.0 on Linuxmint 22
+✨  Using the podman driver based on existing profile
+👍  Starting "minikube" primary control-plane node in "minikube" cluster
+🚜  Pulling base image v0.0.46 ...
+E0213 19:55:57.018957  292421 cache.go:222] Error downloading kic artifacts:  not yet implemented, see issue #8426
+🔄  Restarting existing podman container for "minikube" ...
+❗️  Failing to connect to https://registry.k8s.io/ from inside the minikube container
+💡  To pull new external images, you may need to configure a proxy: https://minikube.sigs.k8s.io/docs/reference/networking/proxy/
+🐳  Preparing Kubernetes v1.32.0 on Docker 27.4.1 ...
+🔎  Verifying Kubernetes components...
+▪️ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+▪️ Using image docker.io/kubernetesui/dashboard:v2.7.0
+▪️ Using image docker.io/kubernetesui/metrics-scraper:v1.0.8
+💡  Some dashboard features require the metrics-server addon. To enable all features please run:
+
+minikube addons enable metrics-server
+
+🌟  Enabled addons: dashboard, default-storageclass, storage-provisioner
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+
+vasi@v:~/tools$ minikube dashboard &
+🤔  Verifying dashboard health ...
+🚀  Launching proxy ...
+🤔  Verifying proxy health ...
+🎉  Opening http://127.0.0.1:37435/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ in your default browser...
+Opening in existing browser session.
+
+vasi@v:~$ kubectl proxy --address='0.0.0.0' --disable-filter=true &
+[2] 651193
+vasi@v:~$ W0214 15:09:01.808784  651193 proxy.go:177] Request filter disabled, your proxy is vulnerable to XSRF attacks, please be cautious
+Starting to serve on [::]:8001
+
+Открыть с ноута http://192.168.1.20:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/workloads?namespace=default

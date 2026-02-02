@@ -1,0 +1,112 @@
+В системе настройки сделаны для java 11. В путях linux указана <b>java 11</b>. Нужно настроить maven проект.<br/>
+<pre class="language-shell"><code>$ java -version
+openjdk version "11.0.18" 2023-01-17
+</code></pre>
+Нужна java 17, для этого нужно установить JAVA_HOME.
+<hr id="system-readmore"/>В .bashrc добавить строку
+<pre class="language-shell"><code>export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+</code></pre>
+Проверка:<br/>
+<pre class="language-shell"><code>~/prog/java/s253/gs-spring-boot/complete$ echo $JAVA_HOME
+/usr/lib/jvm/java-17-openjdk-amd64
+
+$ /usr/lib/jvm/java-17-openjdk-amd64/bin/java -version
+openjdk version "17.0.6" 2023-01-17
+
+~/prog/java/s253/gs-spring-boot/complete$ ./mvnw -version
+Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
+Maven home: /home/vasi/.m2/wrapper/dists/apache-maven-3.6.3-bin/1iopthnavndlasol9gbrbg6bf2/apache-maven-3.6.3
+    <b>Java version: 17.0.6</b>, vendor: Private Build, runtime: <b>/usr/lib/jvm/java-17-openjdk-amd64</b>
+
+~/prog/java/s253/gs-spring-boot/complete$ ./mvnw clean package
+..........  см. ниже в логе (using Java 17.0.6 on vasi-note with PID 11618)
+:: Spring Boot ::                (v2.5.3)
+
+2023-04-29 17:26:02.184  INFO 11618 --- [           main] c.e.springboot.HelloControllerTest       :
+Starting HelloControllerTest using Java 17.0.6 on vasi-note with PID 11618 (started by vasi in /home/vasi/prog/java/s253/gs-spring-boot/complete)
+..........
+</code></pre>
+<br/>
+<b>ХОТЯ! в pom.xml указано</b> properties - java.version - 11. И
+<pre class="language-shell"><code>$ java -version
+openjdk version "11.0.18" 2023-01-17
+</code></pre>
+
+<b>Maven использует в своем скрипте JAVA_HOME! Куда указывает $PATH на бинарник java не имеет значения.</b>
+<br/>
+JAVA_HOME должна указывать на папку, содежащую bin/, lib/ и т.п.
+<pre class="language-shell"><code>$ echo $JAVA_HOME
+/usr/lib/jvm/java-17-openjdk-amd64
+
+$ echo $PATH
+/opt/maven/bin:/usr/lib/jvm/java-16-oracle/bin:/usr/lib/jvm/java-16-oracle/db/bin
+
+$ mvn -version
+Apache Maven 3.9.1 (2e178502fcdbffc201671fb2537d0cb4b4cc58f8)
+Maven home: /usr/local/sdkman/candidates/maven/current
+Java version: 11.0.14.1, vendor: Microsoft, runtime: /opt/java/11.0.14
+Default locale: en, platform encoding: UTF-8
+OS name: "linux", version: "5.4.0-1106-azure", arch: "amd64", family: "unix"
+
+$ gradle -version
+
+Welcome to Gradle 8.1.1!
+
+Here are the highlights of this release:
+- Stable configuration cache
+- Experimental Kotlin DSL assignment syntax
+- Building with Java 20
+
+For more details see https://docs.gradle.org/8.1.1/release-notes.html
+
+
+------------------------------------------------------------
+Gradle 8.1.1
+------------------------------------------------------------
+
+Build time:   2023-04-21 12:31:26 UTC
+Revision:     1cf537a851c635c364a4214885f8b9798051175b
+
+Kotlin:       1.8.10
+Groovy:       3.0.15
+Ant:          Apache Ant(TM) version 1.10.11 compiled on July 10 2021
+JVM:          11.0.14.1 (Microsoft 11.0.14.1+1-LTS)
+OS:           Linux 5.4.0-1106-azure amd64
+
+$ ./gradlew -version
+
+------------------------------------------------------------
+Gradle 7.6.1
+------------------------------------------------------------
+
+Build time:   2023-02-24 13:54:42 UTC
+Revision:     3905fe8ac072bbd925c70ddbddddf4463341f4b4
+
+Kotlin:       1.7.10
+Groovy:       3.0.13
+Ant:          Apache Ant(TM) version 1.10.11 compiled on July 10 2021
+JVM:          11.0.14.1 (Microsoft 11.0.14.1+1-LTS)
+OS:           Linux 5.4.0-1106-azure amd64
+</code></pre>
+
+<pre class="language-shell"><code>$ export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64
+$ echo $JAVA_HOME
+/usr/lib/jvm/java-1.11.0-openjdk-amd64
+</code></pre>
+Добавить в .bashrc <pre class="language-shell"><code>export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64</code></pre>
+
+Можно таким способом, средствами ОС, через link:
+<pre class="language-shell"><code>$ echo $JAVA_HOME
+/usr/local/sdkman/candidates/java/currents
+</code></pre>
+KOTLIN тоже использует JAVA_HOME<br/>
+
+<br/>
+<h3>Вариант из интернета</h3>
+Solution for people with multiple Java versions installed.
+We have a large codebase, most of which is in Java. The majority of what I work on is written in either Java 1.7 or 1.8. Since JAVA_HOME is static, I created aliases in my .bashrc for running Maven with different values:<br/>
+<pre class="language-shell"><code>alias mvn5="JAVA_HOME=/usr/local/java5 && mvn"
+alias mvn6="JAVA_HOME=/usr/local/java6 && mvn"
+alias mvn7="JAVA_HOME=/usr/local/java7 && mvn"
+alias mvn8="JAVA_HOME=/usr/local/java8 && mvn"
+</code></pre>

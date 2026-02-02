@@ -1,0 +1,61 @@
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://habr.com/ru/companies/otus/articles/544770/"
+   href="https://habr.com/ru/companies/otus/articles/544770/"
+   target="_blank" rel="noopener noreferrer">https://habr.com/ru/companies/otus/articles/544770/</a>
+
+<hr id="system-readmore"/>
+<p><b>JUnit4</b></p>
+для класса теста @BeforeClass, @AfterClass
+для метода теста @Before, @After
+<ul>
+    <li>@BeforeClass</li>
+    <li>@Before</li>
+    <li>@Test</li>
+    <li>@After</li>
+    <li>@AfterClass</li>
+</ul>
+
+<p><b>JUnit5</b></p>
+для класса теста @BeforeAll, @AfterAll<br/>
+для методов класса теста @BeforeEach, @AfterEach<br/>
+<ul>
+    <li>@BeforeAll</li>
+    <li>@BeforeEach</li>
+    <li>@Test</li>
+    <li>@AfterEach</li>
+    <li>@AfterAll</li>
+</ul>
+
+<p><b>TestNG</b></p>
+<p>TestNG в отличие от JUnit, работает для <b>функционального и более высоких уровней тестирования</b>.</p>
+для класса теста @BeforeClass, @AfterClass<br/>
+для методов класса теста @BeforeMethod, @AfterMethod<br/>
+<ul>
+    <li>@BeforeClass</li>
+    <li>@BeforeMethod</li>
+    <li>@Test</li>
+    <li>@AfterMethod</li>
+    <li>@AfterClass</li>
+</ul>
+
+TestNG также предлагает аннотации @BeforeSuite, @AfterSuite, @BeforeGroups и @AfterGroups
+для конфигураций на уровне набора (suite) и группы.<br/>
+<pre class="language-java">
+<code>@BeforeGroup("positive_tests")
+public void runBeforeEachGroup() {
+    numbers.add(1);
+    numbers.add(2);
+    numbers.add(3);
+}
+
+@Test(groups= {"positive_tests"})
+public void testcase2()  {
+    System.out.println("---");
+}
+
+@AfterGroup("positive_tests")
+public void runAfterEachGroup() {
+    numbers.clear();
+}
+</code>
+</pre>

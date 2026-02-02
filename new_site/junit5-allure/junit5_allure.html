@@ -1,0 +1,281 @@
+Предупреждение: я знаю, что JUnit для UNIT тестов и цена им небольшая. Речь о применении JUnit в ИНТЕГРАЦИОННЫХ тестах.
+И с другой стороны, на тех проектах, где мне приходилось работать, интеграционное тестирование проводилось <u>вручную</u>.
+Можно это дело автоматизировать.
+<hr id="system-readmore"/>
+<br/>
+Сами интеграционные тесты должны быть в отдельном проекте, не вместе с проектом/проектами.
+Что будет использовано в самих тестах решать самим (н.п. применить JUnit для тестирования REST, используя RestTemplate
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://v.perm.ru/main/index.php/34-behave-testirovanie"
+   href="https://v.perm.ru/main/index.php/34-behave-testirovanie"
+   target="_blank" rel="noopener noreferrer">https://v.perm.ru/main/index.php/34-behave-testirovanie/</a>
+
+).<br/><br/>
+Примеры тестирования <a style="text-decoration: underline; color: #3366ff;"
+                        title="https://javabydeveloper.com/junit-5-with-allure-reports-example/"
+                        href="https://javabydeveloper.com/junit-5-with-allure-reports-example/"
+                        target="_blank" rel="noopener noreferrer">https://javabydeveloper.com/junit-5-with-allure-reports-example/</a>.
+В примере очень подробно описана работа с Allure, с различными группировками и прочими возможностями. Что будет протестировано, Rest или что-то другое, не важно.
+<br/>
+<p>Проведение тестов:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+git clone https://github.com/javabydeveloper/Junit-5-tutorials-master/tree/master/junit5-allure-report-example
+cd junit5-allurreport-example
+mvn clean test allure:report
+}</pre></div>
+<br/>
+<p><i><b>Необходимое замечание об интеграционных тестах</b></i></p>
+JUnit для UNIT тестов и цена им небольшая. Речь о применении JUnit в ИНТЕГРАЦИОННЫХ тестах.
+На тех проектах, где мне приходилось работать, интеграционное тестирование проводилось <u>вручную</u>.
+Можно это дело автоматизировать.
+
+Нужно обеспечить начальное состояние теста и восстановить состояние после любого исхода теста. В самом простом случае можно установить его прямо в тесте. Или, лучше, воспользоваться средствами JUnit5:
+<ul>
+    <li>@BeforeAll - выполняется ПЕРЕД выполнением ВСЕХ методов класса теста</li>
+    <li>@BeforeEach - выполняется ПЕРЕД выполнением КАЖДОГО метода класса теста</li>
+    <li>@AfterEach - выполняется ПОСЛЕ выполнением КАЖДОГО метода класса теста</li>
+    <li>@AfterAll - выполняется ПОСЛЕ выполнением ВСЕХ методов класса теста</li>
+</ul>
+<p><i><b>О warning Allure</b></i></p>
+При генерации отчета может быть получен warning от allure типа "java.lang.NoSuchMethodError when run test with Junit 5...".
+Для решения нужно согласовать версию allure и JUnit. Использовать allure 2.10.0. Решение для gradle:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+plugins {
+...
+	id 'io.qameta.allure' version '2.10.0' // version 2.10.0 WORK! NO WARNINGS for generate allure report
+...
+}
+...
+dependencies {
+    ...
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter'
+    ...
+}</pre></div><br/>
+
+Работающий пример:
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/cherepakhin/kotlin_in_action/"
+   href="https://github.com/cherepakhin/kotlin_in_action/"
+   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/kotlin_in_action</a>
+
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Результаты тестирования" src="images/junit5-allure/allure_results.png"
+        alt="Результаты тестирования"/></p>
+Наглядно и красиво!
+<br/>
+<br/>
+<b>Прогон конкретного теста</b>:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+./gradlew test --tests '*AssumptionsTest'
+./gradlew test --tests ru.perm.v.project.AssumptionsTest
+./gradlew test --tests 'ru.perm.v.project.MyTestClass*'
+./gradlew test --tests '*Assumptions*'</code></pre>
+</pre></div><br/>
+
+<b>Разные варианты тестирования:</b>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+./gradlew test --tests '*SomeTest.someSpecificFeature'
+./gradlew test --tests '*SomeSpecificTest'
+./gradlew test --tests '*IntegTest'
+./gradlew test --tests '*IntegTest*ui*'
+./gradlew test --tests '*IntegTest.singleMethod'
+</pre></div><br/>
+<b>ВНИМАНИЕ на '*'. '*' - позволяет не указывать пакет.</b><br/>
+Еще один момент - Gradle пропускает уже пройденные тесты, если код не изменился. В случае с тестирования внешнего сервися, сами тесты не меняются, а тестируюмая система может измениться.
+Нужно прогонять все тесты заново. Варианты решения:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+./gradlew clean test
+./gradlew cleanTest test
+./gradlew test --rerun-tasks
+</pre></div><br/>
+
+Можно просто использовать "./gradlew test" для прогона ВСЕХ тестов, <b>без учета предыдущих результатов</b>.
+Для этого нужно настроить таск тестирования. На примере build.gradle.kts:
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+tasks.withType&lt;Test&gt; {
+....
+    outputs.upToDateWhen { false } // always rerun tests
+....
+}
+</pre></div><br/>
+Пример <a style="text-decoration: underline; color: #3366ff;"
+          title="https://github.com/cherepakhin/camel_rest_restassured_test/blob/main/build.gradle.kts"
+          href="https://github.com/cherepakhin/camel_rest_restassured_test/blob/main/build.gradle.kts"
+          target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/camel_rest_restassured_test/blob/main/build.gradle.kts/</a>.
+<br/>
+<br/>
+<b>Пример тестирования с базой данных:</b>
+<br/>
+В проекте используется
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://java.testcontainers.org/"
+   href="https://java.testcontainers.org/"
+   target="_blank" rel="noopener noreferrer">https://java.testcontainers.org/</a>.
+<br/>
+Проведение тестов :
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+./mvnw test
+</pre></div>
+<br/>
+Еще один способ тестирования с заданием конфигурации бинов Spring boot (ПОДГЛЯДЕЛ в проекте
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/saladlam/spring-wicket-noticeboard"
+   href="https://github.com/saladlam/spring-wicket-noticeboard"
+   target="_blank" rel="noopener noreferrer">https://github.com/saladlam/spring-wicket-noticeboard</a>
+
+):
+
+<!-- HTML generated using hilite.me -->
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">package</span> info.<span style="color: #FF0000">saladlam</span>.<span style="color: #FF0000">example</span>.<span style="color: #FF0000">spring</span>.<span style="color: #FF0000">noticeboard</span>.<span style="color: #FF0000">test</span>;
+
+<span style="color: #000080; font-weight: bold">import</span> info.saladlam.example.spring.noticeboard.support.Helper;
+<span style="color: #000080; font-weight: bold">import</span> liquibase.integration.spring.SpringLiquibase;
+<span style="color: #000080; font-weight: bold">import</span> org.apache.wicket.protocol.http.WicketFilter;
+<span style="color: #000080; font-weight: bold">import</span> org.jsoup.Jsoup;
+<span style="color: #000080; font-weight: bold">import</span> org.jsoup.nodes.Document;
+<span style="color: #000080; font-weight: bold">import</span> org.junit.jupiter.api.AfterAll;
+<span style="color: #000080; font-weight: bold">import</span> org.junit.jupiter.api.Test;
+<span style="color: #000080; font-weight: bold">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span style="color: #000080; font-weight: bold">import</span> org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+<span style="color: #000080; font-weight: bold">import</span> org.springframework.boot.test.context.SpringBootTest;
+<span style="color: #000080; font-weight: bold">import</span> org.springframework.boot.test.context.TestConfiguration;
+<span style="color: #000080; font-weight: bold">import</span> org.springframework.boot.web.servlet.FilterRegistrationBean;
+<span style="color: #000080; font-weight: bold">import</span> org.springframework.context.annotation.Bean;
+<span style="color: #000080; font-weight: bold">import</span> org.springframework.http.MediaType;
+<span style="color: #000080; font-weight: bold">import</span> org.springframework.mock.web.MockFilterConfig;
+<span style="color: #000080; font-weight: bold">import</span> org.springframework.test.annotation.DirtiesContext;
+<span style="color: #000080; font-weight: bold">import</span> org.springframework.test.web.servlet.MockMvc;
+<span style="color: #000080; font-weight: bold">import</span> org.springframework.test.web.servlet.MvcResult;
+<span style="color: #000080; font-weight: bold">import</span> org.springframework.test.web.servlet.RequestBuilder;
+<span style="color: #000080; font-weight: bold">import</span> org.springframework.test.web.servlet.ResultMatcher;
+<span style="color: #000080; font-weight: bold">import</span> org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+
+<span style="color: #000080; font-weight: bold">import</span> javax.servlet.ServletContext;
+<span style="color: #000080; font-weight: bold">import</span> javax.servlet.ServletException;
+<span style="color: #000080; font-weight: bold">import</span> javax.sql.DataSource;
+
+<span style="color: #000080; font-weight: bold">import</span> static org.<span style="color: #FF0000">assertj</span>.<span style="color: #FF0000">core</span>.<span style="color: #FF0000">api</span>.<span style="color: #FF0000">Assertions</span>.<span style="color: #FF0000">assertThat</span>;
+<span style="color: #000080; font-weight: bold">import</span> static org.<span style="color: #FF0000">springframework</span>.<span style="color: #FF0000">security</span>.<span style="color: #FF0000">test</span>.<span style="color: #FF0000">web</span>.<span style="color: #FF0000">servlet</span>.<span style="color: #FF0000">request</span>.<span style="color: #FF0000">SecurityMockMvcRequestPostProcessors</span>.<span style="color: #FF0000">csrf</span>;
+<span style="color: #000080; font-weight: bold">import</span> static org.<span style="color: #FF0000">springframework</span>.<span style="color: #FF0000">test</span>.<span style="color: #FF0000">web</span>.<span style="color: #FF0000">servlet</span>.<span style="color: #FF0000">request</span>.<span style="color: #FF0000">MockMvcRequestBuilders</span>.<span style="color: #FF0000">get</span>;
+<span style="color: #000080; font-weight: bold">import</span> static org.<span style="color: #FF0000">springframework</span>.<span style="color: #FF0000">test</span>.<span style="color: #FF0000">web</span>.<span style="color: #FF0000">servlet</span>.<span style="color: #FF0000">request</span>.<span style="color: #FF0000">MockMvcRequestBuilders</span>.<span style="color: #FF0000">post</span>;
+<span style="color: #000080; font-weight: bold">import</span> static org.<span style="color: #FF0000">springframework</span>.<span style="color: #FF0000">test</span>.<span style="color: #FF0000">web</span>.<span style="color: #FF0000">servlet</span>.<span style="color: #FF0000">result</span>.<span style="color: #FF0000">MockMvcResultMatchers</span>.<span style="color: #FF0000">redirectedUrl</span>;
+<span style="color: #000080; font-weight: bold">import</span> static org.<span style="color: #FF0000">springframework</span>.<span style="color: #FF0000">test</span>.<span style="color: #FF0000">web</span>.<span style="color: #FF0000">servlet</span>.<span style="color: #FF0000">result</span>.<span style="color: #FF0000">MockMvcResultMatchers</span>.<span style="color: #FF0000">status</span>;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.<span style="color: #FF0000">ClassMode</span>.<span style="color: #FF0000">AFTER_CLASS</span>)
+<span style="color: #000080; font-weight: bold">class</span> LoginTest {
+
+	@TestConfiguration
+	<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">static</span> <span style="color: #000080; font-weight: bold">class</span> LoginTestContextConfiguration {
+
+		<span style="color: #008800; font-style: italic">// Определение бина для теста Spring Boot</span>
+		@Bean
+		<span style="color: #000080; font-weight: bold">public</span> DataSource testDataSource() {
+			<span style="color: #000080; font-weight: bold">return</span> Helper.<span style="color: #FF0000">getEmbeddedDatabaseBuilder</span>(LoginTest.<span style="color: #FF0000">class</span>.<span style="color: #FF0000">getName</span>()).<span style="color: #FF0000">build</span>();
+		}
+
+		@Bean
+		<span style="color: #000080; font-weight: bold">public</span> SpringLiquibase liquibase(DataSource dataSource) {
+			SpringLiquibase liquibase = <span style="color: #000080; font-weight: bold">new</span> SpringLiquibase();
+			liquibase.<span style="color: #FF0000">setChangeLog</span>(<span style="color: #0000FF">&quot;classpath:db/user-test.xml&quot;</span>);
+			liquibase.<span style="color: #FF0000">setDataSource</span>(dataSource);
+			liquibase.<span style="color: #FF0000">setDropFirst</span>(<span style="color: #000080; font-weight: bold">true</span>);
+			<span style="color: #000080; font-weight: bold">return</span> liquibase;
+		}
+
+		@Bean
+		<span style="color: #000080; font-weight: bold">public</span> Boolean finishWicketFilterInit(FilterRegistrationBean&lt;WicketFilter&gt; filter, ServletContext context) <span style="color: #000080; font-weight: bold">throws</span> ServletException {
+			MockFilterConfig config = <span style="color: #000080; font-weight: bold">new</span> MockFilterConfig(context, <span style="color: #0000FF">&quot;wicket-filter&quot;</span>);
+			config.<span style="color: #FF0000">addInitParameter</span>(WicketFilter.<span style="color: #FF0000">FILTER_MAPPING_PARAM</span>, <span style="color: #0000FF">&quot;/*&quot;</span>);
+			WICKET_FILTER = filter.<span style="color: #FF0000">getFilter</span>();
+			WICKET_FILTER.<span style="color: #FF0000">init</span>(config);
+			<span style="color: #000080; font-weight: bold">return</span> <span style="color: #000080; font-weight: bold">true</span>;
+		}
+
+	}
+
+	<span style="color: #000080; font-weight: bold">private</span> <span style="color: #000080; font-weight: bold">static</span> WicketFilter WICKET_FILTER;
+
+	@Autowired
+	<span style="color: #000080; font-weight: bold">private</span> MockMvc mockMvc;
+
+	<span style="color: #000080; font-weight: bold">private</span> Document getDocument(RequestBuilder requestBuilder) <span style="color: #000080; font-weight: bold">throws</span> Exception {
+		MvcResult result = mockMvc.<span style="color: #FF0000">perform</span>(requestBuilder)
+				.<span style="color: #FF0000">andExpect</span>(status().<span style="color: #FF0000">isOk</span>())
+				.<span style="color: #FF0000">andReturn</span>();
+		<span style="color: #000080; font-weight: bold">return</span> Jsoup.<span style="color: #FF0000">parse</span>(result.<span style="color: #FF0000">getResponse</span>().<span style="color: #FF0000">getContentAsString</span>());
+	}
+
+	<span style="color: #000080; font-weight: bold">private</span> <span style="color: #000080; font-weight: bold">void</span> sendLogin(MockHttpServletRequestBuilder requestBuilder, String username, String password, ResultMatcher matcher) <span style="color: #000080; font-weight: bold">throws</span> Exception {
+		mockMvc.<span style="color: #FF0000">perform</span>(requestBuilder.<span style="color: #FF0000">with</span>(csrf())
+				.<span style="color: #FF0000">param</span>(<span style="color: #0000FF">&quot;username&quot;</span>, username)
+				.<span style="color: #FF0000">param</span>(<span style="color: #0000FF">&quot;password&quot;</span>, password)
+				.<span style="color: #FF0000">contentType</span>(MediaType.<span style="color: #FF0000">APPLICATION_FORM_URLENCODED</span>)).<span style="color: #FF0000">andExpect</span>(matcher);
+	}
+
+	@Test
+	<span style="color: #000080; font-weight: bold">void</span> loadLoginPage() <span style="color: #000080; font-weight: bold">throws</span> Exception {
+		Document doc = getDocument(get(<span style="color: #0000FF">&quot;/login&quot;</span>));
+		assertThat(doc.<span style="color: #FF0000">select</span>(<span style="color: #0000FF">&quot;input[name=username]&quot;</span>)).<span style="color: #FF0000">hasSize</span>(<span style="color: #0000FF">1</span>);
+		assertThat(doc.<span style="color: #FF0000">select</span>(<span style="color: #0000FF">&quot;input[name=password]&quot;</span>)).<span style="color: #FF0000">hasSize</span>(<span style="color: #0000FF">1</span>);
+	}
+
+	@Test
+	<span style="color: #000080; font-weight: bold">void</span> loginSuccess() <span style="color: #000080; font-weight: bold">throws</span> Exception {
+		sendLogin(post(<span style="color: #0000FF">&quot;/loginHandler&quot;</span>), <span style="color: #0000FF">&quot;user1&quot;</span>, <span style="color: #0000FF">&quot;dIw8#a-$eW&quot;</span>, redirectedUrl(<span style="color: #0000FF">&quot;/&quot;</span>));
+	}
+
+	@Test
+	<span style="color: #000080; font-weight: bold">void</span> loginFail() <span style="color: #000080; font-weight: bold">throws</span> Exception {
+		sendLogin(post(<span style="color: #0000FF">&quot;/loginHandler&quot;</span>), <span style="color: #0000FF">&quot;user1&quot;</span>, <span style="color: #0000FF">&quot;password1&quot;</span>, redirectedUrl(<span style="color: #0000FF">&quot;/login?error=true&quot;</span>));
+	}
+
+	@AfterAll
+	<span style="color: #000080; font-weight: bold">static</span> <span style="color: #000080; font-weight: bold">void</span> tear() {
+		WICKET_FILTER.<span style="color: #FF0000">destroy</span>();
+		WICKET_FILTER = <span style="color: #000080; font-weight: bold">null</span>;
+	}
+
+}
+</pre></div>
+Полезны <b>параметризованные</b> тесты (и не только в интеграционном тестировании):<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://www.baeldung.com/parameterized-tests-junit-5"
+   href="https://www.baeldung.com/parameterized-tests-junit-5"
+   target="_blank" rel="noopener noreferrer">https://www.baeldung.com/parameterized-tests-junit-5</a><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://habr.com/ru/articles/591007/"
+   target="_blank" rel="noopener noreferrer">Туториал по JUnit 5 - Аннотация @ParameterizedTest (Habr)</a><br/>
+
+Пример:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@ParameterizedTest
+@ValueSource(ints = [1, 2])
+fun getByWithParamN(N: Long) {
+	val priceTypeService = PriceTypeServiceImpl(priceTypeRepository)
+
+	assertEquals(N, priceTypeService.getByN(N).n)
+}
+
+@ParameterizedTest
+@CsvSource("1,'Normal price'", "2,'Discount price'")
+fun getByWithParamFromCasv(N: Long, NAME:String) {
+	val priceTypeService = PriceTypeServiceImpl(priceTypeRepository)
+
+	assertEquals(NAME, priceTypeService.getByN(N).name)
+}
+</pre></div>
+<br/>
+Вид в Idea:<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Вид в Idea" src="images/junit5-allure/idea_param_test.png"
+		alt="Результаты тестирования"/></p>
+(<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/test/kotlin/ru/perm/v/shopkotlin/service/impl/PriceTypeServiceImplIntegrationTest.kt"
+   target="_blank" rel="noopener noreferrer">Пример PriceTypeServiceImplIntegrationTest.kt</a>)

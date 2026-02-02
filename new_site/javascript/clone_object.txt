@@ -1,0 +1,69 @@
+https://learn.javascript.ru/object-copy
+https://ru.hexlet.io/qna/javascript/questions/kak-rabotat-metod-assign-v-js
+-------------------------------------
+Копирование (клонирование) объекта
+
+let user = {
+  name: "John",
+  age: 30
+};
+
+let clone = Object.assign({}, user);
+
+ЭТО ПОВЕРХНОСТНОЕ КОПИРОВАНИЕ. Н.п. при клонировании такого объекта:
+let user = {
+  name: "John",
+  sizes: {
+    height: 182,
+    width: 50
+  }
+};
+
+let clone = Object.assign({}, user); // клонируется в ПУСТОЙ объект "{}"
+// поле "sizes" НЕ БУДЕТ СКЛОНИРОВАНО.
+alert( user.sizes === clone.sizes ); // true, тот же объект
+
+// user и clone обладают общим свойством sizes
+user.sizes.width++;       // изменяем свойства в первом объекте
+alert(clone.sizes.width); // 51, видим результат в другом
+
+Дл полного копиования возьмите готовую реализацию, например _.cloneDeep(obj) из библиотеки JavaScript lodash.
+
+Можно использовать глобальный метод structuredClone(), который позволяет сделать полную копию объекта.
+-------------------------------------
+Добавление свойства (поля):
+
+let user = { name: "John" };
+
+let permissions1 = { canView: true };
+let permissions2 = { canEdit: true };
+
+// копируем все свойства из permissions1 и permissions2 в user
+Object.assign(user, permissions1, permissions2);
+
+// теперь user = { name: "John", canView: true, canEdit: true }
+-------------------------------------
+Слияние объектов:
+const object1 = {
+  a: 1,
+};
+
+const object2 = {
+  b: 2,
+};
+
+const object3 = {
+  c: 3,
+};
+
+const mergedObject = Object.assign(object1, object2, object3);
+console.log(mergedObject); // => { a: 1, b: 2, c: 3 }
+-------------------------------------
+Если скопированное имя свойства уже существует, оно будет перезаписано:
+let user = { name: "John" };
+Object.assign(user, { name: "Pete" });
+alert(user.name); // теперь user = { name: "Pete" }
+-------------------------------------
+с использованием оператора расширения "..."
+let clone = {...user}
+-------------------------------------

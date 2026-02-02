@@ -1,0 +1,182 @@
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Grafana demo" src="images/prometheus/grafana_2app_with_down.png"
+        alt="Grafana demo" width="1999" height="1214"/></p>
+<a title="Prometheus" href="https://micrometer.io/docs/registry/prometheus#_installing"
+   target="_blank" rel="noopener noreferrer">
+    <strong>Prometheus</strong>
+</a> - инструмент сбора метрик приложений.<br/>
+<hr id="system-readmore"/>
+<a title="Grafana" href="https://grafana.com/"
+   target="_blank" rel="noopener noreferrer"><strong>Grafana</strong></a> - отображение собранных статистических данных о работе приложений.<br/>
+На картинке выше отображены результат работы двух приложений, расположенных на разных хостах.<br/>
+Запущенный процесс Prometheus:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><div style="margin: 0; line-height: 125%">1289 ?        Ssl    2:41 /usr/bin/prometheus-node-exporter
+    --collector.diskstats.ignored-devices=^(ram|loop|fd|(h|s|v|xv)d[a-z]|nvmed+nd+p)d+$
+    --collector.filesystem.ignored-mount-points=^/(sys|proc|dev|run)($|/)
+    --collector.netdev.ignored-devices=^lo$
+    --collector.textfile.directory=/var/lib/prometheus/node-exporter
+21144 ?        Ssl    3:02 /usr/local/bin/prometheus
+    --config.file=/etc/prometheus/prometheus.yml
+    --storage.tsdb.path=/var/lib/prometheus
+    --web.console.templates=/etc/prometheus/consoles
+    --web.console.libraries=/etc/prometheus/console_libraries
+    --web.listen-address=0.0.0.0:9090
+    --storage.tsdb.retention.time=2d
+    --storage.tsdb.retention.size=512MB
+</div>
+
+Параметры <b>--storage.tsdb.retention.time=2d</b> и <b>--storage.tsdb.retention.size=512MB</b> ограничивают количество сохраненных данных(метрик). Если не ограничить, то их накапливается <b><u>ОГРОМНОЕ(ПРОСТО НЕРЕАЛЬНОЕ)</u></b> количество.
+Заданы в сервисе старта prometheus (/etc/init.d/prometheus см. в конце заметки полный текст):
+<pre class="language-shell"><code>HELPER_ARGS="--name=$NAME --output=$LOGFILE  --pidfile=$PIDFILE --user=$USER --storage.tsdb.retention=2d"
+</code></pre>
+<h3 dir="auto">Просмотр Prometheus.</h3>
+
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Prometheus" src="images/prometheus/prometheus_1_20.png"
+        alt="Prometheus" width="1035" height="677"/></p>
+
+<b>Grafana</b> - инструмент мониторинга приложений. Получение метрик из spring-boot приложения делается с помощью
+<a style="text-decoration: underline; color: #3366ff;"
+   title="io.spring.dependency-management"
+   href="https://mvnrepository.com/artifact/io.spring.dependency-management/io.spring.dependency-management.gradle.plugin"
+   target="_blank" rel="noopener noreferrer">io.spring.dependency-management</a>.
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="Пример проекта shop_kotlin"
+   href="https://github.com/cherepakhin/shop_kotlin"
+   target="_blank" rel="noopener noreferrer">Пример проекта shop_kotlin</a>
+
+<h3 dir="auto">Установка Grafana.</h3>
+Загрузить Grafana с <a title="https://grafana.com/grafana/download" href="https://grafana.com/grafana/download"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://grafana.com/grafana/download</strong>
+</a>
+<br/>
+или так:
+<pre class="language-shell"><code>sudo apt-get install -y adduser libfontconfig1
+wget https://dl.grafana.com/enterprise/release/grafana-enterprise_10.1.0_amd64.deb
+sudo dpkg -i grafana-enterprise_10.1.0_amd64.deb
+</code></pre>
+<br/>
+
+<b>TODO:</b><br/>
+<ul>
+    <li>Обстрелять <b>yandex-tank</b>ом проект shop_kotlin</li>
+</ul>
+
+Ссылки:<br/>
+<a title="Set up and observe a Spring Boot application with Grafana Cloud, Prometheus, and OpenTelemetry" href="https://grafana.com/blog/2022/04/26/set-up-and-observe-a-spring-boot-application-with-grafana-cloud-prometheus-and-opentelemetry/"
+   target="_blank" rel="noopener noreferrer">
+    <strong>Set up and observe a Spring Boot application with Grafana Cloud, Prometheus, and OpenTelemetry</strong>
+</a>
+<br/>
+<a title="Установка prometheus" href="https://micrometer.io/docs/registry/prometheus#_installing"
+   target="_blank" rel="noopener noreferrer">
+    <strong>Установка prometheus</strong>
+</a>
+<br/>
+<a title="Осваиваем мониторинг с Prometheus. Часть 3. Настройка Prometheus server" href="https://laurvas.ru/prometheus-p3/#retention"
+   target="_blank" rel="noopener noreferrer">
+    <strong>Осваиваем мониторинг с Prometheus. Часть 3. Настройка Prometheus server (<b>!!!</b>)</strong>
+</a><br/>
+<hr/>
+Файл <b>/etc/init.d/prometheus</b>:
+<pre class="language-shell">
+<code>#!/bin/sh
+# kFreeBSD do not accept scripts as interpreters, using #!/bin/sh and sourcing.
+if [ true != "$INIT_D_SCRIPT_SOURCED" ] ; then
+    set "$0" "$@"; INIT_D_SCRIPT_SOURCED=true . /lib/init/init-d-script
+fi
+### BEGIN INIT INFO
+# Provides:          prometheus
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Monitoring system and time series database
+# Description:       Prometheus is a systems and services monitoring system. It
+#                    collects metrics from configured targets at given
+#                    intervals, evaluates rule expressions, displays the
+#                    results, and can trigger alerts if some condition is
+#                    observed to be true.
+### END INIT INFO
+
+# Author: Martín Ferrari <tincho@debian.org>
+
+DESC="monitoring system and time series database"
+DAEMON=/usr/bin/prometheus
+NAME=prometheus
+USER=prometheus
+PIDFILE=/var/run/prometheus/prometheus.pid
+LOGFILE=/var/log/prometheus/prometheus.log
+CFGFILE=/etc/prometheus/prometheus.yml
+
+HELPER=/usr/bin/daemon
+HELPER_ARGS="--name=$NAME --output=$LOGFILE  --pidfile=$PIDFILE --user=$USER --storage.tsdb.retention=2d"
+
+ARGS=""
+[ -r /etc/default/$NAME ] && . /etc/default/$NAME
+
+config_check()
+{
+    retcode=0
+    errors="$(/usr/bin/promtool check config $CFGFILE 2>&1)" || retcode=$?
+    if [ $retcode -ne 0 ]; then
+        log_failure_msg
+        echo "Configuration test failed. Output of config test was:" >&2
+        echo "$errors" >&2
+        return $retcode
+    fi
+}
+
+do_start_prepare()
+{
+    mkdir -p `dirname $PIDFILE` || true
+    chown -R $USER: /var/lib/prometheus/metrics2
+    chown -R $USER: `dirname $LOGFILE`
+    chown -R $USER: `dirname $PIDFILE`
+}
+
+do_start_cmd()
+{
+    # Return
+    #   0 if daemon has been started
+    #   1 if daemon was already running
+    #   2 if daemon could not be started
+    $HELPER $HELPER_ARGS --running && return 1
+    config_check || return 2
+    $HELPER $HELPER_ARGS -- $DAEMON $ARGS || return 2
+    return 0
+}
+
+do_stop_cmd()
+{
+    # Return
+    #   0 if daemon has been stopped
+    #   1 if daemon was already stopped
+    #   2 if daemon could not be stopped
+    #   other if a failure occurred
+    $HELPER $HELPER_ARGS --running || return 1
+    $HELPER $HELPER_ARGS --stop || return 2
+    # wait for the process to really terminate
+    for n in 1 2 3 4 5; do
+        sleep $n
+        $HELPER $HELPER_ARGS --running || break
+    done
+    $HELPER $HELPER_ARGS --running || return 0
+    return 2
+}
+
+do_reload()
+{
+    log_daemon_msg "Reloading $DESC configuration files" "$NAME"
+    $HELPER $HELPER_ARGS --running || return 1
+    config_check || return 2
+    helper_pid=$(cat $PIDFILE)
+    if [ -z "$helper_pid" ]; then
+        log_failure_msg "Unable to find PID"
+        return 1
+    fi
+    start-stop-daemon --stop --signal 1 --quiet \
+        --ppid "$helper_pid" --exec "$DAEMON"
+    log_end_msg $?
+}
+</code></pre>

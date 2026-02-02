@@ -1,0 +1,70 @@
+Интеграционное тестирование REST подойдет для интеграционных, behave тестов
+
+<a style="text-decoration: underline; color: #3366ff;"
+   title="Интеграционное тестирование Rest"
+   href="https://v.perm.ru/main/index.php/34-behave-testirovanie"
+   target="_blank" rel="noopener noreferrer">https://v.perm.ru/main/index.php/34-behave-testirovanie</a>.
+<br>
+Проект с демонстрацией тестирования
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/cherepakhin/hamcrest-demo"
+   href="https://github.com/cherepakhin/hamcrest-demo"
+   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/hamcrest-demo</a>.
+
+Иерархия такая: @Epic -> @Feature -> @Story -> @Step.
+<hr id="system-readmore"/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@Epic(<span style="color: #0000FF">"CollectionTest"</span>)
+<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">class</span> CollectionTest {
+
+    List list = Arrays.<span style="color: #FF0000">asList</span>(<span style="color: #0000FF">5</span>, <span style="color: #0000FF">2</span>, <span style="color: #0000FF">4</span>);
+
+    @Test
+    @Feature(<span style="color: #0000FF">"Collection not empty (это @Feature)"</span>)
+    @Story(<span style="color: #0000FF">"Collection not empty (это @Story)"</span>)
+    @DisplayName(<span style="color: #0000FF">"Список не пуст (это @DisplayName)"</span>)
+    @Description(<span style="color: #0000FF">"Список не пуст (это @Description)"</span>)
+    <span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> givenList_NotEmpty() {
+        assertThat(list, is(not(empty())));
+    }
+
+    @Test
+    @Feature(<span style="color: #0000FF">"Given List have size 3 (это @Feature)"</span>)
+    @Story(<span style="color: #0000FF">"Collection not empty (это @Story)"</span>)
+    @DisplayName(<span style="color: #0000FF">"Check size (это @DisplayName)"</span>)
+    @Description(<span style="color: #0000FF">"Проверка размера (это @Description)"</span>)
+    <span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> givenList_is_size_3() {
+        assertThat(list, hasSize(<span style="color: #0000FF">3</span>));
+    }
+
+    @Test
+    @DisplayName(<span style="color: #0000FF">"List 5,2,4 contains element.) </span>
+<span style="color: #0000FF">    @Description("</span><span style="color: #a61717; background-color: #e3d2d2">Список</span> <span style="color: #a61717; background-color: #e3d2d2">содержит</span> <span style="color: #a61717; background-color: #e3d2d2">элемент"</span>)
+    <span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> givenList_containsElements() {
+        checkInList(<span style="color: #0000FF">5</span>);
+        checkInList(<span style="color: #0000FF">2</span>);
+    }
+
+    @Step(<span style="color: #0000FF">"Проверка разности числа {num}"</span>)
+    <span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> checkInList(Integer num) {
+        assertTrue(<span style="color: #0000FF">"Список (5,2,4) содержит"</span>, list.<span style="color: #FF0000">contains</span>(num));
+    }
+
+}
+</pre></div>
+
+Результаты:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Результаты тестирования" src="images/hierarchy_test/hierarchy_of_allure.png"
+        alt="Результаты тестирования"/></p>
+<br/>
+Очень полезны параметризованные тесты (и не только в интеграционном тестировании) -
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://www.baeldung.com/parameterized-tests-junit-5"
+   href="https://www.baeldung.com/parameterized-tests-junit-5"
+   target="_blank" rel="noopener noreferrer">https://www.baeldung.com/parameterized-tests-junit-5</a>.
+Пример:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@ParameterizedTest
+@ValueSource(ints = {1, 3, 5, -3, 15, Integer.MAX_VALUE}) // six numbers
+void isOdd_ShouldReturnTrueForOddNumbers(int number) {
+  assertTrue(Numbers.isOdd(number));
+}
+</pre></div>

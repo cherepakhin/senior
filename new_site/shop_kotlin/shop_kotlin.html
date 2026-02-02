@@ -1,0 +1,1046 @@
+<h3 dir="auto" tabindex="-1">Оглавление:</h3>
+<a></a>
+<p dir="auto"><a href="#target_project">Цель</a></p>
+<p dir="auto">
+    <a href="#static_analize">Статический анализатор Idea Analize</a><br />
+    <a href="#jpa_kotlin">JPA Entity классы с Kotlin</a>
+</p>
+<p dir="auto">
+    <a href="#unit_test">Unit тестирование</a><br />
+    <a href="#integration_test">Интеграционное тестирование в проекте</a><br />
+    <a href="#coverage_test">Покрытие тестами</a><br />
+    <a href="#spring_profiles">Spring profiles</a><br />
+    <a href="#cors">CORS filter</a><br />
+    <a href="#test_run">Тестовый запуск</a>
+</p>
+<p dir="auto">
+    <a href="#bootjar">Создание запускаемого файла и его запуск</a><br />
+    <a href="#publish_fat-jar">Publishing SpringBoot "FAT" jar</a>
+</p>
+<p dir="auto">
+    <a href="#datajpa_restassured_test">Интеграционное тестирование</a><br />
+    <a href="#httpie">Примеры тестов httpie</a><br />
+    <a href="#datajpa_test">DataJpa tests</a><br />
+    <a href="#restassured_test">RestAssured tests</a><br />
+    <a href="#load_test">Нагрузочное тестирование</a>
+</p>
+<p dir="auto">
+    <a href="#swagger">Swagger</a><br />
+    <a href="#spring_actuator">Spring Actuator</a>
+</p>
+<p dir="auto">
+    <a href="#micrometer">Micrometer</a><br />
+    <a href="#prometheus">Prometheus</a><br />
+    <a href="#show_cpu_prometheus">Пример просмотра использования CPU в Prometheus</a><br />
+    <a href="#prometheus_docker">Запуск prometheus в docker</a>
+</p>
+<p dir="auto">
+    <a href="#docker">Docker</a><br />
+    <a href="#grafana">Grafana</a><br />
+    <a href="#caching">Кеширование</a><br />
+    <a href="#jenkins">Сборка Jenkins</a><br />
+    <a href="#nexus">Nexus</a>
+</p>
+<p dir="auto">
+    <a href="#jmc">Просмотр ресурсов с помощью Java Mission Control</a><br />
+    <a href="#logging">Логирование</a>
+</p>
+<p dir="auto">
+    <a href="#easycode_idea">Использование "ChatGPT-EasyCode" в Idea</a><br />
+    <a href="#easycode_vscode">Использование "ChatGPT-EasyCode" в VSCode</a>
+</p>
+<p dir="auto">
+    <a href="#add_param_to_application_yaml">Частный параметр конфигурации в application.yaml</a><br />
+    <a href="#set_var_application_yaml">Переопределение значения переменных application.yaml</a><br />
+</p>
+<p dir="auto">
+    <a href="#todo">TODO</a><br />
+    <a href="#tose">Примечания</a><br />
+    <a href="#links">Ссылки</a>
+</p>
+<hr id="system-readmore" />
+<a id="target_project"></a>
+<h3 dir="auto" tabindex="-1">
+    <a id="user-content-цель" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D1%86%D0%B5%D0%BB%D1%8C"></a>Цель</h3>
+<p dir="auto">Cоздать небольшое приложение на <b>Kotlin</b> с использованием <b>Spring Boot</b>. Справочник товаров со следующими типами:</p>
+<ul dir="auto">
+    <li>Настольные компьютеры</li>
+    <li>Ноутбуки</li>
+    <li>Мониторы</li>
+    <li>Жесткие диски</li>
+</ul>
+<p>Каждый товар имеет следующие свойства:</p>
+<ul dir="auto">
+    <li>номер серии</li>
+    <li>производитель</li>
+    <li>цена</li>
+    <li>количество единиц продукции на складе</li>
+</ul>
+<p dir="auto">Дополнительные свойства:</p>
+<ul dir="auto">
+    <li>Настольные компьютеры имеют форм-фактор: десктопы, неттопы, моноблоки</li>
+    <li>Ноутбуки подразделяются по размеру: 13, 14, 15, 17 дюймовые</li>
+    <li>Мониторы имеют диагональ</li>
+    <li>Жесткие диски имеют объем</li>
+</ul>
+<p>Необходимо реализовать back-end приложение, которое имеет RESTful HTTP методы выполняющие:</p>
+<ul dir="auto">
+    <li>Добавление товара</li>
+    <li>Редактирование товара</li>
+    <li>Просмотр всех существующих товаров по типу</li>
+    <li>Просмотр товара по идентификатору</li>
+</ul>
+<p>В качестве базы данных использовать in memory database, например H2.</p>
+<p><b>Результат:</b> <a class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin">https://github.com/cherepakhin/shop_kotlin</a>.</p>
+<b>В этой заметке больше об инструментах и приемах работы с ними, которые помогут при разработке.</b><br/>
+<a id="static_analize"></a>
+<h3 dir="auto" tabindex="-1">
+    <a id="user-content-статический-анализатор-idea-analize" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9-%D0%B0%D0%BD%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%82%D0%BE%D1%80-idea-analize"></a>Статический анализатор Idea Analize
+</h3>
+<p dir="auto">Проверка кода на чистоту, выявление кода с душком и т.п. Вызывается из контекстного меню "Analize - Inspect Code".</p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="allure_result_test" src="images/shop_kotlin/code_review_report.png"
+        alt="allure_result_test" width="1323" height="379"/></p>
+Другой вариант - использовать SonarQube. <br/>
+
+<a href="#top">Наверх</a>
+
+<a id="jpa_kotlin"></a>
+<h3 dir="auto" tabindex="-1">
+    <a id="user-content-jpa-entity-классы-с-kotlin" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#jpa-entity-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D1%8B-%D1%81-kotlin"></a>JPA Entity классы с Kotlin
+</h3>
+<p dir="auto">
+    Источник: <a href="https://habr.com/ru/companies/haulmont/articles/572574/" rel="nofollow">https://habr.com/ru/companies/haulmont/articles/572574/</a><br />Примеры из источника: <a href="https://github.com/Klimenkoob/spring-kotlin-hibernate">https://github.com/Klimenkoob/spring-kotlin-hibernate</a>
+</p>
+<p dir="auto">Рекомендации:</p>
+<ol dir="auto">
+    <li><strong>Data class not recommended for JPA Entity</strong> . Warning in Idea. Почему не использовать Data-классы? Потому что они финальны сами по себе, имеют по всем полям определенные equals, hashCode и toString. А это недопустимо в связке с Hibernate.</li>
+    <li>Явно помечать ключевым словом <strong>open</strong> все Entity. Согласно спецификации JPA, все классы и свойства, связанные с JPA, не должны быть <strong>final</strong>. В отличие от Java, в Kotlin классы, свойства и методы по умолчанию final. Поэтому их нужно явно помечать ключевым словом <strong>open</strong>.</li>
+    <li><strong>Явно определять</strong> hashCode(), equals(), toString(). При определении внимание на <strong>lazy</strong> поля (как и в Java).</li>
+    <li>Добавить <strong>nullable = false</strong><div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@ManyToOne(fetch = FetchType.LAZY, optional = <span style="color: #008800; font-weight: bold">false</span>) @JoinColumn(name = <span style="background-color: #fff0f0">"client_id"</span>, nullable = <span style="color: #008800; font-weight: bold">false</span>)
+lateinit <span style="color: #008800; font-weight: bold">var</span> client: Client
+</pre></div></li>
+</ol>
+(вообще, все эти рекомендации можно получить используя "Analize - Inspect Code", см.выше)
+<ol dir="auto" start="5">
+    <li>Kotlin классы по умолчанию <strong>final</strong>. Для Entity это проблема. Можно применить plugin "allopen":
+        <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">plugins {
+  kotlin(<span style="background-color: #fff0f0">"plugin.allopen"</span>)
+}
+...
+
+allopen {
+  annotation(<span style="background-color: #fff0f0">"javax.persistence.Entity"</span>)
+}
+</pre></div></li>
+</ol>
+<a id="unit_test"></a>
+<h3 dir="auto" tabindex="-1">
+    <a id="user-content-unit-тестирование" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#unit-%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5"></a>Unit тестирование</h3>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew <span style="color: #007020">test</span>
+</pre></div>
+
+<p dir="auto">Примеры отбора тестов:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew <span style="color: #007020">test</span> --tests <span style="background-color: #fff0f0">'*EntityTest'</span>
+./gradlew <span style="color: #007020">test</span> --tests <span style="background-color: #fff0f0">'*Rest*'</span>
+./gradlew <span style="color: #007020">test</span> --tests ProductDTOTest
+./gradlew <span style="color: #007020">test</span> --tests <span style="background-color: #fff0f0">'*TestIntegration'</span>
+./gradlew <span style="color: #007020">test</span> --tests <span style="background-color: #fff0f0">'*MockMvcTest'</span>
+</pre></div>
+
+<a id="integration_test"></a>
+<h3 dir="auto" tabindex="-1">
+    <a id="user-content-интеграционное-тестирование-в-проекте" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%BE%D0%B5-%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B5"></a>Интеграционное тестирование в проекте
+</h3>
+<p dir="auto">Вообще, интеграционные тесты должны быть в отдельном проекте (см. <a href="https://github.com/cherepakhin/shop_kotlin_restassured_test">https://github.com/cherepakhin/shop_kotlin_restassured_test</a>). В этом проекте оставил только тесты работы с базой данных. Имена интеграционных тестов должны заканчиваться ..TestIntegration. Прогнать все, кроме интеграционных (включены только *Test, исключены *TestIntegration):</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew clean <span style="color: #007020">test</span> --tests *Test
+</pre></div>
+
+<p dir="auto">Только интеграционные:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew clean <span style="color: #007020">test</span> --tests *TestIntegration*
+./gradlew clean <span style="color: #007020">test</span> --tests *TestIntegration
+</pre></div>
+<p dir="auto">Другие примеры:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">gradle <span style="color: #007020">test</span> --tests org.gradle.SomeTest.someSpecificFeature
+gradle <span style="color: #007020">test</span> --tests *SomeTest.someSpecificFeature
+gradle <span style="color: #007020">test</span> --tests *SomeSpecificTest
+gradle <span style="color: #007020">test</span> --tests all.in.specific.package*
+gradle <span style="color: #007020">test</span> --tests *IntegTest
+gradle <span style="color: #007020">test</span> --tests *IntegTest*ui*
+gradle <span style="color: #007020">test</span> --tests *IntegTest.singleMethod
+gradle someTestTask --tests *UiTest someOtherTestTask --tests *WebTest*ui
+</pre></div>
+
+<p dir="auto">Включено протоколирование тестов build.gradle.kts:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">...
+tasks.withType<span style="color: #007700">&lt;Test&gt;</span> {
+    ...
+    // Show test log
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+    ...
+}
+</pre></div>
+<p dir="auto">Вывод в консоль:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">...
+ProductServiceImplMockTest > getByGroupProductN<span style="color: #333333">()</span> PASSED
+ProductServiceIntegrationTest > existByN<span style="color: #333333">()</span> PASSED
+ProductServiceIntegrationTest > notExistByN<span style="color: #333333">()</span> PASSED
+ProductServiceIntegrationTest > checkSortByName_ByDslFilterByName<span style="color: #333333">()</span> PASSED
+...
+</pre></div>
+
+<p dir="auto">с events("standardOut", "started", "passed", "skipped", "failed") логируется вывод в консоль.</p>
+
+<a id="coverage_test"></a>
+<h3 dir="auto" tabindex="-1">
+    <a id="user-content-покрытие-тестами" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%BF%D0%BE%D0%BA%D1%80%D1%8B%D1%82%D0%B8%D0%B5-%D1%82%D0%B5%D1%81%D1%82%D0%B0%D0%BC%D0%B8"></a>Покрытие тестами
+</h3>
+<p dir="auto">Использован <a href="https://www.eclemma.org/jacoco/" rel="nofollow">jacoco</a>. Отчет формируется при прогоне тестов</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew <span style="color: #007020">test </span>jacocoTestReport
+</pre></div>
+<p dir="auto">Отчет будет в папке build/reports/jacoco/test/html. В отчете <strong>НЕТ</strong> информации о результатах тестирования, только протестирован участок кода или нет.</p>
+<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/jacoco.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/jacoco.png" alt="jacoco" /></a></p>
+<p dir="auto">Пример отчета по конкретному классу:</p>
+<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/jacoco_example.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/jacoco_example.png" alt="jacoco_example" /></a></p>
+<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/jacoco_class.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/jacoco_class.png" alt="jacoco_class" /></a></p>
+<p dir="auto">Красным или желтым выделены непротестированные участки кода, зеленым протестировано.</p>
+
+<a id="spring_profiles"></a>
+<h3 dir="auto" tabindex="-1">
+    <a id="user-content-spring-profiles" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#spring-profiles"></a>Spring profiles
+</h3>
+<p dir="auto">Настроены два Spring профиля:
+    <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-prod.yml" target="_blank" rel="noopener noreferrer"><u>application-prod.yml</u></a>
+    и
+    <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/resources/application-dev.yml" target="_blank" rel="noopener noreferrer"><u>application-dev.yml</u></a>.
+    В этом же файле указан профиль по умолчанию:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">spring:
+  profiles:
+    active: dev
+  application:
+    name: shop_kotlin
+</pre></div>
+<p dir="auto">Запуск с указанием профиля:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">java -D<span style="background-color: #fff0f0">"spring.profiles.active=dev"</span> -jar app.jar
+</pre></div>
+
+<p dir="auto">или установить env переменную:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">SPRING_PROFILES_ACTIVE</span> <span style="color: #333333">=</span> dev
+</pre></div>
+<p dir="auto">Запуск с gradle:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew bootRun --args<span style="color: #333333">=</span><span style="background-color: #fff0f0">'--spring.profiles.active=dev'</span>
+</pre></div>
+
+<p dir="auto">или</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">SPRING_PROFILES_ACTIVE</span><span style="color: #333333">=</span>dev ./gradlew clean bootRun
+</pre></div>
+<a id="cors"></a>
+<h3>CORS filter</h3>
+При выполнении запросов может быть получена ошибка: <b>"Ошибка: "Access to XMLHttpRequest at 'http://localhost:8080/api/hello' from origin 'http://localhost:4200' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource."</b>.
+Доходчиво описано в <a href="https://sysout.ru/nastrojka-cors-v-spring-security/" rel="nofollow">https://sysout.ru/nastrojka-cors-v-spring-security/</a>.
+
+Суть в двух словах: по умолчанию Spring не позволяет делать кроссдоменные запросы.
+CORS не нужно отключать, а наборот включить и настроить. Другими словами, нужно настроить разрешения в приложении откуда разрешать запросы. Примеры заголовков:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Access-Control-Allow-Origin: *
+Access-Control-Allow-Origin: http://localhost:9999
+</pre></div>
+
+Необходимые настройки сделаны в <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/kotlin/ru/perm/v/shopkotlin/config/CorsFilter.kt" rel="nofollow">https://github.com/cherepakhin/shop_kotlin/blob/dev/src/main/kotlin/ru/perm/v/shopkotlin/config/CorsFilter.kt</a>
+<a id="test_run"></a>
+<h3>Тестовый запуск</h3>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew bootRun
+</pre></div>
+
+
+<a id="bootjar"></a>
+<h3 dir="auto">Создание запускаемого файла и его запуск</h3>
+<p dir="auto">Создание:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew bootJar
+</pre></div>
+
+<p dir="auto">(<strong>bootJar</strong> не <strong>bootRun!!!</strong>)</p>
+<p dir="auto">Собранный файл будет в папке <strong>./build/libs/</strong></p>
+<p dir="auto">запуск с RAM 256Мб:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">shop_kotlin/$ java -Xmx256M -jar build/libs/shop_kotlin-0.1.20.jar
+</pre></div>
+<p dir="auto">или так:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">shop_kotlin/$ cd build/libs
+shop_kotlin/build/libs$ java -Xmx256M -jar shop_kotlin-0.1.20.jar
+</pre></div>
+
+
+<a id="publish_fat-jar"></a>
+<h3 dir="auto" tabindex="-1">
+    <a id="user-content-publishing-springboot-fat-jar" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#publishing-springboot-fat-jar"></a>Publishing SpringBoot "FAT" jar</h3>
+<p dir="auto">Настройка:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">publishing {
+  repositories {
+      maven {
+          url = uri("https://v.perm.ru:8082/repository/ru.perm.v/")
+          isAllowInsecureProtocol = true
+          //  for publish to nexus "./gradlew publish"
+          // export NEXUS_CRED_USR=admin
+          // echo $NEXUS_CRED_USR
+          credentials {
+              username = System.getenv("NEXUS_CRED_USR")
+              password = System.getenv("NEXUS_CRED_PSW")
+          }
+      }
+  }
+  publications {
+    create<span style="color: #007700"><MavenPublication></span>("maven"){
+      artifact(tasks["bootJar"]) // build and publish bootJar
+    }
+}
+</pre></div>
+<p dir="auto"><a href="https://stackoverflow.com/questions/64062905/unable-to-publish-jar-to-gitlab-package-registry-with-gradle" rel="nofollow">https://stackoverflow.com/questions/64062905/unable-to-publish-jar-to-gitlab-package-registry-with-gradle</a></p>
+
+
+<a id="httpie"></a>
+<h3 dir="auto" tabindex="-1">
+    <a id="user-content-примеры-тестов-httpie" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B-%D1%82%D0%B5%D1%81%D1%82%D0%BE%D0%B2-httpie"></a>Примеры тестов <a href="https://httpie.io/" rel="nofollow">httpie</a>
+</h3>
+<p dir="auto">Echo запрос для простой проверки работоспособности (:8980/shop_kotlin/ базовый путь проекта):</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">$ </span>http :8980/shop_kotlin/api/echo/aaa
+
+HTTP/1.1 200
+Connection: keep-alive
+Content-Length: 3
+Content-Type: text/plain;charset<span style="color: #333333">=</span>UTF-8
+Date: Thu, 15 Jun 2023 07:30:38 GMT
+Keep-Alive: <span style="color: #996633">timeout</span><span style="color: #333333">=</span>60
+
+aaa
+</pre></div>
+<p dir="auto">Поиск по имени Product:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">$ </span>http :8980/shop_kotlin/api/group_product/find?name<span style="color: #333333">=</span><span style="background-color: #fff0f0">'Comp'</span>
+
+<span style="color: #333333">[</span>
+    <span style="color: #333333">{</span>
+        <span style="background-color: #fff0f0">"haveChilds"</span>: <span style="color: #007020">true</span>,
+        <span style="background-color: #fff0f0">"id"</span>: 2,
+        <span style="background-color: #fff0f0">"name"</span>: <span style="background-color: #fff0f0">"Computers"</span>,
+        <span style="background-color: #fff0f0">"parentId"</span>: 1
+    <span style="color: #333333">}</span>,
+    <span style="color: #333333">{</span>
+        <span style="background-color: #fff0f0">"haveChilds"</span>: <span style="color: #007020">false</span>,
+        <span style="background-color: #fff0f0">"id"</span>: 3,
+        <span style="background-color: #fff0f0">"name"</span>: <span style="background-color: #fff0f0">"Desktop Computers"</span>,
+        <span style="background-color: #fff0f0">"parentId"</span>: 2
+    <span style="color: #333333">}</span>
+</pre></div>
+<p dir="auto">POST запрос на изменение Product:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">$ </span>http POST :8980/shop_kotlin/api/product/ < ./src/test/json_test/product.json
+</pre></div>
+Для тестирования HTTPS:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+https --verify=no https://127.0.0.1:8443/api/echo/MESSAGE_ECHO
+httpx --no-verify https://127.0.0.1:8443/api/echo/MESSAGE_ECHO
+curl -k https://127.0.0.1:8443/api/echo/MESSAGE_ECHO
+</pre></div>
+
+<a id="datajpa_restassured_test"></a>
+<h3 dir="auto" tabindex="-1">
+    <a id="user-content-интеграционное-тестирование" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%BE%D0%B5-%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5"></a>Интеграционное тестирование
+</h3>
+<a id="datajpa_test"></a>
+<p dir="auto">Два варианта тестирования - cо Spring @DataJpaTest и через RestAssured (это bdd тестирование). Совершенно разные тесты, для совершенно разных целей. DataJpaTest на уровне БД, RestAssured - сквозное тестирование от rest до БД.</p>
+
+<h4 dir="auto" tabindex="-1">
+    <a tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#datajpatest">DataJPA test</a>
+</h4>
+<p dir="auto">Тестируется работа с базой данных с использованием <a href="https://www.baeldung.com/kotlin/spring-boot-testing#1-test-repository-using-datajpatest" rel="nofollow">@DataJpaTest</a>.
+    Находятся в пакете <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/src/test/kotlin/ru/perm/v/shopkotlin/datajpatest">https://github.com/cherepakhin/shop_kotlin/blob/dev/src/test/kotlin/ru/perm/v/shopkotlin/datajpatest</a>.</p>
+
+
+<a id="restassured_test"></a>
+<h4 dir="auto" tabindex="-1">
+    <a tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin_reastassured_test">RestAssured</a>
+</h4>
+<p dir="auto">Для этих тестов сделан отдельный проект <a href="https://github.com/cherepakhin/shop_kotlin_reastassured_test">https://github.com/cherepakhin/shop_kotlin_reastassured_test</a></p>
+<p dir="auto">Результат тестов:</p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="allure_result_test" src="images/shop_kotlin/allure_result_test.png"
+        alt="allure_result_test" width="841" height="565"/></p>
+
+
+<a id="docker"></a>
+<h3 dir="auto" tabindex="-1"><a id="user-content-docker" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#docker"></a>Docker</h3>
+Файл <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/Dockerfile">Dockerfile</a> лежит в корне проекта:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">FROM eclipse-temurin:11
+VOLUME /tmp
+ARG JAR_FILE
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]</pre>
+</div>
+Создан скрипт <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/docker_build.sh">/docker_build.sh</a>. для создания docker образа.
+<p dir="auto">Работа с Docker:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-style: italic"># create docker image</span>
+$./docker_build.sh
+
+<span style="color: #008800; font-style: italic"># run app</span>
+$ docker run -p 8080:8980 shop_kotlin/app
+
+$ docker ps
+CONTAINER ID   IMAGE             COMMAND                CREATED          STATUS          PORTS                    NAMES
+c70ef82f3a54   shop_kotlin/app   <span style="color: #0000FF">"java -jar /app.jar"</span>   43 seconds ago   Up 42 seconds   0.0.0.0:8080->8980/tcp   inspiring_germain
+
+<span style="color: #008800; font-style: italic"># simple test</span>
+$ http :8080/api/group_product/find?name=<span style="color: #0000FF">'Comp'</span>
+
+$ docker ps -a
+<span style="color: #008800; font-style: italic"># 2d1325e1222a   shop_kotlin:0.24.0105    "/cnb/process/web" ...</span>
+
+<span style="color: #008800; font-style: italic"># stop docker app</span>
+$ docker stop 2d1
+
+<span style="color: #008800; font-style: italic"># rm container shop_kotlin 2d1325e1222a (id from docker ps -a)</span>
+$ docker container rm 2d1
+
+<span style="color: #008800; font-style: italic"># rm image</span>
+$ docker image ls
+shop_kotlin 0.24.0105   94560d28efb3   ...
+
+$ docker image rm 945
+Untagged: shop_kotlin:0.24.0105
+
+<span style="color: #008800; font-style: italic"># clear ALL images</span>
+$ docker image prune -a
+
+<span style="color: #008800; font-style: italic"># clear all</span>
+$ docker system prune -af
+</pre></div>
+<br/>
+<h4 dir="auto" tabindex="-1"><a id="user-content-или-средствами-gradle" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%B8%D0%BB%D0%B8-%D1%81%D1%80%D0%B5%D0%B4%D1%81%D1%82%D0%B2%D0%B0%D0%BC%D0%B8-gradle"></a>ИЛИ средствами gradle:</h4>
+<p dir="auto">Создание docker image:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">$ </span>./gradlew bootBuildImage
+
+...
+
+    <span style="color: #333333">[</span>creator<span style="color: #333333">]</span>     Saving docker.io/library/shop_kotlin:0.1.18...
+    <span style="color: #333333">[</span>creator<span style="color: #333333">]</span>     *** Images <span style="color: #333333">(</span>f80a4e623a3d<span style="color: #333333">)</span>:
+    <span style="color: #333333">[</span>creator<span style="color: #333333">]</span>           docker.io/library/shop_kotlin:0.1.18
+Successfully built image <span style="background-color: #fff0f0">'docker.io/library/shop_kotlin:0.1.18'</span>
+...
+</pre></div>
+
+<p dir="auto">В файле <a class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin/blob/dev/META-INF/MANIFEST.MF">META-INF/MANIFEST.MF</a>  указать Main-Class</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Main-Class: ru.perm.v.shopkotlin.ShopKotlinApplication
+</pre></div>
+
+<p dir="auto">Запуск docker image:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">$ </span>docker run -p 8980:8980 -p 8988:8988  docker.io/library/shop_kotlin:0.1.18
+</pre></div>
+
+<p dir="auto">(из контейнера docker открыты порты: 8980 - основной порт, 8988 - spring actuator)</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">$ </span>docker container ls
+</pre></div>
+
+<p dir="auto">Проверка:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #996633">$ </span>http http://127.0.0.1:8980/shop_kotlin/api/echo/aaa
+
+HTTP/1.1 200
+Connection: keep-alive
+Content-Length: 3
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+
+aaa
+</pre></div>
+
+
+<a id="swagger"></a>
+<h3 dir="auto" tabindex="-1">
+    <a id="user-content-swagger" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#swagger">Swagger</a>
+</h3>
+<p dir="auto">Swagger доступен по адресу <a href="http://127.0.0.1:8980/shop_kotlin/api/swagger-ui/" rel="nofollow">http://127.0.0.1:8980/shop_kotlin/api/swagger-ui/</a></p>
+<p><span style="font-weight: 400;">
+    <img class="pull-center" src="images/shop_kotlin/swagger_proj_kotlin.png" alt="" />
+</span></p>
+
+
+<a id="spring_actuator"></a>
+<h3 dir="auto" tabindex="-1">
+    <a id="user-content-spring-actuator" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#spring-actuator"></a>Spring Actuator
+</h3>
+<p dir="auto">Spring Actuator предназначен для получения информации о работающем приложении - статус приложения (жив/нет), использовании памяти, cpu и т.п.. Подключен по адресу <a href="http://127.0.0.1:8988/shop_kotlin/api/actuator" rel="nofollow">http://127.0.0.1:8988/shop_kotlin/api/actuator</a></p>
+<p dir="auto">порт указан в application.yaml:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">management:
+  server:
+    port: 8988
+</pre></div>
+
+<p dir="auto">Использование из командной строки:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ http http://127.0.0.1:8988/shop_kotlin/api/actuator
+
+{
+    "_links": {
+        "beans": {
+            "href": "http://127.0.0.1:8988/shop_kotlin/api/actuator/beans",
+            "templated": false
+        },
+        "caches": {
+            "href": "http://127.0.0.1:8988/shop_kotlin/api/actuator/caches",
+            "templated": false
+        },
+        "caches-cache": {
+            "href": "http://127.0.0.1:8988/shop_kotlin/api/actuator/caches/{cache}",
+            "templated": true
+        },
+....
+</pre></div>
+<p dir="auto">Пример "Сколько памяти используется СЕЙЧАС?":</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ http http://127.0.0.1:8988/shop_kotlin/api/actuator/metrics/jvm.memory.used
+{
+    "availableTags": [
+        {
+            "tag": "area",
+            "values": [
+                "heap",
+                "nonheap"
+            ]
+        },
+        {
+            "tag": "application",
+            "values": [
+                "shop_kotlin"
+            ]
+        },
+        {
+            "tag": "id",
+            "values": [
+                "G1 Survivor Space",
+                "Compressed Class Space",
+                "CodeCache",
+                "G1 Old Gen",
+                "Metaspace",
+                "G1 Eden Space"
+            ]
+        }
+    ],
+    "baseUnit": "bytes",
+    "description": "The amount of used memory",
+    "measurements": [
+        {
+            "statistic": "VALUE",
+            "value": 169351144.0
+        }
+    ],
+    "name": "jvm.memory.used"
+}
+</pre></div>
+(Нагрузочные тесты показали следующие результаты: 64M - приложение выпадает с OutOfMemory, со 128M - тесты проходят)
+
+<a id="micrometer"></a>
+<h3 dir="auto" tabindex="-1"><a id="user-content-micrometer" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#micrometer">Micrometer</a></h3>
+Micrometer - это , наверное, базовый инструмент для исследования <b>работающего</b> приложения и снятия характеристик. Входит в пакет <b>spring-boot-starter-actuator</b>:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+implementation 'org.springframework.boot:spring-boot-starter-actuator'
+</pre></div>
+Пример запроса:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ http http://127.0.0.1:8988/vacancy/api/actuator/metrics/http.server.requests
+</pre></div>
+
+Ответ:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">{
+  "availableTags": [
+    {
+      "tag": "exception",
+      "values": [
+        "HttpMediaTypeNotSupportedException",
+        "HttpMessageNotReadableException",
+        "MethodArgumentTypeMismatchException",
+        "None"
+      ]
+    },
+    {
+      "tag": "method",
+      "values": [
+        "PUT",
+        "GET"
+      ]
+    },
+    {
+      "tag": "application",
+      "values": [
+        "vacancy"
+      ]
+    },
+    {
+      "tag": "uri",
+      "values": [
+        "/company/find",
+        "/company/{n}",
+        "/company/sortByColumn/{column}"
+      ]
+    },
+    {
+      "tag": "outcome",
+      "values": [
+        "CLIENT_ERROR",
+        "SUCCESS"
+      ]
+    },
+    {
+      "tag": "status",
+      "values": [
+        "400",
+        "415",
+        "200"
+      ]
+    }
+  ],
+  "baseUnit": "seconds",
+  "description": null,
+  "measurements": [
+    {
+      "statistic": "COUNT",
+      "value": 212.0
+    },
+    {
+      "statistic": "TOTAL_TIME",
+      "value": 2.386371417
+    },
+    {
+      "statistic": "MAX",
+      "value": 0.0
+    }
+  ],
+  "name": "http.server.requests"
+}
+
+
+</pre></div>
+
+
+<a id="prometheus"></a>
+<h3 dir="auto" tabindex="-1"><a id="user-content-prometheus" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#prometheus">Prometheus</a></h3>
+<p dir="auto">Prometheus - это сервис (программа) работающая на одной из машин. Задача Prometheus опрашивать, снимать и
+хранить  характеристики с узлов, заданных в конфигурации. На моем сервере запущен Prometheus. Prometheus <strong>ОПРАШИВАЕТ</strong> приложение, согласно заданию (ниже yaml), и собирает метрики (metrics_path+targets). Пример задания для опроса в файле <a href="https://github.com/cherepakhin/shop_kotlin/doc/prometheus/prometheus.yml">doc/prometheus/prometheus.yml</a>. Содержимое <a href="https://github.com/cherepakhin/shop_kotlin/doc/prometheus/prometheus.yml">doc/prometheus/prometheus.yml</a> поместить в настройки prometheus. Пример задания:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">scrape_configs:
+- job_name: <span style="color: #0000FF">"shop_kotlin(1.20)"</span>
+  scrape_interval: 5s
+  metrics_path: <span style="color: #0000FF">"/shop_kotlin/api/actuator/prometheus"</span>
+  static_configs:
+    - targets: [<span style="color: #0000FF">"192.168.1.20:8988"</span>]
+</pre></div>
+
+<p dir="auto">Опрашивать сервис '192.168.1.20:8988/shop_kotlin/api/actuator/prometheus' каждые 5 сек.</p>
+<p dir="auto">Для просмотра получаемых prometheus-ом метрик выполнить:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">$ http http://127.0.0.1:8788/api/actuator/prometheus
+</pre></div>
+<p dir="auto">(Использован <a href="https://httpie.io/" rel="nofollow">httpie</a>)</p>
+
+<p dir="auto">Ответ:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-style: italic"># HELP jvm_threads_daemon_threads The current number of live daemon threads</span>
+<span style="color: #008800; font-style: italic"># TYPE jvm_threads_daemon_threads gauge</span>
+jvm_threads_daemon_threads 13.0
+<span style="color: #008800; font-style: italic"># HELP hikaricp_connections Total connections</span>
+...
+</pre></div>
+<p dir="auto">Подключение к Prometheus из браузера: <a href="http://192.168.1.20:9090/targets" rel="nofollow">http://192.168.1.20:9090/targets</a></p>
+<p dir="auto"><a href="http://192.168.1.20:9090/graph" rel="nofollow">http://192.168.1.20:9090/graph</a></p>
+<p dir="auto">Основной экран: 192.168.1.20 - адрес хоста с prometheus <a href="http://192.168.1.20:9090/targets" rel="nofollow">http://192.168.1.20:9090/targets</a></p>
+<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/prometheus/prometheus_1_20_9090.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/prometheus/prometheus_1_20_9090.png" alt="Основной экран" /></a></p>
+<p dir="auto">Меню: Status/Targets <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/prometheus/prometheus_status_targets.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/prometheus/prometheus_status_targets.png" alt="Статус" /></a></p>
+<p dir="auto">Приложение остановлено:</p>
+<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/prometheus/shop_kotlin_down.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/prometheus/shop_kotlin_down.png" alt="Приложение остановлено" /></a></p>
+<p dir="auto">Приложение запущено:</p>
+<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/prometheus/shop_kotlin_up.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/prometheus/shop_kotlin_up.png" alt="Приложение остановлено" /></a></p>
+
+<a id="show_cpu_prometheus"></a>
+<h3 dir="auto">Пример просмотра использования CPU в Prometheus</h3>
+<p dir="auto">Prometheus запущен на 192.168.1.20:9090</p>
+<p dir="auto">Перейти на <a href="http://192.168.1.20:9090/" rel="nofollow">http://192.168.1.20:9090</a> В меню "Graph":</p>
+<ol dir="auto">
+    <li>В "Expression" ввести system_cpu_usage</li>
+    <li>Перейти на Graph</li>
+    <li>Отрегулировать период (н.п. 15 мин.)</li>
+</ol>
+<p dir="auto">Итоговый запрос: <a href="http://192.168.1.20:9090/graph?g0.range_input=15m&amp;g0.expr=system_cpu_usage&amp;g0.tab=0" rel="nofollow">http://192.168.1.20:9090/graph?g0.range_input=15m&amp;g0.expr=system_cpu_usage&amp;g0.tab=0</a></p>
+<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/prometheus/prometheus_system_cpu_usage.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/prometheus/prometheus_system_cpu_usage.png" alt="prometheus_system_cpu_usage" /></a></p>
+
+<a id="prometheus_docker"></a>
+<h3 dir="auto">Запуск prometheus в docker.</h3>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">docker run -d -p 9090:9090 -v <span style="color: #0000FF">"/$(pwd)/for_prometheus/prometheus.yml"</span>:/etc/prometheus/prometheus.yml prom/prometheus
+</pre></div>
+(внимание на кавычки)
+<p dir="auto">Просмотр состояния prometheus, запущенного в docker:</p>
+<p dir="auto">Вычисление ID container</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ docker ps
+CONTAINER ID   IMAGE             COMMAND                  CREATED         STATUS         PORTS                    NAMES
+e081bb1f500c   prom/prometheus   <span style="color: #0000FF">"/bin/prometheus --c…"</span>   4 minutes ago   Up 4 minutes   0.0.0.0:9090->9090/tcp   reverent_newton
+</pre></div>
+
+<p dir="auto">Просмотр логов контейнера prometheus (e08 id контейнера)</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ docker logs e08 --follow
+
+ts=2023-09-11T13:13:17.850Z caller=main.go:1009 level=info msg="Server is ready to receive web requests."
+ts=2023-09-11T13:13:17.850Z caller=manager.go:1009 level=info component="rule manager" msg="Starting rule manager..."
+...
+</pre></div>
+(follow - не отключаться)
+
+
+<a id="grafana"></a>
+<h3 dir="auto">
+    <a id="user-content-grafana" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#grafana"></a>Grafana</h3>
+<p dir="auto">Graphana отображает метрики, собранные Prometheus. На домашнем сервере развернута Grafana. На картинках ниже отображено использование CPU двух приложений, расположенных на двух разных хостах в упрощенном и полном формате:</p>
+<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/grafana_short" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/grafana_short.png" alt="grafana" /></a></p>
+<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/grafana.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/grafana.png" alt="grafana" /></a></p>
+<p dir="auto">Запуск grafana:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">$ sudo service grafana-server start</pre>
+</div>
+<p dir="auto">Остановка grafana:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">$ sudo service grafana-server stop</pre>
+</div>
+
+<p dir="auto"><a href="http://192.168.1.20:3000/explore?orgId=1&amp;left=%7B%22datasource%22:%22grafana%22,%22queries%22:%5B%7B%22queryType%22:%22randomWalk%22,%22refId%22:%22A%22,%22datasource%22:%7B%22type%22:%22datasource%22,%22uid%22:%22grafana%22%7D%7D%5D,%22range%22:%7B%22from%22:%22now-6h%22,%22to%22:%22now%22%7D%7D" rel="nofollow">Пример запроса</a></p>
+<p dir="auto">user(pass): admin/admin</p>
+<a id="load_test"></a>
+<h3 dir="auto">Нагрузочное тестирование</h3>
+<p dir="auto">Экономия средств при росте производительности — горячая тема в индустрии. Подробнее о нагрузочном тестировании и метриках в этом проекте <a href="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test">https://github.com/cherepakhin/shop_kotlin_yandex_tank_test</a></p>
+
+<a id="caching"></a>
+<h3 dir="auto">Кеширование</h3>
+<p dir="auto">Кеширование сделано для RestController:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">@GetMapping(<span style="color: #0000FF">"/"</span>)
+@Cacheable(<span style="color: #0000FF">"allGroupProductDTO"</span>)
+@ApiOperation(<span style="color: #0000FF">"Get all groups of product"</span>)
+<span style="color: #000080; font-weight: bold">fun</span> all(): List<GroupProductDTO> {
+    ...
+}
+</pre></div>
+<p dir="auto">Использован <a href="https://spring-projects.ru/guides/caching/" rel="nofollow">org.springframework.cache</a>. Ручная проверка работы кеш:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-style: italic"># Очистка кэша</span>
+$ http :8780/api/group_product/clear_cache
+<span style="color: #008800; font-style: italic"># Для проверки, несколько раз сделать get запрос. </span>
+<span style="color: #008800; font-style: italic"># При этом в лог будет только один запрос к репозиторию.</span>
+$ http :8780/api/group_product/
+</pre></div>
+
+<a id="jenkins"></a>
+<h3 dir="auto" tabindex="-1">Сборка Jenkins</h3>
+<p dir="auto">Сборка происходит в Jenkins, развернутом на домашнем сервере. Pipeline для Jenkins описан в файле <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/Jenkinsfile">./Jenkinsfile</a></p>
+<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/jenkins_build_4_step.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/jenkins_build_4_step.png" alt="jenkins" /></a></p>
+<blockquote>
+    <p dir="auto">Установка и настройка домашнего Jenkins описана в <a href="index.php/50-organizatsiya-sobstvennogo-ci-cd" rel="nofollow">https://v.perm.ru/main/index.php/50-organizatsiya-sobstvennogo-ci-cd</a></p>
+</blockquote>
+<p dir="auto">Для ограничения памяти при сборке Gradle, добавлен параметр <b>org.gradle.jvmargs=-Xmx512M</b> в <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/gradle.properties" rel="nofollow">gradle.properties</a>:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">org.gradle.jvmargs=-Xmx512M
+</pre></div>
+
+<a id="nexus"></a>
+<h3 dir="auto" tabindex="-1">Nexus</h3>
+<p dir="auto">В проекте используется внешняя зависимость из домашнего NEXUS репозитория <a href="https://github.com/cherepakhin/shop_kotlin_extdto">https://github.com/cherepakhin/shop_kotlin_extdto</a>:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">implementation(<span style="color: #0000FF">"ru.perm.v:shop_kotlin_extdto:0.0.3"</span>)
+</pre></div>
+Эта библиотека используется в нескольких проектах (DTO для обмена между сервисами).
+
+<h3 dir="auto" tabindex="-1"><a id="user-content-deploy-to-nexus-repository" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#deploy-to-nexus-repository"></a>Deploy to NEXUS repository</h3>
+<p dir="auto">Возможен с использованием Jenkins (в Jenkisfile <i>"stage('Publish to Nexus')"</i>) или ручной deploy в Nexus с личного компьютера.</p>
+<p dir="auto">Для deploy выполнить:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ ./gradlew publish</pre>
+</div>
+
+<p dir="auto">Путь к репозиторию установлен в build.gradle.kts:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">...
+publishing {
+    repositories {
+        maven {
+            url = uri("http://v.perm.ru:8081/repository/ru.perm.v/")
+...
+</pre>
+</div>
+
+<p dir="auto">Для установки переменных доступа к Nexus repository выполнить в shell (переменные будут использованы в build.gradle.kts, см.ниже):</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ export NEXUS_CRED_USR=admin
+$ export NEXUS_CRED_PSW=pass</pre>
+</div>
+Результат deploy:<br/>
+<p dir="auto"><a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/nexus.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/nexus.png" alt="nexus" /></a></p>
+<p dir="auto">Секция publishing в build.gradle.kts полностью:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">...
+publishing {
+ repositories {
+        maven {
+            url = uri("https://v.perm.ru:8082/repository/ru.perm.v/")
+            isAllowInsecureProtocol = true
+            // example export variables in shell
+            // export NEXUS_CRED_USR=admin
+            // verify:
+            // echo $NEXUS_CRED_USR
+            credentials {
+                username = System.getenv("NEXUS_CRED_USR")
+                password = System.getenv("NEXUS_CRED_PSW")
+            }
+        }
+    }
+    publications {
+        register("mavenJava", MavenPublication::class) {
+            groupId
+            artifactId
+            version
+            from(components["java"])
+        }
+}
+</pre>
+</div>
+
+<a id="jmc"></a>
+<h3 dir="auto" tabindex="-1">Просмотр ресурсов с помощью Java Mission Control</h3>
+<p dir="auto"><a href="https://www.oracle.com/cis/javase/jmc/" rel="nofollow">Java Mission Control</a></p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">jmc-8.3.1_linux-x64/JDK Mission Control$ jmc</pre>
+</div>
+
+<p><span style="font-weight: 400;">
+    <img class="pull-center" src="images/shop_kotlin/jmc_monitor.png" alt="jmc_monitor.png" />
+</span></p>
+
+<a id="logging"></a>
+<h3 dir="auto">Логирование</h3>
+<p dir="auto">Настройка сделана в application.yaml:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">logging:
+  level:
+    root: info
+  file:
+    path: log/
+</pre></div>
+
+<a id="easycode_idea"></a>
+<h3 dir="auto">Использование "ChatGPT-EasyCode" в Idea</h3>
+
+<p dir="auto">Пример работы плагина <a href="https://plugins.jetbrains.com/plugin/20603-chatgpt--easycode" rel="nofollow">Idea EasyCode</a> для автодополнения кода : <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/chatgpt_easycode/easycode_demo_worked.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/chatgpt_easycode/easycode_demo_worked.png" alt="demo ChatGPT-EasyCode" /></a></p>
+<p dir="auto">Серым выделена подсказка EasyCode. "TAB" - принять предложение.</p>
+
+<a id="easycode_vscode"></a>
+
+<h3 dir="auto">Использование "ChatGPT-EasyCode" в VSCode</h3>
+<p dir="auto">Генерация тестов <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/chatgpt_easycode/run_write_test_easycode.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/chatgpt_easycode/run_write_test_easycode.png" alt="Сгенерировать тесты ChatGPT-EasyCode" /></a></p>
+<p dir="auto">Рефакторинг <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/chatgpt_easycode/run_refactor_easycode.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/chatgpt_easycode/run_refactor_easycode.png" alt="Рефакторинг ChatGPT-EasyCode" /></a></p>
+<p dir="auto"><strong>Вещь!</strong></p>
+<p dir="auto">А отечественный GigaCode, в течении <b>нескольких недель</b>, отвечаЛ унылым <a href="https://github.com/cherepakhin/shop_kotlin/blob/dev/doc/gigacode.png" target="_blank" rel="noopener noreferrer"><img src="https://github.com/cherepakhin/shop_kotlin/raw/dev/doc/gigacode.png" alt="" /></a></p>
+и в конце концов какие-то шестеренки провернулись:
+<img style="display: block; margin-left: auto; margin-right: auto;" title="gigacode" src="images/chatgpt/gigacode_ok.png"
+     alt="gigacode" width="768" height="343"/><br/>
+В IntelliJ IDEA 2023.3.2 (Community Edition):<br/>
+<img style="display: block; margin-left: auto; margin-right: auto;" title="gigacode" src="images/chatgpt/gigacode.png"
+     alt="gigacode" width="402" height="47"/>
+
+<a id="add_param_to_application_yaml"></a>
+<h3 dir="auto">Частный параметр конфигурации в application.yaml</h3>
+<p dir="auto">Бывает нужно добавить <b>СВОЙ</b> параметр конигурации в <b>application.yaml</b> для удобства тестирования, разработки, развертывания.
+Пример описан в проекте <a class="anchor" tabindex="-1" href="https://github.com/cherepakhin/camel_rest">https://github.com/cherepakhin/camel_rest</a> в разделе "Дополнительно".
+В <b>application.yaml</b> добавлен <b>ЧАСТНЫЙ</b> параметр конфигурации <b>"myconfig"</b>.
+<br/>
+Описание:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@ConfigurationProperties(<span style="color: #0000FF">"myconfig"</span>)
+@ConstructorBinding
+data <span style="color: #000080; font-weight: bold">class</span> MyConfig(<span style="color: #000080; font-weight: bold">val</span> testDirectory: String)
+</pre></div>
+Объявление в application.yaml:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">myconfig:
+    testDirectory: file:~/temp/testarea
+</pre></div>
+Использование:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@RestController
+<span style="color: #000080; font-weight: bold">class</span> ParamCtrl {
+
+    @Autowired
+    lateinit <span style="color: #000080; font-weight: bold">var</span> myConfig: MyConfig
+
+    @GetMapping(<span style="color: #0000FF">"/test_directory"</span>)
+    <span style="color: #000080; font-weight: bold">fun</span> getTestDirectory(): String? {
+        logger.info(<span style="color: #0000FF">"GET param test_directory=${myConfig.testDirectory}"</span>)
+        <span style="color: #000080; font-weight: bold">return</span> myConfig.testDirectory
+    }
+}
+</pre></div>
+
+<a id="set_var_application_yaml"></a>
+<h3 dir="auto">Переопределение значения переменных application.yaml</h3>
+<p dir="auto">Можно задать значения переменных application.yaml через специальную переменную <b>SPRING_APPLICATION_JSON</b>. Пример замены порта приложения на <b>8960</b> (в application.yaml server:  port=<b>8980</b>):</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">// экспорт переменной
+$ export SPRING_APPLICATION_JSON='{"server":{"port":<b>8960</b>}}'
+// проверка
+$ java -jar build/libs/spring_config_k-0.0.1-SNAPSHOT.jar
+....
+INFO 23327 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  :
+    Tomcat initialized with port(s): <b>8960</b> (http)
+....
+</pre>
+</div>
+Пример: <a href="https://github.com/cherepakhin/spring_config_k">https://github.com/cherepakhin/spring_config_k</a><br/>
+<a id="todo"></a>
+<h3 dir="auto" tabindex="-1"><a id="user-content-todo" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#todo"></a>TODO</h3>
+<ul dir="auto">
+    <li><del>cache on rest (сделано)</del></li>
+    <li><del>RestAssured tests (сделано)</del> (<a href="https://github.com/cherepakhin/shop_kotlin_reastassured_test">https://github.com/cherepakhin/shop_kotlin_reastassured_test</a>)</li>
+    <li><del>by lazy (сделано)</del></li>
+    <li><del>Docker (сделано)</del></li>
+    <li><del>Swagger (сделано)</del></li>
+    <li><del>Actuator (сделано)</del></li>
+    <li><del>flyway (использована БД в памяти url: jdbc:h2:mem:easybotdb). Миграции не требуются.</del></li>
+    <li>webmvc тесты (ProductRestMockMvcTest)</li>
+    <li><del>тесты service слоя с СУБД @DataJpaTest (сделано)</del></li>
+    <li>вертикальные БД (?)</li>
+    <li><del>Различные SQL запросы через native Sql и Spring JPA(order by, group by) (сделано)</del></li>
+    <li>Pagination</li>
+    <li><del>Grafana (сделано)</del></li>
+    <li>ElasticSearch</li>
+    <li>Авторизация</li>
+</ul>
+
+    <a id="tose"></a>
+
+    <h3 dir="auto" tabindex="-1"><a id="user-content-примечания" class="anchor" tabindex="-1" href="https://github.com/cherepakhin/shop_kotlin#%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D1%8F"></a>Примечания:</h3>
+<hr/>
+    <p dir="auto">В программе не используются слои controller и service, т.к. проект сделан только для демонстрации связки Spring Boot и Kotlin, и не планируется какая-либо бизнес-логика. Конвертация в DTO сделана в REST контроллерах.</p>
+<hr/>
+    <p dir="auto">Поля в <strong>entity</strong> классах д.б. обозначены <strong>"open"</strong> (н.п. <strong>open</strong> val name: String = ""). В Kotlin используется следующий подход - можно наследовать от суперклассов и переопределять их свойства и функции только в том случае, если они снабжены префиксом <strong>"open"</strong>.</p>
+<hr/>
+    <p dir="auto">Имя для "id" поля в entity классах названы "n". Причины:</p>
+    <ul dir="auto">
+        <li>В некоторых БД "id" ключевое слово</li>
+        <li>В interface repository есть отдельные методы repository.getById(), repository.findById(). Имеется ввиду поиск по primary key. Это путает.</li>
+    </ul>
+<hr/>
+    <p dir="auto">Правила использования модификатора <strong>lateinit</strong>:</p>
+    <ul dir="auto">
+        <li>используется только совместно с ключевым словом var;</li>
+        <li>свойство может быть объявлено только внутри тела класса (не в основном конструкторе);</li>
+        <li>тип свойства не может быть нулевым и примитивным;</li>
+        <li>у свойства не должно быть пользовательских геттеров и сеттеров;</li>
+        <li>с версии Kotlin 1.2 можно применять к свойствам верхнего уровня и локальным переменным.</li>
+        <li>сообщает что инициализация будет как-то сделана (в примере ниже аннотациями @Mock, @InjectMocks). @Mock mockProductService будут инжектированы в @InjectMocks productRest. Пример:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">internal class ProductRestTest {
+    @Mock
+    private lateinit var mockProductService: ProductService
+
+    @InjectMocks
+    private lateinit var productRest: ProductRest
+    ...
+}
+</pre></div>
+
+        </li>
+    </ul>
+<hr/>
+    <p dir="auto">Ключевое слово <strong>byLazy</strong></p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">val catName: String by lazy { getName() }
+</pre></div> свойство объявлено как <strong>VAL</strong>, но присвоение будет выполнено при <strong>первом использовании</strong> и потом уже не будет инициализироваться.
+    <p dir="auto"><strong>Ссылки о lazy и lateinit:</strong></p>
+    <ul dir="auto">
+        <li><a href="https://github.com/cherepakhin/kotlin_in_action">https://github.com/cherepakhin/kotlin_in_action</a></li>
+        <li><a href="https://developer.alexanderklimov.ru/android/kotlin/lateinit.php" rel="nofollow">https://developer.alexanderklimov.ru/android/kotlin/lateinit.php</a></li>
+        <li><a href="https://www.baeldung.com/kotlin/lazy-initialization" rel="nofollow">https://www.baeldung.com/kotlin/lazy-initialization</a></li>
+        <li><a href="https://bimlibik.github.io/posts/kotlin-lateinit-and-lazy/" rel="nofollow">https://bimlibik.github.io/posts/kotlin-lateinit-and-lazy/</a></li>
+    </ul>
+<hr/>
+    <p dir="auto"><strong>Статические члены и компаньон объекты в Kotlin:</strong></p>
+    <p dir="auto">Как правило объекты-компаньоны используются для объявления переменных и функций, к которым требуется обращаться без создания экземпляра класса. Либо для объявления констант. По сути они своего рода замена статическим членам класса (в отличие от Java, в Kotlin нет статики).</p>
+    <ul dir="auto">
+        <li>Как бы static: <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">class</span> Someclass {
+  ...
+  object AsStaticObject {
+    <span style="color: #000080; font-weight: bold">fun</span> create() {
+      ...
+    }
+  }
+
+}
+...
+// использование
+<span style="color: #000080; font-weight: bold">val</span> someClass = SomeClass.AsStaticObject.create()
+</pre></div>
+        </li>
+    </ul>
+    <ul dir="auto">
+        <li>Companion Object (вложенный объект. Метод create() принадлежит родительскому классу):
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">class</span> SomeClass {
+
+  companion object {
+    <span style="color: #000080; font-weight: bold">fun</span> create()
+  }
+}
+...
+<span style="color: #000080; font-weight: bold">val</span> someClass = SomeClass.create()
+</pre></div>
+        </li>
+    </ul>
+<hr/>
+    <p dir="auto"><strong>Различия между val и const val в Kotlin</strong></p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">val</span> MY_VAL = <span style="color: #0000FF">1</span>
+const <span style="color: #000080; font-weight: bold">val</span> MY_CONST_VAL = <span style="color: #0000FF">2</span>
+</pre></div>
+    <ul dir="auto">
+        <li>Обе эти переменные немодифицируемые</li>
+        <li><strong>MY_VAL</strong> станет приватной переменной, для доступа к которой будет создан геттер</li>
+        <li><strong>MY_CONST_VAL</strong> будет "заинлайнена", то есть компилятор заменит все полученные значения этой переменной на само значение</li>
+        <li><a href="https://www.baeldung.com/kotlin/const-var-and-val-keywords" rel="nofollow">Kotlin const, var, and val Keywords</a></li>
+    </ul>
+<hr/>
+    <p dir="auto"><strong>Ошибка "ERROR: Cannot resume build because FlowNode 19"</strong></p>
+    <p dir="auto">Ответ тут <a href="https://community.jenkins.io/t/error-cannot-resume-build-because-flownode-19/9477/3" rel="nofollow">https://community.jenkins.io/t/error-cannot-resume-build-because-flownode-19/9477/3</a></p>
+    <p dir="auto">В двух словах: добавить в Jenkinsfile "максмальную выживаемость":
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">pipeline {
+    agent any
+    options {
+        durabilityHint 'MAX_SURVIVABILITY'
+    }
+...
+}
+</pre></div>
+    </p>
+<hr/>
+    <ul dir="auto"><p dir="auto"><strong>По мелочи:</strong></p>
+        <li>
+            <p dir="auto">В Windows на сетевом диске компилировалось с проблемами <strong>query-dsl</strong>. После переноса на <strong>диск C:</strong> проблемы ушли.</p>
+        </li>
+        <li>
+            <p dir="auto">Если появилась ошибка: "./gradlew: строка 2: $'\r': команда не найдена", то выполнить:</p>
+        </li>
+        <li><p dir="auto">Похоже, при расшаривании папки для Windows и работе в Windows изменился символ конца строки.</p></li>
+        <li>Смена версии gradlew: в ./gragle/wrapper/gradle-wrapper.properties <pre class="notranslate"><code>distributionUrl=https\://services.gradle.org/distributions/gradle-7.6.1-bin.zip</code></pre></li>
+        <li>Jetty рекомендуют, как более оптимизированный контейнер. Для замены сделать: <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">dependencies {
+  implementation("org.springframework.boot:spring-boot-starter-web") {
+  exclude("org.springframework.boot:spring-boot-starter-tomcat")
+  }
+  implementation("org.springframework.boot:spring-boot-starter-jetty") // jetty uses less memory
+  ...
+}
+</pre></div>
+
+        </li>
+        <li>Описание Data class: <a href="https://kotlinlang.ru/docs/reference/data-classes.html" rel="nofollow">https://kotlinlang.ru/docs/reference/data-classes.html</a>.
+            "Классы данных <b>не могут быть абстрактными, open, sealed или inner</b>. Компилятор автоматически формирует следующие члены данного класса из <strong>свойств</strong>,
+            объявленных <strong>в основном конструкторе</strong>: equals()/hashCode(), toString() в форме "User(name=John, age=42)", компонентные функции componentN(),
+            которые соответствуют свойствам, в соответствии с порядком их объявления. Основной конструктор должен иметь как минимум один параметр.
+            Все параметры основного конструктора должны быть отмечены, как val или var."</li>
+    </ul>
+
+    <a id="links"></a>
+    <h3 dir="auto" tabindex="-1">Ссылки:</h3>
+    <ul>
+        <li><a href="https://v.perm.ru/index.php/component/content/article/java-version?catid=15&Itemid=101" rel="nofollow">Установка нужной версии Java</a></li>
+        <li><a href="https://v.perm.ru/index.php/instrumenty-devops/setup-prometheus-grafana" rel="nofollow">Настройка и использование Prometheus, Grafana</a></li>
+        <li><a href="https://v.perm.ru/index.php/instrumenty-devops/nastrojka-deploy-v-nexus-s-pomosu-jenkins" rel="nofollow">Настройка deploy в Nexus из Jenkins</a></li>
+        <li><a href="https://v.perm.ru/index.php/instrumenty-devops/nexus-use" rel="nofollow">Использование Nexus</a></li>
+        <li><a href="https://v.perm.ru/index.php/component/content/article/integrtestallure?catid=15&Itemid=101" rel="nofollow">Интеграционное тестирование с JUnit</a></li>
+        <li><a href="https://v.perm.ru/index.php/component/content/article/rest-test?catid=16" rel="nofollow">Тестирование REST</a></li>
+        <li><a href="https://v.perm.ru/index.php/component/content/article/behave-test-spock?catid=16&Itemid=101" rel="nofollow">Behave тестирование с Spock</a></li>
+        <li><a href="https://v.perm.ru/index.php/instrumenty-devops/docker-short" rel="nofollow">Шпаргалка по Docker</a></li>
+    </ul>

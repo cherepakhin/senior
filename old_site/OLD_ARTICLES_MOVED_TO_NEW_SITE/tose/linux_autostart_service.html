@@ -1,0 +1,53 @@
+1. Создать bash скрипт для запуска нужного приложения.<br>
+2. Создать файл в /etc/systemd/system/<b>my_service</b>.service следующего содержания:<br>
+<hr id="system-readmore" />
+<pre class="language-text">
+<code>[Unit]
+Description=A description my_service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /home/.../start_my_service.sh
+TimeoutStartSec=0
+
+[Install]
+WantedBy=default.target
+</code>
+</pre>
+
+Перечитать сервисы:
+<pre class="language-shell">
+<code>systemctl daemon-reload
+</code>
+</pre>
+
+Включить сервис:
+<pre class="language-shell">
+<code>systemctl enable <b>my_service</b>.service
+</code>
+</pre>
+
+Проверить:
+<pre class="language-shell">
+<code>$ systemctl --all | grep my_service.service
+my_service.service loaded    active   running A description my_service
+</code>
+</pre>
+<br/>
+Старт сервиса:
+<pre class="language-shell">
+<code>$ systemctl start my_service.service
+</code>
+</pre>
+<h3>Ссылки:</h3>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://help.skysilk.com/support/solutions/articles/9000162390--basic-how-to-start-a-program-or-script-on-linux-automatically-on-boot-with-systemd"
+   target="_blank" rel="noopener noreferrer">https://help.skysilk.com/support/solutions/articles/9000162390--basic-how-to-start-a-program-or-script-on-linux-automatically-on-boot-with-systemd</a>
+<br/><br/>
+Раскрашенный log:
+<pre class="language-shell">
+<code>grc tail -f /var/log/syslog
+</code>
+</pre>
+

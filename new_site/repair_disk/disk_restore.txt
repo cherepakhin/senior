@@ -1,0 +1,373 @@
+-bash: не удаётся создать временный файл для блока here-document: Файловая система доступна только для чтения
+
+vasi@v ~ $ sudo cat /etc/fstab
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+# / was on /dev/sda5 during installation
+UUID=e74da723-d79b-4095-ba13-8ee051829c22 /               ext4    errors=remount-ro 0       1
+# swap was on /dev/sda6 during installation
+#UUID=eb306aea-8868-45c5-a874-ffb5ace5398e none            swap    sw              0       0
+#UUID=345c852b-14cd-4acf-b21e-d5f5307d4e53 /mnt/md0 	ext4    rw,relatime,stripe=256,data=ordered 0 0
+#/dev/md0 /mnt/md0 	ext4    rw,relatime,stripe=256,data=ordered 0 0
+#/dev/sdc2 /mnt/sdc2 	ext4    rw,relatime,stripe=256,data=ordered 0 0
+/dev/sdb1 /mnt/sdb1 auto nosuid,nodev,nofail,x-gvfs-show 0 0
+/dev/sda1 /mnt/sda1 auto nosuid,nodev,nofail,x-gvfs-show 0 0
+/dev/disk/by-uuid/ae4d3eac-a064-4cc3-9b97-5c42234b817b /mnt/sdc1 auto nosuid,nodev,nofail,x-gvfs-show 0 0
+
+vasi@v ~ $ sudo blkid
+/dev/sda1: LABEL="Recovery" UUID="1460A2C160A2A946" TYPE="ntfs" PARTUUID="0c27815e-01"
+/dev/sda2: UUID="685C03D15C0398C8" TYPE="ntfs" PARTUUID="0c27815e-02"
+/dev/sda3: UUID="14BA6359BA633700" TYPE="ntfs" PARTUUID="0c27815e-03"
+/dev/sda5: UUID="e74da723-d79b-4095-ba13-8ee051829c22" TYPE="ext4" PARTUUID="0c27815e-05"
+/dev/sda6: UUID="eb306aea-8868-45c5-a874-ffb5ace5398e" TYPE="swap" PARTUUID="0c27815e-06"
+/dev/sdb1: LABEL="d1000" UUID="68293941-db3a-4296-9e03-081ed4d3d9bd" TYPE="ext4" PARTUUID="d7e5e62d-01"
+
+vasi@v ~ $ sudo mount -o remount,rw /
+mount: /: cannot remount /dev/sda5 read-write, is write-protected.
+
+vasi@v ~ $ sudo blkid
+/dev/sda1: LABEL="Recovery" UUID="1460A2C160A2A946" TYPE="ntfs" PARTUUID="0c27815e-01"
+/dev/sda2: UUID="685C03D15C0398C8" TYPE="ntfs" PARTUUID="0c27815e-02"
+/dev/sda3: UUID="14BA6359BA633700" TYPE="ntfs" PARTUUID="0c27815e-03"
+/dev/sda5: UUID="e74da723-d79b-4095-ba13-8ee051829c22" TYPE="ext4" PARTUUID="0c27815e-05"
+/dev/sda6: UUID="eb306aea-8868-45c5-a874-ffb5ace5398e" TYPE="swap" PARTUUID="0c27815e-06"
+/dev/sdb1: LABEL="d1000" UUID="68293941-db3a-4296-9e03-081ed4d3d9bd" TYPE="ext4" PARTUUID="d7e5e62d-01"
+
+vasi@v ~ $ sudo cat /etc/fstab
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+# / was on /dev/sda5 during installation
+UUID=e74da723-d79b-4095-ba13-8ee051829c22 /               ext4    errors=remount-ro 0       1
+# swap was on /dev/sda6 during installation
+#UUID=eb306aea-8868-45c5-a874-ffb5ace5398e none            swap    sw              0       0
+#UUID=345c852b-14cd-4acf-b21e-d5f5307d4e53 /mnt/md0 	ext4    rw,relatime,stripe=256,data=ordered 0 0
+#/dev/md0 /mnt/md0 	ext4    rw,relatime,stripe=256,data=ordered 0 0
+#/dev/sdc2 /mnt/sdc2 	ext4    rw,relatime,stripe=256,data=ordered 0 0
+/dev/sdb1 /mnt/sdb1 auto nosuid,nodev,nofail,x-gvfs-show 0 0
+/dev/sda1 /mnt/sda1 auto nosuid,nodev,nofail,x-gvfs-show 0 0
+/dev/disk/by-uuid/ae4d3eac-a064-4cc3-9b97-5c42234b817b /mnt/sdc1 auto nosuid,nodev,nofail,x-gvfs-show 0 0
+
+vasi@v ~ $ sudo mount -o remount,rw /
+mount: /: cannot remount /dev/sda5 read-write, is write-protected.
+===============================================================================
+vasi@v ~ $ sudo fsck /dev/sda5
+fsck из util-linux 2.31.1
+e2fsck 1.44.1 (24-Mar-2018)
+/dev/sda5: восстановление журнала
+fsck.ext4: Unknown code ____ 251 while recovering journal of /dev/sda5
+/dev/sda5 содержит файловую систем с ошибками, check forced.
+Проход 1: Проверка inodes, блокs, а также размеров
+Inodes that were part of a corrupted orphan linked list found.  
+удалено inode 12632119 has zero dtime.  
+Inode 14812108 extent tree (at level 1) could be shorter.  
+Inode 14817546 extent tree (at level 1) could be shorter.  
+Inode 14817763 extent tree (at level 1) could be shorter.  
+Pass 1E: Optimizing extent trees
+Pass 2: Checking каталог structure
+Entry 'durable-02198d22' в /root/.jenkins/workspace/shop_kotlin@tmp (15901093) has удалено/unused inode 15909820.  Очистить<y>? yes
+Pass 3: Checking каталог connectivity
+Pass 4: Checking reference counts
+Unattached zero-length inode 15879553.  Очистить<y>? yes
+Inode 15901093 ref count is 4, должно быть 3.  
+Inode 15901158 ref count is 4, должно быть 2.  
+Inode 15901159 ref count is 3, должно быть 2.  
+Inode 15901161 ref count is 3, должно быть 2.  
+Inode 15901162 ref count is 3, должно быть 2.  
+Inode 15901164 ref count is 3, должно быть 2.  
+Inode 15901166 ref count is 3, должно быть 2.  
+Pass 5: Checking группа summary information
+блок карта differences:  -(16944755--16944763)......
+  
+Free inodes count wrong /dev/sda5: ***** ФАЙЛОВАЯ СИСТЕМА БЫЛА ИЗМЕНЕНА *****
+/dev/sda5: ***** REBOOT SYSTEM *****
+/dev/sda5: 2225452/17080320 files (0.4% non-contiguous), 64562131/68295680 blocks
+
+vasi@v ~ $ sudo shutdown -r 0
+
+===============================================================================
+
+vasi@vasi-note:~/prog/kotlin/shop/shop_kotlin$ ssh v
+
+vasi@v's password:
+-bash: не удаётся создать временный файл для блока here-document: Файловая система доступна только для чтения
+
+vasi@v ~ $ mount / -o remount,rw
+mount: использовать опцию "--options" может только root
+
+vasi@v ~ $ sudo mount / -o remount,rw
+mount: /: cannot remount /dev/sda5 read-write, is write-protected.
+
+vasi@v ~ $ sudo fsck -f /
+fsck из util-linux 2.31.1
+e2fsck 1.44.1 (24-Mar-2018)
+/dev/sda5: восстановление журнала
+fsck.ext4: unable to set superblock flags on /dev/sda5/dev/sda5: ********** ВНИМАНИЕ: Файловая система всё ещё содержит ошибки **********
+
+vasi@v ~ $ sudo fsck /dev/sda5
+fsck из util-linux 2.31.1
+e2fsck 1.44.1 (24-Mar-2018)
+/dev/sda5: восстановление журнала
+....
+/dev/sda5: clean, 2225551/17080320 files, 64562276/68295680 blocks
+
+vasi@v ~ $ sudo mount / -o remount,rw
+mount: /: cannot remount /dev/sda5 read-write, is write-protected.
+
+vasi@v ~ $ sudo fsck /dev/sda5
+fsck из util-linux 2.31.1
+e2fsck 1.44.1 (24-Mar-2018)
+/dev/sda5 содержит файловую систем с ошибками, check forced.
+Проход 1: Проверка inodes, блокs, а также размеров
+Inode 14817600 extent tree (at level 1) could be shorter.  
+Pass 1E: Optimizing extent trees
+Pass 2: Checking каталог structure
+Pass 3: Checking каталог connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking группа summary information
+блок карта differences:  -10257192 -10283099 -(55754377--55754379)
+Free блокs count wrong 
+Free inodes count wrong /dev/sda5: ***** ФАЙЛОВАЯ СИСТЕМА БЫЛА ИЗМЕНЕНА *****
+/dev/sda5: ***** REBOOT SYSTEM *****
+/dev/sda5: 2225551/17080320 files (0.4% non-contiguous), 64562267/68295680 blocks
+
+vasi@v ~ $ sudo fsck -f /dev/sda5
+fsck из util-linux 2.31.1
+e2fsck 1.44.1 (24-Mar-2018)
+Проход 1: Проверка inodes, блокs, а также размеров
+Pass 2: Checking каталог structure
+Pass 3: Checking каталог connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking группа summary information
+/dev/sda5: 2225551/17080320 files (0.4% non-contiguous), 64562267/68295680 blocks
+
+vasi@v ~ $ sudo fsck -f /dev/sda5
+fsck из util-linux 2.31.1
+e2fsck 1.44.1 (24-Mar-2018)
+Проход 1: Проверка inodes, блокs, а также размеров
+Pass 2: Checking каталог structure
+Pass 3: Checking каталог connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking группа summary information
+/dev/sda5: 2225551/17080320 files (0.4% non-contiguous), 64562267/68295680 blocks
+
+vasi@v ~ $ sudo shutdown -r 0
+Shutdown scheduled for Sun 2024-02-11 00:50:50 +05, use 'shutdown -c' to cancel.
+
+-bash: не удаётся создать временный файл для блока here-document: Файловая система доступна только для чтения
+
+vasi@v ~ $ sudo fsck -f /
+fsck из util-linux 2.31.1
+e2fsck 1.44.1 (24-Mar-2018)
+/dev/sda5: восстановление журнала
+Проход 1: Проверка inodes, блокs, а также размеров
+удалено inode 12451843 has zero dtime.  
+Pass 2: Checking каталог structure
+Pass 3: Checking каталог connectivity
+Pass 4: Checking reference counts
+Unattached zero-length inode 12451869.  Очистить<y>? yes
+Pass 5: Checking группа summary information
+блок карта differences:  +10257192 +10283099 +(55754377--55754379) -56016384 +(65675339--65675340) +66264715
+Free блокs count wrong 
+Inode карта differences:  -1836406 +1836959 -12451843
+Free inodes count wrong 
+/dev/sda5: ***** ФАЙЛОВАЯ СИСТЕМА БЫЛА ИЗМЕНЕНА *****
+/dev/sda5: ***** REBOOT SYSTEM *****
+/dev/sda5: 2225548/17080320 files (0.4% non-contiguous), 64562244/68295680 blocks
+
+vasi@v ~ $ sudo fsck -f /
+fsck из util-linux 2.31.1
+e2fsck 1.44.1 (24-Mar-2018)
+Проход 1: Проверка inodes, блокs, а также размеров
+Pass 2: Checking каталог structure
+Pass 3: Checking каталог connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking группа summary information
+/dev/sda5: 2225548/17080320 files (0.4% non-contiguous), 64562244/68295680 blocks
+
+vasi@v ~ $ sudo fsck -f /
+fsck из util-linux 2.31.1
+e2fsck 1.44.1 (24-Mar-2018)
+Проход 1: Проверка inodes, блокs, а также размеров
+Pass 2: Checking каталог structure
+Pass 3: Checking каталог connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking группа summary information
+/dev/sda5: 2225548/17080320 files (0.4% non-contiguous), 64562244/68295680 blocks
+
+vasi@v ~ $ sudo shutdown -r 0
+Shutdown scheduled for Sun 2024-02-11 00:56:05 +05, use 'shutdown -c' to cancel.
+
+vasi@v ~ $ Connection to v closed by remote host.
+Connection to v closed.
+
+vasi@vasi-note:~/prog/kotlin/shop/shop_kotlin$ ssh v
+
+vasi@v's password:
+Last login: Sun 
+Command 'kubectl' not found, but can be installed with:
+sudo snap install kubectl
+-bash: не удаётся создать временный файл для блока here-document: Файловая система доступна только для чтения
+
+vasi@v ~ $ sudo e2fsck /dev/sda5
+e2fsck 1.44.1 (24-Mar-2018)
+/dev/sda5: восстановление журнала
+e2fsck: Unknown code ____ 251 while recovering journal of /dev/sda5
+/dev/sda5 содержит файловую систем с ошибками, check forced.
+Проход 1: Проверка inodes, блокs, а также размеров
+Inodes that were part of a corrupted orphan linked list found.  удалено inode 12632119 has zero dtime.  Inode 14817818 extent tree (at level 1) could be shorter.  
+Pass 1E: Optimizing extent trees
+Pass 2: Checking каталог structure
+Entry 'browse.dat' в /var/cache/samba (14811161) has удалено/unused inode 14817931.  Очистить<y>? yes
+Pass 3: Checking каталог connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking группа summary information
+
+Free inodes count wrong 
+Error writing file system info: Ошибка ввода/вывода
+/dev/sda5: ***** ФАЙЛОВАЯ СИСТЕМА БЫЛА ИЗМЕНЕНА *****
+
+vasi@v ~ $ sudo e2fsck -y /dev/sda5
+e2fsck 1.44.1 (24-Mar-2018)
+/dev/sda5 содержит файловую систем с ошибками, check forced.
+Проход 1: Проверка inodes, блокs, а также размеров
+Pass 2: Checking каталог structure
+Pass 3: Checking каталог connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking группа summary information
+Free блокs count wrong Исправить? yes
+Free inodes count wrong Исправить? yes/dev/sda5: ***** ФАЙЛОВАЯ СИСТЕМА БЫЛА ИЗМЕНЕНА *****
+/dev/sda5: ***** REBOOT SYSTEM *****
+/dev/sda5: 2225557/17080320 files (0.4% non-contiguous), 64498945/68295680 blocks
+
+vasi@v ~ $ sudo e2fsck -y /dev/sda5
+e2fsck 1.44.1 (24-Mar-2018)
+/dev/sda5: clean, 2225557/17080320 files, 64498945/68295680 blocks
+
+vasi@v ~ $ sudo e2fsck -y /dev/sda5
+e2fsck 1.44.1 (24-Mar-2018)
+/dev/sda5: clean, 2225557/17080320 files, 64498945/68295680 blocks
+
+vasi@v ~ $ sudo shutdown -r 0
+Shutdown scheduled for Sun 2024-02-11 01:03:21 +05, use 'shutdown -c' to cancel.
+
+vasi@v ~ $ Connection to v closed by remote host.
+Connection to v closed.
+===============================================================================
+
+vasi@vasi-note:~/prog/kotlin/shop/shop_kotlin$ ssh v
+
+vasi@v's password:
+Расширенное поддержание безопасности (ESM) для Infrastructure выключено.
+1 обновление может быть применено немедленно.
+Чтобы просмотреть дополнительные обновления выполните: apt list --upgradable
+Включите ESM Infra для получения дополнительных будущих обновлений безопасности.
+Смотрите https://ubuntu.com/esm или выполните: sudo pro status
+vasi@v ~ $ ps -ax | grep nexus
+ 8798 ?        Sl     3:32 /usr/lib/jvm/java-1.8.0-openjdk-amd64/bin/java -server -Dinstall4j.jvmDir=/usr/lib/jvm/java-1.8.0-openjdk-amd64 -Dexe4j.moduleName=/mnt/sdb1/tools/nexus/nexus-3.60.0-02/bin/nexus -XX:+UnlockDiagnosticVMOptions -Dinstall4j.launcherId=245 -Dinstall4j.swt=false -Di4jv=0 -Di4jv=0 -Di4jv=0 -Di4jv=0 -Di4jv=0 -Xms384m -Xmx384m -XX:MaxDirectMemorySize=512m -XX:+UnlockDiagnosticVMOptions -XX:+LogVMOutput -XX:LogFile=../sonatype-work/nexus3/log/jvm.log -XX:-OmitStackTraceInFastThrow -Djava.net.preferIPv4Stack=true -Dkaraf.home=. -Dkaraf.base=. -Dkaraf.etc=etc/karaf -Djava.util.logging.config.file=etc/karaf/java.util.logging.properties -Dkaraf.data=../sonatype-work/nexus3 -Dkaraf.log=../sonatype-work/nexus3/log -Djava.io.tmpdir=../sonatype-work/nexus3/tmp -Dkaraf.startLocalConsole=false -Djdk.tls.ephemeralDHKeySize=2048 -Djava.endorsed.dirs=lib/endorsed -Di4j.vpt=true -classpath /mnt/sdb1/tools/nexus/nexus-3.60.0-02/.install4j/i4jruntime.jar:/mnt/sdb1/tools/nexus/nexus-3.60.0-02/lib/boot/nexus-main.jar:/mnt/sdb1/tools/nexus/nexus-3.60.0-02/lib/boot/activation-1.1.1.jar:/mnt/sdb1/tools/nexus/nexus-3.60.0-02/lib/boot/jakarta.xml.bind-api-2.3.3.jar:/mnt/sdb1/tools/nexus/nexus-3.60.0-02/lib/boot/jaxb-runtime-2.3.3.jar:/mnt/sdb1/tools/nexus/nexus-3.60.0-02/lib/boot/txw2-2.3.3.jar:/mnt/sdb1/tools/nexus/nexus-3.60.0-02/lib/boot/istack-commons-runtime-3.0.10.jar:/mnt/sdb1/tools/nexus/nexus-3.60.0-02/lib/boot/org.apache.karaf.main-4.3.9.jar:/mnt/sdb1/tools/nexus/nexus-3.60.0-02/lib/boot/osgi.core-7.0.0.jar:/mnt/sdb1/tools/nexus/nexus-3.60.0-02/lib/boot/org.apache.karaf.specs.activator-4.3.9.jar:/mnt/sdb1/tools/nexus/nexus-3.60.0-02/lib/boot/org.apache.karaf.diagnostic.boot-4.3.9.jar:/mnt/sdb1/tools/nexus/nexus-3.60.0-02/lib/boot/org.apache.karaf.jaas.boot-4.3.9.jar com.install4j.runtime.launcher.UnixLauncher start 9d17dc87 0 0 org.sonatype.nexus.karaf.NexusMain
+11329 pts/0    S+     0:00 grep --color=auto nexus
+
+vasi@v ~ $ ps -ax | grep jenkins
+ 2242 ?        Ssl    0:36 /usr/bin/java -Djava.awt.headless=true -jar /mnt/sdb1/tools/jenkins/jenkins.war --webroot=/mnt/sdb1/tools/jenkins/data --httpPort=8888 -Xmx512m
+11217 ?        S      0:00 sh -c ({ while [ -d '/root/.jenkins/workspace/shop_kotlin@tmp/durable-498198c8' -a \! -f '/root/.jenkins/workspace/shop_kotlin@tmp/durable-498198c8/jenkins-result.txt' ]; do touch '/root/.jenkins/workspace/shop_kotlin@tmp/durable-498198c8/jenkins-log.txt'; sleep 3; done } & jsc=durable-8b23f9be5fbc9512a47e80ca59d039f4c4cd2fd55ebda0ad5d6c6fdcff799240; JENKINS_SERVER_COOKIE=$jsc 'sh' -xe  '/root/.jenkins/workspace/shop_kotlin@tmp/durable-498198c8/script.sh' > '/root/.jenkins/workspace/shop_kotlin@tmp/durable-498198c8/jenkins-log.txt' 2>&1; echo $? > '/root/.jenkins/workspace/shop_kotlin@tmp/durable-498198c8/jenkins-result.txt.tmp'; mv '/root/.jenkins/workspace/shop_kotlin@tmp/durable-498198c8/jenkins-result.txt.tmp' '/root/.jenkins/workspace/shop_kotlin@tmp/durable-498198c8/jenkins-result.txt'; wait) >&- 2>&- &
+11218 ?        S      0:00 sh -c ({ while [ -d '/root/.jenkins/workspace/shop_kotlin@tmp/durable-498198c8' -a \! -f '/root/.jenkins/workspace/shop_kotlin@tmp/durable-498198c8/jenkins-result.txt' ]; do touch '/root/.jenkins/workspace/shop_kotlin@tmp/durable-498198c8/jenkins-log.txt'; sleep 3; done } & jsc=durable-8b23f9be5fbc9512a47e80ca59d039f4c4cd2fd55ebda0ad5d6c6fdcff799240; JENKINS_SERVER_COOKIE=$jsc 'sh' -xe  '/root/.jenkins/workspace/shop_kotlin@tmp/durable-498198c8/script.sh' > '/root/.jenkins/workspace/shop_kotlin@tmp/durable-498198c8/jenkins-log.txt' 2>&1; echo $? > '/root/.jenkins/workspace/shop_kotlin@tmp/durable-498198c8/jenkins-result.txt.tmp'; mv '/root/.jenkins/workspace/shop_kotlin@tmp/durable-498198c8/jenkins-result.txt.tmp' '/root/.jenkins/workspace/shop_kotlin@tmp/durable-498198c8/jenkins-result.txt'; wait) >&- 2>&- &
+11219 ?        S      0:00 sh -xe /root/.jenkins/workspace/shop_kotlin@tmp/durable-498198c8/script.sh
+11221 ?        Sl     0:01 java -Xmx64m -Xms64m -Dorg.gradle.appname=gradlew -classpath /root/.jenkins/workspace/shop_kotlin/shop_kotlin/gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain clean test --tests *TestIntegration
+11370 pts/0    S+     0:00 grep --color=auto jenkins
+
+vasi@v ~ $ packet_write_wait: Connection to 192.168.1.20 port 22: Broken pipe
+
+vasi@v ~/tools/backup $ sudo apt install mysql
+mysql-client           mysql-sandbox          mysql-source-5.7       mysqltuner
+mysql-client-5.7       mysql-server           mysqltcl               mysql-utilities
+mysql-client-core-5.7  mysql-server-5.7       mysql-testsuite        mysql-workbench
+mysql-common           mysql-server-core-5.7  mysql-testsuite-5.7    mysql-workbench-data
+
+vasi@v ~/tools/backup $ sudo apt install mysql-server
+Чтение списков пакетов… Готово
+Построение дерева зависимостей
+Чтение информации о состоянии… Готово
+Уже установлен пакет mysql-server самой новой версии (5.7.42-0ubuntu0.18.04.1).
+Следующие пакеты устанавливались автоматически и больше не требуются:
+  libxcb-xinput0 phantomjs python3-pyxattr rtmpdump
+Для их удаления используйте «sudo apt autoremove».
+Обновлено 0 пакетов, установлено 0 новых пакетов, для удаления отмечено 0 пакетов, и 3 пакетов не обновлено.
+
+vasi@v ~/tools/backup $ ps -ax | grep mysql
+26320 pts/1    S+     0:00 grep --color=auto mysql
+
+vasi@v ~/tools/backup $ sudo systemctl start mysql.service
+Job for mysql.service failed because the control process exited with error code.
+See "systemctl status mysql.service" and "journalctl -xe" for details.
+
+vasi@v ~/tools/backup $ sudo ls /var/log/mysql/
+ls: невозможно получить доступ к '/var/log/mysql/': Нет такого файла или каталога
+
+vasi@v ~/tools/backup $ sudo mkdir /var/log/mysql/
+
+vasi@v ~/tools/backup $ sudo systemctl start mysql.service
+Job for mysql.service failed because the control process exited with error code.
+See "systemctl status mysql.service" and "journalctl -xe" for details.
+
+vasi@v ~/tools/backup $ sudo chmod 777 /var/log/mysql/
+
+vasi@v ~/tools/backup $ sudo systemctl start mysql.service
+
+vasi@v ~/tools/backup $ ps -ax | grep mysql
+26857 ?        Sl     0:00 /usr/sbin/mysqld --daemonize --pid-file=/run/mysqld/mysqld.pid
+26899 pts/1    S+     0:00 grep --color=auto mysql
+
+vasi@v ~/tools/backup $
+> cat j3_dump.sh
+>mysqldump -u root -p --databases j3 > /mnt/sdb1/backup/site/j3_dump.sql
+
+>cd /mnt/sdb1/backup/site
+>zip j3_dump.sql.zip j3_dump.sql
+>rm j3_dump.sql
+
+vasi@v ~/tools/backup $ mysql -u root -p
+Enter password:
+mysql> exit
+Bye
+
+vasi@v ~/tools/backup $
+
+vasi@v /mnt/sdb1/backup/site $ unzip j3_dump.sql.zip
+Archive:  j3_dump.sql.zip
+  inflating: j3_dump.sql
+
+vasi@v /mnt/sdb1/backup/site $ mysql -u root -p
+Enter password:
+ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+
+vasi@v /mnt/sdb1/backup/site $ mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 7
+Server version: 5.7.42-0ubuntu0.18.04.1 (Ubuntu)
+mysql> create database j3;
+ERROR 1007 (HY000): Can't create database 'j3'; database exists
+mysql> use j3;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+Database changed
+mysql> source /mnt/sdb1/backup/site/j3_dump.sql
+Database changed
+...
+Records: 222  Duplicates: 0  Warnings: 0mysql> create database j3;
+/mnt/sdb1/backup/site $ mysql -u root -p
+>pass: b-o
+mysql> drop database j3;
+mysql> create database j3;
+mysql> use j3;
+// RESTORE
+mysql> source /mnt/sdb1/backup/site/j3_dump.sql

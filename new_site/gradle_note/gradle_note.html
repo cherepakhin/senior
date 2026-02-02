@@ -1,0 +1,47 @@
+Пример проекта с gradle и kotlin:
+<a href="https://github.com/cherepakhin/shop_kotlin"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://github.com/cherepakhin/shop_kotlin</strong>
+</a><br/>
+В проекте описано все, что нужно для сборки и deploy.
+<hr id="system-readmore"/>
+<b>Примечания:</b><br/>
+<ul>
+    <li><a href="https://habr.com/ru/articles/458046/"
+           target="_blank" rel="noopener noreferrer">
+        <strong>Шпаргалка по Gradle</strong>
+    </a></li>
+    <li>Вывод gradle tasks:
+        <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">./gradlew tasks</pre></div>
+    <li>Не найден plugin при сборке gradle<br/>
+        Добавить в начало (build.gradle млм build.gradle.kts):
+        <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">buildscript {
+  repositories {
+    mavenCentral()
+ }
+}
+</pre></div>
+Это позволит искать плагин в центральном репозитории maven. Корневая секция (repositories {}) предназначена для dependencies , но не для plugins (buildscript{repositories{}})
+        <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">buildscript {
+  repositories {
+    mavenCentral()
+ }
+}
+</pre></div>
+        <a
+                href="https://ru.stackoverflow.com/questions/1070668/Куда-обращается-gradle-за-org-springframework-boot"
+                target="_blank" rel="noopener noreferrer">
+            <strong>https://ru.stackoverflow.com/questions/1070668/Куда-обращается-gradle-за-org-springframework-boot</strong>
+        </a></li>
+</ul>
+<br/>
+Смена версии gradle для проекта:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+./gradlew wrapper --gradle-version 7.4.2
+</pre></div>
+<a
+        href="https://tomgregory.com/gradle/how-to-update-gradle/"
+        target="_blank" rel="noopener noreferrer">
+    <strong>https://tomgregory.com/gradle/how-to-update-gradle/</strong>
+</a>

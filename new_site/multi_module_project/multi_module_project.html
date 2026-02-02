@@ -1,0 +1,98 @@
+Описан способ организации разработки, когда один из модулей (library) используется в нескольких проектах (application1, application2, ... applicationN).
+Чаще, и возможно проще, переиспольуемый модуль разрабатывается отдельно и затем подключается как зависимость через репозиторий maven.
+При изменении library его maven версия получает новый идентификатор и это изменение должно быть учтено в целевых проектах.
+Заготовка проекта:
+<a style="color: #3366ff; text-decoration: underline;" tabindex="-1" href="https://github.com/cherepakhin/multi-module">https://github.com/cherepakhin/multi-module</a>.<br/>
+В проекте два модуля <b>Application</b> и <b>Library</b>.
+<hr id="system-readmore" />
+<br/><b>settings.gradle</b> всего проекта:
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">rootProject.name = <span style="color: #0000FF">&#39;multi-module&#39;</span>
+
+include <span style="color: #0000FF">&#39;library&#39;</span>
+include <span style="color: #0000FF">&#39;application&#39;</span>
+</pre></div>
+В Idea выглядит так:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="idea_multi_module" src="images/multi_module/idea_multi_module.png"
+        alt="allure_result_test" width="415" height="447"/></p>
+
+Log сборки:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">multi_module$ ./gradlew build
+Module Application. On JavaCompile. Executing TASK: compileJava
+----------------
+Module Application. On JavaCompile. Executing TASK: compileTestJava
+----------------
+Module Library. On JavaCompile. Executing TASK: compileJava
+----------------
+Module Library. On JavaCompile. Executing TASK: compileTestJava
+----------------
+Module Application. On Test. Executing TASK: test
+----------------
+Module Library. On Test. Executing TASK: test
+----------------
+
+BUILD SUCCESSFUL in 4s
+</pre></div>
+При сборке, сначала все модули компилируются (<b>...On JavaCompile...</b>) в след. порядке:<br/>
+Module <b>Application</b>:
+<ul>
+    <li>compile Application <b>MAIN</b></li>
+    <li>compile Application <b>TEST</b></li>
+</ul>
+Module <b>Library</b>:
+<ul>
+    <li>compile Library <b>MAIN</b></li>
+    <li>compile Library <b>TEST</b></li>
+</ul>
+Затем выполняются тесты (On Test) (т.к. build):<br/>
+<ul>
+    <li>Test Module <b>Application</b></li>
+    <li>Test Module <b>Library</b></li>
+</ul>
+
+Тест отдельного модуля:<br/>
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ ./gradlew :library:test
+</pre></div>
+
+Сборка отдельного модуля:<br/>
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ ./gradlew :application:publish
+$ ./gradlew :library:publish
+</pre></div>
+
+
+Результат:<br/><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="nexus_multi_module" src="images/multi_module/nexus_multi_module.png"
+        alt="nexus_multi_module" width="930" height="644"/></p>
+
+Пересборка модуля после deploy зависимого модуля:<br/>
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$./gradlew --refresh-dependencies :application:compileJava
+</pre></div>
+
+<b>Замечание для многомодульного проекта Maven</b><br/>
+Версии библиотек можно указать в корневом pom.xml в секции <b>dependencyManagement</b>:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">&lt;dependencyManagement&gt;
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;group-a&lt;/groupId&gt;
+        &lt;artifactId&gt;artefact1&lt;/artifactId&gt;
+        &lt;version&gt;1.0.0&lt;/version&gt;
+    &lt;/dependency&gt;
+    ...
+  &lt;/dependencies&gt;
+&lt;/dependencyManagement&gt;
+</span></pre></div>
+
+И в модулях версию dependency можно не указывать:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;group-a&lt;/groupId&gt;
+        &lt;artifactId&gt;artefact1&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</span></pre></div>
+<a style="color: #3366ff; text-decoration: underline;" tabindex="-1" href="https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Dependency_Management">https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Dependency_Management</a>.<br/>
+
+<a id="links"></a>
+<h3 dir="auto" tabindex="-1">Ссылки:</h3>
+<ul>
+    <li><a style="color: #3366ff; text-decoration: underline;" tabindex="-1" href="https://github.com/cherepakhin/multi-module">Пример проекта на github: https://github.com/cherepakhin/multi-module</a></li>
+</ul>

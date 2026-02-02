@@ -1,0 +1,1 @@
+keytool -certreq -alias v.perm.ru -keystore KeyStore.jks -file v_perm_ru.csr

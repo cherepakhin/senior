@@ -1,0 +1,241 @@
+<p>
+    <a title="Sonatype Nexus Repository"
+       style="text-decoration: underline; color: #3366ff;"
+       href="https://www.sonatype.com/products/sonatype-nexus-repository"
+       target="_blank"
+       rel="noopener noreferrer">
+        Sonatype Nexus Repository</a> - внешний репозиторий проектов, артефактов, зависимостей maven/gradle и т.п.
+    <br />
+    <a title="Jenkins" href="https://www.jenkins.io/"
+       style="text-decoration: underline; color: #3366ff;"
+       target="_blank"
+       rel="noopener noreferrer">
+        Jenkins</a> - инструмент тестирования, сборки и публикация(deploy) проектов, модулей.
+
+</p>
+<hr id="system-readmore"/>
+<h3 dir="auto">Sonatype Nexus Repository</h3>
+<p>Пример секции в <b>pom.xml</b> в maven проекте <a title="Пример использования"
+                                                     style="text-decoration: underline; color: #3366ff;"
+                                                     target="_blank"
+                                                     href="https://github.com/cherepakhin/animals#cicd"
+                                                     rel="noopener noreferrer"> animals для deploy в местный Sonatype Nexus Repository:</p>
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">&lt;distributionManagement&gt;</span>
+  <span style="color: #000080; font-weight: bold">&lt;repository&gt;</span>
+    <span style="color: #000080; font-weight: bold">&lt;id&gt;</span>ru.perm.v<span style="color: #000080; font-weight: bold">&lt;/id&gt;</span>
+    <span style="color: #000080; font-weight: bold">&lt;name&gt;</span>My Repository<span style="color: #000080; font-weight: bold">&lt;/name&gt;</span>
+    <span style="color: #000080; font-weight: bold">&lt;url&gt;</span>http://192.168.1.20:8081/repository/ru.perm.v/<span style="color: #000080; font-weight: bold">&lt;/url&gt;</span>
+  <span style="color: #000080; font-weight: bold">&lt;/repository&gt;</span>
+<span style="color: #000080; font-weight: bold">&lt;/distributionManagement&gt;</span>
+</pre></div>
+Для deploy выполнить:
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./mvnw deploy
+</pre></div>
+Пример использования
+<a title="Пример использования"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank"
+   href="https://github.com/cherepakhin/animals#cicd"
+   rel="noopener noreferrer">
+   https://github.com/cherepakhin/animals</a>
+<br/>
+<a title="Локальный NEXUS"
+   style="text-decoration: underline; color: #3366ff;"
+   href="http://192.168.1.20:8081/#browse/browse:ru.perm.v"
+   target="_blank"
+   rel="noopener noreferrer">http://192.168.1.20:8081/#browse/browse:ru.perm.v</a>
+<br/><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="nexus_demo" src="images/jenkins_nexus_cicd/nexus_proj.png"
+        alt="nexus_demo" width="762" height="426"/></p>
+
+<h3 dir="auto">Jenkins</h3>
+
+Пример Jenkinsfile:<br>
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">stage(&quot;Prepare container&quot;) {
+  agent {
+    docker {
+      image &#39;openjdk:11.0.5-slim&#39;
+      args &#39;-v $HOME/.m2:/root/.m2&#39;
+    }
+  }
+  stages {
+    stage(&#39;Build&#39;) {
+      steps {
+        checkout scm
+        sh &#39;./mvnw compile&#39;
+      }
+    }
+    stage(&#39;Test&#39;) {
+      steps {
+        sh &#39;./mvnw test&#39;
+        junit &#39;**/target/surefire-reports/TEST-*.xml&#39;
+      }
+    }
+    stage(&#39;Package&#39;) {
+      steps {
+        sh &#39;./mvnw package -DskipTests&#39;
+      }
+    }
+  }
+}
+</pre></div>
+
+<a style="text-decoration: underline; color: #3366ff;"
+   title="http://192.168.1.20:8080/job/animal/"
+   href="http://192.168.1.20:8080/job/animal/"
+   target="_blank" rel="noopener noreferrer">Jenkins для проекта http://192.168.1.20:8080/job/animal/</a>
+<br/>
+<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="jenkins_demo" src="images/jenkins_nexus_cicd/jenkins.png"
+        alt="jenkins_demo" width="762" height="426"/></p>
+Пример <b>другой настройки</b> pipeline. В отличие от "проектного" Jenkinsfile, можно задавать параметры сборки <b>проекта</b> в самом Jenkins:<br><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="jenkins_demo" src="images/jenkins_nexus_cicd/jenkins_pipeline.png"
+        alt="jenkins_demo" width="1306" height="568"/></p>
+<br>
+Содержимое секции "Script" в файле Jenkinsfile:<br/>
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">stage(&quot;Prepare container&quot;) {
+  agent {
+    docker {
+      image &#39;openjdk:11.0.5-slim&#39;
+      args &#39;-v $HOME/.m2:/root/.m2&#39;
+    }
+  }
+  stages {
+    stage(&#39;Build&#39;) {
+      steps {
+        checkout scm
+        sh &#39;./mvnw compile&#39;
+      }
+    }
+    stage(&#39;Test&#39;) {
+      steps {
+        sh &#39;./mvnw test&#39;
+        junit &#39;**/target/surefire-reports/TEST-*.xml&#39;
+      }
+    }
+    stage(&#39;Package&#39;) {
+      steps {
+        sh &#39;./mvnw package -DskipTests&#39;
+      }
+    }
+  }
+}
+</pre></div>
+
+Результаты сборки:<br><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="jenkins_results" src="images/jenkins_nexus_cicd/jenkins_pipeline_result.png"
+     alt="jenkins_results" width="1003" height="599"/></p>
+<br/>
+
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/cherepakhin/companies/blob/dev/Jenkinsfile"
+   href="https://github.com/cherepakhin/companies/blob/dev/Jenkinsfile"
+   target="_blank" rel="noopener noreferrer">Пример настройки проекта с Jenkinsfile.</a>
+<br/>
+<br/>
+История сборок:<br><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="history_project_jenkins" src="images/jenkins_nexus_cicd/history_project_jenkins.png"
+        alt="jenkins_results" width="867" height="563"/></p>
+
+Jenkins имя/пароль для deploy в Nexus берет из /var/lib/jenkins/.m2/settings.xml того компьютера, где запущен
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="nexus_demo" src="images/jenkins_nexus_cicd/nexus_deploy_settings.png"
+        alt="nexus_demo" width="980" height="324"/></p>
+Проекты jenkins находятся в /var/lib/jenkins/workspace<br>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ ls  /var/lib/jenkins/workspace
+animal               kotlin_up_gradle_spring279                 show_variable_os
+animals@script       shop_kotlin_pipe                           show_variable_os@tmp
+animal@tmp           <b>shop_kotlin_pipeline</b>                       test_username_pass
+Jenkins_example      shop_kotlin_pipeline@tmp                   test_username_pass@tmp
+Jenkins_example@tmp
+</pre></div>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ ls /var/lib/jenkins/workspace/<b>shop_kotlin_pipeline</b>
+build             docker_build.sh  gradle.properties  gradle.zip   README.md
+build.gradle.kts  Dockerfile       gradlew            Jenkinsfile  settings.gradle.kts
+doc               gradle           gradlew.bat        log          src
+</pre></div>
+<hr/>
+<h3>Ссылки:</h3>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://habr.com/ru/articles/677142/"
+   href="https://habr.com/ru/articles/677142/"
+   target="_blank" rel="noopener noreferrer">Домашний CICD: Docker, Jenkins и Nexus3 (коллега тоже озаботился этим вопросом)</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://v.perm.ru/main/index.php/homepage/53-realizatsiya-ci-cd-dlya-proekta-na-kotlin"
+   href="https://v.perm.ru/main/index.php/homepage/53-realizatsiya-ci-cd-dlya-proekta-na-kotlin"
+   target="_blank" rel="noopener noreferrer">Настройка CI/CD для gradle проекта на Kotlin</a>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://v.perm.ru/main/index.php/52-nastrojka-credentials-v-jenkins"
+   href="https://v.perm.ru/main/index.php/52-nastrojka-credentials-v-jenkins"
+   target="_blank" rel="noopener noreferrer">Настройка credentials в Jenkins</a>
+<br/>
+<hr/>
+<h3>Примечания:</h3>
+Запущенный ВРУЧНУЮ процесс jenkins:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">/usr/bin/java -Djava.awt.headless=true -jar /usr/share/java/jenkins.war --webroot=/var/cache/jenkins/war --httpPort=8080
+</pre></div>
+
+Запущенный ВРУЧНУЮ процесс nexus:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.372.b07-4.el8.x86_64/jre/bin/java -server -Dinstall4j.jvmDir=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.372.b07-4.el8.x86_64/jre -Dexe4j.moduleName=/opt/sonatype/nexus/bin/nexus -XX:+UnlockDiagnosticVMOptions -Dinstall4j.launcherId=245 -Dinstall4j.swt=false -Di4jv=0 -Di4jv=0 -Di4jv=0 -Di4jv=0 -Di4jv=0 -Xms2703m -Xmx2703m -XX:MaxDirectMemorySize=2703m -Djava.util.prefs.userRoot=/nexus-data/javaprefs -XX:+UnlockDiagnosticVMOptions -XX:+LogVMOutput -XX:LogFile=../sonatype-work/nexus3/log/jvm.log -XX:-OmitStackTraceInFastThrow -Djava.net.preferIPv4Stack=true -Dkaraf.home=. -Dkaraf.base=. -Dkaraf.etc=etc/karaf -Djava.util.logging.config.file=etc/karaf/java.util.logging.properties -Dkaraf.data=../sonatype-work/nexus3 -Dkaraf.log=../sonatype-work/nexus3/log -Djava.io.tmpdir=../sonatype-work/nexus3/tmp -Dkaraf.startLocalConsole=false -Djdk.tls.ephemeralDHKeySize=2048 -Djava.endorsed.dirs=lib/endorsed -Di4j.vpt=true -classpath /opt/sonatype/nexus/.install4j/i4jruntime.jar:/opt/sonatype/nexus/lib/boot/nexus-main.jar:/opt/sonatype/nexus/lib/boot/activation-1.1.1.jar:/opt/sonatype/nexus/lib/boot/jakarta.xml.bind-api-2.3.3.jar:/opt/sonatype/nexus/lib/boot/jaxb-runtime-2.3.3.jar:/opt/sonatype/nexus/lib/boot/txw2-2.3.3.jar:/opt/sonatype/nexus/lib/boot/istack-commons-runtime-3.0.10.jar:/opt/sonatype/nexus/lib/boot/org.apache.karaf.main-4.3.9.jar:/opt/sonatype/nexus/lib/boot/osgi.core-7.0.0.jar:/opt/sonatype/nexus/lib/boot/org.apache.karaf.specs.activator-4.3.9.jar:/opt/sonatype/nexus/lib/boot/org.apache.karaf.diagnostic.boot-4.3.9.jar:/opt/sonatype/nexus/lib/boot/org.apache.karaf.jaas.boot-4.3.9.jar com.install4j.runtime.launcher.UnixLauncher run 9d17dc87 0 0 org.sonatype.nexus.karaf.NexusMain
+</pre></div>
+
+Запуск Jenkins в Docker<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">docker run -d --name jenkins -
+    -user root -p 8080:8080 -p 58000:50000
+    -v jenkins_home:/var/jenkins_home
+    -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins:lts-jdk11
+</pre></div>
+Возможно понадобится перезаписывать уже задеплоенные артефакты в Nexus.
+Для этого в настройках Nexus репозитория установить разрешение Administration/Repository/Repositories: Hosted/Deployment policy:<br/>
+<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="history_project_jenkins" src="images/jenkins_nexus_cicd/allow_redeploy.png"
+        alt="jenkins_results" width="842" height="533"/></p>
+<hr/>
+При ошибке <b>"stderr: fatal: cannot lock ref 'refs/heads/main': unable to resolve reference 'refs/heads/main': reference broken"</b>
+удалил все в каталоге проекта (н.п. ~/.jenkins/workspace/shop_kotlin_extdto) и пересобрал в Jenkins.
+<hr/>
+<b><u>КСТАТИ!</u></b><br/>
+<u>НАРВАЛСЯ НА ТРОЯН В DOCKER ОБРАЗЕ, загруженным из https://hub.docker.com/.</u>
+<hr/>
+<b><u>Память!</u></b><br/>
+Настройка лимитов выделяемой памяти для Nexus в "/mnt/sdb1/tools/nexus/nexus-3.60.0-02/bin/nexus.vmoptions", где "/mnt/sdb1/tools/" каталог установки Nexus.
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">-Xms256m
+-Xmx384m
+-XX:MaxDirectMemorySize=256m
+</pre></div>
+<hr/>
+Пример Jenkinsfile для многомодульного проекта <a title="https://github.com/cherepakhin/multi_module/blob/dev/Jenkinsfile"
+                                                  style="text-decoration: underline; color: #3366ff;"
+                                                  href="https://github.com/cherepakhin/multi_module/blob/dev/Jenkinsfile"
+                                                  target="_blank"
+                                                  rel="noopener noreferrer">https://github.com/cherepakhin/multi_module/blob/dev/Jenkinsfile</a>
+<hr/>
+(для отображения кода на html странице использован <a title="http://hilite.me/"
+                                                      style="text-decoration: underline; color: #3366ff;"
+                                                      href="http://hilite.me/"
+                                                      target="_blank"
+                                                      rel="noopener noreferrer">http://hilite.me/</a>)
+<br/>
+Установка Nexus в Ubuntu <a title="https://www.fosstechnix.com/how-to-install-nexus-repository-on-ubuntu/"
+   style="text-decoration: underline; color: #3366ff;"
+   href="https://www.fosstechnix.com/how-to-install-nexus-repository-on-ubuntu/"
+   target="_blank"
+   rel="noopener noreferrer">https://www.fosstechnix.com/how-to-install-nexus-repository-on-ubuntu/</a><br/>
+Настройка deploy в Nexus с помощью Jenkins <a style="text-decoration: underline; color: #3366ff;"
+                       href="https://v.perm.ru/index.php/instrumenty-devops/nastrojka-deploy-v-nexus-s-pomosu-jenkins"
+                       target="_blank"
+                       rel="noopener noreferrer">https://v.perm.ru/index.php/instrumenty-devops/nastrojka-deploy-v-nexus-s-pomosu-jenkins</a>
+<p><br /><b>Задание в Jenkins user/password для deploy в Nexus (ну и фразочка!)</b><br />Выяснить домашний каталог Jenkins из файла /etc/passwd. Пример:</p>
+<!-- HTML generated using hilite.me -->
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">v:~$ sudo cat /etc/passwd | grep jenkins
+jenkins:x:129:131:Jenkins,,,:/var/lib/jenkins:/bin/bash
+</pre>
+</div>
+<p>В домашнем каталоге Jenkins (см.выше) в подкаталоге <b>.m2</b> (/var/lib/jenkins/.m2), для установки user/pass при deploy в Nexus, разместить файл settings.xml со следующим содержанием:<span style="font-size: 1rem;">  </span></p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+  <p>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</p>
+  <p>&lt;settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"<br />          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"<br />          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;<br /> &lt;servers&gt;<br />...</p>
+  <p>    &lt;server&gt;<br />      &lt;id&gt;ru.perm.v&lt;/id&gt;<br />      &lt;username&gt;admin&lt;/username&gt;<br />      &lt;password&gt;pass&lt;/password&gt;<br />    &lt;/server&gt;<br />...<br />  &lt;/servers&gt;<br />&lt;/settings&gt;</p>
+</div>

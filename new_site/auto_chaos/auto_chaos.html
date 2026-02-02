@@ -1,0 +1,103 @@
+<p>Давно прочитал в журнале Компьютерра статью <a style="text-decoration: underline; color: #3366ff;" title="Автоматизация хаоса" href="https://old.computerra.ru/1999/295/196346/" target="_blank" rel="noopener noreferrer">"Автоматизация хаоса"</a>. 1999 год!!! В google полно документов на эту тему. Пару слов хочется черкнуть от себя. В большинстве проектов, на которых приходилось работать, так или иначе возникает эта тема.<br />Хотя и не очень явно.</p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Суслика видишь?" src="images/camunda/suslik3.jpg" alt="Суслика видишь?" width="762" height="426" /></p>
+<hr id="system-readmore" />
+<p><br />В тех проектах, где я работал, задача разрабатываемой системы сводится как к какой-то числодробилке. Да - в kubernetes, да - большие объемы данных, да - разбиение сложной обработки по микросервисам, но в этих системах нет человека. Но без человека, все-таки, не обходится. И когда доходит до принятия решения человеком, автоматизация заканчивается. Сам бизнес-процесс распадается на череду каких-то лишних телодвижений. Возникают какие-то стикеры, записочки для памяти, документы других систем. Эти артефакты просматриваются вручную, согласовываются с коллегами через различные каналы связи и т.п. приколы. А почему бы в этот момент, когда действительно нужно решение человека, не предоставить <b>необходимую</b> информацию в удобном, отфильтрованном виде?<br /><br />После различных опытов со всякими Documentum и т.п. подобными системами, пришел к выводу, что все это как-то тяжеловато, требует кучу времени, квалификации и ДЕНЕГ. Что хочется?</p>
+<ul>
+    <li>Описать сам бизнес-процесс</li>
+    <li>Обеспечить переход от одного этапа к другому</li>
+    <li>Сообщить пользователю, что от него требуется какое-то действие и <b>предоставить информацию</b> для принятия этого решения.</li>
+    <li>Обеспечить доступ к внешним системам</li>
+    <li>Какие-то этапы должны выполняться автоматом, какие-то запрашивать решение пользователя.</li>
+</ul>
+<p>В общем, как бы <b>вплести</b> компьютер в рабочие отношения. И вот нашлась Camunda (<a style="text-decoration: underline; color: #3366ff;" title="Camunda" href="https://camunda.com/" target="_blank" rel="noopener noreferrer">https://camunda.com/</a>, <a style="text-decoration: underline; color: #3366ff;" title="Camunda RUS" href="https://camundarus.ru/" target="_blank" rel="noopener noreferrer">https://camundarus.ru/</a>). В двух словах что такое Camunda - есть схема бизнес-процесса (БП) состоящего из этапов и конечных точек процесса. Конечных точек может быть несколько. Сам БП в качестве этапа может включать запуск другого БП.<br />Среда легковесная, доступная для настройки, полностью подвластная разработчику <b>JAVA</b> (и не только), без тяжелых настроек среды.<br /><br />На одном из проектов мне удалось применить Camunda и увидеть всю мощь. Изначально, как архитектурное решение задачи, в проекте был использован karaf (<a style="text-decoration: underline; color: #3366ff;" title="Karaf в микросервисе Kubernetes" href="main/index.php/36-karaf-v-mikroservise-kuber" target="_blank" rel="noopener noreferrer">Karaf в микросервисе Kubernetes</a>). И подразумевалось, что плагины karaf как-то помогут решить задачу изменчивости проекта, процессов. Стояла задача обеспечить автоматизацию <b>бизнес-процессов</b> (до которых еще нужно было дойти) и <b>документооборот</b> между головной организацией и ее дилерами/партнерами. Партнеры могут иметь какую-то свою собственную инфраструктуру или не иметь. Некоторые партнеры имели свой собственный весьма мощный, развитый ИТ ландшафт (решения MS, Kubernetes, VPN и т.п.), со своими ограничениями и возможностями, у некоторых только пара компьютеров. У некоторых на сервис завязаны отделы сотрудников, у некоторых только один человек.<br /><br />Сама разработка этапов разделена по разработчикам. Этапы и разработчики слабо завязаны на результаты разработки друг-друга. И решить все эти загадки помогла camunda. Ниже пример ОДНОГО ИЗ бизнес-процессов:</p>
+<p><span style="font-weight: 400;">
+    <img class="pull-center" src="images/camunda/camunda_proj.png" alt="" />
+</span></p>
+<p><span style="font-weight: 400;"> <img class="pull-center" src="images/camunda/part_camunda.png" alt="" /></span></p>
+<p><br />Нужна поддержка специалиста/менеджера, находящегося внутри предприятия. И совсем необязательно наличие ИТ образования у этого человека. Разработчик <b>должен</b> договориться с этим специалистом, объяснив суть работы Camunda на уровне "кубиков", ее базовых составных частей:</p>
+<ul>
+    <li>тип процесса</li>
+    <li>кратко про экземпляр процесса</li>
+    <li>начало процесса</li>
+    <li>один или несколько исходов</li>
+    <li>этапы процесса(task). Типы этапов: автоматический или требующий принятия решения человеком</li>
+    <li>ветвления</li>
+    <li>что-то сказать о контексте всего бизнес-процесса и контексте конкретного этапа. Очень возможно, что для получения контекста, нужен будет доступ к каким-то внешним системам (другие системы, базы данных и т.п.).</li>
+</ul>
+Может быть, выйти на конкретных исполнителей и переговорить с ними лично, чтобы исключить "трудности перевода".<br/>
+<h3 dir="auto">Текущее состояние бизнес-процессов Camunda.</h3>
+<p><a style="text-decoration: underline; color: #3366ff;" title="TaskList" href="https://camunda.com/platform/tasklist/" target="_blank" rel="noopener noreferrer">https://camunda.com/platform/tasklist/</a></p>
+<h3 dir="auto">Тестирование бизнес-процессов.</h3>
+<ul>
+    <li><a style="text-decoration: underline; color: #3366ff;" title="Интеграционное тестирование REST" href="main/index.php/34-behave-testirovanie" target="_blank" rel="noopener noreferrer">через behave-test</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" title="Тестирование БП" href="https://habr.com/ru/companies/simbirsoft/articles/657697/" target="_blank" rel="noopener noreferrer">еще пример</a></li>
+</ul>
+<h3 dir="auto">Конспект по внедрению Camunda.</h3>
+<ul>
+    <li>Зная возможности Camunda, транслировать вопросы заказчику через аналитиков. При этом придется подготовить аналитиков и КРАТКО рассказать про основные возможности, чтобы разработчик и аналитик говорили на одном языке. И с другой стороны, аналитик при общении с заказчиком держал картинку Camunda в голове.</li>
+    <li>Разъяснить разработчикам ключевые термины Camunda: id <u>ТИПА</u> бизнес процесса, id <u>ЗАПУЩЕННОГО</u> процесса, состояние (id этапа) процесса. В этом поможет Camunda Task List.</li>
+    <li>Как выполнить переход на следующий этап БП</li>
+    <li>Рассказать об этапах, где БП ждет ответа от пользователя и автоматических этапах</li>
+    <li>Разработчикам показать связь Tomcat и Camunda</li>
+    <li>Разработчикам рассказать о размещении Camunda в СУБД</li>
+    <li>Тестирование БП</li>
+    <li>С devops инженерами обсудить размещение в Kubernetes. В конкретном проекте, Camunda с бизнес-процессами были выделены отдельный микросервис. Но может работать как application в Tomcat.</li>
+    <li>При накате новых версий схем бизнес-процессов, все предыдущие процессы должны быть завершены. Или новую версию bpmn схемы разместить по новому пути (???).</li>
+    <li>Есть такая штука Software development lifecycle (SDLC). Картинка пояснит суть лучше слов:<br /><br />
+        <img fetchpriority="high" decoding="async" width="483" height="435" src="https://i0.wp.com/testengineer.ru/wp-content/uploads/2023/06/SDLC-цикл-разработки-приложений-схема-этапов-min.jpg?resize=483%2C435&amp;ssl=1" alt="Этапы SDLC" class="wp-image-9417" title="SDLC" srcset="https://i0.wp.com/testengineer.ru/wp-content/uploads/2023/06/SDLC-цикл-разработки-приложений-схема-этапов-min.jpg?w=483&amp;ssl=1 483w, https://i0.wp.com/testengineer.ru/wp-content/uploads/2023/06/SDLC-цикл-разработки-приложений-схема-этапов-min.jpg?resize=300%2C270&amp;ssl=1 300w" sizes="(max-width: 483px) 100vw, 483px">
+        <br />Ничего нового, но удерживая картинку перед глазами (не только своими), есть план разговора при обсуждении задач, оценки на какой стадии задача, прикинуть что нужно для решения задачи, сколько времени займет внедрение той или иной фичи. И, может быть главное, устанавливает "правила игры". Пример для <b>backend</b> разработчика:<br />
+        <table style="border-collapse: collapse; width: 100%; height: 240px; border-color: #000000; border-style: solid;" border="2px">
+            <tbody>
+            <tr style="height: 24px;">
+                <th style="width: 33.4543%; height: 24px; border-color: #000000; border-width: 1px;">Цель</th>
+                <th style="width: 30.5457%; height: 24px; border-color: #000000; border-width: 1px;">Продолжительность</th>
+                <th style="width: 35.8788%; height: 24px; border-color: #000000; border-width: 1px;">Участники</th>
+            </tr>
+            <tr style="height: 48px;">
+                <td style="width: 33.4543%; height: 48px; border-color: #000000; border-width: 1px;">Анализ требований, понятна ли задача (берем в разработку?)</td>
+                <td style="width: 30.5457%; height: 48px; border-color: #000000; border-width: 1px;">1 час - 1 день</td>
+                <td style="width: 35.8788%; height: 48px; border-color: #000000; border-width: 1px;">аналитик+разработчик</td>
+            </tr>
+            <tr style="height: 48px;">
+                <td style="width: 33.4543%; height: 48px; border-color: #000000; border-width: 1px;">Прикинуть дизайн</td>
+                <td style="width: 30.5457%; height: 48px; border-color: #000000; border-width: 1px;">1 - 2 час, но с ограничением уложиться в спринт</td>
+                <td style="width: 35.8788%; height: 48px; border-color: #000000; border-width: 1px;">разработчик (возможно с devops инженером)</td>
+            </tr>
+            <tr style="height: 24px;">
+                <td style="width: 33.4543%; height: 24px; border-color: #000000; border-width: 1px;">Собственно разработка + unit тесты</td>
+                <td style="width: 30.5457%; height: 24px; border-color: #000000; border-width: 1px;">по результатам п 1,2</td>
+                <td style="width: 35.8788%; height: 24px; border-color: #000000; border-width: 1px;">разработчик</td>
+            </tr>
+            <tr style="height: 48px;">
+                <td style="width: 33.4543%; height: 48px; border-color: #000000; border-width: 1px;">Интеграционное тестирование</td>
+                <td style="width: 30.5457%; height: 48px; border-color: #000000; border-width: 1px;">0,5 дня - 1 день</td>
+                <td style="width: 35.8788%; height: 48px; border-color: #000000; border-width: 1px;">тестировщик+разработчик+devops инженер</td>
+            </tr>
+            <tr style="height: 48px;">
+                <td style="width: 33.4543%; height: 48px; border-color: #000000; border-width: 1px;">Деплой в пререлиз (удаление "фиче" ветки и т.п. зачистка)</td>
+                <td style="width: 30.5457%; height: 48px; border-color: #000000; border-width: 1px;">В конце спринта (в идеале)</td>
+                <td style="width: 35.8788%; height: 48px; border-color: #000000; border-width: 1px;">devops инженер</td>
+            </tr>
+            </tbody>
+        </table>
+    </li>
+</ul>
+<p><br /><b>Примеры:</b><br /><a style="text-decoration: underline; color: #3366ff;" title="Как я тащил проект или MVC для kubernetes" href="main/index.php/33-istoriya-odnogo-proekta" target="_blank" rel="noopener noreferrer">Camunda+Kubernetes</a> <br /><a style="text-decoration: underline; color: #3366ff;" title="Простенький пример реализации" href="https://github.com/cherepakhin/camunda_springboot_db" target="_blank" rel="noopener noreferrer">Простенький пример реализации</a> <br /><a style="text-decoration: underline; color: #3366ff;" title="И еще один" href="https://github.com/cherepakhin/camunda-spring-boot-first" target="_blank" rel="noopener noreferrer">И еще один</a><br /><a style="text-decoration: underline; color: #3366ff;" title="https://github.com/camunda/camunda-bpm-examples/tree/master/spring-boot-starter/example-simple" href="https://github.com/camunda/camunda-bpm-examples/tree/master/spring-boot-starter/example-simple" target="_blank" rel="noopener noreferrer">https://github.com/camunda/camunda-bpm-examples/tree/master/spring-boot-starter/example-simple</a> <br /><a style="text-decoration: underline; color: #3366ff;" title="https://www.baeldung.com/spring-boot-embedded-camunda" href="https://www.baeldung.com/spring-boot-embedded-camunda" target="_blank" rel="noopener noreferrer">https://www.baeldung.com/spring-boot-embedded-camunda</a> <br /><br /><b>Пара наблюдений:</b></p>
+<ul>
+    <li>Camunda можно использовать как АЛГОРИТМ обработки данных (или как ПАТТЕРН), где обрабатываемые данные привязаны к потоку/задаче/состояние. Сами этапы независимы и есть "мета" средства алгоритмизации: старт/конец процесса, if/else/for, передача переменных, переход в другой алгоритм (call/goto). Т.е. применить Camunda как такое средство программирования/автоматизации, НЕ нацеленное на автоматизацию БИЗНЕС процессов именно с участием ЧЕЛОВЕКА. Что-то типа, алгоритма микросервисов.</li>
+    <li>При анализе существующих бизнес-процессов, стало видно где они несовершенны. Определяясь с входными/выходными данными этапов, сами бизнес-процессы изменялись, совершенствовались, уменьшалось количество ручных операций(что нормально), НО это привело к сокращению сотрудников(!). Конечно, это неудивительно, к этому и шли, но с другой стороны, как-то все это глобально и жестковато получилось (высвобождение сотрудников "скрипач не нужен", новые приемы работы и т.п.). Люди годами работали и внезапно стали СОВСЕМ не нужны.</li>
+    <li>Среди инструментов автоматизации рабочих процессов, отдельно хочется упомянуть <a style="text-decoration: underline; color: #3366ff;" title="Camel" href="https://camel.apache.org/" target="_blank" rel="noopener noreferrer">Camel</a>. Это не совсем BPM, даже совсем не BPM, но может быть очень полезен.</li>
+</ul>
+
+Для автоматизации бизнес-процессов есть еще такой инструмент
+<a style="text-decoration: underline; color: #3366ff;" title="jBPM" href="https://www.jbpm.org/" target="_blank" rel="noopener noreferrer">jBPM</a>
+и в какой-то мере <a style="text-decoration: underline; color: #3366ff;" title="Acivity" href="https://www.activiti.org/" target="_blank" rel="noopener noreferrer">Activity</a>.
+<br/>
+И еще одно наблюдение - <b>сильное сопротивление</b> (вплоть до саботажа) со стороны конечных пользователей. Страхи или причины, <b>наверное</b>, в следующем:
+<ul>
+    <li>Нужно изучать новое (напряг, лень)</li>
+    <li>Изменение характера работы</li>
+    <li>Мириться с неизбежными ошибками на этапе внедрения</li>
+    <li>Ревность (я лучше знаю как надо, а эти программисты сочинили неизвестно что)</li>
+    <li>Если автоматизируют мою деятельность, то освободившееся время будет замещено <b>НЕИЗВЕСТНО</b> чем. Т.е. лучше не будет.</li>
+</ul>

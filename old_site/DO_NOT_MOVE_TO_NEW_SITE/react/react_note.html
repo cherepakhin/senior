@@ -1,0 +1,106 @@
+Рассмотрено на простой задаче отправки простой строки на REST сервис и получения этой же строки в ответе (echo сервис).
+<h3>bind()</h3>
+О bind тут
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://webformyself.com/react-ispolzovanie-bind/"
+   href="https://webformyself.com/react-ispolzovanie-bind/"
+   target="_blank" rel="noopener noreferrer">https://webformyself.com/react-ispolzovanie-bind/</a>
+<hr id="system-readmore"/>
+Определение простого компонента React:
+<pre class="language-javascript"><code>class EchoScreen extends React.Component {
+    constructor(props) {
+        super(props);
+        let msg = 'MESSAGE';
+        this.showEcho = this.showEcho.bind(this); // !!!
+    }
+    showEcho() {
+        console.log(msg);
+    }
+}
+</code></pre>
+<br/>
+
+Строка <pre class="language-javascript">this.showEcho = this.showEcho.bind(this);</pre>
+нужна для привязки КОНТЕКСТА(поля, переменные) класса EchoScreen к функции showEcho().
+
+Пример почему так нужно. Дано:
+<pre class="language-javascript"><code>var myObj = {
+  name: 'name КЛАССА',
+  displayName: function(){
+    console.log(this.name); // 'this' ссылка на myObj
+  }
+};
+myObj.displayName(); // выведено "name КЛАССА" Тут пока все хорошо.
+// Демонстрация ошибки:
+var name = "ЛЕВОЕ name";
+// ОТРЫВАЮ функцию displayName() от объекта myObj
+var outerDisplay = obj.displayName;
+// и тут у функции displayName() УЖЕ ДРУГОЙ КОНТЕКСТ и name будет равно ="ЛЕВОЕ name"
+outerDisplay(); // "ЛЕВОЕ name"</code>
+</pre>
+Чтобы этого избежать нужно СПЕЦИАЛЬНО ПРИВЯЗАТЬ 'this' объекта myObj к функции displayName() с помощью метода bind().
+Конкретно для объекта myObj в конструктор нужно добавить строку:
+<pre class="language-javascript"><code>this.displayName = this.displayName.bind(this);</code>
+</pre>
+и тогда 'this' значение внутри displayName() будет правильно указывать на myObj.
+ДАЖЕ если функция displayName() будет вызвана по ссылке (без указания объекта).
+<br/>
+<h3>componentDidMount()</h3>
+Функция componentDidMount() вызывается после РЕНДЕРИНГА компонента.
+
+<pre class="language-javascript"><code>componentDidMount() {
+    console.log('called componentDidMount()');
+}</code>
+</pre>
+<br/>
+<h3>render()</h3>
+<pre class="language-javascript"><code>render() {
+  return (
+    {this.props.message}
+    &lt;Button
+        id='btn_send_msg'
+        theme="primary"
+        themeType="outline"
+        onClick={ () =>(this.showEcho("FROM BUTTON")) }
+    &gt;
+    Отправить сообщение
+    &lt;/Button&gt;
+  );
+}
+</code></pre>
+<br/>
+<h3>Маппинг глобального значения state.message к локальному </h3>
+<pre class="language-javascript"><code>const mapStateToProps = function (state) {
+    return { ...state };
+    // либо так return { ...state.props_for_this_component };
+    // либо более сложное конструирование return {p1: state.p1, p2: state.p2}
+};</code>
+</pre>
+<br/>
+
+<h3>Привязка actions</h3>
+<pre class="language-javascript"><code>const mapDispatchToProps = function (dispatch) {
+  return {
+    actions: bindActionCreators(EchoActions, dispatch),
+  };
+};</code>
+</pre>
+<br/>
+
+<h3>Привязка (подключение) компоненты EchoScreen к reducer приложения (props и методов)</h3>
+Чтобы можно было менять состояние, вызывать методы в слое reducers (mapStateToProps, mapDispatchToProps,EchoScreen описаны выше)
+<pre class="language-javascript"><code>const ConnectedEchoScreen = connect(mapStateToProps, mapDispatchToProps)(EchoScreen);
+</code></pre>
+<br/>
+<h3>Передача сообщения в redux (для отправки на сервер)</h3>
+Функция showEcho(msg) привязана к Button.onClick() (см.выше <b>render()</b>)
+<pre class="language-javascript"><code>showEcho(msg) {
+    this.props.actions.sendMessage(msg);
+}
+</code></pre>
+<br/>
+<h3>В конце компонента не забывать про export</h3>
+<pre class="language-javascript"><code>export { EchoScreen, ConnectedEchoScreen };
+</code></pre>
+<br/>
+А нужно ли экспортировать сам EchoScreen? Разве что для тестов...

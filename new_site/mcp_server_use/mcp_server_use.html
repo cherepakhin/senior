@@ -1,0 +1,19 @@
+Autocompete code с помощью MCP Server и Visual Studo Code.
+
+Пример настройки применения MCP сервиса github для генерации подсказок. 
+В корне проекта должен быть файл <u>.vscode/.mcp.json</u> со следуюшим содержанием:
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <pre style="margin: 0; line-height: 125%;">
+{
+    "servers": {
+      "MCP Docs": {
+        "type": "sse",
+        "url": "https://gitmcp.io/cherepakhin/project"
+      }
+    }
+  }
+    </pre>
+</div>
+
+Где: https://gitmcp.io/cherepakhin/project - это ссылка на репозиторий с проектом, по которому будет производиться поиск подсказок.

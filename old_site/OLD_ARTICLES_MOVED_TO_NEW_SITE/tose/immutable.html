@@ -1,0 +1,96 @@
+Что такое неизменяемый объект? Когда вы создаете новое значение для такого объекта, на самом деле создается новый объект,
+и старый объект остается неизменяемым. Это будет более эффективным по времени и памяти, чем изменение изначального объекта.
+Это обеспечивает безопасность многопоточного программирования, поскольку неизменяемые объекты могут быть разделены <b>между несколькими потоками</b> без риска изменений и ошибок.<br/>
+<hr id="system-readmore"/><br/>
+<b>Массивы</b> в Java изменяемый (<b>mutable</b>) тип. Пример решения:<br/>
+
+<pre class="language-java"><code>public class ImmutableIntArray {
+    private final int[] array;
+
+    public ImmutableIntArray(int[] array) {
+        this.array = array.clone();  // clone!!!
+    }
+
+    public int[] getValue() {
+        return this.clone(); // get clone!!!
+    }
+}
+</code></pre>
+<ul>
+    <li>нет сеттеров</li>
+    <li>установка свойств только через <b>конструктор</b></li>
+    <li>получение свойства через <b>clone</b></li>
+</ul>
+<br/>
+Пример для immutable <b>класса</b> :
+<pre class="language-java"><code>public final class Person {
+    private final String name;
+    private final Integer age;
+
+    public Person(String name, Integer age) {
+        this.name = name;
+        this.ssn = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAge() {
+        return age;
+    }
+}
+</code></pre>
+<ul>
+    <li>нет <b>сеттеров</b></li>
+    <li>свойства задаются <b>только через конструктор</b></li>
+    <li>свойства <b>final</b></li>
+</ul>
+
+Пример для immutable класса с <b>коллекциями</b> :
+<pre class="language-java"><code>import java.util.List;
+
+public class PizzaDto {
+
+    private final String name;
+    private final List&lt;String&gt; ingredients; // final!!!
+
+    public PizzaDto(String name, List&lt;String&gt; ingredients) {
+        this.name = name;
+        if (ingredients != null) {
+            ingredients = List.copyOf(ingredients); // List.copyOf!!!
+        }
+        this.ingredients = ingredients;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List&lt;String&gt; getIngredients() {
+        return ingredients;
+    }
+}
+</code></pre>
+Проверка:<br/>
+<pre class="language-java"><code>dto.getIngredients().remove("Sugar");  // вызывает UnsupportedOperationException
+</code></pre>
+либо возвращать clone версию:<br>
+<pre class="language-java"><code>public List&lt;String&gt; getNames() {
+    return new ArrayList&lt;String&gt;(this.ingredients); // или можно использовать List.copyOf
+}
+</code></pre>
+Но внутренние объекты, все равно, нужно держать под контролем. В Spring есть <a style="color: #3366ff; text-decoration: underline;" href=https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cglib/beans/ImmutableBean.html" target="_blank" rel="noopener noreferrer">ImmutableBean</a>.
+<br/>
+<br/>
+В Kotlin immutable коллекции представлены listOf(), setOf(), mapOf()
+<a style="color: #3366ff; text-decoration: underline;" href="https://www.kotlinsos.com/basics/kotlin-and-immutable-collections/" target="_blank" rel="noopener noreferrer">https://www.kotlinsos.com/basics/kotlin-and-immutable-collections/</a>,
+<a style="color: #3366ff; text-decoration: underline;" href="https://www.baeldung.com/kotlin/immutable-collections" target="_blank" rel="noopener noreferrer">https://www.baeldung.com/kotlin/immutable-collections,</a>
+
+<br/>
+<br/>
+Ссылки:<br/>
+<a style="color: #3366ff; text-decoration: underline;" href=https://learntutorials.net/ru/java/topic/2807/неизменяемые-объекты" target="_blank" rel="noopener noreferrer">https://learntutorials.net/ru/java/topic/2807/неизменяемые-объекты</a><br/>
+<a style="color: #3366ff; text-decoration: underline;" href=https://nuancesprog.ru/p/14248/" target="_blank" rel="noopener noreferrer">https://nuancesprog.ru/p/14248/</a><br/>
+
+

@@ -1,0 +1,81 @@
+Результаты поиска инструментов перевода речи в текст<br/>
+<h3 dir="auto">Оглавление:</h3>
+<ul>
+    <li><a href="#vosk">Vosk</a></li>
+    <li><a href="#baeldung">Статья на Baeldung "How to Convert WAV or MP3 to Text in Linux"</a></li>
+  <li><a href="#wisper">Wisper</a></li>
+</ul>
+<hr id="system-readmore" />
+<p><a id="vosk"></a></p>
+<h3 dir="auto">Vosk</h3>
+Проект Vosk <a style="text-decoration: underline; color: #3366ff;" title="Vosk" href="https://alphacephei.com/vosk/index.ru" target="_blank" rel="noopener noreferrer">https://alphacephei.com/vosk/index.ru</a><br/>
+Тест декодинга из Vosk <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/alphacep/vosk-api/blob/master/java/lib/src/test/java/org/vosk/test/DecoderTest.java" target="_blank" rel="noopener noreferrer">https://github.com/alphacep/vosk-api/blob/master/java/lib/src/test/java/org/vosk/test/DecoderTest.java</a>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">  @Test
+  <span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> decoderTestShort() <span style="color: #000080; font-weight: bold">throws</span> IOException, UnsupportedAudioFileException {
+    LibVosk.<span style="color: #FF0000">setLogLevel</span>(LogLevel.<span style="color: #FF0000">DEBUG</span>);
+
+    <span style="color: #000080; font-weight: bold">try</span> (Model model = <span style="color: #000080; font-weight: bold">new</span> Model(<span style="color: #0000FF">"model"</span>);
+      InputStream ais = AudioSystem.<span style="color: #FF0000">getAudioInputStream</span>(<span style="color: #000080; font-weight: bold">new</span> BufferedInputStream(<span style="color: #000080; font-weight: bold">new</span> FileInputStream(<span style="color: #0000FF">"../../python/example/test.wav"</span>)));
+      Recognizer recognizer = <span style="color: #000080; font-weight: bold">new</span> Recognizer(model, <span style="color: #0000FF">16000</span>)) {
+
+      <span style="color: #000080; font-weight: bold">int</span> nbytes;
+      <span style="color: #000080; font-weight: bold">byte</span>[] b = <span style="color: #000080; font-weight: bold">new</span> <span style="color: #000080; font-weight: bold">byte</span>[<span style="color: #0000FF">4096</span>];
+      <span style="color: #000080; font-weight: bold">short</span>[] s = <span style="color: #000080; font-weight: bold">new</span> <span style="color: #000080; font-weight: bold">short</span>[<span style="color: #0000FF">2048</span>];
+      <span style="color: #000080; font-weight: bold">while</span> ((nbytes = ais.<span style="color: #FF0000">read</span>(b)) >= <span style="color: #0000FF">0</span>) {
+        ByteBuffer.<span style="color: #FF0000">wrap</span>(b).<span style="color: #FF0000">order</span>(ByteOrder.<span style="color: #FF0000">LITTLE_ENDIAN</span>).<span style="color: #FF0000">asShortBuffer</span>().<span style="color: #FF0000">get</span>(s);
+        <span style="color: #000080; font-weight: bold">if</span> (recognizer.<span style="color: #FF0000">acceptWaveForm</span>(s, nbytes / <span style="color: #0000FF">2</span>)) {
+          System.<span style="color: #FF0000">out</span>.<span style="color: #FF0000">println</span>(recognizer.<span style="color: #FF0000">getResult</span>());
+        } <span style="color: #000080; font-weight: bold">else</span> {
+          System.<span style="color: #FF0000">out</span>.<span style="color: #FF0000">println</span>(recognizer.<span style="color: #FF0000">getPartialResult</span>());
+        }
+      }
+
+      System.<span style="color: #FF0000">out</span>.<span style="color: #FF0000">println</span>(recognizer.<span style="color: #FF0000">getFinalResult</span>());
+    }
+    Assert.<span style="color: #FF0000">assertTrue</span>(<span style="color: #000080; font-weight: bold">true</span>);
+  }
+</pre></div>
+
+<p><a id="baeldung"></a></p>
+<h3 dir="auto">Статья на Baeldung "How to Convert WAV or MP3 to Text in Linux</h3><a style="text-decoration: underline; color: #3366ff;" title="Vosk" href="https://www.baeldung.com/linux/wav-mp3-to-text-speech-recognize" target="_blank" rel="noopener noreferrer">https://www.baeldung.com/linux/wav-mp3-to-text-speech-recognize</a><br/>
+Описаны примеры решения этой задачи с помощью разных инструментов: vosk (python), pocketsphinx, spchcat, whisper.
+
+Пример использования одного из инсрументов(spchcat):
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ spchcat convertedFile.wav
+TensorFlow: v2.3.0-14-g4bdd3955115
+Coqui STT: v1.1.0-0-gf3605e23
+...
+learn english super fast
+learn english by focusing on content
+not grammar
+what <span style="color: #000080; font-weight: bold">do </span>i mean by content
+...
+</pre></div>
+
+<br/>
+<p><a id="wisper"></a></p>
+<h3 dir="auto">Wisper</h3>
+<a style="text-decoration: underline; color: #3366ff;" title="Wisper install on Windows" href="https://v-ai-labs.ru/blog/whisper-windows-install" target="_blank" rel="noopener noreferrer">Как установить Whisper на Windows и перевести аудио в текст без интернета</a><br/>
+<ul>
+  <li>Работает без интернета</li>
+  <li>Поддерживает русский язык</li>
+  <li>Бесплатный и с открытым кодом</li>
+</ul>
+Работает на Python 3.11. Установка:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+    pip install -U openai-whisper
+    pip install ffmpeg-python
+    </pre>
+</div>
+
+
+<h3 dir="auto">Ссылки:</h3>
+<ul>
+  <li><a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/companies/amvera/articles/691288/" target="_blank" rel="noopener noreferrer">Как работают системы распознавания речи(habr)</a></li>
+  <li><a style="text-decoration: underline; color: #3366ff;" href="https://blog.skillfactory.ru/kak-rabotaet-tehnologiya-raspoznavaniya-rechi/" target="_blank" rel="noopener noreferrer">Как работает технология распознавания речи и где ее используют </a></li>
+</ul>
+
+
+
+

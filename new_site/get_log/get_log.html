@@ -1,0 +1,68 @@
+Разработчик сам должен позаботиться о качестве логов, информации из stacktrace будет маловато.
+Интересны условия возникновения ошибки. Однозначно нужны значения переменных в момент возникновения ошибки, т.к. эти данные потом нигде не получить.
+Примитивный пример:
+<hr id="system-readmore" />
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">log.<span style="color: #FF0000">error</span>(<span style="color: #0000FF">"Not found product code={} name={}"</span>, code, name); )
+</pre></div>
+<b>1.</b> Через devops инструменты получения протоколов работы GrayLog и т.п.
+<br/>
+<b>2.</b> Spring Actuator Log.<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/cherepakhin/vacancy_backend?tab=readme-ov-file#spring-actuator"
+   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/vacancy_backend?tab=readme-ov-file#spring-actuator</a>
+<br/>
+
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://www.demo2s.com/g/java/how-to-use-spring-boot-actuator-logfile-endpoint-in-java-application.html"
+   target="_blank" rel="noopener noreferrer">https://www.demo2s.com/g/java/how-to-use-spring-boot-actuator-logfile-endpoint-in-java-application.html</a><br/>
+Получение пути loggers из Actuator:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ http http://127.0.0.1:8988/vacancy/api/actuator
+
+<span style="color: #0000FF">"logfile"</span>: {
+    <span style="color: #0000FF">"href"</span>: <span style="color: #0000FF">"http://127.0.0.1:8988/vacancy/api/actuator/logfile"</span>,
+    <span style="color: #0000FF">"templated"</span>: false
+},
+<span style="color: #0000FF">"loggers"</span>: {
+    <span style="color: #0000FF">"href"</span>: <span style="color: #0000FF">"http://127.0.0.1:8988/vacancy/api/actuator/loggers"</span>,
+    <span style="color: #0000FF">"templated"</span>: false
+},
+<span style="color: #0000FF">"loggers-name"</span>: {
+    <span style="color: #0000FF">"href"</span>: <span style="color: #0000FF">"http://127.0.0.1:8988/vacancy/api/actuator/loggers/{name}"</span>,
+    <span style="color: #0000FF">"templated"</span>: true
+},
+</pre></div>
+Получение лога:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ http http://127.0.0.1:8988/vacancy/api/actuator/logfile
+....
+INFO 15088 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8980 (http) with context path '/vacancy/api'
+INFO 15088 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8988 (http)
+INFO 15088 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+INFO 15088 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.54]
+INFO 15088 --- [main] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+INFO 15088 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 89 ms
+INFO 15088 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 15 endpoint(s) beneath base path '/vacancy/api/actuator'
+INFO 15088 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8988 (http) with context path ''
+....
+</pre></div>
+
+<b>3.</b> Через <b>очень грязный хак</b> получения лога через служебный REST, в случае когда все предыдущие способы не срабатывают. Совсем! НЕТ оперативного доступа к сервисам логирования на <b>prod, preprod</b>:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@RestController
+@RequestMapping(<span style="color: #0000FF">"/log"</span>)
+@Api(tags = [<span style="color: #0000FF">"Log controller"</span>])
+<span style="color: #000080; font-weight: bold">class</span> LogCtrl {
+    <span style="color: #000080; font-weight: bold">private</span> <span style="color: #000080; font-weight: bold">val</span> logger = LoggerFactory.getLogger(<span style="color: #000080; font-weight: bold">this</span>.javaClass.name)
+    <span style="color: #000080; font-weight: bold">var</span> basedir = Paths.<span style="color: #000080; font-weight: bold">get</span>(<span style="color: #0000FF">""</span>).toAbsolutePath().toString()
+    <span style="color: #000080; font-weight: bold">val</span> path = <span style="color: #0000FF">"log/spring.log"</span>
+
+    @GetMapping(<span style="color: #0000FF">"/"</span>)
+    @ApiOperation(<span style="color: #0000FF">"Getting log"</span>)
+    <span style="color: #000080; font-weight: bold">fun</span> getLog(): String {
+        <span style="color: #000080; font-weight: bold">val</span> current = File(basedir + File.separator + path)
+        <span style="color: #000080; font-weight: bold">val</span> currentDir = current.getAbsolutePath()
+        logger.info(java.lang.String.format(<span style="color: #0000FF">"Log file %s"</span>, currentDir))
+        <span style="color: #000080; font-weight: bold">return</span> String(Files.readAllBytes(current.toPath()))
+    }
+}
+</pre></div>
+Метод как параметр получает путь к файлу лога и отправляет его содержимое.
+Именно, в случае <b>ОЧЕНЬ</b> оперативного доступа, и в <b>ОЧЕНЬ</b> запущенных случаях, и на "preprod" контуре. В некоторых случаях, чтобы получить кусок лога, нужно оформить кучу всяких разрешений, а оформляться они могут неделям и т.д. и т.п. В общем, самое крайнее решение(

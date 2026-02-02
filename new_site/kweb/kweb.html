@@ -1,0 +1,94 @@
+<h3 dir="auto" tabindex="-1">Примеры KWeb:</h3>
+<p dir="auto">
+    <a href="#hello_world">Hello World</a><br />
+    <a href="#modal_dialog">Modal dialog</a><br />
+    <a href="#todo_list">Todo list</a>
+</p>
+KWeb - <b><u>Kotlin</u></b> библиотека для построения WEB интерфейса. Ниже описаны короткие примеры из документации:<br/>
+<hr id="system-readmore" />
+<a id="hello_world"></a>
+<h3>Hello World</h3>
+В бесконечном цикле, с периодом в 1 секунду, выводятся сообщения "Hello world 1,2,...".
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="hello_screen" src="images/kweb/hello_screen.png"
+        alt="hello_screen" width="287" height="194"/></p>
+Код:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+fun main(args: Array&lt;div&gt;) {
+    helloWorld()
+}
+
+fun helloWorld() {
+    Kweb(port = 16097) {
+        doc.body.new {
+            h1().text("Hello Worlds!") // add html tag
+
+            GlobalScope.launch {
+                try {
+                    var x = 0
+                    while (true) {
+                        x += 1
+                        li().text("Hello World $x!") // add html tag
+
+                        val callbackId = Random.nextInt()
+
+                        withTimeout(2000){
+                            val waiter = CompletableFuture&lt;pre&gt;()
+                            GlobalScope.launch(Dispatchers.IO){
+                                browser.executeWithCallback("callbackWs($callbackId, {alive: 1});", callbackId) {
+                                    waiter.complete(true)
+                                }
+                            }
+                            waiter.await()
+                        }
+                        delay(500)
+                    }
+                }
+                catch (ex:Exception){
+                    logger.info(ex.message)
+                }
+                finally {
+                    logger.info("I'm gone")
+                }
+            }
+        }
+    }
+}
+</pre></div>
+Java 17.<br/>
+
+<a id="modal_dialog"></a>
+<h3>Modal dialog</h3>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="hello_screen" src="images/kweb/screen_start.png"
+        alt="screen_start" width="295" height="110"/></p>
+Открытое диалоговое окно:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="screen_dialog" src="images/kweb/screen_dialog.png"
+        alt="screen_dialog" width="1197" height="465"/></p>
+
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="screen_dialog" src="images/kweb/modal_dialog_preview.gif"
+        alt="screen_dialog" width="680" height="501"/></p>
+
+Код: <a href="https://github.com/cherepakhin/kweb_modal_dialog"
+        target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/kweb_modal_dialog</a><br/>
+
+<a id="todo_list"></a>
+<h3>Todo list</h3>
+
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="todo_list_screen" src="images/kweb/todo_list_screen.png"
+        alt="screen_dialog" width="1151" height="300"/></p>
+
+Исходный код: <a href="https://github.com/cherepakhin/kweb_todo_list"
+   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/kweb_todo_list</a><br/>
+Основной файл: <a href="https://github.com/cherepakhin/kweb_todo_list/blob/master/src/main/kotlin/TodoApp.kt"
+   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/kweb_todo_list/blob/master/src/main/kotlin/TodoApp.kt</a><br/>
+Запуск:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">./gradlew run</pre>
+</div>
+<br/>
+<b>Ссылки:</b><br/>
+<a href="https://habr.com/ru/articles/580718/"
+   target="_blank" rel="noopener noreferrer">Kweb — Облегченный веб-фреймворк Kotlin для backend-разработчиков</a><br/>
+<a href="https://github.com/kwebio/kweb-demos"
+   target="_blank" rel="noopener noreferrer">https://github.com/kwebio/kweb-demos</a><br/>
+<a href="https://github.com/cherepakhin/kweb_helloworld"
+   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/kweb_helloworld</a><br/>

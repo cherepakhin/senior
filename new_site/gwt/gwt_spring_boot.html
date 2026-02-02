@@ -1,0 +1,89 @@
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/gwt_start_project" target="_blank" rel="noopener noreferrer">Стартовый проект GWT</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://www.gwtproject.org/gettingstarted-v2.html" target="_blank" rel="noopener noreferrer">Getting Started GWT</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://www.tutorialspoint.com/gwt/gwt_quick_guide.htm" target="_blank" rel="noopener noreferrer">GWT Quick Guide</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://ru.wikibooks.org/wiki/Работа_с_библиотекой_ExtGWT" target="_blank" rel="noopener noreferrer">Работа с GWT с библиотекой ExtGWT (очень неплохо описано)</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/articles/124384" target="_blank" rel="noopener noreferrer">Новое в Ext GWT 3.0 (... UI binder забавный. Типа была разметка html и логика на js, теперь разметка на xml и логика на java...)</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://javastudy.ru/gwt/gwt-hello-world-example" target="_blank" rel="noopener noreferrer">https://javastudy.ru/gwt/gwt-hello-world-example</a><br/>
+<br/>
+<b>Интеграция GWT со Spring Boot</b><br/>
+Начальная настройка проекта, создание и запуск простейшего проекта GWT + Spring Boot: <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/gwtboot/gwt-boot-samples" target="_blank" rel="noopener noreferrer">GitHub Quick Start GWT Boot</a>
+<hr id="system-readmore"/>
+<br />
+<b>Примеры проектов Spring Boot с GWT:</b><br />
+Исходный код: <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/GwtMaterialDesign/gwt-material-patterns/tree/master/src/main/java/com/github/gwtmaterialdesign/client/application/googlecontacts" target="_blank" rel="noopener noreferrer">https://github.com/GwtMaterialDesign/gwt-material-patterns/tree/master/src/main/java/com/github/gwtmaterialdesign/client/application/googlecontacts</a><br/>
+Демо: <a style="text-decoration: underline; color: #3366ff;" href="https://gwtmaterialdesign.github.io/gwt-material-patterns/snapshot/#google_contacts" target="_blank" rel="noopener noreferrer">https://gwtmaterialdesign.github.io/gwt-material-patterns/snapshot/#google_contacts</a><br/>
+<br />
+Исходный код: <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/interseroh/demo-gwt-springboot" target="_blank" rel="noopener noreferrer">GitHub interseroh demo-gwt-springboot</a>
+Демо: ???
+<br />
+Исходный код: <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/spring-boot-gwt" target="_blank" rel="noopener noreferrer">Мой пример  Spring Boot и GWT</a><br/>
+Демо: ???
+<ul>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/spring-boot-gwt" target="_blank" rel="noopener noreferrer">Мой пример  Spring Boot и GWT</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/gwt-boot-sample-ui-gwtmaterial" target="_blank" rel="noopener noreferrer">Пример проекта GWT + Spring Boot + Material</a></li>
+</ul>
+<b>GWTP (GWT Platform):</b><br />
+GWT Platform - это фреймворк для создания веб-приложений на основе GWT. Что-то типа MVC для GWT.
+<ul>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://github.com/enterstudio/gwtp-samples" target="_blank" rel="noopener noreferrer">gwtP (platform!) samples</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://github.com/ArcBees/GWTP-Samples" target="_blank" rel="noopener noreferrer">GWTP-Samples Project samples display GWT-Platform features configuration and uses.</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/articles/192262/" target="_blank" rel="noopener noreferrer">GWT-Platform основы работы с презентерами (habr 2013)</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://deepwiki.com/kerongwang/forked.GWTP" target="_blank" rel="noopener noreferrer">GWTP documentation</a></li>
+</ul>
+В <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/enterstudio/gwtp-samples" target="_blank" rel="noopener noreferrer">gwtP (platform!) samples</a> есть примеры приложений с использованием Spring Boot, GWT для mobile и еще пара примеров использования GWTP.<br/>
+<br/>
+<b>GWT UIBinder:</b><br />
+<ul>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://www.arccomm.ru/index.php/java/gwt/uibinder" target="_blank" rel="noopener noreferrer">UIBinder (рус.)</a></li>
+</ul>
+<blockquote>
+Документ рассказывает о том, как создать структуры Widget и DOM из XML-разметки, используя UiBinder, который появился в GWT 2.0.
+
+GWT-приложение - это web-страница. Когда вы создаёте web-страницу, использование HTML и CSS - это наиболее естественный способ сделать это.  UiBinder фреймворк позволяет вам сделать в точности следующее: создать ваше приложение как HTML-страницы с вкраплениями GWT-виджетов внутри них.
+
+Кроме того, это ещё и более естественный и краткий путь сделать UI в сравнении с тем, как делать это в коде программ.
+UiBinder может также сделать ваше приложение более эффективным. Броузеры более хороши в построении DOM-структур впихиванием длинных HTML-строк в аттрибуты innerHTML, а не в обработке кучи запросов к API. UiBinder естественным образом использует эти преимущества и в результате мы имеем то, что самый приятный способ сделать приложение - это ещё и самый лучший способ.
+</blockquote>
+
+<b>Альтернативы GWT</b><br/>
+Jmix (бывший CUBA Platform): <a style="text-decoration: underline; color: #3366ff;" href="https://www.jmix.ru" target="_blank" rel="noopener noreferrer">https://www.jmix.ru</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://www.jmix.ru/live-demo/" target="_blank" rel="noopener noreferrer">https://www.jmix.ru/live-demo/</a><br/>
+Jmix бесплатный только в <b>Community</b> версии или в версии <b>Sprint</b> для проектов, содержащих не более 10 сущностей и 10 ролей (В контексте Jmix сущность - это объект Java, хранящийся в базе данных с использованием Java Persistence API).<br/>
+<br/>
+<b>Ссылки:</b><br />
+<ul>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/images/gwt/gwt-tutorial-ru.pdf" target="_blank" rel="noopener noreferrer">Учебник GWT</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://www.arccomm.ru/index.php/java/gwt/uibinder" target="_blank" rel="noopener noreferrer">GWT UIBinder</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/spring-boot-gwt" target="_blank" rel="noopener noreferrer">Мой пример  Spring Boot и GWT</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/index.php/component/content/article/ui-java?catid=15" target="_blank" rel="noopener noreferrer">UI на java</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://drive.google.com/drive/folders/1DZyk8hJNlYAESupf00gN53V1hbd-A2FO" target="_blank" rel="noopener noreferrer">Slides GWT</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" title="UI material (links)" href="https://v.perm.ru/index.php/component/content/article/ui-material?catid=17" target="_blank" rel="noopener noreferrer">UI material (links)</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/index.php/component/content/article/material-ui?catid=17" target="_blank" rel="noopener noreferrer">Material Design UI Frameworks</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://github.com/GwtMaterialDesign" target="_blank" rel="noopener noreferrer">GWT Material Design</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://github.com/lofidewanto/gwt-boot-sample-basic" target="_blank" rel="noopener noreferrer">Git простого примера с GWT и Spring Boot (gwt-boot-sample-basic)</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://kpaudel.blogspot.com/2019/02/spring-boot-with-gwt-using-gradle-build.html" target="_blank" rel="noopener noreferrer">Spring Boot with GWT using gradle build</a></li>
+</ul>
+<b>Слайды GWT от Dr. Lofi Dewanto <a style="text-decoration: underline; color: #3366ff;" href="https://lofidewanto.blogspot.de" target="_blank" rel="noopener noreferrer">https://lofidewanto.blogspot.de</a> для понимания:</b><br />
+<ul>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/images/gwt/GWT_1_Introduction.pdf" target="_blank" rel="noopener noreferrer">1. GWT - Introduction</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/images/gwt/GWT_2_Your_First_GWT_App.pdf" target="_blank" rel="noopener noreferrer">2. Your First GWT App</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/images/gwt/GWT_3_UI_Frameworks_for_GWT.pdf" target="_blank" rel="noopener noreferrer">3. UI Frameworks for GWT</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/images/gwt/GWT_4_Dependency_Injection_with_Gin_and_Dagger2.pdf" target="_blank" rel="noopener noreferrer">4. Dependency Injection with Gin and Dagger2</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/images/gwt/GWT_5_Interoperability_with_JavaScript_JsInterop.pdf" target="_blank" rel="noopener noreferrer">5. Interoperability with JavaScript - JsInterop</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/images/gwt/GWT_6_Client_Server_Communication.pdf" target="_blank" rel="noopener noreferrer">6. Client/Server Communication</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/images/gwt/GWT_7_GWT_Architectural_Patterns.pdf" target="_blank" rel="noopener noreferrer">7. GWT Architectural Patterns</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/images/gwt/GWT_8_GWT_Best_Practices.pdf" target="_blank" rel="noopener noreferrer">8. GWT Best Practices</a></li>
+</ul>
+<b>Демо GWT Material Design</b><br/>
+Исходный код: <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/gwt-material-demo" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/gwt-material-demo</a>
+<br/>
+Результат:<a style="text-decoration: underline; color: #3366ff;" href="http://v.perm.ru:8080/gwt-material-demo-2.1.1/" target="_blank" rel="noopener noreferrer">http://v.perm.ru:8080/gwt-material-demo-2.1.1/ (развернуто в Tomcat)</a>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="GWT Material Demo" src="images/gwt/gwt_material.png"/></p>
+<br/>
+<b>Демо GWTP</b><br/>
+Исходный код: <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/murrayc-gwtp-appengine-example" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/murrayc-gwtp-appengine-example</a>
+<br/>
+Результат: <a style="text-decoration: underline; color: #3366ff;" href="http://v.perm.ru:8080/gwt-murraycgwtpexample-0.1" target="_blank" rel="noopener noreferrer">http://v.perm.ru:8080/gwt-murraycgwtpexample-0.1/ (развернуто в Tomcat)</a>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="GWT Material Demo" src="images/gwtp/gwtp.png"/></p>
+
+

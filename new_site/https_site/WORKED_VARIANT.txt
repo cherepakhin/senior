@@ -1,0 +1,127 @@
+============================================================================================
+https://think.unblog.ch/en/how-to-check-lets-encrypt-certificate-expiry-date/
+Проверить дату истечения сертификата можно с помощью команды OpenSSL, например:
+$ openssl x509 -noout -enddate -in /etc/letsencrypt/live/v.perm.ru/fullchain.pem
+>>> notAfter=Nov  5 04:06:21 2025 GMT
+============================================================================================
+!!!!!Обновление сертификата!!!!!
+
+https://think.unblog.ch/en/how-to-check-lets-encrypt-certificate-expiry-date/
+============================================================================================
+Просмотр текущнго сертификата:
+# sudo certbot certificates
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Found the following certs:
+  Certificate Name: v.perm.ru
+    Serial Number: 518459ce5f1e22f699c25f1715294584f3b
+    Key Type: ECDSA
+    Domains: v.perm.ru
+    Expiry Date: 2025-11-05 04:06:21+00:00 (INVALID: EXPIRED)
+    Certificate Path: /etc/letsencrypt/live/v.perm.ru/fullchain.pem
+    Private Key Path: /etc/letsencrypt/live/v.perm.ru/privkey.pem
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+============================================================================================
+ОБНОВЛЕНИЕ (!!!) сертификата
+root@v:/var/log/letsencrypt# sudo certbot renew
+>Saving debug log to /var/log/letsencrypt/letsencrypt.log
+>
+> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+> Processing /etc/letsencrypt/renewal/v.perm.ru.conf
+> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+> Renewing an existing certificate for v.perm.ru
+> Reloading apache server after certificate renewal
+
+> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+> Congratulations, all renewals succeeded:
+>   /etc/letsencrypt/live/v.perm.ru/fullchain.pem (success)
+> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+============================================================================================
+Проверка
+# openssl x509 -noout -enddate -in /etc/letsencrypt/live/v.perm.ru/fullchain.pem
+notAfter=Mar 18 04:50:53 2026 GMT
+
+# sudo openssl x509 -dates -noout < /etc/letsencrypt/live/v.perm.ru/cert.pem
+notBefore=Dec 18 04:50:54 2025 GMT
+notAfter=Mar 18 04:50:53 2026 GMT
+
+При проверке обращения к сайту, дата сертификата ОБНОВИЛАСЬ (!!!!!!),
+но "https" в адресной строке все равно КРАСНЫЙ (да и хрен с ним).
+
+===========================================================================================
+Копия статьи https://think.unblog.ch/en/how-to-check-lets-encrypt-certificate-expiry-date/
+
+How to Check Lets Encrypt Certificate Expiry Date
+Home  »  UNBLOG Tutorials (EN)   »   How to Check Lets Encrypt Certificate Expiry Date
+12. 03. 2023 Don Matteo Leave a comment
+ 4.8 (6)
+When using Let’s Encrypt certificates, which are provided via Certbot and the ACME protocol by the ACME client software, known as Certbot for Linux operating systems, it is intended to check expiry date that the certificates must be renewed every 90 days before they expire.
+
+Many of us are familiar with the e-mail: Let’s Encrypt certificate expiration notice for domain.
+
+Your certificate (or certificates) for the names listed below will expire in 20 days (on 31 Mar 23 08:33 +0000). Please make sure to renew your certificate before then, or visitors to your web site will encounter errors.
+
+We recommend renewing certificates automatically when they have a third of their total lifetime left. For Let’s Encrypt’s current 90-day certificates, that means renewing 30 days before expiration. See https://letsencrypt.org/docs/integration-guide/ for details.
+
+myhost.example.tld
+
+So let’s see the options, using commands in examples, to get the expiry date of Let’s Encrypt certificates to renew them by certbot in time for our myhost server before they expire and become invalid.
+
+Check Certificates Expiry Date
+To view a list of the certificates Certbot knows about, run the certificates subcommand in the terminal shell:
+
+$ sudo certbot certificates
+This returns details similar as follows, along with the Expiry Date:
+
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Found the following certs:
+  Certificate Name: myhost.domain.org
+    Domains: myhost.domain.org
+    Expiry Date: 2023-03-26 08:39:39+00:00 (VALID: 14 days)
+    Certificate Path: /etc/letsencryp/live/myhost.example.tld/fullchain.pem
+    Private Key Path: /etc/letsencryp/live/myhost.example.tld/privkey.pem
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Let’s see how the expiry date of any certificate can be queried, so not just only Let’s Encrypt certificates.
+
+$ sudo openssl x509 -dates -noout < /etc/letsencrypt/live/myhost.example.tld/cert.pem
+This command, running in a Linux terminal, displays the expiration date of each certificate, according to the ITU-T standard specifications for X.509 digital certificates.
+
+Renew Let’s Encrypt Certificates use Certbot
+The Let’s Encrypt certificates can be renewed before they expire using this command.
+
+$ sudo certbot renew
+Next the Let’s Encrypt certificate is only renewed for the domain domain.org and it’s hostname myhost.example.tld, using the apache2 webserver.
+
+$ sudo certbot --apache -d example.tld -d myhost.example.tld
+The Let’s Encrypt certificate should only be renewed for the hostname myhost.example.tld.
+
+e.g. using various services such as an SMTP mail transport agent that uses starttls.
+
+$ sudo certbot --standalone certonly -d myhost.example.tld
+The mission is to create a more secure and privacy-respecting World-Wide Web by promoting the widespread adoption of HTTPS.
+
+Let’s Encrypt certificates are valid for 90 days, during which renewal can take place at any time. This is handled by an automated process designed to overcome manual creatio. Validation, signing, installation, and renewal of certificates for secure websites.
+
+The project claims its goal is to make encrypted connections to World Wide Web servers ubiquitous. By eliminating payment, web server configuration, validation email management and certificate renewal tasks. It is meant to significantly lower the complexity of setting up and maintaining TLS encryption.
+
+========================================================
+Еще статья https://wikival.bmstu.ru/doku.php?id=letsencrypt_certbot
+========================================================
+Значок HTTPS для Apache сайта КРАСНЫЙ!
+========================================================
+Настройка роутера
+См. картинку ![new_site/https_site/router_mapping.png](new_site/https_site/router_mapping.png)
+
+Доступ к роутеру: http://192.168.1.1/cgi-bin/luci/;stok=8c34fd0e7fb65824d0ae3b80089adcc5/web/home#router
+
+Mapping портов:
+443 -> 192.168.1.20:443 (сайт)
+80  -> 192.168.1.20:80
+
+Маппинг для МОИХ java сервисов:
+8080 -> 192.168.1.20:8080 (tomcat)
+8443 -> 192.168.1.20:8443 (tomcat для программ, работающих через HTTPS, значок HTTPS красный)
+

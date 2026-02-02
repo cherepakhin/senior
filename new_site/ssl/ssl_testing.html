@@ -1,0 +1,70 @@
+В <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/senior/tree/main/new_site/ssl" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/senior/tree/main/new_site/ssl</a>
+ опыты в папке <b>sert_testing</b> из <a style="text-decoration: underline; color: #3366ff;" href="https://test.playincloud.ru/index.php/spravochnik/43-certs" target="_blank" rel="noopener noreferrer">https://test.playincloud.ru/index.php/spravochnik/43-certs</a>.
+<hr id="system-readmore" />
+Сертификаты хранятся в хранилище. Сертификаты можно импортировать, экспортировать в хранилище.<br/>
+Создание хранилища: create_store.sh
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+# Создание нового хранилища ключей
+# При генерации запрашивается город и пр.инфа. Указал только пароль, т.к. он обязателен
+# pass: b..o Остальное пусто
+keytool -genkeypair -alias mykey -keyalg RSA -keystore mykeystore.jks -keysize 2048
+</pre></div>
+<br/>
+Просмотр хранилища: view_store.sh
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+# pass - b...o
+
+keytool -list -keystore mykeystore.jks
+
+# Вывод:
+#Enter keystore password:
+#Keystore type: PKCS12
+#Keystore provider: SUN
+
+#Your keystore contains 1 entry
+
+#mykey, Jul 27, 2025, PrivateKeyEntry,
+#Certificate fingerprint (SHA-256): 07:13:.....
+
+# mykey из ./create_store.sh
+</pre></div>
+Просмотр конкретного сертификата view_sert.sh:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+# Просмотр хранилища ключей
+# pass - b...o
+
+keytool -list -keystore mykeystore.jks
+
+# Вывод:
+#Enter keystore password:
+#Keystore type: PKCS12
+#Keystore provider: SUN
+
+#Your keystore contains 1 entry
+
+#mykey, Jul 27, 2025, PrivateKeyEntry,
+#Certificate fingerprint (SHA-256): 07:13:6E:63:E5:29:C9:...
+
+</pre></div>
+
+В выводе есть <b>mykey</b> сгенерированный из ./create_store.sh.<br/>
+Мои сертификаты в vasi@v:/home/vasi/doc/sert<br/>
+Просмотр деталей сертификата:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+~/doc/senior/new_site/ssl/sert_testing$ keytool -list -v -alias mykey -keystore mykeystore.jks
+</pre></div>
+Использовано в проекте:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+$ git clone "Enable-https-SSL-for-Spring-Boot"
+$ cd ~/temp/ssl/Enable-https-SSL-for-Spring-Boot
+(проект в ssl/proj/)
+$ echo $JAVA_HOME
+/usr/lib/jvm/java-11-openjdk-amd64
+$ ssl/proj/run.sh
+$ mvn spring-boot:run
+$ curl https://127.0.0.1:8443/hello
+(открывается через httpS)
+</pre></div>
+
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="allure_result_test" src="images/ssl_testing/screen.png"
+        alt="allure_result_test" width="985" height="618"/></p>

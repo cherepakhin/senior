@@ -1,0 +1,338 @@
+Настройка шлюза в интернет для домашней сети на базе компьютера с 2 сетевыми картами.
+Одна карта смотрит в интернет c фиксированным интернет IP адресом, другая подключена к домашнему wifi роутеру.
+<br/>
+Проверка статуса сервиса ufw, конфигурация портов:
+<hr id="system-readmore" />
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+vasi@v ~ $ sudo ufw status verbose
+Status: active
+Logging: on (medium)
+Default: deny (incoming), allow (outgoing), allow (routed)
+New profiles: skip
+
+To                         Action      From
+--                         ------      ----
+5601                       ALLOW IN    Anywhere
+443/tcp                    ALLOW IN    192.168.1.57
+3389                       ALLOW IN    192.168.1.0/24             (log-all)
+21                         ALLOW IN    192.168.1.0/24             (log-all)
+Anywhere                   ALLOW IN    192.168.122.0/24           (log-all)
+22                         ALLOW IN    192.168.1.0/24
+22                         DENY IN     Anywhere                   (log-all)
+8980                       ALLOW IN    192.168.1.0/24             (log-all)
+8980                       DENY IN     Anywhere                   (log-all)
+80 on ppp0                 ALLOW IN    Anywhere
+443 on ppp0                ALLOW IN    Anywhere
+5432                       ALLOW IN    192.168.1.0/24
+21 on ppp0                 DENY IN     Anywhere                   (log-all)
+5432 on ppp0               DENY IN     Anywhere                   (log)
+8081/tcp                   ALLOW IN    Anywhere
+20595/udp                  ALLOW IN    Anywhere
+1024:65535/tcp             ALLOW IN    Anywhere
+1024:65535/udp             ALLOW IN    Anywhere
+Anywhere                   ALLOW IN    192.168.1.0/24
+53/tcp                     ALLOW IN    Anywhere
+53/udp                     ALLOW IN    Anywhere
+443                        ALLOW IN    Anywhere
+4096:65535/tcp             ALLOW IN    Anywhere
+4096:65535/udp             ALLOW IN    Anywhere
+16384:65535/tcp            ALLOW IN    Anywhere
+80/tcp                     ALLOW IN    Anywhere
+21 (v6) on ppp0            DENY IN     Anywhere (v6)              (log-all)
+22 (v6) on ppp0            DENY IN     Anywhere (v6)              (log)
+5432 (v6) on ppp0          DENY IN     Anywhere (v6)              (log)
+22 (v6)                    DENY IN     Anywhere (v6)              (log-all)
+8081/tcp (v6)              ALLOW IN    Anywhere (v6)
+20595/udp (v6)             ALLOW IN    Anywhere (v6)
+1024:65356/tcp (v6)        ALLOW IN    Anywhere (v6)
+1024:65356/udp (v6)        ALLOW IN    Anywhere (v6)
+1024:65535/tcp (v6)        ALLOW IN    Anywhere (v6)
+1024:65535/udp (v6)        ALLOW IN    Anywhere (v6)
+80 (v6) on ppp0            ALLOW IN    Anywhere (v6)
+443 (v6) on ppp0           ALLOW IN    Anywhere (v6)
+Anywhere (v6)              ALLOW IN    Anywhere (v6)
+53/tcp (v6)                ALLOW IN    Anywhere (v6)
+53/udp (v6)                ALLOW IN    Anywhere (v6)
+8980 (v6)                  DENY IN     Anywhere (v6)              (log-all)
+443 (v6)                   ALLOW IN    Anywhere (v6)
+4096:65535/tcp (v6)        ALLOW IN    Anywhere (v6)
+4096:65535/udp (v6)        ALLOW IN    Anywhere (v6)
+16384:65535/tcp (v6)       ALLOW IN    Anywhere (v6)
+80/tcp (v6)                ALLOW IN    Anywhere (v6)
+5601 (v6) on enp4s0        ALLOW IN    Anywhere (v6)
+33259 (v6) on enp4s0       ALLOW IN    Anywhere (v6)
+5601 (v6)                  ALLOW IN    Anywhere (v6)
+</pre></div><br/>
+Restart network:<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://operavps.com/docs/restart-network-in-linux/"
+   target="_blank" rel="noopener noreferrer">7 Ways to Restart Network in Linux Ubuntu, Debian, CentOS</a><br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+$ sudo systemctl restart systemd-networkd
+$ sudo systemctl restart NetworkManager.service
+$ sudo nmcli networking off & sudo nmcli networking on
+$ systemctl status NetworkManager
+</pre></div><br/>
+Разрешить DNS:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ sudo ufw allow 53/tcp
+$ sudo ufw allow 53/udp
+</pre></div><br/>
+
+Эксперименты с произвольным портом (8980):<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">-----------DENY AND LOG on ALL INTERFACES
+sudo ufw insert 1 deny log-all 8980
+
+http http://v.perm.ru:8980/vacancy/api/company/
+
+http: error: Request timed out (30s).
+
+СРАБАТЫВАЕТ!
+$ sudo tail -f /var/log/ufw.log | grep 8980
+2024-10-01T11:28:45.247315+05:00 v kernel: [UFW BLOCK] IN=enp4s0 OUT= MAC=00:11:95:5b:fe:7d:ac:b5:7d:3e:9f:c6:08:00 SRC=192.168.1.57 DST=46.146.232.50 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=53199 DF PROTO=TCP SPT=46480 DPT=8980 WINDOW=64240 RES=0x00 SYN URGP=0
+2024-10-01T11:28:46.249369+05:00 v kernel: [UFW BLOCK] IN=enp4s0 OUT= MAC=00:11:95:5b:fe:7d:ac:b5:7d:3e:9f:c6:08:00 SRC=192.168.1.57 DST=46.146.232.50 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=53200 DF PROTO=TCP SPT=46480 DPT=8980 WINDOW=64240 RES=0x00 SYN URGP=0
+2024-10-01T11:28:48.269372+05:00 v kernel: [UFW BLOCK] IN=enp4s0 OUT= MAC=00:11:95:5b:fe:7d:ac:b5:7d:3e:9f:c6:08:00 SRC=192.168.1.57 DST=46.146.232.50 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=53201 DF PROTO=TCP SPT=46480 DPT=8980 WINDOW=64240 RES=0x00 SYN URGP=0
+
+sudo ufw delete 1
+-----------ALLOW AND LOG on ALL INTERFACES
+sudo ufw insert 1 allow log-all proto tcp from any to any port 8980
+
+$ sudo tail -f /var/log/ufw.log | grep 8980
+2024-10-01T11:34:47.455990+05:00 v kernel: [UFW ALLOW] IN=enp4s0 OUT= MAC=00:11:95:5b:fe:7d:ac:b5:7d:3e:9f:c6:08:00 SRC=192.168.1.57 DST=46.146.232.50 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=55228 DF PROTO=TCP SPT=35760 DPT=8980 WINDOW=64240 RES=0x00 SYN URGP=0
+
+-----------DENY AND LOG on PPP0
+//sudo ufw insert 1 deny log-all on ppp0 8980
+sudo ufw insert 1 deny log-all 8980
+
+-----------ALLOW AND LOG on 192.168.1.0/24
+sudo ufw insert 1 allow log-all from 192.168.1.0/24 to any port 8980
+
+$ http http://v.perm.ru:8980/vacancy/api/company/
+vasi@v:~/prog/kotlin/vacancy_backend$ sudo tail -f /var/log/ufw.log | grep 8980
+2024-10-01T11:58:19.249305+05:00 v kernel: [UFW ALLOW] IN=enp4s0 OUT= MAC=00:11:95:5b:fe:7d:ac:b5:7d:3e:9f:c6:08:00 SRC=192.168.1.57 DST=46.146.232.50 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=40649 DF PROTO=TCP SPT=54972 DPT=8980 WINDOW=64240 RES=0x00 SYN URGP=0
+
+$ http http://192.168.1.20:8980/vacancy/api/company/
+2024-10-01T12:00:14.836976+05:00 v kernel: [UFW ALLOW] IN=enp4s0 OUT= MAC=00:11:95:5b:fe:7d:ac:b5:7d:3e:9f:c6:08:00 SRC=192.168.1.57 DST=192.168.1.20 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=42622 DF PROTO=TCP SPT=41372 DPT=8980 WINDOW=64240 RES=0x00 SYN URGP=0
+
+sudo ufw insert 1 deny log-all 8980
+
+
+----------------------Итого так правильно
+sudo ufw insert 1 allow log-all from 192.168.1.0/24 to any port 8980
+sudo ufw insert 1 deny log-all 8980
+
+vasi@v:~/prog/kotlin/vacancy_backend$ sudo ufw status numbered verbose | grep 8980
+[ 1] 8980                       ALLOW IN    192.168.1.0/24             (log-all)
+[ 2] 8980                       DENY IN     Anywhere                   (log-all)
+
+1. Из локалки работает
+vasi@vasi-note:~$ http http://192.168.1.20:8980/vacancy/api/company/
+и логируется
+2024-10-01T12:12:10.017313+05:00 v kernel: [UFW ALLOW] IN=enp4s0 OUT= MAC=00:11:95:5b:fe:7d:ac:b5:7d:3e:9f:c6:08:00 SRC=192.168.1.57 DST=192.168.1.20 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=24045 DF PROTO=TCP SPT=49152 DPT=8980 WINDOW=64240 RES=0x00 SYN URGP=0
+
+2. Из инета БЛОКИРУЕТСЯ (https://httpie.io/app) https://v.perm.ru:8980/vacancy/api/company/
+vasi@v:~/prog/kotlin/vacancy_backend$ sudo tail -f /var/log/ufw.log | grep 8980
+2024-10-01T12:13:55.414078+05:00 v kernel: [UFW BLOCK] IN=ppp0 OUT= MAC= SRC=3.93.199.77 DST=46.146.232.50 LEN=60 TOS=0x10 PREC=0x60 TTL=114 ID=11273 DF PROTO=TCP SPT=41774 DPT=8980 WINDOW=64240 RES=0x00 SYN URGP=0
+2024-10-01T12:13:56.438232+05:00 v kernel: [UFW BLOCK] IN=ppp0 OUT= MAC= SRC=3.93.199.77 DST=46.146.232.50 LEN=60 TOS=0x10 PREC=0x60 TTL=114 ID=11274 DF PROTO=TCP SPT=41774 DPT=8980 WINDOW=64240 RES=0x00 SYN URGP=0
+2024-10-01T12:13:58.454444+05:00 v kernel: [UFW BLOCK] IN=ppp0 OUT= MAC= SRC=3.93.199.77 DST=46.146.232.50 LEN=60 TOS=0x10 PREC=0x60 TTL=114 ID=11275 DF PROTO=TCP SPT=41774 DPT=8980 WINDOW=64240 RES=0x00 SYN URGP=0
+2024-10-01T12:14:02.582139+05:00 v kernel: [UFW BLOCK] IN=ppp0 OUT= MAC= SRC=3.93.199.77 DST=46.146.232.50 LEN=60 TOS=0x10 PREC=0x60 TTL=114 ID=11276 DF PROTO=TCP SPT=41774 DPT=8980 WINDOW=64240 RES=0x00 SYN URGP=0
+
+СРАБАТЫВАЕТ НА ПЕРВОМ ПОДХОДЯЩЕМ ПРАВИЛЕ:
+sudo ufw insert 1 deny log-all 8980
+Rule inserted
+vasi@v:~/prog/kotlin/vacancy_backend$ sudo ufw status numbered verbose | grep 8980
+[ 1] 8980                       DENY IN     Anywhere                   (log-all) <--- сработает ЭТОТ запрет. Не смотря что правило 2 разрешает
+[ 2] 8980                       ALLOW IN    192.168.1.0/24             (log-all)
+[32] 8980 (v6)                  DENY IN     Anywhere (v6)              (log-all)
+
+vasi@v:~/prog/kotlin/vacancy_backend$ sudo ufw status numbered verbose
+Status: active
+
+     To                         Action      From
+     --                         ------      ----
+[ 1] 8980                       ALLOW IN    192.168.1.0/24             (log-all)
+[ 2] 8980                       DENY IN     Anywhere                   (log-all)
+[ 3] 80 on ppp0                 ALLOW IN    Anywhere
+[ 4] 443 on ppp0                ALLOW IN    Anywhere
+[ 5] 5432                       ALLOW IN    192.168.1.0/24
+[ 6] 21 on ppp0                 DENY IN     Anywhere                   (log-all)
+[ 7] 5432 on ppp0               DENY IN     Anywhere                   (log)
+[ 8] 22                         ALLOW IN    Anywhere
+[ 9] 8081/tcp                   ALLOW IN    Anywhere
+[10] 20595/udp                  ALLOW IN    Anywhere
+[11] 1024:65535/tcp             ALLOW IN    Anywhere
+[12] 1024:65535/udp             ALLOW IN    Anywhere
+[13] Anywhere                   ALLOW IN    192.168.1.0/24
+[14] 53/tcp                     ALLOW IN    Anywhere
+[15] 53/udp                     ALLOW IN    Anywhere
+[16] 21 (v6) on ppp0            DENY IN     Anywhere (v6)              (log-all)
+[17] 22 (v6) on ppp0            DENY IN     Anywhere (v6)              (log)
+[18] 5432 (v6) on ppp0          DENY IN     Anywhere (v6)              (log)
+[19] 22 (v6)                    ALLOW IN    Anywhere (v6)
+[20] 8081/tcp (v6)              ALLOW IN    Anywhere (v6)
+[21] 20595/udp (v6)             ALLOW IN    Anywhere (v6)
+[22] 1024:65356/tcp (v6)        ALLOW IN    Anywhere (v6)
+[23] 1024:65356/udp (v6)        ALLOW IN    Anywhere (v6)
+[24] 1024:65535/tcp (v6)        ALLOW IN    Anywhere (v6)
+[25] 1024:65535/udp (v6)        ALLOW IN    Anywhere (v6)
+[26] 80 (v6) on ppp0            ALLOW IN    Anywhere (v6)
+[27] 443 (v6) on ppp0           ALLOW IN    Anywhere (v6)
+[28] Anywhere (v6)              ALLOW IN    Anywhere (v6)
+[29] 53/tcp (v6)                ALLOW IN    Anywhere (v6)
+[30] 53/udp (v6)                ALLOW IN    Anywhere (v6)
+[31] 8980 (v6)                  DENY IN     Anywhere (v6)              (log-all)
+
+Разрешить для дианазона портов:
+$ sudo ufw allow 8000:8080/tcp
+
+$ sudo ufw allow from 192.168.1.0/24 to any port 22 (уже разрешено выше)
+
+Моя настройка:
+
+root@v:/etc/ufw# cat user.rules
+*filter
+:ufw-user-input - [0:0]
+:ufw-user-output - [0:0]
+:ufw-user-forward - [0:0]
+:ufw-before-logging-input - [0:0]
+:ufw-before-logging-output - [0:0]
+:ufw-before-logging-forward - [0:0]
+:ufw-user-logging-input - [0:0]
+:ufw-user-logging-output - [0:0]
+:ufw-user-logging-forward - [0:0]
+:ufw-after-logging-input - [0:0]
+:ufw-after-logging-output - [0:0]
+:ufw-after-logging-forward - [0:0]
+:ufw-logging-deny - [0:0]
+#:ufw-logging-allow - [0:0]
+#:ufw-user-limit - [0:0]
+#:ufw-user-limit-accept - [0:0]
+### RULES ###
+
+### tuple ### allow any 22 0.0.0.0/0 any 192.168.1.0/24 in
+-A ufw-user-input -p tcp --dport 22 -s 192.168.1.0/24 -j ACCEPT
+-A ufw-user-input -p udp --dport 22 -s 192.168.1.0/24 -j ACCEPT
+
+### tuple ### deny_log-all any 22 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-logging-input -p tcp --dport 22 -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW BLOCK] "
+-A ufw-user-logging-input -p tcp --dport 22 -j RETURN
+-A ufw-user-input -p tcp --dport 22 -j ufw-user-logging-input
+-A ufw-user-input -p tcp --dport 22 -j DROP
+-A ufw-user-logging-input -p udp --dport 22 -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW BLOCK] "
+-A ufw-user-logging-input -p udp --dport 22 -j RETURN
+-A ufw-user-input -p udp --dport 22 -j ufw-user-logging-input
+-A ufw-user-input -p udp --dport 22 -j DROP
+
+### tuple ### allow_log-all any 8980 0.0.0.0/0 any 192.168.1.0/24 in
+-A ufw-user-logging-input -p tcp --dport 8980 -s 192.168.1.0/24 -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW ALLOW 8980] "
+-A ufw-user-logging-input -p tcp --dport 8980 -s 192.168.1.0/24 -j RETURN
+-A ufw-user-input -p tcp --dport 8980 -s 192.168.1.0/24 -j ufw-user-logging-input
+-A ufw-user-input -p tcp --dport 8980 -s 192.168.1.0/24 -j ACCEPT
+-A ufw-user-logging-input -p udp --dport 8980 -s 192.168.1.0/24 -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW ALLOW 8980_] "
+-A ufw-user-logging-input -p udp --dport 8980 -s 192.168.1.0/24 -j RETURN
+-A ufw-user-input -p udp --dport 8980 -s 192.168.1.0/24 -j ufw-user-logging-input
+-A ufw-user-input -p udp --dport 8980 -s 192.168.1.0/24 -j ACCEPT
+
+### tuple ### deny_log-all any 8980 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-logging-input -p tcp --dport 8980 -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW BLOCK] "
+-A ufw-user-logging-input -p tcp --dport 8980 -j RETURN
+-A ufw-user-input -p tcp --dport 8980 -j ufw-user-logging-input
+-A ufw-user-input -p tcp --dport 8980 -j DROP
+-A ufw-user-logging-input -p udp --dport 8980 -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW BLOCK] "
+-A ufw-user-logging-input -p udp --dport 8980 -j RETURN
+-A ufw-user-input -p udp --dport 8980 -j ufw-user-logging-input
+-A ufw-user-input -p udp --dport 8980 -j DROP
+
+### tuple ### allow any 80 0.0.0.0/0 any 0.0.0.0/0 in_ppp0
+-A ufw-user-input -i ppp0 -p tcp --dport 80 -j ACCEPT
+-A ufw-user-input -i ppp0 -p udp --dport 80 -j ACCEPT
+
+### tuple ### allow any 443 0.0.0.0/0 any 0.0.0.0/0 in_ppp0
+-A ufw-user-input -i ppp0 -p tcp --dport 443 -j ACCEPT
+-A ufw-user-input -i ppp0 -p udp --dport 443 -j ACCEPT
+
+### tuple ### allow any 5432 0.0.0.0/0 any 192.168.1.0/24 in
+-A ufw-user-input -p tcp --dport 5432 -s 192.168.1.0/24 -j ACCEPT
+-A ufw-user-input -p udp --dport 5432 -s 192.168.1.0/24 -j ACCEPT
+
+### tuple ### deny_log-all any 21 0.0.0.0/0 any 0.0.0.0/0 in_ppp0
+-A ufw-user-logging-input -i ppp0 -p tcp --dport 21 -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW BLOCK_TCP] "
+-A ufw-user-logging-input -i ppp0 -p tcp --dport 21 -j RETURN
+-A ufw-user-input -i ppp0 -p tcp --dport 21 -j ufw-user-logging-input
+-A ufw-user-input -i ppp0 -p tcp --dport 21 -j DROP
+-A ufw-user-logging-input -i ppp0 -p udp --dport 21 -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW_BLOCK_UDP] "
+-A ufw-user-logging-input -i ppp0 -p udp --dport 21 -j RETURN
+-A ufw-user-input -i ppp0 -p udp --dport 21 -j ufw-user-logging-input
+-A ufw-user-input -i ppp0 -p udp --dport 21 -j DROP
+
+### tuple ### deny_log any 5432 0.0.0.0/0 any 0.0.0.0/0 in_ppp0
+-A ufw-user-logging-input -i ppp0 -p tcp --dport 5432 -m conntrack --ctstate NEW -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW BLOCK_TCP_5432] "
+-A ufw-user-logging-input -i ppp0 -p tcp --dport 5432 -j RETURN
+-A ufw-user-input -i ppp0 -p tcp --dport 5432 -j ufw-user-logging-input
+-A ufw-user-input -i ppp0 -p tcp --dport 5432 -j DROP
+-A ufw-user-logging-input -i ppp0 -p udp --dport 5432 -m conntrack --ctstate NEW -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW BLOCK_UDP_5432] "
+-A ufw-user-logging-input -i ppp0 -p udp --dport 5432 -j RETURN
+-A ufw-user-input -i ppp0 -p udp --dport 5432 -j ufw-user-logging-input
+-A ufw-user-input -i ppp0 -p udp --dport 5432 -j DROP
+
+### tuple ### allow tcp 8081 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 8081 -j ACCEPT
+
+### tuple ### allow udp 20595 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p udp --dport 20595 -j ACCEPT
+
+### tuple ### allow tcp 1024:65535 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp -m multiport --dports 1024:65535 -j ACCEPT
+
+### tuple ### allow udp 1024:65535 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p udp -m multiport --dports 1024:65535 -j ACCEPT
+
+### tuple ### allow any any 0.0.0.0/0 any 192.168.1.0/24 in
+-A ufw-user-input -s 192.168.1.0/24 -j ACCEPT
+
+### tuple ### allow tcp 53 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 53 -j ACCEPT
+
+### tuple ### allow udp 53 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p udp --dport 53 -j ACCEPT
+
+### END RULES ###
+
+### LOGGING ###
+-A ufw-after-logging-input -j LOG --log-prefix "[UFW BLOCK_ufw-after-log-input] "
+# для отладки можно включить, но лог сильно засран
+#-A ufw-after-logging-output -j LOG --log-prefix "[UFW ALLOW  ufw-after-log-output] "
+# для отладки можно включить, но лог сильно засран
+#-A ufw-after-logging-forward -j LOG --log-prefix "[UFW ALLOW ufw-after-log-forward] "
+-A ufw-logging-deny -m conntrack --ctstate INVALID -j LOG --log-prefix "[UFW AUDIT INVALID] "
+-A ufw-logging-deny -j LOG --log-prefix "[UFW BLOCK] "
+# полезно для отладки , НО засирает log
+#-A ufw-logging-allow -j LOG --log-prefix "[UFW ALLOW ufw-logging-allow] "
+-I ufw-before-logging-input -j LOG --log-prefix "[UFW AUDIT] " -m limit --limit 3/min --limit-burst 10
+-I ufw-before-logging-output -j LOG --log-prefix "[UFW AUDIT] " -m limit --limit 3/min --limit-burst 10
+-I ufw-before-logging-forward -j LOG --log-prefix "[UFW AUDIT] " -m limit --limit 3/min --limit-burst 10
+### END LOGGING ###
+
+### RATE LIMITING ###
+-A ufw-user-limit -m limit --limit 3/minute -j LOG --log-prefix "[UFW LIMIT BLOCK] "
+-A ufw-user-limit -j REJECT
+-A ufw-user-limit-accept -j ACCEPT
+### END RATE LIMITING ###
+COMMIT
+</pre></div><br/>
+<b>Ссылки:</b><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://selectel.ru/blog/tutorials/how-to-configure-firewall-with-ufw-on-ubuntu-20/"
+   target="_blank" rel="noopener noreferrer">Настройка файрвола в Ubuntu с помощью утилиты UFW в Ubuntu 20</a><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://routerus.com/how-to-setup-a-firewall-with-ufw-on-ubuntu-20-04/"
+   target="_blank" rel="noopener noreferrer">Как настроить брандмауэр с UFW в Ubuntu 20.04</a><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://www.sim-networks.com/ru/kb/ubuntu-config-firewall-ufw-utility"
+   target="_blank" rel="noopener noreferrer">Настройка firewall в Ubuntu с помощью утилиты UFW</a><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://tokmakov.msk.ru/blog/item/465"
+   target="_blank" rel="noopener noreferrer">Узелки на память. Использование утилиты UFW на Ubuntu 18.04 LTS</a><br/>

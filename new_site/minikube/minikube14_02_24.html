@@ -1,0 +1,342 @@
+<h4>1. Запуск minikube</h4>
+<hr id="system-readmore" />
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">vasi@v:~/tools$ minikube start --driver=podman &
+😄  minikube v1.35.0 on Linuxmint 22
+✨  Using the podman driver based on existing profile
+👍  Starting "minikube" primary control-plane node in "minikube" cluster
+🚜  Pulling base image v0.0.46 ...
+E0213 19:55:57.018957  292421 cache.go:222] Error downloading kic artifacts:  not yet implemented, see issue #8426
+🔄  Restarting existing podman container for "minikube" ...
+❗️  Failing to connect to https://registry.k8s.io/ from inside the minikube container
+💡  To pull new external images, you may need to configure a proxy: https://minikube.sigs.k8s.io/docs/reference/networking/proxy/
+🐳  Preparing Kubernetes v1.32.0 on Docker 27.4.1 ...
+🔎  Verifying Kubernetes components...
+▪️ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+▪️ Using image docker.io/kubernetesui/dashboard:v2.7.0
+▪️ Using image docker.io/kubernetesui/metrics-scraper:v1.0.8
+💡  Some dashboard features require the metrics-server addon. To enable all features please run:
+
+minikube addons enable metrics-server
+
+🌟  Enabled addons: dashboard, default-storageclass, storage-provisioner
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+</pre>
+</div>
+<br/>
+<h4>2. Запуск dashboard</h4>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">vasi@v:~/tools$ minikube dashboard &
+🤔  Verifying dashboard health ...
+🚀  Launching proxy ...
+🤔  Verifying proxy health ...
+🎉  Opening http://127.0.0.1:37435/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ in your default browser...
+Opening in existing browser session.
+</pre>
+</div>
+(подождать 2-3 мин.)<br/>
+<h4>3. Запуск proxy для доступа к minikube из сети</h4>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">vasi@v:~/tools$ kubectl proxy --address='0.0.0.0' --disable-filter=true &
+[2] 651193
+W0214 15:09:01.808784  651193 proxy.go:177] Request filter disabled, your proxy is vulnerable to XSRF attacks, please be cautious
+Starting to serve on [::]:8001
+</pre>
+</div>
+Порт <b>8001</b>. Можно открыть из сети (192.168.1.20 - ip адрес компьютера с minikube).
+После этого можно открыть dashboard с удаленного компьютера:
+<a style="text-decoration: underline; color: #3366ff;" href="http://192.168.1.20:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/workloads?namespace=default"
+   target="_blank" rel="noopener noreferrer">http://192.168.1.20:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/workloads?namespace=default</a>
+<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="minikube_start.png" src="images/minikube/minikube_start.png"
+        alt="minikube_start.png" width="1343" height="612"/></p>
+<br/>
+<h4>4. Проверка работы.</h4>
+Вместе с minikube (для тестов, обучения) <b><u>ПОСТАВЛЯЕТСЯ</u></b> приложение <b>hello_minikube</b>.<br/>
+Описание hello_minikube:<br/>
+Deployments:<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="deployments_hello_minikube.png" src="images/minikube/deployments_hello_minikube.png"
+        alt="deployments_hello_minikube.png" width="1245" height="628"/></p>
+
+Services:<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="services_minikube.png" src="images/minikube/services_minikube.png"
+        alt="services_minikube.png" width="1259" height="630"/></p>
+Внутренний порт (порт приложения) 8080 перенаправляется на внешний порт (снаружи kubernetes) 30449.<br/>
+Детали сервиса. Путь в меню: Service - Services - "hello-minikube":<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="services_metadata.png" src="images/minikube/services_metadata.png"
+        alt="services_metadata.png" width="1252" height="613"/></p>
+
+Проверка работы сервиса:<br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://minikube.sigs.k8s.io/docs/handbook/accessing/"
+   target="_blank" rel="noopener noreferrer">https://minikube.sigs.k8s.io/docs/handbook/accessing/</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/hartzler/hello-minikube"
+   target="_blank" rel="noopener noreferrer">https://github.com/hartzler/hello-minikube</a><br/>
+
+Получить порты приложений Kubernetes:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">vasi@v:$ kubectl get svc
+NAME             TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+hello-minikube   NodePort    10.97.14.155   none        8080:30449/TCP   21h
+kubernetes       ClusterIP   10.96.0.1      none        443/TCP          22h
+</pre>
+</div>
+Или так (отобразится еще и адрес):<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">vasi@v:$ minikube service hello-minikube --url
+http://192.168.67.2:30449
+</pre>
+</div>
+Порт приложения <b>8080</b> hello-minikube перенаправлен на внешний порт <b>30449</b>.<br/>
+Проверка снаружи minikube:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ http http://192.168.67.2:30449/
+HTTP/1.1 200 OK
+Content-Length: 186
+Content-Type: text/plain
+
+Request served by hello-minikube-ffcbb5874-fjf64
+
+HTTP/1.1 GET /
+
+Host: 192.168.67.2:30449
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+User-Agent: HTTPie/3.2.2
+</pre>
+</div>
+<br/>
+<h4>5. Остановка сервиса</h4>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ minikube stop
+✋  Stopping node "minikube"  ...
+🛑  Powering off "minikube" via SSH ...
+✋  Stopping node "minikube"  ...
+🛑  Powering off "minikube" via SSH ...
+✋  Stopping node "minikube"  ...
+🛑  1 node stopped.
+</pre>
+</div>
+<br/>
+<h4>6. Работа с Kubernetes</h4>
+Получение log:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ kubectl logs hello-minikube-ffcbb5874-fjf64
+Echo server listening on port 8080.
+</pre>
+</div>
+hello-minikube-ffcbb5874-fjf64 - id pod. Узнать тут:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ kubectl get pod
+NAME                             READY   STATUS    RESTARTS       AGE
+hello-minikube-ffcbb5874-fjf64   1/1     Running   4 (109m ago)   39h
+</pre>
+</div>
+или
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="log_pod.png" src="images/minikube/pods1.png"
+        alt="pods1.png" width="1295" height="343"/></p>
+
+А вообще, есть неплохая помощь:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ kubectl get -h
+Display one or many resources.
+
+Prints a table of the most important information about the specified resources. You can filter the list using a label
+selector and the --selector flag. If the desired resource type is namespaced you will only see results in the current
+namespace if you don't specify any namespace.
+
+By specifying the output as 'template' and providing a Go template as the value of the --template flag, you can filter
+the attributes of the fetched resources.
+
+Use "kubectl api-resources" for a complete list of supported resources.
+
+Examples:
+# List all pods in ps output format
+kubectl get pods
+
+# List all pods in ps output format with more information (such as node name)
+kubectl get pods -o wide
+
+# List a single replication controller with specified NAME in ps output format
+kubectl get replicationcontroller web
+
+# List deployments in JSON output format, in the "v1" version of the "apps" API group
+kubectl get deployments.v1.apps -o json
+
+# List a single pod in JSON output format
+kubectl get -o json pod web-pod-13je7
+
+# List a pod identified by type and name specified in "pod.yaml" in JSON output format
+kubectl get -f pod.yaml -o json
+
+# List resources from a directory with kustomization.yaml - e.g. dir/kustomization.yaml
+kubectl get -k dir/
+
+# Return only the phase value of the specified pod
+kubectl get -o template pod/web-pod-13je7 --template={{.status.phase}}
+
+# List resource information in custom columns
+kubectl get pod test-pod -o custom-columns=CONTAINER:.spec.containers[0].name,IMAGE:.spec.containers[0].image
+
+# List all replication controllers and services together in ps output format
+kubectl get rc,services
+
+# List one or more resources by their type and names
+kubectl get rc/web service/frontend pods/web-pod-13je7
+
+# List the 'status' subresource for a single pod
+kubectl get pod web-pod-13je7 --subresource status
+
+# List all deployments in namespace 'backend'
+kubectl get deployments.apps --namespace backend
+
+# List all pods existing in all namespaces
+kubectl get pods --all-namespaces
+
+Options:
+-A, --all-namespaces=false:
+If present, list the requested object(s) across all namespaces. Namespace in current context is ignored even
+if specified with --namespace.
+
+--allow-missing-template-keys=true:
+If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to
+golang and jsonpath output formats.
+
+--chunk-size=500:
+Return large lists in chunks rather than all at once. Pass 0 to disable. This flag is beta and may change in
+the future.
+
+--field-selector='':
+Selector (field query) to filter on, supports '=', '==', and '!='.(e.g. --field-selector
+key1=value1,key2=value2). The server only supports a limited number of field queries per type.
+
+-f, --filename=[]:
+Filename, directory, or URL to files identifying the resource to get from a server.
+
+--ignore-not-found=false:
+If the requested object does not exist the command will return exit code 0.
+
+-k, --kustomize='':
+Process the kustomization directory. This flag can't be used together with -f or -R.
+
+-L, --label-columns=[]:
+Accepts a comma separated list of labels that are going to be presented as columns. Names are case-sensitive.
+You can also use multiple flag options like -L label1 -L label2...
+
+--no-headers=false:
+When using the default or custom-column output format, don't print headers (default print headers).
+
+-o, --output='':
+Output format. One of: (json, yaml, name, go-template, go-template-file, template, templatefile, jsonpath,
+jsonpath-as-json, jsonpath-file, custom-columns, custom-columns-file, wide). See custom columns
+[https://kubernetes.io/docs/reference/kubectl/#custom-columns], golang template
+[http://golang.org/pkg/text/template/#pkg-overview] and jsonpath template
+[https://kubernetes.io/docs/reference/kubectl/jsonpath/].
+
+--output-watch-events=false:
+Output watch event objects when --watch or --watch-only is used. Existing objects are output as initial ADDED
+events.
+
+--raw='':
+Raw URI to request from the server.  Uses the transport specified by the kubeconfig file.
+
+-R, --recursive=false:
+Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests
+organized within the same directory.
+
+-l, --selector='':
+Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2). Matching
+objects must satisfy all of the specified label constraints.
+
+--server-print=true:
+If true, have the server return the appropriate table output. Supports extension APIs and CRDs.
+
+--show-kind=false:
+If present, list the resource type for the requested object(s).
+
+--show-labels=false:
+When printing, show all labels as the last column (default hide labels column)
+
+--show-managed-fields=false:
+If true, keep the managedFields when printing objects in JSON or YAML format.
+
+--sort-by='':
+If non-empty, sort list types using this field specification.  The field specification is expressed as a
+JSONPath expression (e.g. '{.metadata.name}'). The field in the API resource specified by this JSONPath
+expression must be an integer or a string.
+
+--subresource='':
+If specified, gets the subresource of the requested object. Must be one of [status scale]. This flag is beta
+and may change in the future.
+
+--template='':
+Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format
+is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+
+-w, --watch=false:
+After listing/getting the requested object, watch for changes.
+
+--watch-only=false:
+Watch for changes to the requested object(s), without listing/getting first.
+
+Usage:
+kubectl get
+[(-o|--output=)json|yaml|name|go-template|go-template-file|template|templatefile|jsonpath|jsonpath-as-json|jsonpath-file|custom-columns|custom-columns-file|wide]
+(TYPE[.VERSION][.GROUP] [NAME | -l label] | TYPE[.VERSION][.GROUP]/NAME ...) [flags] [options]
+
+Use "kubectl options" for a list of global command-line options (applies to all commands).
+</pre>
+</div>
+Несколько примеров:<br/>
+Информация о <b>pods</b>:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;"><pre style="margin: 0; line-height: 125%;">$ kubectl get pods --all-namespaces
+NAMESPACE              NAME                                         READY   STATUS    RESTARTS        AGE
+<b>default</b>                <b>hello-minikube-ffcbb5874-fjf64</b>               1/1     Running   4 (124m ago)    39h
+kube-system            coredns-668d6bf9bc-5s7hz                     1/1     Running   5 (124m ago)    40h
+kube-system            etcd-minikube                                1/1     Running   5 (124m ago)    40h
+kube-system            kube-apiserver-minikube                      1/1     Running   5 (124m ago)    40h
+kube-system            kube-controller-manager-minikube             1/1     Running   7 (124m ago)    40h
+kube-system            kube-proxy-4fw2j                             1/1     Running   5 (124m ago)    40h
+kube-system            kube-scheduler-minikube                      1/1     Running   5 (124m ago)    40h
+kube-system            storage-provisioner                          1/1     Running   11 (123m ago)   40h
+kubernetes-dashboard   dashboard-metrics-scraper-5d59dccf9b-whjr8   1/1     Running   5 (124m ago)    40h
+kubernetes-dashboard   kubernetes-dashboard-7779f9b69b-p4pf8        1/1     Running   10 (123m ago)   40h
+
+$ kubectl get pods
+NAME                             READY   STATUS    RESTARTS       AGE
+hello-minikube-ffcbb5874-fjf64   1/1     Running   4 (171m ago)   40h
+</pre></div>
+Информация о <b>services</b>:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;"><pre style="margin: 0; line-height: 125%;">$ kubectl get services --all-namespaces
+NAMESPACE              NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                  AGE
+<b>default</b>                <b>hello-minikube</b>              NodePort    10.97.14.155     none          <b>8080:30449/TCP</b>           39h
+default                kubernetes                  ClusterIP   10.96.0.1        none          443/TCP                  40h
+kube-system            kube-dns                    ClusterIP   10.96.0.10       none          53/UDP,53/TCP,9153/TCP   40h
+kubernetes-dashboard   dashboard-metrics-scraper   ClusterIP   10.106.71.19     none          8000/TCP                 40h
+kubernetes-dashboard   kubernetes-dashboard        ClusterIP   10.111.162.218   none          80/TCP                   40h
+
+$ kubectl get services
+NAME             TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+<b>hello-minikube</b>   NodePort    10.97.14.155   none          <b>8080:30449/TCP</b>   40h
+kubernetes       ClusterIP   10.96.0.1      none          443/TCP          41h
+
+vasi@v:$ minikube service <b>hello-minikube</b> --url
+<b>http://192.168.67.2:30449</b>
+
+$ http <b>http://192.168.67.2:30449</b>
+HTTP/1.1 200 OK
+</pre></div>
+
+Подробнее в <a style="text-decoration: underline; color: #3366ff;" href="https://kubernetes.io/docs/reference/kubectl/"
+               target="_blank" rel="noopener noreferrer">Command line tool (kubectl)</a>
+<br/>
+<h4>Ссылки:</h4>
+<a style="text-decoration: underline; color: #3366ff;" href="https://minikube.sigs.k8s.io/docs/handbook/"
+   target="_blank" rel="noopener noreferrer">Minikube handbook</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://kubernetes.io/docs/reference/kubectl/"
+   target="_blank" rel="noopener noreferrer">kubectl</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/companies/quillis/articles/773198/"
+   target="_blank" rel="noopener noreferrer">Разворачивание первого приложения с Kubernetes</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://dzen.ru/a/ZEbzwhAUQnuvAtdE"
+   target="_blank" rel="noopener noreferrer">Kubernetes для начинающих (dzen)</a><br/>
+

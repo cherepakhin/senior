@@ -1,0 +1,258 @@
+====================13/02/24 Новая установка
+https://kubernetes.io/ru/docs/tasks/tools/install-minikube/
+minikube delete
+Установка:
+Указание драйвера виртуальной машины
+Вы можете изменить драйвер виртуальной машины, добавив флаг --vm-driver=<enter_driver_name> в команду minikube start.
+Тогда команда будет выглядеть так: minikube start --vm-driver=<driver_name>
+
+$ minikube start --vm-driver=kvm2
+(НЕ SUDO???)
+😄  minikube v1.34.0 on Linuxmint 22
+✨  Using the kvm2 driver based on user configuration
+👍  Starting "minikube" primary control-plane node in "minikube" cluster
+🔥  Creating kvm2 VM (CPUs=2, Memory=2900MB, Disk=20000MB) ...
+🐳  Preparing Kubernetes v1.31.0 on Docker 27.2.0 ...
+    ▪ Generating certificates and keys ...
+    ▪ Booting up control plane ...
+    ▪ Configuring RBAC rules ...
+🔗  Configuring bridge CNI (Container Networking Interface) ...
+🔎  Verifying Kubernetes components...
+    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+🌟  Enabled addons: storage-provisioner, default-storageclass
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+
+$ minikube dashboard
+Откроется dashboard ан сервере. МИНУТЫ ЧЕРЕЗ 3.
+🔌  Enabling dashboard ...
+    ▪ Using image docker.io/kubernetesui/dashboard:v2.7.0
+    ▪ Using image docker.io/kubernetesui/metrics-scraper:v1.0.8
+💡  Some dashboard features require the metrics-server addon. To enable all features please run:
+
+	minikube addons enable metrics-server
+
+🤔  Verifying dashboard health ...
+🚀  Launching proxy ...
+🤔  Verifying proxy health ...
+🎉  Opening http://127.0.0.1:43361/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ in your default browser...
+Found ffmpeg: /opt/yandex/browser/libffmpeg.so
+	avcodec: 3999080
+	avformat: 3998567
+	avutil: 3871588
+Ffmpeg version is OK! Let's use it.
+Opening in existing browser session.
+
+Dashboard открылся на сервере.
+
+На сервере остановил Ctrl-C и снова запустил:
+$ minikube dashboard
+Моментально открылся dashboard На сервере. (http://127.0.0.1:43805/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/workloads?namespace=default)
+Порт назначается ДИНАМИЧЕСКИ. На ноутбуке не доступен.
+
+$ minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+Создание DEPLOYMENT:
+$ kubectl create deployment hello-minikube --image=registry.k8s.io/echoserver:1.10
+deployment.apps/hello-minikube created
+В dashboard:
+    Создался deployment
+    Создался pod
+
+Прокинуть порт приложения 8080 наружу:
+$ kubectl expose deployment hello-minikube --type=NodePort --port=8080
+
+Проверка:
+$ kubectl get pod
+NAME                             READY   STATUS    RESTARTS   AGE
+hello-minikube-9c9748c9b-s9h8s   1/1     Running   0          7m59s
+
+Узнайте URL-адрес задепленного (exposed) сервиса:
+v$ minikube service hello-minikube --url
+http://192.168.39.21:32567
+
+Открыть на v адрес http://192.168.39.21:32567
+Будут выведены сведения
+    Hostname: hello-minikube-9c9748c9b-s9h8s
+    ....
+
+http://192.168.1.20:33259/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/pod/default/hello-minikube-9c9748c9b-s9h8s?namespace=default
+
+
+------------------
+sudo rm -r -f ~/.minikube
+vasi@v:~/temp/minikube$ ./minikube start --vm-driver kvm2 --memory 8112 --cpus 2 --apiserver-ips=192.168.1.121
+
+-------------------
+https://www.0to1.nl/post/minikube-m1-pro-issues/
+minikube start --driver=podman
+vasi@v:/home/vasi/tools$
+=========================13.02 19:45 Все получилось=========================
+ВСЕ ВЫПОЛНЯТЬ В ТЕРМИНАЛЕ V.PERM.RU
+https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download
+
+vasi@v:~$ minikube start --driver=podman
+😄  minikube v1.35.0 on Linuxmint 22
+✨  Using the podman driver based on user configuration
+📌  Using Podman driver with root privileges
+👍  Starting "minikube" primary control-plane node in "minikube" cluster
+🚜  Pulling base image v0.0.46 ...
+    > gcr.io/k8s-minikube/kicbase...:  500.31 MiB / 500.31 MiB  100.00% 9.92 Mi
+E0213 19:14:52.382249  274994 cache.go:222] Error downloading kic artifacts:  not yet implemented, see issue #8426
+🔥  Creating podman container (CPUs=2, Memory=2900MB) ...
+🐳  Preparing Kubernetes v1.32.0 on Docker 27.4.1 ...
+    ▪️ Generating certificates and keys ...
+    ▪️ Booting up control plane ...
+    ▪️ Configuring RBAC rules ...
+🔗  Configuring bridge CNI (Container Networking Interface) ...
+🔎  Verifying Kubernetes components...
+    ▪️ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+🌟  Enabled addons: storage-provisioner, default-storageclass
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+vasi@v:~$ cd tools/
+vasi@v:~/tools$ ./kubectl get po -A
+NAMESPACE     NAME                               READY   STATUS    RESTARTS        AGE
+kube-system   coredns-668d6bf9bc-5s7hz           1/1     Running   0               6m16s
+kube-system   etcd-minikube                      1/1     Running   0               6m26s
+kube-system   kube-apiserver-minikube            1/1     Running   0               6m30s
+kube-system   kube-controller-manager-minikube   1/1     Running   0               6m26s
+kube-system   kube-proxy-4fw2j                   1/1     Running   0               6m16s
+kube-system   kube-scheduler-minikube            1/1     Running   0               6m27s
+kube-system   storage-provisioner                1/1     Running   1 (4m45s ago)   6m
+
+Запуск dashboard:
+vasi@v:~/tools$ minikube dashboard
+🔌  Enabling dashboard ...
+    ▪ Using image docker.io/kubernetesui/dashboard:v2.7.0
+    ▪ Using image docker.io/kubernetesui/metrics-scraper:v1.0.8
+💡  Some dashboard features require the metrics-server addon. To enable all features please run:
+
+	minikube addons enable metrics-server
+
+🤔  Verifying dashboard health ...
+🚀  Launching proxy ...
+🤔  Verifying proxy health ...
+🎉  Opening http://127.0.0.1:44379/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ in your default browser...
+Found ffmpeg: /opt/yandex/browser/libffmpeg.so
+	avcodec: 3999080
+	avformat: 3998567
+	avutil: 3871588
+Ffmpeg version is OK! Let's use it.
+Opening in existing browser session.
+
+Откроется в браузере v:
+http://127.0.0.1:44379/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/
+
+Проверка hello сервиса:
+$ kubectl get services hello-minikube
+NAME             TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+hello-minikube   NodePort   10.97.14.155   <none>        8080:30449/TCP   84s
+
+$ minikube service hello-minikube
+|-----------|----------------|-------------|---------------------------|
+| NAMESPACE |      NAME      | TARGET PORT |            URL            |
+|-----------|----------------|-------------|---------------------------|
+| default   | hello-minikube |        8080 | http://192.168.67.2:30449 |
+|-----------|----------------|-------------|---------------------------|
+🎉  Opening service default/hello-minikube in default browser...
+Found ffmpeg: /opt/yandex/browser/libffmpeg.so
+	avcodec: 3999080
+	avformat: 3998567
+	avutil: 3871588
+Ffmpeg version is OK! Let's use it.
+
+С ноутбука тоже открывается
+
+Перенаправление порта:
+$ kubectl port-forward service/hello-minikube 7080:8080
+7080 - порт для внешнего доступа
+8080 - порт программы
+На v.perm.ru теперь открывается http://127.0.0.1:7080
+
+С ноута не открывается!
+
+Другой способ перенаправления (что-то не работает!!!)
+$ kubectl expose deployment hello-minikube --type=NodePort --port=8080
+
+Просмотр сервисов:
+vasi@v:~$ kubectl get svc
+NAME             TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+hello-minikube   NodePort    10.97.14.155   <none>        8080:30449/TCP   16m
+kubernetes       ClusterIP   10.96.0.1      <none>        443/TCP          61m
+
+с внешнего порта 30449 перенаправляется на 8080 программы
+
+Показать по какому URL сервис видно снаружи:
+vasi@v:~$ minikube service hello-minikube --url
+http://192.168.67.2:30449
+
+С НОУТА ДОСТУП ЕСТЬ:
+$ http http://192.168.67.2:30449
+
+HTTP/1.1 200 OK
+Content-Length: 186
+Content-Type: text/plain
+Date: Fri, 14 Feb 2025 09:11:05 GMT
+
+Request served by hello-minikube-ffcbb5874-fjf64
+
+HTTP/1.1 GET /
+
+Host: 192.168.67.2:30449
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+User-Agent: HTTPie/3.2.2
+--------------------------------------------------------
+Перенаправление порта:
+$ kubectl port-forward service/hello-minikube 6080:8080
+Forwarding from 127.0.0.1:6080 -> 8080
+Forwarding from [::1]:6080 -> 8080
+Handling connection for 6080
+
+6080 - порт для внешнего доступа
+8080 - порт программы
+
+Не закрывать! Типа mapper. При остановке (CTRL-C) перенаправление будет остановлено.
+Проверка:
+http http://127.0.0.1:6080
+HTTP/1.1 200 OK
+Content-Length: 182
+Content-Type: text/plain
+Date: Fri, 14 Feb 2025 09:14:12 GMT
+
+Request served by hello-minikube-ffcbb5874-fjf64
+
+HTTP/1.1 GET /
+
+Host: 127.0.0.1:6080
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+User-Agent: HTTPie/3.2.2
+
+Это будет работать только на 127.0.0.1. Для доступа к сервису из сети добавить "--address 0.0.0.0":
+
+$ kubectl port-forward service/hello-minikube --address 0.0.0.0 6080:8080
+
+vasi@NOTE(!!!):~/prog/kotlin$ http http://192.168.1.20:6080
+HTTP/1.1 200 OK
+Content-Length: 181
+Content-Type: text/plain
+Date: Fri, 14 Feb 2025 09:19:33 GMT
+
+Request served by hello-minikube-ffcbb5874-fjf64
+
+HTTP/1.1 GET /
+
+Host: 192.168.1.20:6080
+Accept: */*
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+User-Agent: HTTPie/0.9.8
+

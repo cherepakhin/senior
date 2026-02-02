@@ -1,0 +1,392 @@
+Основные команды mongo:
+<a style="text-decoration: underline; color: #3366ff;" href="https://blog.e-zest.com/basic-commands-for-mongodb"
+   target="_blank" rel="noopener noreferrer">https://blog.e-zest.com/basic-commands-for-mongodb</a>.
+<br/>
+Мой конспект:
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/senior/blob/main/new_site/mongo/mongo.md"
+   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/senior/blob/main/new_site/mongo/mongo.md</a>.
+<br/>
+Статья с Хабр:
+<a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/articles/259219/"
+   target="_blank" rel="noopener noreferrer">Шпаргалка по mongodb: e-commerce, миграция, часто применяемые операции и немного о транзакциях</a>.
+
+<hr id="system-readmore"/>
+<h4>Установка Linux</h4>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ apt-get install -y mongodb-org
+</pre>
+</div>
+<h4>Запуск</h4>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ mongo
+</pre>
+</div>
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ sudo echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org.list
+sudo apt update
+sudo apt install -y mongodb-mongosh
+vasi@v:~/temp$ mongosh --version
+2.6.0
+
+sudo apt install -y --allow-unauthenticated mongodb-mongosh
+</pre>
+</div>
+
+<h4>Помощь:</h4>
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">> db.help()
+DB methods:
+db.adminCommand(nameOrDocument) - switches to 'admin' db, and runs command [just calls db.runCommand(...)]
+db.aggregate([pipeline], {options}) - performs a collectionless aggregation on this database; returns a cursor
+db.auth(username, password)
+db.cloneDatabase(fromhost)
+db.commandHelp(name) returns the help for the command
+db.copyDatabase(fromdb, todb, fromhost)
+db.createCollection(name, {size: ..., capped: ..., max: ...})
+db.createView(name, viewOn, [{$operator: {...}}, ...], {viewOptions})
+db.createUser(userDocument)
+db.currentOp() displays currently executing operations in the db
+db.dropDatabase()
+db.eval() - deprecated
+db.fsyncLock() flush data to disk and lock server for backups
+db.fsyncUnlock() unlocks server following a db.fsyncLock()
+db.getCollection(cname) same as db['cname'] or db.cname
+db.getCollectionInfos([filter]) - returns a list that contains the names and options of the db's collections
+db.getCollectionNames()
+db.getLastError() - just returns the err msg string
+db.getLastErrorObj() - return full status object
+db.getLogComponents()
+db.getMongo() get the server connection object
+db.getMongo().setSlaveOk() allow queries on a replication slave server
+db.getName()
+db.getPrevError()
+db.getProfilingLevel() - deprecated
+db.getProfilingStatus() - returns if profiling is on and slow threshold
+db.getReplicationInfo()
+db.getSiblingDB(name) get the db at the same server as this one
+db.getWriteConcern() - returns the write concern used for any operations on this db, inherited from server object if set
+db.hostInfo() get details about the server's host
+db.isMaster() check replica primary status
+db.killOp(opid) kills the current operation in the db
+db.listCommands() lists all the db commands
+db.loadServerScripts() loads all the scripts in db.system.js
+db.logout()
+db.printCollectionStats()
+db.printReplicationInfo()
+db.printShardingStatus()
+db.printSlaveReplicationInfo()
+db.dropUser(username)
+db.repairDatabase()
+db.resetError()
+db.runCommand(cmdObj) run a database command.  if cmdObj is a string, turns it into {cmdObj: 1}
+db.serverStatus()
+db.setLogLevel(level,<component>)
+db.setProfilingLevel(level,slowms) 0=off 1=slow 2=all
+db.setWriteConcern(<write concern doc>) - sets the write concern for writes to the db
+db.unsetWriteConcern(<write concern doc>) - unsets the write concern for writes to the db
+db.setVerboseShell(flag) display extra information in shell output
+db.shutdownServer()
+db.stats()
+db.version() current version of the server
+</pre>
+</div>
+<h4>Dump и Restore</h4>
+Dump:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ mongodump --out=./dump1
+</pre>
+</div>
+Restore:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">$ mongorestore ./dump1
+</pre>
+</div>
+
+Тестирование установки:<br/>
+
+<a style="text-decoration: underline; color: #3366ff;" href="https://labex.io/ru/tutorials/mongodb-how-to-install-mongodb-shell-on-linux-435298"
+   target="_blank" rel="noopener noreferrer">Как установить оболочку MongoDB на Linux</a>
+
+"note", "192.168.1.79" - ноутбук<br/>
+"v" - сервер<br/>
+Подключение:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+note$ mongosh
+>quit
+
+v$ mongosh --host 192.168.1.79
+>quit
+
+v$ mongosh "mongodb://192.168.1.79:27017"
+</pre>
+</div>
+
+<h4>Получение версии mongo:</h4>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">> db.version()
+3.6.3
+</pre>
+</div>
+
+<h4>Получение всех баз данных:</h4>
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">> show dbs
+admin   0.000GB
+config  0.000GB
+db3     0.000GB
+local   0.000GB
+</pre>
+</div>
+<h4>Создание новой базы данных:</h4>
+<b>use DATABASE_NAME</b>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+> use db5
+switched to db db5
+</pre>
+</div>
+
+Какая текущая база данных:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+> db
+db5
+</pre>
+</div>
+<h4>Удаление базы:</h4>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+> use db5
+> db.dropDatabase()
+</pre>
+</div>
+<h4>Коллекции:</h4>
+Создание <b>КОЛЛЕКЦИИ</b>:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+> use dbTest
+> db.createCollection('Empl1')
+{ "ok" : 1 }
+> show collections
+Empl1
+</pre>
+</div>
+Удаление <b>КОЛЛЕКЦИИ</b>:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+> db.Empl1.drop()
+> show collections
+</pre>
+</div>
+Вставка <b>ДОКУМЕНТА</b> в <b>КОЛЛЕКЦИЮ</b>:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+> db.COLLECTION_NAME.insert(document)
+</pre>
+</div>
+
+Пример:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+> db.createCollection('EmplList')
+{ "ok" : 1 }
+> db.EmplList.insert({name: 'NAME1', address: 'ADDR1'})
+WriteResult({ "nInserted" : 1 })
+> db.EmplList.find()
+{ "_id" : ObjectId("6778c9d63e90cb7a981b32a5"), "name" : "NAME1", "address" : "ADDR1" }
+</pre>
+</div>
+
+Обновление <b>ДОКУМЕНТА</b> в <b>КОЛЛЕКЦИИ</b>:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">db.COLLECTION_NAME.update(SELECTION_CRITERIA, UPDATED_DATA)
+</pre>
+</div>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+> db.EmplList.update({name: 'NAME1'},{$set:{'name':'NEW NAME1', 'address': 'NEW ADDR1'}})
+> db.EmplList.find()
+{ "_id" : ObjectId("6778c9d63e90cb7a981b32a5"), "name" : "NEW NAME1", "address" : "ADDR1" }
+
+> db.EmplList.update({name: 'NEW NAME1'},{$set:{'name':'NEW NAME2', 'address': 'NEW ADDR2'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.EmplList.find()
+{ "_id" : ObjectId("6778c9d63e90cb7a981b32a5"), "name" : "NEW NAME2", "address" : "NEW ADDR2" }
+
+> db.EmplList.update({address: 'NEW ADDR2'},{$set:{'name':'NAME2', 'address': 'ADDR2'}})
+</pre>
+</div>
+
+Сохранение <b>DOCUMENT</b>:
+<br/>
+Синтаксис:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+> db.COLLECTION_NAME.save({_id:ObjectId(),NEW_DATA})
+</pre>
+</div>
+
+Пример:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+> db.EmplList.save({"_id": new ObjectId("6778c9d63e90cb7a981b32a6"), name: "NAME_SAVED", address: "ADDR_SAVED"});
+> db.EmplList.find()
+{ "_id" : ObjectId("6778c9d63e90cb7a981b32a5"), "name" : "NAME2", "address" : "ADDR2" }
+{ "_id" : ObjectId("6778c9d63e90cb7a981b32a6"), "name" : "NAME_SAVED", "address" : "ADDR_SAVED" }
+</pre>
+</div>
+
+Удаление <b>DOCUMENT</b>:
+<br/>
+Синтаксис:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+> db.COLLECTION_NAME.remove(DELLETION_CRITTERIA)
+</pre>
+</div>
+
+Пример:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+> db.EmplList.find()
+{ "_id" : ObjectId("6778c9d63e90cb7a981b32a5"), "name" : "NAME2", "address" : "ADDR2" }
+{ "_id" : ObjectId("6778c9d63e90cb7a981b32a6"), "name" : "NAME_SAVED", "address" : "ADDR_SAVED" }
+
+>db.EmplList.remove({"name" : "NAME_SAVED"})
+WriteResult({ "nRemoved" : 1 })
+
+> db.EmplList.find()
+{ "_id" : ObjectId("6778c9d63e90cb7a981b32a5"), "name" : "NAME2", "address" : "ADDR2" }
+</pre>
+</div>
+<br/>
+Отличия <b>save</b> от <b>update</b>:<br/>
+- <b>update</b> обновляяет документ, если он <b>СУЩЕСТВУЕТ</b><br/>
+- <b>save</b> обнодяяет документ, если он <b>СУЩЕСТВУЕТ</b>, и если не существует, то создает новый документ.<br/>
+<br/>
+
+Еще пример:<br/>
+db: Представляет текущую базу данных (mydatabase).
+users: Название коллекции. Она будет создана автоматически.
+insertOne(): Метод для вставки одного документа.
+{...}: Сам документ, содержащий поля, такие как name, age и city.
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+mydatabase> db.users.find()
+[
+{
+_id: ObjectId('697cbdbd76ce273a208ce5b0'),
+name: 'JohnDoe',
+age: 30,
+city: 'NewYork'
+}
+]
+
+mydatabase> db.books.insertMany([
+    { title: "MongoDBBasics", author: "JaneSmith", year: 2023 },
+    { title: "PythonProgramming", author: "JohnDoe", year: 2022 },
+    { title: "DataScienceHandbook", author: "AliceJohnson", year: 2021 }
+])
+
+Ответ:
+{
+acknowledged: true,
+insertedIds: {
+    '0': ObjectId('697cbf1476ce273a208ce5b1'),
+    '1': ObjectId('697cbf1476ce273a208ce5b2'),
+    '2': ObjectId('697cbf1476ce273a208ce5b3')
+    }
+}
+</pre>
+</div>
+
+Чтобы увидеть все документы в вашей новой коллекции books, снова используйте метод find():
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+mydatabase> db.books.find()
+[
+    {
+        _id: ObjectId('697cbf1476ce273a208ce5b1'),
+        title: 'MongoDBBasics',
+        author: 'JaneSmith',
+        year: 2023
+    },
+    {
+        _id: ObjectId('697cbf1476ce273a208ce5b2'),
+        title: 'PythonProgramming',
+        author: 'JohnDoe',
+        year: 2022
+    },
+    {
+        _id: ObjectId('697cbf1476ce273a208ce5b3'),
+        title: 'DataScienceHandbook',
+        author: 'AliceJohnson',
+        year: 2021
+    }
+]
+</pre>
+</div>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+mydatabase> db.books.countDocuments()
+3
+</pre>
+</div>
+
+Поиск:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+mydatabase> db.books.find({ author: "JohnDoe" })
+[
+    {
+        _id: ObjectId('697cbf1476ce273a208ce5b2'),
+        title: 'PythonProgramming',
+        author: 'JohnDoe',
+        year: 2022
+    }
+]
+
+mydatabase> db.books.find({ year: 2023 })
+[
+    {
+        _id: ObjectId('697cbf1476ce273a208ce5b1'),
+        title: 'MongoDBBasics',
+        author: 'JaneSmith',
+        year: 2023
+    }
+]
+</pre>
+</div>
+Удаление:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+mydatabase> db.books.deleteOne({ title: "MongoDBBasics" })
+{ acknowledged: true, deletedCount: 1 }
+</pre>
+</div>
+
+Проверка что удалено:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+mydatabase> db.books.find()
+[
+    {
+        _id: ObjectId('697cbf1476ce273a208ce5b2'),
+        title: 'PythonProgramming',
+        author: 'JohnDoe',
+        year: 2022
+    },
+    {
+        _id: ObjectId('697cbf1476ce273a208ce5b3'),
+        title: 'DataScienceHandbook',
+        author: 'AliceJohnson',
+        year: 2021
+    }
+]
+</pre>
+</div>

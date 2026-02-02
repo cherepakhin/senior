@@ -1,0 +1,63 @@
+<ul>
+    <li><a href="#simple_project_kafka">Простой проект для тестов и использование командной строки.</a></li>
+    <li><a href="#kafka_drop">Kafka Drop</a></li>
+    <li><a href="#kafka_ui">Kafka UI</a></li>
+</ul>
+<hr id="system-readmore" />
+<a id="simple_project_kafka"></a>
+<h3><b>Простой проект для тестов и использование командной строки.</b></h3>
+<a title="https://github.com/cherepakhin/camel_kafka_consumer_extdto"
+   href="https://github.com/cherepakhin/camel_kafka_consumer_extdto"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://github.com/cherepakhin/camel_kafka_consumer_extdto</strong></a>.<br/>
+В Readme.md описана работа с Kafka из командной строки.<br/>
+
+<a id="kafka_drop"></a>
+<h3><b>Kafka Drop</b></h3>
+<a title="https://github.com/obsidiandynamics/kafdrop"
+   href="https://github.com/obsidiandynamics/kafdrop"
+   target="_blank" rel="noopener noreferrer">https://github.com/obsidiandynamics/kafdrop</a>.
+<br/>
+Статья про Kafka Drop из "Русские Блоги":
+<a href="https://russianblogs.com/article/92143148179/"
+    style="text-decoration: underline; color: #3366ff;"
+    target="_blank" rel="noopener noreferrer">https://russianblogs.com/article/92143148179/</a>
+<br/>
+Расположена в v.perm.ru:/home/vasi/tools/kafka_drop/. Нужна JAVA 17. Запуск <b>UI Kafdrop</b> (<i>vasi@v ~/tools/kafka_drop/run.sh</i>):
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">vasi@v ~/tools/kafka_drop<span style="color: #000000">$ </span>/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar target/kafdrop-4.0.2-SNAPSHOT.jar --kafka.brokerConnect<span style="color: #ce5c00; font-weight: bold">=</span>192.168.1.20:9092
+</pre></div>
+
+
+Доступ из браузера: <a title="http://192.168.1.20:9000" href="http://192.168.1.20:9000"
+   target="_blank" rel="noopener noreferrer">
+    <strong>http://192.168.1.20:9000</strong></a>
+Основной экран:<br/><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="kafka_drop" src="images/kafka_ui/kafka_drop.png"
+        alt="kafka_drop" width="917" height="631"/></p>
+Просмотр топика product_ext_dto:<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="kafka_drop" src="images/kafka_ui/kafka_drop_topic.png"
+    alt="kafka_drop_topic" width="927" height="610"/></p>
+
+<a id="kafka_ui"></a>
+<h3><b>Kafka UI</b></h3>
+<a title="https://github.com/provectus/kafka-ui" href="https://github.com/provectus/kafka-ui"
+   target="_blank" rel="noopener noreferrer"><strong>https://github.com/provectus/kafka-ui</strong></a><br/>
+
+Запуск Kafka UI:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java --add-opens java.rmi/javax.rmi.ssl=ALL-UNNAMED -jar kafka-ui-api-v0.7.1.jar
+</pre></div>или
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">vasi@v ~/tools/kafka_ui $./start.sh
+</pre></div><br/>
+Доступ из браузера: <a title="Kafka UI"
+   href="http://192.168.1.20:8960/ui/clusters/local/all-topics?perPage=25"
+   target="_blank" rel="noopener noreferrer">
+    <strong>http://192.168.1.20:8960/ui/clusters/local/all-topics?perPage=25</strong></a>
+<br/>
+<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="kafka_ui" src="images/kafka_ui/kafka_ui.png"
+        alt="kafka_ui" width="1351" height="427"/></p>
+Просмотр топика <b>product_ext_dto</b>:<br/><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="kafka_ui_topic" src="images/kafka_ui/kafka_ui_topic.png"
+        alt="kafka_ui_topic" width="1342" height="637"/></p>

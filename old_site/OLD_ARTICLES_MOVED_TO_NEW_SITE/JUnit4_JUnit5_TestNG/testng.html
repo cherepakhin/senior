@@ -1,0 +1,60 @@
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://habr.com/ru/companies/otus/articles/544770/"
+   href="https://habr.com/ru/companies/otus/articles/544770/"
+   target="_blank" rel="noopener noreferrer">https://habr.com/ru/companies/otus/articles/544770/</a>
+
+<hr id="system-readmore"/>
+<p><b>JUnit4</b></p>
+для класса теста @BeforeClass, @AfterClass
+для метода теста @Before, @After
+<ul>
+    <li>@BeforeClass</li>
+    <li>@Before</li>
+    <li>@Test</li>
+    <li>@After</li>
+    <li>@AfterClass</li>
+</ul>
+
+<p><b>JUnit5</b></p>
+для класса теста @BeforeAll, @AfterAll<br/>
+для методов класса теста @BeforeEach, @AfterEach<br/>
+<ul>
+    <li>@BeforeAll</li>
+    <li>@BeforeEach</li>
+    <li>@Test</li>
+    <li>@AfterEach</li>
+    <li>@AfterAll</li>
+</ul>
+
+<p><b>TestNG</b></p>
+<p>TestNG в отличие от JUnit, работает для <b>функционального и более высоких уровней тестирования</b>.</p>
+для класса теста @BeforeClass, @AfterClass<br/>
+для методов класса теста @BeforeMethod, @AfterMethod<br/>
+<ul>
+    <li>@BeforeClass</li>
+    <li>@BeforeMethod</li>
+    <li>@Test</li>
+    <li>@AfterMethod</li>
+    <li>@AfterClass</li>
+</ul>
+
+TestNG также предлагает аннотации @BeforeSuite, @AfterSuite, @BeforeGroups и @AfterGroups
+для конфигураций на уровне набора (suite) и группы.<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@BeforeGroup(<span style="color: #0000FF">"positive_tests"</span>)
+<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> runBeforeEachGroup() {
+    numbers.<span style="color: #FF0000">add</span>(<span style="color: #0000FF">1</span>);
+    numbers.<span style="color: #FF0000">add</span>(<span style="color: #0000FF">2</span>);
+    numbers.<span style="color: #FF0000">add</span>(<span style="color: #0000FF">3</span>);
+}
+
+@Test(groups= {<span style="color: #0000FF">"positive_tests"</span>})
+<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> testcase2()  {
+    System.<span style="color: #FF0000">out</span>.<span style="color: #FF0000">println</span>(<span style="color: #0000FF">"---"</span>);
+}
+
+@AfterGroup(<span style="color: #0000FF">"positive_tests"</span>)
+<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> runAfterEachGroup() {
+    numbers.<span style="color: #FF0000">clear</span>();
+}
+</pre></div>
+

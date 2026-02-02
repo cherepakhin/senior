@@ -1,0 +1,96 @@
+Проект для демонстрации на Kotlin <a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/cherepakhin/spring_config_k"
+   href="https://github.com/cherepakhin/spring_config_k"
+   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/spring_config_k</a>
+<br/>
+Аналогичный проект на Java <a style="text-decoration: underline; color: #3366ff;"
+                              title="https://github.com/cherepakhin/spring_config"
+                              href="https://github.com/cherepakhin/spring_config"
+                              target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/spring_config</a>
+<br/>
+<ul>
+    <li><a href="#beans_from_xml"><b>Настройки Spring beans с помощью xml-файла resources/beans.xml</b></a></li>
+    <li><a href="#beans_from_annotation"><b>Настройки Spring beans с помощью аннотаций @Configuration и @Bean в conf/ConfigFromJava</b></a></li>
+    <li><a href="#dynamic_bean"><b>Настройка bean из внешнего источника(н.п. базы данных)</b></a></li>
+    <li><a href="#set_java_11"><b>Установки для Java 11</b></a></li>
+    <li><a href="#other"><b>Примечания</b></a></li>
+</ul>
+<hr id="system-readmore" />
+<a id="beans_from_xml"></a>
+<h5><b>Настройки Spring beans с помощью xml-файла resources/beans.xml.</b></h5>
+Определение beans в <a style="text-decoration: underline; color: #3366ff;" title="resources/beans.xml" href="https://github.com/cherepakhin/spring_config_k/blob/master/src/main/resources/beans.xml" target="_blank" rel="noopener noreferrer">resources/beans.xml</a>:<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #020274; font-weight: bold">
+&lt;bean id="russianGreeter" class="ru.perm.v.springconfig_k.greeters.RussianGreeter"/&gt;
+&lt;bean id="germanyGreeter" class="ru.perm.v.springconfig_k.greeters.GermanyGreeter"/&gt;
+&lt;bean id="englishGreeter" class="ru.perm.v.springconfig_k.greeters.EnglishGreeter"/&gt;
+
+&lt;bean id="selectedGreeterService" class="ru.perm.v.springconfig.service.GreeterService"&gt;
+   &lt;property name="greeter" ref="russianGreeter"/&gt;
+&lt;/bean&gt;
+</span></pre></div>
+
+Для импортирования бинов, определенных в beans.xml, создан класс conf/BeansFromXmlConfiguration.kt:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #020274; font-weight: bold">package</span> <span style="color: #000000">ru.perm.v.springconfig_k.conf</span>
+<span style="color: #000000"></span>
+<span style="color: #000000">@Configuration</span>
+<span style="color: #000000">@ImportResource</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #4e9a06">"classpath*:beans.xml"</span><span style="color: #000000; font-weight: bold">)</span>
+<span style="color: #204a87; font-weight: bold">class</span> <span style="color: #000000">BeansFromXmlConfiguration</span> <span style="color: #000000; font-weight: bold">{</span>
+<span style="color: #000000; font-weight: bold">}</span>
+</div>
+
+
+<a id="beans_from_annotation"></a>
+<h5><b>С помощью аннотаций @Configuration и @Bean в conf/BeansFromCodeConfiguration.kt.</b></h5>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">@Configuration</span>
+<span style="color: #204a87; font-weight: bold">class</span> <span style="color: #000000">BeansFromCodeConfiguration</span> <span style="color: #000000; font-weight: bold">{</span>
+
+    <span style="color: #8f5902; font-style: italic">/**</span>
+<span style="color: #8f5902; font-style: italic">    * for injection use</span>
+<span style="color: #8f5902; font-style: italic">    * @Autowired</span>
+<span style="color: #8f5902; font-style: italic">    * lateinit var staticBean:String</span>
+<span style="color: #8f5902; font-style: italic">    */</span>
+    <span style="color: #000000">@Bean</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #4e9a06">"staticBean"</span><span style="color: #000000; font-weight: bold">)</span>
+    <span style="color: #204a87; font-weight: bold">fun</span> <span style="color: #000000">getMyStaticBean</span><span style="color: #000000; font-weight: bold">()</span> <span style="color: #000000; font-weight: bold">=</span> <span style="color: #4e9a06">"STATIC_BEAN"</span>
+<span style="color: #000000; font-weight: bold">}</span>
+
+<span style="color: #000000">@Bean</span>
+<span style="color: #204a87; font-weight: bold">fun</span> <span style="color: #000000">beanOneConfigFromCode</span><span style="color: #000000; font-weight: bold">()</span> <span style="color: #000000; font-weight: bold">=</span> <span style="color: #4e9a06">"BEAN_ONE"</span>
+</pre></td></tr></table></div>
+
+Более подробно в <a title="Различные способы задания конфигурации Spring Beans с Kotlin"
+                    style="text-decoration: underline; color: #3366ff;"
+                    target="_blank"
+                    href="https://github.com/cherepakhin/spring_config_k"
+                    rel="noopener noreferrer">https://github.com/cherepakhin/spring_config_k</a>
+<a id="dynamic_bean"></a>
+<h5><b>Настройка bean из внешнего источника (н.п. базы данных).</b></h5>
+TODO: Пример в проекте МТС.
+<a id="set_java_11"></a>
+<h5><b>Установки для Java 11.</b></h5>
+Использована Java 11.
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">$ echo $JAVA_HOME</span>
+<span style="color: #000000; font-style: italic">> /usr/lib/jvm/java-1.11.0-openjdk-amd64</span>
+</pre></div>
+
+
+Для установки выполнить:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"><span style="color: #000000; font-style: italic">$ export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64</span>
+</pre></td></tr></table></div>
+
+В Idea установить File->Project Structure->Project Settings->Project->SDK
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="joomla_menu" src="images/spring_beans/java11.png" alt="java11" /></p>
+<a id="other"></a>
+<h5>Примечания.</h5>
+1. Используется Java 11:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ echo $JAVA_HOME</span>
+~/prog/kotlin/spring_config_k
+$ export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64
+~/prog/kotlin/spring_config_k$ ./gradlew clean test
+</pre></div>
+2. В <b>build.gradle.kts</b> можно использовать переменные из <b>application.yaml</b>. Пример:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">tasks.withType&lt;Test&gt;() {
+    allureConfig
+    useJUnitPlatform()
+    systemProperties["PORT"] = <b>properties["port"]</b>
+    systemProperties["URL"] = <b>properties["url"]</b>
+}</div>

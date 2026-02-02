@@ -1,0 +1,39 @@
+Wicket autoconfiguration with Spring Boot
+https://github.com/MarcGiffing/wicket-spring-boot?tab=readme-ov-file
+Current release version:
+    4.1.x - Wicket 10.2 with Spring Boot 3.3.4 - Branch master
+    4.0.x - Wicket 10.0 with Spring Boot 3.2.x - Branch master
+
+@SpringBootApplication
+public class WicketApplication {
+  public static void main(String[] args) throws Exception {
+    new SpringApplicationBuilder()
+      .sources(WicketApplication.class)
+      .run(args);
+  }
+
+}
+
+@WicketHomePage
+public class HomePage extends WebPage {
+}
+
+<html xmlns:wicket="http://wicket.apache.org">
+	<head></head>
+	<body>
+		You content
+		<wicket:child/>
+	</body>
+</html>
+
+Пример https://github.com/MarcGiffing/wicket-spring-boot/tree/master/wicket-spring-boot-starter-example
+/home/vasi/prog/java/wicket/wicket-spring-boot/wicket-spring-boot-starter-example
+Много тем.
+
+https://moldstud.com/articles/p-integrating-apache-wicket-with-spring-best-practices-for-seamless-integration
+(13 October 2024)
+
+Статья: https://www.coderdreams.com/spring-mvc-vs-wicket/
+Код из статьи: https://github.com/RomanSery/codesnippets
+
+Free Online Guide for Apache Wicket framework (вроде неплохой учебник): https://wicketguide.comsysto.com/guide/single.html

@@ -1,0 +1,47 @@
+Описан сеанс восстановление диска в Linux.
+<hr id="system-readmore"/>
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .1em;padding:.1em .1em;"><pre style="margin: 0; line-height: 125%">vasi@v ~ $ sudo e2fsck /dev/sda5
+e2fsck 1.44.1 (24-Mar-2018)
+/dev/sda5: восстановление журнала
+e2fsck: Unknown code ____ 251 whil recovering journal of /dev/sda5
+/dev/sda5 содержит файловую систем с ошибками, check forced.
+Проход 1: Проверка inodes, блокs, а также размеров
+Inodes that were part of a corrupted orphan linked list found.  удалено inode 12632119 has zero dtime.  Inode 14817818 extent tree (at level 1) could be shorter.
+Pass 1E: Optimizing extent trees
+Pass 2: Checking каталог structure
+Entry <span style="color: #0000FF">&#39;browse.dat&#39;</span> в /var/cache/samba (14811161) has удалено/unused inode 14817931.  Очистить&lt;y&gt;? yes
+Pass 3: Checking каталог connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking группа summary information
+
+Free inodes count wrong
+Error writing file system info: Ошибка ввода/вывода
+/dev/sda5: ***** ФАЙЛОВАЯ СИСТЕМА БЫЛА ИЗМЕНЕНА *****
+</pre></div>
+Вариант запуска с ответом "YES" на все вопросы:<br/>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">vasi@v ~ $ sudo e2fsck -y /dev/sda5
+e2fsck 1.44.1 (24-Mar-2018)
+/dev/sda5 содержит файловую систем с ошибками, check forced.
+Проход 1: Проверка inodes, блокs, а также размеров
+Pass 2: Checking каталог structure
+Pass 3: Checking каталог connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking группа summary information
+Free блокs count wrong Исправить? yes
+Free inodes count wrong Исправить? yes/dev/sda5: ***** ФАЙЛОВАЯ СИСТЕМА БЫЛА ИЗМЕНЕНА *****
+/dev/sda5: ***** REBOOT SYSTEM *****
+/dev/sda5: 2225557/17080320 files (0.4% non-contiguous), 64498945/68295680 blocks
+</pre></div>
+Лучше "перебздеть". Еще пара контрольных запусков:<br/>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">vasi@v ~ $ sudo e2fsck -y /dev/sda5
+e2fsck 1.44.1 (24-Mar-2018)
+/dev/sda5: clean, 2225557/17080320 files, 64498945/68295680 blocks
+
+vasi@v ~ $ sudo e2fsck -y /dev/sda5
+e2fsck 1.44.1 (24-Mar-2018)
+/dev/sda5: clean, 2225557/17080320 files, 64498945/68295680 blocks
+</pre></div>
+и рестарт:
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">vasi@v ~ $ sudo shutdown -r 0
+</pre></div>
+

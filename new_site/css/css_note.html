@@ -1,0 +1,108 @@
+Стили, примененные через селектор по <b>ID</b>, имеют более <b>ВЫСОКИЙ ПРИОРИТЕТ</b>, чем стили,
+примененные через КЛАССЫ и теги, что облегчает переопределение стилей.
+<br/>
+<hr id="system-readmore" />
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://developer.mozilla.org/ru/docs/Learn_web_development/Core/Styling_basics/Handling_conflicts"
+   target="_blank" rel="noopener noreferrer">Конфликт стилей:</a>
+<br/>
+<blockquote>"Селектор элементов ( например h1 ) менее специфичен — он выберет все элементы этого типа на странице — поэтому получит меньше баллов.
+Селектор класса более специфичен — он выберет только те элементы на странице,
+которые имеют конкретное значение атрибута class — поэтому получит больше баллов,
+селектор класса применится после селектора элемента и поэтому перекроет его стили. При ОДИНАКОВЫХ селекторах КЛАССА, будет применен ПОСЛЕДНИЙ объявленный стиль."</blockquote>
+<b>Пример очередности CSS:</b><br/>
+Стили:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;"><pre style="margin: 0; line-height: 125%;">
+h1 {
+  color: red;
+}
+h1 {
+  color: blue;
+}</pre></div>
+Код в HTML:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <pre style="margin: 0; line-height: 125%;">&lt;h1&gt;This text BLUE&lt;/h1&gt;</pre>
+</div>
+Текст будет <span style="color: blue;">СИНИМ</span>, т.к. <b>h1</b> с синим цветом объявлен позже.<br/>
+
+<br/>
+<b>Пример класса и тега:</b><br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+.main-heading {
+  color: red;
+}
+
+h1 {
+  color: blue;
+}
+&lt;h1 class="main-heading"&gt;This is my heading.&gt;/h1>
+</pre></div>
+- сначала применится h1 и переопределится class-ом main-heading.<br/>
+Текст будет <span style="color: red;">КРАСНЫМ</span>, т.к. селектор КЛАССА ".main-heading  {...}" имеет более <b>ВЫСОКИЙ</b> приоритет
+по сравнению с селектор ТЕГА "h1 {...}" , несмотря на то что селектор ТЕГА h1 объявлен позже
+селектора КЛАССА ".main-heading".
+<br/>
+Еще цитата:<br/>
+<b>
+Селектор КЛАССА (.main-heading) более высокий приоритет, чем селектор ТЕГА — он выберет только те элементы на странице, которые имеют конкретное значение атрибута class — поэтому получит больше баллов.
+Селектор КЛАССА (.main-heading) применится после селектора ТЕГА (h1) и перекроет его стили.
+</b><br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+  <pre style="margin: 0; line-height: 125%;">
+ID (# в css, id в html) <b>-&gt;</b> CLASS (. в css, style в html) <b>-&gt;</b> ТЕГ (h1 в css, h1 в html)</pre>
+</div>
+Со стилями можно потренироваться в <a style="text-decoration: underline; color: #3366ff;"
+   href="https://developer.mozilla.org/ru/docs/Learn_web_development/Core/Styling_basics/Handling_conflicts"
+   target="_blank" rel="noopener noreferrer">интерактивном редакторе</a> (раздел "Interactive editor")<br/>
+Итого такой приоритет:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;"><pre style="margin: 0; line-height: 125%;">
+&lt;td id="publishDate" class="myPublishDate"&gt;aaa&lt;/td&gt;
+</pre></div>
+<b>Приоритет ID(id="publishDate") выше чем CLASS(class="myPublishDate")<br/>
+Приоритет CLASS(class="myPublishDate") выше чем ТЕГ (td)</b><br/>
+Еще пример:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">body {
+  color: green;
+}
+
+.my-class-1 a {
+  color: red;
+}
+
+.my-class-2 a {
+  color: initial;
+}
+
+.my-class-3 a {
+  color: unset;
+}
+
+#my {
+  color: yellow;
+}
+
+&lt;ul&gt;
+  &lt;li&gt;Default &lt;a href="#"&gt;link&lt;/a&gt; color&lt;/li&gt;
+  &lt;li id="my" class="my-class-1"&gt;Inherit the &lt;a href="#"&gt;link&lt;/a&gt; color&lt;/li&gt;
+  &lt;li class="my-class-2"&gt;Reset the &lt;a href="#"&gt;link&lt;/a&gt; color&lt;/li&gt;
+  &lt;li class="my-class-3"&gt;Unset the &lt;a href="#"&gt;link&lt;/a&gt; color&lt;/li&gt;
+&lt;/ul&gt;
+</pre></div>
+Результат:<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="link_java_to_resources" src="images/css_style/hierarchy_css.png"
+        alt="Link java to resources" width="517" height="145"/></p>
+
+Редакторы:
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://www.w3schools.com/cssref/tryit.php?filename=trycss_font_arial"
+   target="_blank" rel="noopener noreferrer">Редактор w3schools</a><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://html-online.com/"
+   target="_blank" rel="noopener noreferrer">https://html-online.com/</a>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://www.programiz.com/html/online-compiler/"
+   target="_blank" rel="noopener noreferrer">https://www.programiz.com/html/online-compiler/</a>
+
+

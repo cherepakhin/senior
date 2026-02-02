@@ -1,0 +1,244 @@
+<p dir="auto">
+    <a href="https://github.com/cherepakhin/easybot_job/blob/dev/src/main/java/ru/perm/v/easybot/entity/ProductEntity.java" target="_blank" rel="noopener noreferrer">ProductEntity:</a>
+</p>
+<hr id="system-readmore" />
+<h4>Продукты сгруппированные по категориям</h4>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+@Entity
+@Table(name = "product")
+public class ProductEntity {
+    @Id
+    @Column(name = "id", nullable = false)
+    private Long id = -1L;
+    @Column(name = "name", nullable = false)
+    private String name = "";
+    @Column(name = "group_product_id", nullable = false)
+    private Long groupProductId = -1L;
+
+    // для JPA должен быть пустой конструктор
+    public ProductEntity() {
+    }
+
+    public ProductEntity(Long id, String name, Long groupProductId) {
+        this.id = id;
+        this.name = name;
+        this.groupProductId = groupProductId;
+    }
+
+    ...getters and setters...
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductEntity productDB = (ProductEntity) o;
+        return Objects.equals(id, productDB.id) && Objects.equals(name, productDB.name);
+    }
+
+    @Override
+    public int hashCode() {
+    return Objects.hash(id, name);
+    }
+}
+
+</pre>
+</div>
+
+<p dir="auto">
+    <a href="https://github.com/cherepakhin/easybot_job/blob/dev/src/main/java/ru/perm/v/easybot/entity/GroupProductEntity.java" target="_blank" rel="noopener noreferrer">GroupProductEntity:</a>
+</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+@Entity
+@Table(name = "group_product")
+public class GroupProductEntity {
+    @Id
+    @Column(name = "id")
+    private Long id = -1L;
+    @Column(name = "name", nullable = false)
+    private String name = "";
+    @Column(name = "parent_id", nullable = false)
+    private Long parentId = -1L;
+    @Column(name = "is_last", nullable = false)
+    private Boolean isLast = true;
+    //TODO: можно добавить что-то типа tree index String "01.20.30..." или String "010230..."
+    // для быстрой выборки групп без подзапросов
+
+    public GroupProductEntity() {
+    }
+
+    public GroupProductEntity(Long id, String name, Boolean isLast, Long parentId) {
+        this.id = id;
+        this.name = name;
+        this.parentId = parentId;
+        this.isLast = isLast;
+    }
+
+    ...getters and setters...
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductEntity productDB = (ProductEntity) o;
+        return Objects.equals(id, productDB.id) && Objects.equals(name, productDB.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+}
+</pre>
+</div>
+<p dir="auto">
+    <a href="https://github.com/cherepakhin/easybot_job/blob/dev/src/main/java/ru/perm/v/easybot/entity/ProductRepository.java" target="_blank" rel="noopener noreferrer">ProductRepository:</a>
+</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+@Repository
+@Transactional
+@Table(name = "product")
+public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
+    List<ProductEntity> findAllByOrderByIdAsc();
+
+    @Query(value = "SELECT max(id) FROM ProductEntity")
+    Long getMaxId();
+
+    List<ProductEntity> findByGroupProductIdOrderByIdAsc(Long groupId);
+
+    @Query(value = "delete FROM ProductEntity")
+//    @Sql("classpath:import_test.sql") // можно так
+    @Modifying
+    void reset();
+}
+</pre>
+</div>
+<p dir="auto">
+    <a href="https://github.com/cherepakhin/easybot_job/blob/dev/src/main/java/ru/perm/v/easybot/repository/GroupProductRepository.java" target="_blank" rel="noopener noreferrer">GroupProductRepository:</a>
+</p>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import ru.perm.v.easybot.entity.GroupProductEntity;
+
+import java.util.List;
+
+@Repository
+@Transactional
+public interface GroupProductRepository extends JpaRepository<GroupProductEntity, Long> {
+    List<GroupProductEntity> findAllByOrderByIdAsc();
+
+   /**
+   * Get with SQL query
+   */
+    @Query(value = "SELECT max(id) FROM GroupProductEntity")
+    Long getMaxId();
+
+   /**
+   * Select with JPA
+   * select * from product where parent_id = :id order by id asc
+   */
+    List<GroupProductEntity> findByParentIdOrderByParentIdAsc(Long id);
+
+   /**
+   * Select with JPA
+   */
+    List<GroupProductEntity> findByParentIdOrderByParentIdAscIdAsc(Long id);
+
+    /**
+     * delete except ROOT with id=1 "IT products"
+     * delete with query. @Modifying!!!
+     */
+    @Query(value = "delete FROM GroupProductEntity where ID>1")
+    @Modifying
+    void reset();
+}
+</pre>
+</div>
+<p dir="auto">
+    <a href="https://github.com/cherepakhin/easybot_job/blob/dev/src/main/resources/import.sql" target="_blank" rel="noopener noreferrer">import.sql:</a>
+</p>
+
+<h4>Пример со списком в entity</h4>
+Проект <a href="https://github.com/cherepakhin/parking" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/parking</a>
+На парковке машины.<br/>
+Парковка:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+package ru.perm.v.parking.db;
+
+import lombok.*;
+import lombok.experimental.Accessors;
+import lombok.experimental.FieldDefaults;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ * Парковка. Содержит список машин, ктр. сейчас припаркованы.
+ */
+@Setter
+@Getter
+@NoArgsConstructor
+@ToString
+@EqualsAndHashCode
+@Accessors(chain = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Table(name = "parking")
+@Entity
+public class ParkingEntity implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "address")
+    private String address = "";
+    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinTable(name = "parking_car",
+            joinColumns = @JoinColumn(name = "parking_id"),
+            inverseJoinColumns = @JoinColumn(name = "car_id"))
+    Set<CarEntity> cars = new HashSet<>();
+
+}</pre>
+</div>
+Машина:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+package ru.perm.v.parking.db;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+import javax.persistence.*;
+
+/**
+* Машина.
+* Аттрибуты: госномер, марка
+*/
+@Setter
+@Getter
+@NoArgsConstructor
+@ToString
+@EqualsAndHashCode
+@Entity
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Table(name = "car")
+public class CarEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "gos_number")
+    private String gosNumber = "";
+    @Column(name = "model")
+    private String model = "";
+}
+</pre>
+</div>

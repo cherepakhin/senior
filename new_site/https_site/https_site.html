@@ -1,0 +1,155 @@
+Проверка конфигурации сервера apache2:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ sudo apachectl configtest
+Syntax OK
+</pre></div>
+Проверка наличия модуля <b>ssl</b> в apache http сервере:
+<hr id="system-readmore"/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ apachectl -M | grep ssl
+[so:warn] [pid 7728] AH01574: module php7_module is already loaded, skipping
+    ssl_module (shared)
+</pre></div>
+
+Понадобятся два пакета: certbot и python3-certbot-apache.
+Последний пакет – это плагин, который обеспечивает интеграцию Certbot и Apache:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">$ sudo apt install certbot python3-certbot-apache
+</pre></div>
+Если установлено, то проверить актуальность сертификата:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ sudo certbot --apache -d v.perm.ru
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Plugins selected: Authenticator apache, Installer apache
+Cert not yet due for renewal
+
+You have an existing certificate that has exactly the same domains or certificate
+ name you requested and isn't close to expiry.
+(ref: /etc/letsencrypt/renewal/v.perm.ru.conf)
+
+What would you like to do?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: Attempt to reinstall this existing certificate
+2: Renew & replace the cert (limit ~5 per 7 days)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 1
+Keeping the existing certificate
+Deploying Certificate to VirtualHost /etc/apache2/sites-enabled/000-default.conf
+
+Please choose whether or not to redirect HTTP traffic to HTTPS, removing HTTP access.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: No redirect - Make no further changes to the webserver configuration.
+2: Redirect - Make all requests redirect to secure HTTPS access. Choose this for
+new sites, or if you're confident your site works on HTTPS. You can undo this
+change by editing your web server's configuration.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 1
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Congratulations! You have successfully enabled https://v.perm.ru
+
+You should test your configuration at:
+https://www.ssllabs.com/ssltest/analyze.html?d=v.perm.ru
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/v.perm.ru/fullchain.pem
+   Your key file has been saved at:
+   /etc/letsencrypt/live/v.perm.ru/privkey.pem
+   Your cert will expire on ... . To obtain a new or tweaked
+   version of this certificate in the future, simply run certbot again
+   with the "certonly" option. To non-interactively renew *all* of
+   your certificates, run "certbot renew"
+</pre></div>
+
+Просмотр сертификата: <a title="https://www.ssllabs.com/ssltest/analyze.html?d=v.perm.ru"
+   href="https://www.ssllabs.com/ssltest/analyze.html?d=v.perm.ru"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">https://www.ssllabs.com/ssltest/analyze.html?d=v.perm.ru</a>
+
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Результаты https" src="images/https_site/https_info.png"
+        alt="Результаты https"/></p>
+
+<hr/>
+<h3>Установка letsencrypt</h3>
+<pre class="language-java">
+<code>vasi@v:~$ sudo certbot --apache -d v.perm.ru
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Enter email address (used for urgent renewal and security notices)
+(Enter 'c' to cancel): vasi.che@gmail.com
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Please read the Terms of Service at
+https://letsencrypt.org/documents/LE-SA-v1.4-April-3-2024.pdf. You must agree in
+order to register with the ACME server. Do you agree?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(Y)es/(N)o: Y
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Would you be willing, once your first certificate is successfully issued, to
+share your email address with the Electronic Frontier Foundation, a founding
+partner of the Let's Encrypt project and the non-profit organization that
+develops Certbot? We'd like to send you email about our work encrypting the web,
+EFF news, campaigns, and ways to support digital freedom.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(Y)es/(N)o: Y
+Account registered.
+Requesting a certificate for v.perm.ru
+
+Successfully received certificate.
+Certificate is saved at: /etc/letsencrypt/live/v.perm.ru/fullchain.pem
+Key is saved at:         /etc/letsencrypt/live/v.perm.ru/privkey.pem
+This certificate expires on 2024-11-09.
+These files will be updated when the certificate renews.
+Certbot has set up a scheduled task to automatically renew this certificate in the background.
+
+Deploying certificate
+Successfully deployed certificate for v.perm.ru to /etc/apache2/sites-available/000-default-le-ssl.conf
+Congratulations! You have successfully enabled HTTPS on https://v.perm.ru
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you like Certbot, please consider supporting our work by:
+* Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+* Donating to EFF:                    https://eff.org/donate-le
+
+После этого открывается HTTPS(!!!) https://v.perm.ru/
+
+==============================
+This is the default welcome page used to test the correct operation of the Apache2 server after installation on Ubuntu systems. It is based on the equivalent page on Debian, from which the Ubuntu Apache packaging is derived. If you can read this page, it means that the Apache HTTP server installed at this site is working properly. You should replace this file (located at /var/www/html/index.html) before continuing to operate your HTTP server.
+
+If you are a normal user of this web site and don't know what this page is about, this probably means that the site is currently unavailable due to maintenance. If the problem persists, please contact the site's administrator.
+
+Configuration Overview
+Ubuntu's Apache2 default configuration is different from the upstream default configuration, and split into several files optimized for interaction with Ubuntu tools. The configuration system is fully documented in /usr/share/doc/apache2/README.Debian.gz. Refer to this for the full documentation. Documentation for the web server itself can be found by accessing the manual if the apache2-doc package was installed on this server.
+
+The configuration layout for an Apache2 web server installation on Ubuntu systems is as follows:
+
+/etc/apache2/
+|-- apache2.conf
+|       `--  ports.conf
+|-- mods-enabled
+|       |-- *.load
+|       `-- *.conf
+|-- conf-enabled
+|       `-- *.conf
+|-- sites-enabled
+|       `-- *.conf
+
+apache2.conf is the main configuration file. It puts the pieces together by including all remaining configuration files when starting up the web server.
+ports.conf is always included from the main configuration file. It is used to determine the listening ports for incoming connections, and this file can be customized anytime.
+Configuration files in the mods-enabled/, conf-enabled/ and sites-enabled/ directories contain particular configuration snippets which manage modules, global configuration fragments, or virtual host configurations, respectively.
+They are activated by symlinking available configuration files from their respective *-available/ counterparts. These should be managed by using our helpers a2enmod, a2dismod, a2ensite, a2dissite, and a2enconf, a2disconf . See their respective man pages for detailed information.
+The binary is called apache2 and is managed using systemd, so to start/stop the service use systemctl start apache2 and systemctl stop apache2, and use systemctl status apache2 and journalctl -u apache2 to check status. system and apache2ctl can also be used for service management if desired. Calling /usr/bin/apache2 directly will not work with the default configuration.
+Document Roots
+By default, Ubuntu does not allow access through the web browser to any file outside of those located in /var/www, public_html directories (when enabled) and /usr/share (for web applications). If your site is using a web document root located elsewhere (such as in /srv) you may need to whitelist your document root directory in /etc/apache2/apache2.conf.
+
+The default Ubuntu document root is /var/www/html. You can make your own virtual hosts under /var/www.
+
+Reporting Problems
+Please use the ubuntu-bug tool to report bugs in the Apache2 package with Ubuntu. However, check existing bug reports before reporting a new bug.
+
+Please report bugs specific to modules (such as PHP and others) to their respective packages, not to the web server itself.
+==============================
+Проверка php: https://v.perm.ru/info.php
+</code></pre>

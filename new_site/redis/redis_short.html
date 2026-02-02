@@ -1,0 +1,66 @@
+Redis — это база данных, размещаемая в памяти, которая используется, в основном,
+в роли кеша, находящегося перед другой, "настоящей" базой данных, вроде MySQL или PostgreSQL.
+
+Может использоваться в реализациях механизма издатель/подписчик, в задачах потоковой обработки данных, в системах, где нужно работать с очередями.
+
+Вот какие типы данных поддерживает Redis:
+<hr id="system-readmore" />
+<ul>
+    <li>Строка (String)</li>
+    <li>Битовый массив (Bitmap)</li>
+    <li>Битовое поле (Bitfield)</li>
+    <li>Хеш-таблица (Hash)</li>
+    <li>Список (List)</li>
+    <li>Множество (Set)</li>
+    <li>Упорядоченное множество (Sorted set)</li>
+    <li>Геопространственные данные (Geospatial)</li>
+    <li>Структура HyperLogLog (HyperLogLog)</li>
+    <li>Поток (Stream)</li>
+</ul>
+
+Memcached может показывать отличные результаты производительности в ограниченных окружениях кеширования.
+А при использовании этой системы в распределённом кластере нужны дополнительные настройки.
+Redis же поддерживает подобные сценарии работы сразу после установки.
+Можно распределить хранимые данные по множеству машин. Это называют шардингом.
+В результате каждый экземпляр Redis, входящий в состав кластера, считается хранилищем шарда, или фрагмента, всех данных.
+
+<h4>Установка Redis в Linux</h4>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">root@v:/etc# apt install redis
+....
+Created symlink /etc/systemd/system/redis.service → /usr/lib/systemd/system/redis-server.service.
+Created symlink /etc/systemd/system/multi-user.target.wants/redis-server.service → /usr/lib/systemd/system/redis-server.service.
+
+root@v:/etc# systemctl status redis
+● redis-server.service - Advanced key-value store
+Loaded: loaded (/usr/lib/systemd/system/redis-server.service; enabled; pre>
+Active: active (running) since Sun 2024-12-22 18:03:25 +05; 2min 2s ago
+Docs: http://redis.io/documentation,
+man:redis-server(1)
+Main PID: 1307637 (redis-server)
+Status: "Ready to accept connections"
+Tasks: 5 (limit: 13882)
+Memory: 4.1M (peak: 5.0M)
+CPU: 226ms
+CGroup: /system.slice/redis-server.service
+└─1307637 "/usr/bin/redis-server 127.0.0.1:6379"
+
+</pre></div>
+
+<b>port 6379</b>
+<br/>
+Нагрузочный тест:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+$ redis-benchmark -h localhost -p 6379 -n 100000 -c 50 -d 100
+
+...
+Summary:
+  throughput summary: 62111.80 requests per second
+  latency summary (msec):
+          avg       min       p50       p95       p99       max
+        0.427     0.112     0.423     0.503     0.559     0.895
+</pre></div>
+Эта команда симулирует 50 клиентов (параметр -c 50), выполняющих 100 000 запросов (-n 100 000).
+Результаты отображают время ответа в миллисекундах.

@@ -1,0 +1,139 @@
+Конспект демо-занятия курса "Java Developer. Advanced. Apache Camel: масштабируемые интеграции для Highload" Сергей Проханов<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://vkvideo.ru/video-145052891_456250314"
+   target="_blank" rel="noopener noreferrer">Демо-занятие курса «Java Developer. Advanced» Сергей Проханов</a>
+<br/>
+<b>0:10:00</b><br/>
+Книга "Шаблоны интеграции корпоративных приложений" Грегор Хоп, Бобби Вульф<br/>
+<br/>
+<b>0:24:00</b><br/>
+50 форматов данных<br/>
+Camel K - Camel для Kubernetes (K)<br/>
+CRD - Custom, Resource, Deployment. Деплоит в кубер как Pod/Deployment<br/>
+<br/>
+<b>0:32:00</b><br/>
+Camel Quarkus - расширение Camel для Quarkus. Quarkus - генерит исполняемые файлы (быстрый старт, горячая перезагрузка, контейнеризация).
+Примеры: camel-quarkus-kafka, camel-quarkus-rest, camel-quarkus-jdbc, camel-quarkus-http, camel-quarkus-mail и т.д.
+<br/>
+<b>0:35:31</b><br/>
+Camel Kafka Connector - встраивает Camel _внутрь_ Kafka _Connect_. Тут же использование с Kafka _Stream_.<br/>
+источник - source<br/>
+приемник - sink<br/>
+Дает возможность не писать код на Java/Kotlin/Scala/Go<br/>
+Обрабатывает исключения!<br/>
+<br/>
+<b>0:39:28</b><br/>
+Camel Spring Boot. Примеры:<br/>
+camel-kafka-starter<br/>
+camel-rest-starter<br/>
+camel-jdbc-starter<br/>
+camel-postgresql-starter<br/>
+camel-mail-starter<br/>
+camel-openapi-java-starter<br/>
+<br/>
+<b>0:41:39</b><br/>
+Camel Karaf (OSGi)<br/>
+<br/>
+<b>0:43:30</b><br/>
+Camel Karavan - это изуальный иструмент (UI + IDE) - позволяет создавать, редактировать, запускать и деплоить
+интеграционные _МАРШРУТЫ_ Camel без глубокого программирования, а через граф.интерфейс.
+low-code ???
+<br/>
+<br/>
+<b>0:46:20</b><br/>
+Apache Camel JBang - инструмент позволяет начать работу без установки Maven, Gradle, IDE и др. тяжелых runtime.
+"Простыми словами это Jbang+Camel в одном флаконе - запускаешь команду, пишешь интеграцию в одном файле (Java, Kotlin, Groovy, YAML)
+и она сразу работает как полноценое Camel приложение.
+Прототипирование, временное решение, для обучения.
+<br/>
+<br/>
+<b>0:48:52</b><br/>
+Практическая часть
+Camel-Spring Boot предоставляет автоконфигурацию CamelContext.
+берет на себя регистрацию Producer Template в качестве бинов Spring
+<br/>
+BOM Spring Boot - согласовывает версии Spring Boot. Есть 2 BOM:<br/>
+1) camel-spring-boot-bom - требует ручного разрешения конфликтов<br/>
+2) camel-spring-boot-dependencies - минимизирует риск конфликтов<br/>
+<br/>
+<b>0:53:13</b><br/>
+Пример конфигурации. В ней 2 зависимости в <b>dependencyManagement</b>:<br/>
+artifactId -> camel-spring-boot-bom<br/>
+type -> pom<br/>
+scope -> import<br/>
+<br/>
+и как обычно <b>dependencies</b>:<br/>
+artifactId -> spring-boot-dependencies<br/>
+type -> pom<br/>
+scope -> import<br/>
+<br/>
+<b>0:56:26</b><br/>
+Добавление стартеров и запуск контекста<br/>
+Приложение стартует  добавлением основного стартера, а его функциональность _РАСШИРЯЕТСЯ_<br/>
+подключением _СТАРТЕРОВ_ компонентов.<br/>
+<br/>
+В standalone-режиме (без web сервера) необходимо указать параметр camel.main.run-controller=true,
+чтобы главный поток не завершался сразу после старта.
+<br/>
+<br/>
+<b>0:58:11</b><br/>
+Добавление стартеров и запуск контекста<br/>
+starter - не нужно указывать версии, т.к. они определены в BOM Spring boot (?)<br/>
+<pre style="font-family:monospace;color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-weight: 400; "><span style="color: rgb(0, 0, 255); font-weight: 400;">&lt;<span style="color: rgb(0, 0, 255); font-weight: 400;">dependencies</span>&gt;</span>
+    <span style="color: rgb(0, 128, 0); font-weight: 400;">&lt;!-- Camel Starter --&gt;</span>
+    <span style="color: rgb(0, 0, 255); font-weight: 400;">&lt;<span style="color: rgb(0, 0, 255); font-weight: 400;">dependency</span>&gt;</span>
+        <span style="color: rgb(0, 0, 255); font-weight: 400;">&lt;<span style="color: rgb(0, 0, 255); font-weight: 400;">groupId</span>&gt;</span>org.apache.camel.springboot<span style="color: rgb(0, 0, 255); font-weight: 400;">&lt;/<span style="color: rgb(0, 0, 255); font-weight: 400;">groupId</span>&gt;</span>
+        <span style="color: rgb(0, 0, 255); font-weight: 400;">&lt;<span style="color: rgb(0, 0, 255); font-weight: 400;">artifactId</span>&gt;</span>camel-spring-boot-starter<span style="color: rgb(0, 0, 255); font-weight: 400;">&lt;/<span style="color: rgb(0, 0, 255); font-weight: 400;">artifactId</span>&gt;</span> // запуск Camel контекста (вспомни как ебался с xml)
+    <span style="color: rgb(0, 0, 255); font-weight: 400;">&lt;/<span style="color: rgb(0, 0, 255); font-weight: 400;">dependency</span>&gt;</span>
+    <span style="color: rgb(0, 128, 0); font-weight: 400;">&lt;!-- Camel Starter JMS --&gt;</span>
+    <span style="color: rgb(0, 0, 255); font-weight: 400;">&lt;<span style="color: rgb(0, 0, 255); font-weight: 400;">dependency</span>&gt;</span>
+        <span style="color: rgb(0, 0, 255); font-weight: 400;">&lt;<span style="color: rgb(0, 0, 255); font-weight: 400;">groupId</span>&gt;</span>org.apache.camel.springboot<span style="color: rgb(0, 0, 255); font-weight: 400;">&lt;/<span style="color: rgb(0, 0, 255); font-weight: 400;">groupId</span>&gt;</span>
+        <span style="color: rgb(0, 0, 255); font-weight: 400;">&lt;<span style="color: rgb(0, 0, 255); font-weight: 400;">artifactId</span>&gt;</span>camel-jms-starter<span style="color: rgb(0, 0, 255); font-weight: 400;">&lt;/<span style="color: rgb(0, 0, 255); font-weight: 400;">artifactId</span>&gt;</span>
+    <span style="color: rgb(0, 0, 255); font-weight: 400;">&lt;/<span style="color: rgb(0, 0, 255); font-weight: 400;">dependency</span>&gt;</span>
+<span style="color: rgb(0, 0, 255); font-weight: 400;">&lt;/<span style="color: rgb(0, 0, 255); font-weight: 400;">dependencies</span>&gt;</span>
+</pre><br/>
+<b>1:00:34</b><br/>
+В application.properties добавить:<br/>
+camel.main.run-controller=true<br/>
+есть разница для web приложений. Эта настройка КРИТИЧЕСКИ важна для spring-boot приложения<br/>
+Работа в фоне. Не останавливается после старта). В обычных boot приложениях не останавливает<br/>
+приложение tomcat или jetty, а тут не дает выгрузиться Camel.<br/>
+<br/>
+<b>1:05</b><br/>
+Единый стиль конфигурации через своства Spring boot<br/>
+Синтаксис следует единому шаблону:<br/>
+camel.component.[component-name].[parameter]=[value]<br/>
+Пример в application.properties:<br/>
+camel.component.paho-mqtt5.broker-url=tcp://localhost:61616<br/>
+(MQTT - Протокол Message Queuing Telemetry Transport. Это протокол обмена сообщениями по шаблону издатель-подписчик (pub/sub))<br/>
+(paho-mqtt5 - библиотека для взаимодействия с MQTT-сервером)<br/>
+<br/>
+<b>1:06:59</b><br/>
+Объявление маршрутов для Spring Boot:<br/>
+1. Декларативный подход (идеально)<br/>
+@Component
+public class NameClass extends RouteBuilder {
+@Override
+public void configure() {
+from("...")
+.to("...");
+}
+}
+<br/>
+<b>2. Практика</b><br/>
+<br/>
+<b>1.11</b><br/>
+Задача пересылки сообщений из очередей RabbitMQ в топики Kafka.<br/>
+В проекте как-то использован kafka-drop (в application.yaml)<br/>
+Использован Docker Compose<br/>
+<br/>
+<b>1:1.35</b><br/>
+Объясняет суть проекта<br/>
+<br/>
+Шикарная лекция<br/>
+1. Темп речи<br/>
+2. Умение рассказывать. Связная речь.<br/>
+3. Последовательность (от общего описания к частностям)<br/>
+4. Яркий пример<br/>
+<br/>
+Где исходники? Где-то есть исходники примеров. Обещал дать.

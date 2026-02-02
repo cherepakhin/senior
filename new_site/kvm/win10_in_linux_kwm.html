@@ -1,0 +1,306 @@
+<p><b>Цель:</b> Комфортно работать из Linux с Windows 10.
+На разных местах работы различные инфраструктуры (системы безопасности, сетевое окружение и т.п.).
+Работодатель, обычно, предоставляет рабочий компьютер, но иногда требуется что-то проверить и нужна третья машина с Windows с какими-то особенными настройками.
+Здесь описано одно из решений.</p>
+<b>Дано:</b> Домашний сервер с Linux, подключенный к интернет, и рабочий ноутбук с Linux. Сервер и ноутбук связаны через wifi.
+<hr id="system-readmore"/>
+<b>Схема решения:</b><br/>
+С ноутбука с Linux через клиент уд.раб.стола Remmina подключаться к <u>удаленному рабочему столу</u> Windows10, запущенной в системе виртуальных машин Virtual Machine Manager(QUEMU/KVM) на сервере.
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Virtual Machine Manager" src="images/kvm/about_virtual_machine_manager.png"
+alt="Virtual Machine Manager" width="325" height="261"/></p>
+В настройках материнской платы разрешить VMX:
+
+На пример так (<a style="text-decoration: underline; color: #3366ff;" href="https://hatchjs.com/ubuntu-vmx-disabled-by-bios/"
+  target="_blank" rel="noopener noreferrer">https://hatchjs.com/ubuntu-vmx-disabled-by-bios/</a>):<br/>
+<ul>
+<li>Boot your computer into the BIOS.</li>
+<li>Find the “Virtualization” or “Virtual Machine” option.</li>
+<li>Enable the option.</li>
+<li>Save your changes and exit the BIOS.</li>
+</ul>
+Установить virt-manager (<a style="text-decoration: underline; color: #3366ff;" href="https://ubuntu.com/server/docs/virtual-machine-manager"
+ target="_blank" rel="noopener noreferrer">https://ubuntu.com/server/docs/virtual-machine-manager</a>)
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ sudo apt install virt-manager
+</pre></div>
+
+Установится несколько сервисов:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">useradd warning: libvirt-qemu's uid 64055 is greater than SYS_UID_MAX 999
+Not enabling default network as no free network was found
+Created symlink /etc/systemd/system/multi-user.target.wants/libvirtd.service → /usr/lib/systemd/system/libvirtd.service.
+Created symlink /etc/systemd/system/sockets.target.wants/virtlockd.socket → /usr/lib/systemd/system/virtlockd.socket.
+Created symlink /etc/systemd/system/sockets.target.wants/virtlogd.socket → /usr/lib/systemd/system/virtlogd.socket.
+Created symlink /etc/systemd/system/sockets.target.wants/libvirtd.socket → /usr/lib/systemd/system/libvirtd.socket.
+Created symlink /etc/systemd/system/sockets.target.wants/libvirtd-ro.socket → /usr/lib/systemd/system/libvirtd-ro.socket.
+Created symlink /etc/systemd/system/sockets.target.wants/libvirtd-admin.socket → /usr/lib/systemd/system/libvirtd-admin.socket.
+Created symlink /etc/systemd/system/sockets.target.wants/virtlockd-admin.socket → /usr/lib/systemd/system/virtlockd-admin.socket.
+Created symlink /etc/systemd/system/sockets.target.wants/virtlogd-admin.socket → /usr/lib/systemd/system/virtlogd-admin.socket.
+Created symlink /etc/systemd/system/multi-user.target.wants/libvirt-guests.service → /usr/lib/systemd/system/libvirt-guests.service.
+Created symlink /etc/systemd/system/multi-user.target.wants/virtlockd.service → /usr/lib/systemd/system/virtlockd.service.
+Created symlink /etc/systemd/system/multi-user.target.wants/virtlogd.service → /usr/lib/systemd/system/virtlogd.service.)
+</pre></div>
+
+Запустить virt-manager.<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ sudo systemctl start libvirtd
+</pre></div>
+Проверить статус:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ sudo systemctl status libvirtd
+libvirtd.service - libvirt legacy monolithic daemon
+Loaded: loaded (/usr/lib/systemd/system/libvirtd.service; enabled; preset: enabled)
+Active: inactive (dead) since Wed 2024-10-02 10:32:33 +05; 13min ago
+Duration: 2min 208ms
+TriggeredBy: ● libvirtd-admin.socket
+● libvirtd-ro.socket
+● libvirtd.socket
+Docs: man:libvirtd(8)
+https://libvirt.org/
+Process: 1143 ExecStart=/usr/sbin/libvirtd $LIBVIRTD_ARGS (code=exited, status=0/SUCCESS)
+Main PID: 1143 (code=exited, status=0/SUCCESS)
+CPU: 316ms
+
+systemd[1]: Starting libvirtd.service - libvirt legacy monolithic daemon...
+systemd[1]: Started libvirtd.service - libvirt legacy monolithic daemon.
+systemd[1]: libvirtd.service: Deactivated successfully.
+</pre></div>
+Установить пакет ssh-askpass:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ sudo apt install ssh-askpass
+$ sudo systemctl restart libvirtd.service
+</pre></div>
+
+
+Проверить статус:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ sudo systemctl status libvirtd.service
+$ ssh-keygen -t rsa -C deploys -f ~/.ssh/deploys.pem
+pass
+Your identification has been saved in /home/vasi/.ssh/deploys.pem
+Your public key has been saved in /home/vasi/.ssh/deploys.pem.pub
+The key fingerprint is:
+SHA256:dKY6OSaT9TJDGzFkDZk3RxgQiWEAMuaEtXRVyISE6xk deploys
+The key's randomart image is:
++---[RSA 3072]----+
+|==++=BO@o+.  |
+|*o.+oo* = .  |
+| ...  o..oo  |
+|  E+ +   |
+| . o  + S|
+|  o  + * |
+|+ @ .|
+| + * |
+| |
++----[SHA256]-----+
+
+vim /etc/libvirt/qemu.conf
+security_driver = "none"
+sudo systemctl restart libvirtd
+</pre></div>
+
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Main window Vzirtual Machine Manager" src="images/kvm/kvm_setup_0.png"
+alt="Main window Virtual Machine Manager" width="393" height="188"/></p>
+Можно подключиться с удаленного компьютера:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ virt-manager -c qemu+ssh://192.168.1.20/system
+</pre></div>
+192.168.1.20 - host c virt-manager<br/>
+Ввести пароль пользователя уд.машины (vasi/B..7)
+
+Создать виртуальную машину
+
+Основное окно программы Virtual Machine Manager (сервер ip=192.168.1.20, linux):<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Main window Virtual Machine Manager" src="images/kvm/virt-manager.png"
+alt="Main window Virtual Machine Manager" width="549" height="364"/></p>
+с Windows 10:<br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Main window Virtual Machine Manager" src="images/kvm/kvm_manager1.png"
+alt="Main window Virtual Machine Manager" width="888" height="563"/></p>
+
+Основное окно программы клиента удаленного рабочего стола Remmina (ноутбук ip=192.168.1.57, linux):
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Main window Remmina" src="images/kvm/remmina_main_window.png"
+alt="Main window Remmina" width="465" height="239"/></p>
+
+В w10 используется встроенный сервис "Удаленных рабочих столов".<br/>
+<br/>
+<b>Итоговая схема:</b>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Result KVM" src="images/kvm/result_kvm.png" alt="Result KVM" width="1163" height="450"/></p>
+Окно удаленного рабочего стола на клиентской машине с linux:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Result W10 from linux notebook" src="images/kvm/w10_screen_from_note.png" alt="Result KVM" width="1163" height="450"/></p>
+
+Маршруты на Server(Linux):<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ route -n
+Таблица маршутизации ядра протокола IP
+Destination Gateway Genmask Flags Metric Ref Use Iface
+0.0.0.0 0.0.0.0 0.0.0.0 U 0  00 ppp0
+10.10.1.0   0.0.0.0 255.255.255.0   U 0  00 kuberbr42
+192.168.1.0 0.0.0.0 255.255.255.0   U 0  00 enp4s0
+</span></pre></div>
+
+<b>Firewall</b><br/>
+Используется пакет ufw. В компьютере 3 сетевых интерфейса:
+<ul>
+<li><b>enp3s0</b> - аппаратный интерфейс, используется для выхода интернет. Через этот интерфейс поднимается ppp0. IP адрес не назначен.</li>
+<li><b>enp4s0</b> - аппаратный интерфейс, 192.168.1.20 интерфейс внутренней сети.</li>
+<li><b>kuberbr42</b> - 10.10.1.1 виртуальный интерфейс для сети виртуальной машины.</li>
+<li><b>ppp0</b> - интернет интерфейс.</li>
+</ul>
+Другие адреса:<br/>
+<ul>
+<li><b>10.10.1.10</b> - адрес windows машины</li>
+<li><b>192.168.1.57</b> - адрес рабочего ноутбука, с него работаю.</li>
+<li><b>8.8.8.8</b> - DNS сервер.</li>
+</ul>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ ifconfig
+enp3s0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+ether 30:85:a9:96:31:b7  txqueuelen 1000  (Ethernet)
+
+enp4s0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+inet 192.168.1.20  netmask 255.255.255.0  broadcast 192.168.1.255
+ether 00:11:95:5b:fe:7d  txqueuelen 1000  (Ethernet)
+
+ppp0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST>  mtu 1492
+inet 46.146.232.50  netmask 255.255.255.255  destination 10.95.254.254
+ppp  txqueuelen 3  (Протокол PPP (Point-to-Point Protocol))
+
+kuberbr42: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+inet 10.10.1.1  netmask 255.255.255.0  broadcast 10.10.1.255
+</span></pre></div>
+
+Итоговая настройка:<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ route -n
+Таблица маршутизации ядра протокола IP
+Destination Gateway Genmask Flags   Metr Ref Use  Iface
+0.0.0.0 0.0.0.0 0.0.0.0 U 0  00 ppp0
+10.10.1.0   0.0.0.0 255.255.255.0   U 0  00 kuberbr42
+172.17.0.0  0.0.0.0 255.255.0.0 U 0  00 docker0
+192.168.1.0 0.0.0.0 255.255.255.0   U 0  00 enp4s0
+...
+</span></pre></div>
+
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ sudo ufw status numbered
+Состояние: активен
+ В  ДействиеИз
+ -  ----------
+[ 1] 443 on enp4s0  ALLOW INAnywhere
+[ 2] 53 on enp4s0   ALLOW INAnywhere
+[ 3] Anywhere   ALLOW IN10.10.1.10
+[ 4] 5432/tcp   ALLOW IN10.10.1.10
+[ 5] 53/tcp ALLOW IN10.10.1.10
+[ 6] 53/udp ALLOW IN192.168.1.57
+[ 7] 443/udpALLOW IN192.168.1.57
+[ 8] 8.8.8.8 443/udpALLOW IN192.168.1.57
+[ 9] 8.8.8.8 443/udpALLOW IN192.168.1.0/24
+[10] 8.8.8.8 53/udp ALLOW IN192.168.1.0/24
+[11] 8.8.8.8 53/tcp ALLOW IN192.168.1.0/24
+[12] 3389 on enp4s0 ALLOW INAnywhere
+[13] 4000 on enp4s0 ALLOW INAnywhere
+[14] 22 on kuberbr42ALLOW INAnywhere
+[15] 8888 on enp4s0 ALLOW INAnywhere
+[16] 8082 on enp4s0 ALLOW INAnywhere
+[17] 5432 on ppp0   DENY IN Anywhere
+[18] 5432 on enp4s0 ALLOW INAnywhere
+[19] 80 on ppp0 ALLOW INAnywhere
+[20] 80 on enp4s0   ALLOW INAnywhere
+[21] 22 on ppp0 DENY IN Anywhere
+[22] 22 on enp4s0   ALLOW INAnywhere
+[23] 21 on ppp0 DENY IN Anywhere
+[24] 21 on enp4s0   ALLOW INAnywhere
+[25] 3389 on ppp0   DENY IN Anywhere
+[26] 1521 on ppp0   DENY IN Anywhere
+[27] 8888 on ppp0   DENY IN Anywhere
+[28] 8888 on enp3s0 DENY IN Anywhere
+[29] Anywhere   ALLOW IN10.10.1.15
+[30] Anywhere   ALLOW IN192.168.1.57
+[31] 8.8.8.8 80/tcp ALLOW IN192.168.1.0/24
+[32] 8.8.8.8 443/tcpALLOW IN192.168.1.0/24
+[35] 443ALLOW INAnywhere
+</span></pre></div>
+
+Используемые порты:
+<ul>
+<li>21 - ftp</li>
+<li>22 - ssh</li>
+<li>53 - DNS</li>
+<li>80 - web сервер</li>
+<li>5432 - PostgreSQL</li>
+<li>3389 - Удаленный рабочий стол Windows</li>
+<li>4000 - Удаленный рабочий Nomachine сервиса</li>
+<li>8082, 8888 - для демо проектов</li>
+</ul>
+В Windows:<br/>
+
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ ipconfig
+Настройка протокола IP для Windows
+Адаптер Ethernet Ethernet:
+DNS-суффикс подключения . . . . . :
+Локальный IPv6-адрес канала . . . : fe80::cf41:2634:a793:aae1%5
+IPv4-адрес. . . . . . . . . . . . : 10.10.1.10
+Маска подсети . . . . . . . . . . : 255.255.255.0
+Основной шлюз. . . . . . . . . : 10.10.1.1
+</span></pre></div>
+
+Пример управления правилами:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ ufw insert 1 deny in on ppp0 to any port 22 // запретить ssh из Интернета
+$ ufw insert 2 allow in on enp4s0 to any port 22 // разрешить ssh из внутренней сети
+</span></pre></div>
+<b>Примечания:</b><br/>
+1. В версии Windows Home удаленного рабочего стола НЕТ(!), только удаленный помощник. В Стандартной версии есть.<br/>
+2. Памяти нужно много! В Server(Linux) установлено 12Gb. Для w10 отдал 4Gb. Удивительно, но win10 живет с 4Gb. Приходится некоторые особо жадные сервисы(jenkins, nexus) в хостовой машине (ServerLinux) выгружать.<br/>
+3. Бонус! Образ виртуальной машины можно клонировать средствами Virtual Machine Manager(QUEMU/KVM)
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="clone image" src="images/kvm/vm_clone.png"
+alt="Result KVM" width="671" height="489"/></p>
+Было бы место)<br/>
+4. Win10 запускается долго. Минут 10 надо подождать после перезагрузки, после этого удаленный раб.стол откроется.<br/>
+5. Кривые шрифты в удаленном рабочем столе. Одно из решений: "Попробуй включить ClaerType
+run - cttune, поставь галку Turn on ClearType." Совет отсюда: <a style="text-decoration: underline; color: #3366ff;" title="https://qna.habr.com/q/922231?ysclid=lpwct5erac497186423"
+   href="https://qna.habr.com/q/922231?ysclid=lpwct5erac497186423"
+   target="_blank" rel="noopener noreferrer">https://qna.habr.com/q/922231?ysclid=lpwct5erac497186423</a>. Вроде помогло немного. <br/>
+<hr/>
+<b>В итоге.</b><br/>
+Подключение с удаленной машины(note) к сервису QUEMU/KVM, запущенному на сервере 192.168.1.20: <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #000000;">vasi@note:~$ virt-manager -c 'qemu+ssh://vasi@192.168.1.20:22/system?keyfile=id_rsa'</span></pre></div>
+Появится окно менеджера виртуальных машин на сервере 192.168.1.20:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="clone image" src="images/kvm/manager_virt_machine.png"
+alt="Result KVM" width="550" height="274"/></p>
+
+Еще раз: с ноутбука подключаюсь к виртуальной машине, запущенной на сервере(192.168.1.20). При этом на сервере экран виртуальной машины будет выключен и перенаправлен на ноутбук.
+<hr/>
+23.10<br/>
+Если проблемы с запуском сервиса libvirtd, то запустил вручную из консоли:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #000000;">vasi@v:~$ sudo libvirtd
+</span></pre></div>
+Дальше из Virtual machine Manager на сервере запустил образ w10. Подключаться не сразу подождать когда лампа активности hdd погаснет (2-3 мин).
+<b>НЕ</b> подключился с ноутбука из клиента уд.раб.стола Remmina.<br/>
+Из терминала <b>ноута</b>:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #000000;">note$ virt-manager -c 'qemu+ssh://vasi@192.168.1.20:22/system?keyfile=id_rsa'
+</span></pre></div>
+пароль B..7<br/>
+Открылось окно менеджера вирт. машин. Дальше можно управлять виртуальыми машинами на сервере (старт W10). <b>Remmina НЕ используется</b>, только Virtual Machine Manager. Через его окно работать с виртуальной машиной. При этом и <b>сервис удаленных рабочих столов Windows</b> тоже не нужен, можно обойтись Windows <b>Домашняя</b>. Для работы с необходимымми windows сервисами (вспомни аппаратный ключ безопасности с драйверами <b><u>ТОЛЬКО</u></b> для windows).
+Оперативной памяти использовано 4.2 Gb. Графика - говно (полосы во время обновления экрана).
+<hr/>
+TODO:<ul>
+<li>Не описаны настройки <b>общих папок windows</b>(samba) на Server(linux)</li>
+<li>Установка windows из терминала <a style="text-decoration: underline; color: #3366ff;" href="https://std.rocks/virtualization_kvm.html" target="_blank" rel="noopener noreferrer">https://std.rocks/virtualization_kvm.html</a>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ qemu-system-x86_64  -vga cirrus -m 2048 -enable-kvm -cdrom win10.iso
+-boot order=d -drive file=/home/vasi/vdisk/win10_hdd0,index=0,media=disk,if=virtio,format=raw
+-drive file=/home/vasi/po/iso/win10.iso,media=cdrom,index=3</span></pre></div>
+</li>
+</ul>
+
+<h3 dir="auto">Ссылки:</h3>
+<ul>
+ <li><a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/index.php/instrumenty-devops/kvm-use" target="_blank" rel="noopener noreferrer">Использование KVM</a></li>
+ <li><a style="text-decoration: underline; color: #3366ff;" href="https://fabianlee.org/2019/02/16/kvm-virt-manager-to-connect-to-a-remote-console-using-qemussh/" target="_blank" rel="noopener noreferrer">https://fabianlee.org/2019/02/16/kvm-virt-manager-to-connect-to-a-remote-console-using-qemussh/</a></li>
+ <li><a style="text-decoration: underline; color: #3366ff;" href="https://ubuntu.com/server/docs/virtual-machine-manager" target="_blank" rel="noopener noreferrer">https://ubuntu.com/server/docs/virtual-machine-manager/</a></li>
+</ul>
+

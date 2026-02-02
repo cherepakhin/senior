@@ -1,0 +1,57 @@
+
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://sdkman.io/"
+   href="https://sdkman.io/"
+   target="_blank" rel="noopener noreferrer">https://sdkman.io/</a> - удобный инструмент установки программ, в том числе и java
+<hr id="system-readmore"/>
+<pre class="language-shell">
+<code>$ sdk list java
+</code>
+</pre>
+
+<pre>
+<code>
+================================================================================
+Available Java Versions for Linux 64bit
+================================================================================
+Vendor        | Use | Version      | Dist    | Status     | Identifier
+--------------------------------------------------------------------------------
+Corretto      |     | 21           | amzn    |            | 21-amzn
+|             |     | 20.0.2       | amzn    |            | 20.0.2-amzn
+|             |     | 20.0.1       | amzn    |            | 20.0.1-amzn
+|             |     | 17.0.8       | amzn    |            | 17.0.8-amzn
+|             |     | 17.0.7       | amzn    |            | 17.0.7-amzn
+|             |     | 11.0.20      | amzn    | installed  | 11.0.20-amzn
+|             |     | 11.0.19      | amzn    |            | 11.0.19-amzn
+|             |     | 8.0.382      | amzn    |            | 8.0.382-amzn
+|             |     | 8.0.372      | amzn    |            | 8.0.372-amzn
+Dragonwell    |     | 17.0.8       | albba   |            | 17.0.8-albba
+|             |     | 17.0.7       | albba   |            | 17.0.7-albba
+|             |     | 11.0.20      | albba   |            | 11.0.20-albba
+....
+</code>
+</pre>
+
+Установка конкретной версии java:
+<pre class="language-shell">
+<code>$ sdk install java 11.0.19-amzn
+Downloading: java 11.0.19-amzn
+In progress...
+############################################################################################################ 100,0%
+Repackaging Java 11.0.19-amzn...
+Done repackaging...
+Installing: java 11.0.19-amzn
+Done installing!
+Do you want java 11.0.19-amzn to be set as default? (Y/n):
+...
+</code></pre>
+<br/>
+<b>Ссылки:</b><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://sdkman.io/"
+   href="https://sdkman.io/"
+   target="_blank" rel="noopener noreferrer">https://sdkman.io/</a></br>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://stackoverflow.com/questions/18487406/how-do-i-tell-gradle-to-use-specific-jdk-version"
+   href="https://stackoverflow.com/questions/18487406/how-do-i-tell-gradle-to-use-specific-jdk-version"
+   target="_blank" rel="noopener noreferrer">https://stackoverflow.com/questions/18487406/how-do-i-tell-gradle-to-use-specific-jdk-version</a>

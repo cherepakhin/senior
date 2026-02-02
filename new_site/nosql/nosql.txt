@@ -1,0 +1,10 @@
+https://yandex.cloud/ru/blog/posts/2022/10/nosql?utm_referrer=https%3A%2F%2Fwww.google.com%2F
+
+Базы данных по принципу «ключ — значение» (key-value store)
+    - Redis
+Колоночные базы данных (column family store)
+    - ClickHouse
+    - Vertica
+    - Cassandra
+Документоориентированные базы данных (Document-oriented store):
+    - mongodb

@@ -1,0 +1,462 @@
+Простые приложения для работы с Kafka на Kotlin:<br/>
+<a title="https://github.com/cherepakhin/shop_kafka_producer"
+   href="https://github.com/cherepakhin/shop_kafka_producer"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://github.com/cherepakhin/shop_kafka_producer</strong></a><br/>
+<a title="https://github.com/cherepakhin/shop_kafka_consumer"
+   href="https://github.com/cherepakhin/shop_kafka_consumer"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://github.com/cherepakhin/shop_kafka_consumer</strong></a><br/>
+В Readme.md этих проектов более подробное описание.<br/>
+<h3>Составные части Kafka</h3>
+<b>Kafka</b> — брокер сообщений, с помощью которого разные микросервисы общаются друг с другом. Также используется для отправки логов (например в Graylog и Elastic), хранения данных и т. д.<br/>
+<b>Брокер</b> — узел Kafka, отвечает за прием, сохранение и передачу сообщений между продюсерами (Producer) и консюмерами (Consumer)<br/>
+<b>Консюмер (Consumer)</b> — получатель сообщения<br/>
+<b>Продюсер (Producer)</b> — отправитель сообщения<br/>
+<b>Zookepeer</b> — хранит конфигурации, состояния, обнаруживает брокеров, выбирает контроллер кластера, отслеживает состояние узлов и обеспечивает функциональность и надёжность кластера<br/>
+Контроллер кластера — отвечает за назначение мастеров партиций и отслеживает состояние брокеров<br/>
+<b>Offset Kafka</b> — это понятие, которое используется для обозначения позиции в потоке сообщений. Offset отслеживает, на каком месте в потоке находится каждый консюмер, чтобы он мог читать сообщения с нужной позиции.
+Каждый раз, когда потребитель читает сообщение, его позиция сдвигается на одно сообщение вперед.<br/>
+<b>Партиция (Partition)</b> — единица многопоточности в Kafka. Число партиций в топике можно лишь увеличивать. Партиции это те самые шарды, которые используются для шардирования в Kafka.<br/>
+<b>Реплика (Replica)</b> — копия партиции. Реплика может быть размещена на другом узле для обеспечения отказоустойчивости. Обеспечивает репликацию данных.<br/>
+<b>Топик (topic)</b> — служит для записи и чтения сообщений.<br/>
+<b>Консюмер группа (Consumer group)</b> — группа получателей сообщений<br/>
+
+<h3>Zookeeper</h3>
+Перед запуском самого брокера Kafka, нужно запустить Zookeeper (это сервис координации сервисов с базой "ключ-значение"):<br/>
+<hr id="system-readmore"/>
+Параметры zookeeper настроить в ~/tools/kafka/config/zookeeper.properties (<a title="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper.properties" href="https://github.com/cherepakhin/senior/blob/main/new_site/kafka/zookeeper.properties"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://github.com/cherepakhin/senior/blob/main/new_site/kafka/zookeeper.properties</strong></a>).
+Основные параметры в zookeeper.properties:<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">dataDir=/tmp/zookeeper</span>
+<span style="color: #000000">clientPort=2181</span>
+<span style="color: #000000">maxClientCnxns=0</span>
+<span style="color: #000000">admin.enableServer=true</span>
+<span style="color: #000000">admin.serverPort=9080</span>
+</pre></div>
+
+
+Скрипт запуска zookeeper(<a title="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh"
+   href="https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh"
+   target="_blank" rel="noopener noreferrer">
+   <strong>https://github.com/cherepakhin/senior/blob/main/kafka/zookeeper-server-start.sh</strong></a>)<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">$ </span>~/tools/kafka/bin/zookeeper-server-start.sh /home/vasi/tools/kafka/config/zookeeper.properties
+</pre></div>
+
+<b>/home/vasi</b> - каталог пользователя<br/>
+<b>tools/kafka</b> - каталог со скриптами kafka<br/>
+
+Проверка и просмотр работы zookeeper:<a title="http://192.168.1.20:9080/commands" href="http://192.168.1.20:9080/commands"
+   target="_blank" rel="noopener noreferrer">
+    <strong>http://192.168.1.20:9080/commands</strong>
+</a>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Zookeeper_commands" src="images/kafka/zookeeper_commands.png"
+        alt="zookeeper_commands" width="234" height="456"/></p><br/>
+
+<h3>Запуск Kafka</h3>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">$ ~/tools/kafka/bin/kafka-server-start.sh /home/vasi/tools/kafka/config/server.properties
+</pre></div>
+Где <b>kafka-server-start.sh</b> - скрипт запуска из дистрибутива Kafka,
+<a href="https://github.com/cherepakhin/senior/blob/main/new_site/kafka/server.properties"
+target="_blank" rel="noopener noreferrer"><strong>/home/vasi/tools/kafka/config/server.properties</strong>
+</a> - файл настройки Kafka<br/>
+Log:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">INFO [KafkaServer id=0] started (kafka.server.KafkaServer)
+INFO [BrokerToControllerChannelManager broker=0 name=alterPartition]: Recorded new controller,
+    from now on will use node 192.168.1.20:9092 (id: 0 rack: null)
+    (kafka.server.BrokerToControllerRequestThread)
+[2024-01-21 18:29:10,389] INFO [BrokerToControllerChannelManager broker=0 name=forwarding]:
+    Recorded new controller, from now on will use node 192.168.1.20:9092 (id: 0 rack: null)
+    (kafka.server.BrokerToControllerRequestThread)
+````
+</pre></div>
+
+<h2>Проверка работы из консоли</h2>
+
+<h3>Создание топика</h3>
+Создание топика "samples":
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">$ ~/tools/kafka/bin $ kafka-topics.sh --bootstrap-server 192.168.1.20:9092 --create --topic samples --partitions 1 --replication-factor 1
+</span></pre></div>
+
+<h3>Отправка сообщения в топик</h3>
+Отправка сообщения в топик "samples":<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ ~/tools/kafka/bin/kafka-console-producer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
+>test1
+>test2
+>
+</span></pre></div>
+
+<h3>Прием сообщения из топика</h3>
+Подключение к топику "samples" и просмотр сообщений:<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ ~/tools/kafka/bin/kafka-console-consumer.sh --bootstrap-server 192.168.1.20:9092 --topic samples
+test1
+test2
+</span></pre></div>
+
+<h3>Удаление топика</h3>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ ~/tools/kafka/bin/kafka-topics.sh --zookeeper 192.168.1.20:2181 --delete --topic product_ext_dto_topic
+>Topic product_ext_dto_topic is marked for deletion.
+>Note: This will have no impact if delete.topic.enable is not set to true.
+</span></pre></div>
+
+Для полного удаления топика (с очисткой файлов топика) нужно установить в конфигурационном файле server.properties свойство <b>delete.topic.enable = true</b><br/>
+<b>Ссылки:</b><br/>
+Простые проекты на kotlin:<br/>
+<a title="https://github.com/cherepakhin/shop_kafka_producer"
+   href="https://github.com/cherepakhin/shop_kafka_producer"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://github.com/cherepakhin/shop_kafka_producer</strong></a><br/>
+
+<a title="https://github.com/cherepakhin/shop_kafka_consumer"
+   href="https://github.com/cherepakhin/shop_kafka_consumer"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://github.com/cherepakhin/shop_kafka_consumer</strong></a><br/>
+<br/>
+Скрипты для linuх сервисов:<br/>
+<a title="https://github.com/cherepakhin/senior/blob/main/new_site/kafka/kafka.service"
+   href="https://github.com/cherepakhin/senior/blob/main/new_site/kafka/kafka.service"
+   target="_blank" rel="noopener noreferrer">
+    <strong>kafka.service</strong></a>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #a61717; background-color: #e3d2d2">[Unit]</span>
+<span style="color: #FF0000">Description</span>=<span style="color: #0000FF">Kafka Service</span>
+<span style="color: #FF0000">Requires</span>=<span style="color: #0000FF">zookeeper.service</span>
+<span style="color: #FF0000">After</span>=<span style="color: #0000FF">zookeeper.service</span>
+
+<span style="color: #a61717; background-color: #e3d2d2">[Service]</span>
+<span style="color: #FF0000">Type</span>=<span style="color: #0000FF">simple</span>
+<span style="color: #FF0000">User</span>=<span style="color: #0000FF">vasi</span>
+<span style="color: #FF0000">Group</span>=<span style="color: #0000FF">vasi</span>
+<span style="color: #FF0000">ExecStart</span>=<span style="color: #0000FF">/bin/sh -c '/home/vasi/tools/kafka/bin/kafka-server-start.sh /home/vasi/tools/kafka/config/server.properties > /home/vasi/tools/kafka/logs/kafka.log 2>&1'</span>
+<span style="color: #FF0000">ExecStop</span>=<span style="color: #0000FF">/home/vasi/tools/kafka/bin/kafka-server-stop.sh</span>
+<span style="color: #FF0000">ExecReload</span>=<span style="color: #0000FF">/bin/kill -HUP $MAINPID</span>
+<span style="color: #FF0000">Restart</span>=<span style="color: #0000FF">on-failure</span>
+
+<span style="color: #a61717; background-color: #e3d2d2">[Install]</span>
+<span style="color: #FF0000">WantedBy</span>=<span style="color: #0000FF">multi-user.target</span>
+</pre></div>
+
+<a title="https://github.com/cherepakhin/senior/blob/main/new_site/kafka/zookeeper.service"
+   href="https://github.com/cherepakhin/senior/blob/main/new_site/kafka/zookeeper.service"
+   target="_blank" rel="noopener noreferrer">
+    <strong>zookeeper.service</strong></a><br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #a61717; background-color: #e3d2d2">[Unit]</span>
+<span style="color: #FF0000">Requires</span>=<span style="color: #0000FF">network.target remote-fs.target</span>
+<span style="color: #FF0000">After</span>=<span style="color: #0000FF">network.target remote-fs.target</span>
+
+<span style="color: #a61717; background-color: #e3d2d2">[Service]</span>
+<span style="color: #FF0000">Type</span>=<span style="color: #0000FF">simple</span>
+<span style="color: #FF0000">User</span>=<span style="color: #0000FF">vasi</span>
+<span style="color: #FF0000">Group</span>=<span style="color: #0000FF">vasi</span>
+<span style="color: #FF0000">ExecStart</span>=<span style="color: #0000FF">/home/vasi/tools/kafka/bin/zookeeper-server-start.sh /home/vasi/tools/kafka/config/zookeeper.properties</span>
+<span style="color: #FF0000">ExecStop</span>=<span style="color: #0000FF">/home/vasi/tools/kafka/bin/zookeeper-server-stop.sh</span>
+<span style="color: #FF0000">Restart</span>=<span style="color: #0000FF">on-abnormal</span>
+
+
+<span style="color: #a61717; background-color: #e3d2d2">[Install]</span>
+<span style="color: #FF0000">WantedBy</span>=<span style="color: #0000FF">multi-user.target</span>
+</pre></div>
+<br/>
+<a title="https://russianblogs.com/article/77121686470/"
+   href="https://russianblogs.com/article/77121686470/"
+   target="_blank" rel="noopener noreferrer">
+    <strong>Установка, развертывание и использование Kafka (один узел / кластер)</strong></a><br/>
+
+<h3>Немного о настройке семантики Kafka</h3>
+(<a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/articles/738874/" target="_blank" rel="noopener noreferrer">Работа Apache Kafka на примерах. Поднимаем Kafka Cluster используя docker-compose</a>)<br/>
+Семантики:<br/>
+<ul>
+    <li><b>At most once</b>: В этой семантике продюсер считает сообщение успешно доставленным, как только оно отправлено брокеру, независимо от его фактической доставки потребителю. Это означает, что сообщения могут быть потеряны, если брокер не смог доставить их потребителям. Эта семантика обеспечивает максимальную пропускную способность, но не гарантирует доставку сообщений.</li>
+    <li><b>At least once</b>: В этой семантике продюсер ждет подтверждения (ACK) от брокера о доставке сообщения. Если продюсер не получает подтверждения в течение заданного времени, он повторно отправляет сообщение. Это гарантирует, что сообщения будут доставлены, но может привести к дублированию сообщений в <b>случае сбоев и повторных отправок</b>.</li>
+    <li><b>Exactly once</b>: В этой семантике гарантируется, что каждое сообщение будет доставлено ровно один раз, без дублирования. Продюсер отправляет сообщения в <b>рамках транзакции</b>, и брокер подтверждает их только после успешной записи в журнал и передачи потребителям. Эта семантика обеспечивает наивысший уровень гарантий, но требует дополнительных механизмов и может снижать пропускную способность.</li>
+</ul>
+<h3>Группы Kafka</h3>
+<a title="https://habr.com/ru/companies/slurm/articles/550934/"
+   href="https://habr.com/ru/companies/slurm/articles/550934/"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://habr.com/ru/companies/slurm/articles/550934/</strong></a><br/>
+<a title="https://coralogix.com/blog/create-kafka-topics-in-3-easy-steps/"
+   href="https://coralogix.com/blog/create-kafka-topics-in-3-easy-steps/"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://coralogix.com/blog/create-kafka-topics-in-3-easy-steps/</strong></a><br/>
+
+Topic распределен по partition. Это разделение задается при создании topic (параметр --partitions):
+
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ kafka/bin/kafka-topics.sh --create \
+--zookeeper localhost:2181 \
+--replication-factor 2 \
+--partitions 3 \
+--topic unique-topic-name
+</span></pre></div>
+Коротко работа консьюмеров с partitions описана в  <a title="https://habr.com/ru/companies/slurm/articles/550934/"
+                                        href="https://habr.com/ru/companies/slurm/articles/550934/"
+                                        target="_blank" rel="noopener noreferrer">
+    <strong>https://habr.com/ru/companies/slurm/articles/550934/</strong></a><br/>
+Группы нужны для распределения нагрузки. Входящие сообщения для какого-то topic распределяются по partition (количество partition задается при создании топика).
+Каждый консьюмер имеет группу. Если количество консьюмеров в консьюмер группе будет равно количеству партиций, то НАГРУЗКА на каждый консьюмер будет одинакова.<br/>
+
+<h3>KafkaCat</h3>
+<a title="https://docs.confluent.io/platform/current/tools/kafkacat-usage.html"
+   href="https://docs.confluent.io/platform/current/tools/kafkacat-usage.html"
+   target="_blank" rel="noopener noreferrer">
+   <strong>kcat (formerly kafkacat) Utility for Confluent Platform</strong></a><br/>
+Утилита для работы с Kafka. <br/>
+Пример работы:<br/>
+Чтение топика <b>hello-topic</b>. Сообщения из топика <b>hello-topic</b> будут автоматически отображаться:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ kafkacat -b v:9092 -t hello-topic
+% Auto-selecting Consumer mode (use -P or -C to override)
+Hello World
+Hello World1
+Hello World3
+</span></pre></div>
+Отправка сообщений с помощью KafkaCat:<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ echo "Hello World3" | kafkacat -b v:9092 -t hello-topic
+</span></pre></div><br/>
+Форматированный вывод:<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ kafkacat -b v:9092 -t hello-topic -f '\nKey (%K bytes): %k\tValue (%S bytes): %s\nTimestamp: %T\tPartition: %p\tOffset: %o\n--\n'
+Key (-1 bytes):
+Value (12 bytes): Hello World3
+Timestamp: 1741713079913	Partition: 0	Offset: 3
+--
+
+Key (-1 bytes):
+Value (12 bytes): Hello World3
+Timestamp: 1741713826402	Partition: 0	Offset: 4
+--
+
+Key (-1 bytes):
+Value (12 bytes): Hello World3
+Timestamp: 1741713827894	Partition: 0	Offset: 5
+--
+
+Key (-1 bytes):
+Value (12 bytes): Hello World3
+Timestamp: 1741714481961	Partition: 0	Offset: 6
+--
+% Reached end of topic hello-topic [0] at offset 7
+</span></pre></div><br/>
+Отправка текстового файла:
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ kafkacat -b v:9092 -t hello-topic -T -P -l ~/temp/1.json
+</span></pre></div><br/>
+Отправка текстового файла построчно (каждая строка в отдельном сообщении):
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ kafkacat -b v:9092 -t hello-topic -T -P -l ./file_for_send.txt
+</span></pre></div><br/>
+Ключи:<br/>
+-b - адрес Kafka (bootstrap server)
+-t - topic
+-P -  продюсер (-C consummer)
+-T - вывод в stdout
+-l - одна строка - одно сообщение<br/>
+Все ключи:<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">$ kafkacat --help
+Usage: kafkacat &lt;options&gt; [file1 file2 .. | topic1 topic2 ..]]
+kafkacat - Apache Kafka producer and consumer tool
+https://github.com/edenhill/kafkacat
+Copyright (c) 2014-2015, Magnus Edenhill
+Version 1.3.1 (JSON) (librdkafka 0.11.3 builtin.features=gzip,snappy,ssl,sasl,regex,lz4,sasl_gssapi,sasl_plain,sasl_scram,plugins)
+
+
+General options:
+  -C | -P | -L | -Q  Mode: Consume, Produce, Metadata List, Query mode
+  -G &lt;group-id&gt;      Mode: High-level KafkaConsumer (Kafka 0.9 balanced consumer groups)
+                     Expects a list of topics to subscribe to
+  -t &lt;topic&gt;         Topic to consume from, produce to, or list
+  -p &lt;partition&gt;     Partition
+  -b &lt;brokers,..&gt;    Bootstrap broker(s) (host[:port])
+  -D &lt;delim&gt;         Message delimiter character:
+                     a-z.. | \r | \n | \t | \xNN
+                     Default: \n
+  -E                 Do not exit on non fatal error
+  -K &lt;delim&gt;         Key delimiter (same format as -D)
+  -c &lt;cnt&gt;           Limit message count
+  -X list            List available librdkafka configuration properties
+  -X prop=val        Set librdkafka configuration property.
+                     Properties prefixed with "topic." are
+                     applied as topic properties.
+  -X dump            Dump configuration and exit.
+  -d &lt;dbg1,...&gt;      Enable librdkafka debugging:
+                     all,generic,broker,topic,metadata,queue,msg,protocol,cgrp,security,fetch,feature
+  -q                 Be quiet (verbosity set to 0)
+  -v                 Increase verbosity
+  -V                 Print version
+  -h                 Print usage help
+
+Producer options:
+  -z snappy|gzip     Message compression. Default: none
+  -p -1              Use random partitioner
+  -D &lt;delim&gt;         Delimiter to split input into messages
+  -K &lt;delim&gt;         Delimiter to split input key and message
+  -l                 Send messages from a file separated by
+                     delimiter, as with stdin.
+                     (only one file allowed)
+  -T                 Output sent messages to stdout, acting like tee.
+  -c &lt;cnt&gt;           Exit after producing this number of messages
+  -Z                 Send empty messages as NULL messages
+  file1 file2..      Read messages from files.
+                     With -l, only one file permitted.
+                     Otherwise, the entire file contents will
+                     be sent as one single message.
+
+Consumer options:
+  -o &lt;offset&gt;        Offset to start consuming from:
+                     beginning | end | stored |
+                     &lt;value&gt;  (absolute offset) |
+                     -&lt;value&gt; (relative offset from end)
+  -e                 Exit successfully when last message received
+  -f &lt;fmt..&gt;         Output formatting string, see below.
+                     Takes precedence over -D and -K.
+  -J                 Output with JSON envelope
+  -D &lt;delim&gt;         Delimiter to separate messages on output
+  -K &lt;delim&gt;         Print message keys prefixing the message
+                     with specified delimiter.
+  -O                 Print message offset using -K delimiter
+  -c &lt;cnt&gt;           Exit after consuming this number of messages
+  -Z                 Print NULL messages and keys as "NULL"(instead of empty)
+  -u                 Unbuffered output
+
+Metadata options (-L):
+  -t &lt;topic&gt;         Topic to query (optional)
+
+Query options (-Q):
+  -t &lt;t&gt;:&lt;p&gt;:&lt;ts&gt;    Get offset for topic &lt;t&gt;,
+                     partition &lt;p&gt;, timestamp &lt;ts&gt;.
+                     Timestamp is the number of milliseconds
+                     since epoch UTC.
+                     Requires broker &gt;= 0.10.0.0 and librdkafka &gt;= 0.9.3.
+                     Multiple -t .. are allowed but a partition
+                     must only occur once.
+
+Format string tokens:
+  %s                 Message payload
+  %S                 Message payload length (or -1 for NULL)
+  %R                 Message payload length (or -1 for NULL) serialized
+                     as a binary big endian 32-bit signed integer
+  %k                 Message key
+  %K                 Message key length (or -1 for NULL)
+  %T                 Message timestamp (milliseconds since epoch UTC)
+  %t                 Topic
+  %p                 Partition
+  %o                 Message offset
+  \n \r \t           Newlines, tab
+  \xXX \xNNN         Any ASCII character
+ Example:
+  -f 'Topic %t [%p] at offset %o: key %k: %s\n'
+
+
+Consumer mode (writes messages to stdout):
+  kafkacat -b &lt;broker&gt; -t &lt;topic&gt; -p &lt;partition&gt;
+ or:
+  kafkacat -C -b ...
+
+High-level KafkaConsumer mode:
+  kafkacat -b &lt;broker&gt; -G &lt;group-id&gt; topic1 top2 ^aregex\d+
+
+Producer mode (reads messages from stdin):
+  ... | kafkacat -b &lt;broker&gt; -t &lt;topic&gt; -p &lt;partition&gt;
+ or:
+  kafkacat -P -b ...
+
+Metadata listing:
+  kafkacat -L -b &lt;broker&gt; [-t &lt;topic&gt;]
+
+Query offset by timestamp:
+  kafkacat -Q -b broker -t &lt;topic&gt;:&lt;partition&gt;:&lt;timestamp&gt;
+</span></pre></div><br/>
+
+Каждый консьюмер Kafka обычно является частью какой-нибудь консьюмер-группы.
+
+Каждая группа имеет уникальное название и регистрируется брокерами в кластере Kafka.
+Данные из одного и того же топика могут считываться множеством консьюмер-групп ОДНОВРЕМЕННО
+Консьюмеры в разных группах будут получать сообщения ПАРАЛЛЕЛЬНО.
+
+Т.е. когда несколько консьюмеров читают данные из Kafka и являются членами одной и той же группы,
+то каждый из них получает сообщения из разных партиций топика, таким образом распределяя нагрузку.
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+@Component
+@RequiredArgsConstructor
+@Slf4j
+public class KafkaConsumerListeners {
+
+// Ниже 2 получателя (handle1, handle2) для одного топика
+// Сообщения будут доставлены ОБОИМ получателям
+@KafkaListener(
+    // Группа консюмера
+    id = "consumer-group-1",
+    // Топик
+    topics = "${kafka.topics.test-topic}",
+    // ВАЖНО: определяет фабрику, которую мы используем.
+    // Иначе используется фабрика по умолчанию и многопоточность не работает
+    containerFactory = "kafkaListenerContainerFactory")
+    public void handle1(@Payload JsonMessage message) {
+    printMessage(message, "consumer-group-1_handle1");
+}
+
+@KafkaListener(
+    // Группа консюмера
+    id = "consumer-group-2",
+    // Топик
+    topics = "${kafka.topics.test-topic}",
+    // ВАЖНО: определить фабрику.
+    // Иначе используется фабрика по умолчанию и многопоточность не работает
+    containerFactory = "kafkaListenerContainerFactory")
+    public void handle2(@Payload JsonMessage message) {
+        printMessage(message, "consumer-group-2");
+    }
+
+    public void printMessage(JsonMessage message, String idConsumerGroup) {
+        long number = message.getNumber();
+        // Имя потока для интереса. Никакой функциональной ценности не несет.
+        String currentThreadName = Thread.currentThread().getName();
+        log.info("Получено idConsumerGroup={} сообщение {} в потоке: {} ", idConsumerGroup, message, currentThreadName);
+    }
+}
+</pre></div>
+Лог:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+(~/prog/java/kafka/kafka-cluster)
+[r-group-2-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : consumer-group-2: partitions assigned: [topic1-0]
+[r-group-1-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : consumer-group-1: partitions assigned: [topic1-0]
+[r-group-1-0-C-1] r.h.k.consumer.KafkaConsumerListeners    : Получено idConsumerGroup=consumer-group-1_handle1 сообщение JsonMessage{number=1, message='message number 1'} в потоке: consumer-group-1-0-C-1
+[r-group-1-0-C-1] r.h.k.consumer.KafkaConsumerListeners    : Получено idConsumerGroup=consumer-group-1_handle1 сообщение JsonMessage{number=2, message='message number 2'} в потоке: consumer-group-1-0-C-1
+[r-group-2-0-C-1] r.h.k.consumer.KafkaConsumerListeners    : Получено idConsumerGroup=consumer-group-2 сообщение JsonMessage{number=1, message='message number 1'} в потоке: consumer-group-2-0-C-1
+[r-group-1-0-C-1] r.h.k.consumer.KafkaConsumerListeners    : Получено idConsumerGroup=consumer-group-1_handle1 сообщение JsonMessage{number=3, message='message number 3'} в потоке: consumer-group-1-0-C-1
+[r-group-2-0-C-1] r.h.k.consumer.KafkaConsumerListeners    : Получено idConsumerGroup=consumer-group-2 сообщение JsonMessage{number=2, message='message number 2'} в потоке: consumer-group-2-0-C-1
+[r-group-2-0-C-1] r.h.k.consumer.KafkaConsumerListeners    : Получено idConsumerGroup=consumer-group-2 сообщение JsonMessage{number=3, message='message number 3'} в потоке: consumer-group-2-0-C-1
+</pre></div>
+
+Перед написанием своих программ для работы с Kafka взглянуть на
+<a title="https://ru.linux-console.net/?p=33713"
+   href="https://ru.linux-console.net/?p=33713"
+   target="_blank" rel="noopener noreferrer">
+    <strong>Как интегрировать существующие системы с Kafka Connect</strong></a>. Возможно, ничего писать не придется.<br/>
+<h3>Ссылки</h3>
+<a title="https://v.perm.ru/index.php/instrumenty-devops/kafka-install"
+   href="https://v.perm.ru/index.php/instrumenty-devops/kafka-install"
+   target="_blank" rel="noopener noreferrer">
+    <strong>Установка Kafka в Linux</strong></a><br/>
+<a href="https://v.perm.ru/index.php/instrumenty-devops/ui-dla-kafka"
+   target="_blank" rel="noopener noreferrer">
+    <strong>UI для Kafka</strong></a><br/>
+<a title="https://slurm.io/blog/tpost/2x5ftglf11-poleznie-instrumenti-dlya-razrabotchikov"
+   href="https://slurm.io/blog/tpost/2x5ftglf11-poleznie-instrumenti-dlya-razrabotchikov"
+   target="_blank" rel="noopener noreferrer">
+    <strong>Полезные инструменты для разработчиков Apache Kafka</strong></a><br/>
+<a title="https://900913.ru/tldr/common/en/kafkacat/"
+   href="https://900913.ru/tldr/common/en/kafkacat/"
+   target="_blank" rel="noopener noreferrer">
+    <strong>Команда kafkacat: опции, ключи и примеры использования</strong></a><br/>
+<a title="https://github.com/OtusTeam/OTUS-Kafka"
+   href="https://github.com/OtusTeam/OTUS-Kafka"
+   target="_blank" rel="noopener noreferrer">
+    <strong>Уроки OTUS по Kafka</strong></a><br/>
+<a title="https://github.com/OtusTeam/Java-Advanced/tree/master"
+   href="https://github.com/OtusTeam/Java-Advanced/tree/master"
+   target="_blank" rel="noopener noreferrer">
+    <strong>Можно найти примеры кода от OTUS по Kafka со Spring Boot</strong></a><br/>
+
+
+

@@ -1,0 +1,135 @@
+----------------------------------------------------------------------------------------------
+vasi@v ~ $ apachectl -M | grep ssl
+[Mon May 13 21:56:32.637949 2024] [so:warn] [pid 7728] AH01574: module php7_module is already loaded, skipping
+ ssl_module (shared)
+vasi@v ~ $ sudo apachectl configtest
+[Mon May 13 21:57:34.905869 2024] [so:warn] [pid 7756] AH01574: module php7_module is already loaded, skipping
+Syntax OK
+----------------------------------------------------------------------------------------------
+vasi@v ~ $ sudo apt install certbot python3-certbot-apache
+Чтение списков пакетов… Готово
+Построение дерева зависимостей
+Чтение информации о состоянии… Готово
+Уже установлен пакет python3-certbot-apache самой новой версии (0.23.0-1).
+python3-certbot-apache помечен как установленный вручную.
+Уже установлен пакет certbot самой новой версии (0.27.0-1~ubuntu18.04.2).
+Следующие пакеты устанавливались автоматически и больше не требуются:
+  jsvc libactivemq-activeio-java libactivemq-java libactivemq-protobuf-java
+  libargs4j-java libc3p0-java libcodemodel-java libcommons-beanutils-java
+  libcommons-daemon-java libcommons-dbcp-java libcommons-pool-java
+  libcommons-pool2-java libderby-java libdtd-parser-java
+  libeclipse-jdt-core-java libfastinfoset-java libgeronimo-ejb-3.2-spec-java
+  libgeronimo-j2ee-connector-1.5-spec-java
+  libgeronimo-j2ee-management-1.1-spec-java libgeronimo-jacc-1.1-spec-java
+  libgeronimo-jms-1.1-spec-java libgeronimo-jpa-2.0-spec-java
+  libgeronimo-jta-1.2-spec-java libgeronimo-validation-1.0-spec-java
+  libhawtbuf-java libhibernate-commons-annotations-java libhibernate3-java
+  libistack-commons-java libjackson2-annotations-java libjackson2-core-java
+  libjackson2-databind-java libjasypt-java libjaxb-api-java libjaxb-java
+  libjdo-api-java libjmdns-java libmaven-archiver-java
+  libmaven-file-management-java libmaven-shared-io-java libopen-trace-format1
+  libplexus-archiver-java libplexus-io-java librelaxng-datatype-java
+  librngom-java libshiro-java libsisu-guice-java libsisu-ioc-java
+  libsnappy-java libsnappy-jni libspring-aop-java libspring-beans-java
+  libspring-context-java libspring-core-java libspring-expression-java
+  libspring-instrument-java libspring-jdbc-java libspring-jms-java
+  libspring-messaging-java libspring-orm-java libspring-oxm-java
+  libspring-test-java libspring-transaction-java libspring-web-java
+  libstax-ex-java libstreambuffer-java libtomcat9-java libtxw2-java
+  libxbean-java libxcb-xinput0 libxsom-java phantomjs python3-pyxattr rtmpdump
+  velocity
+Для их удаления используйте «sudo apt autoremove».
+Обновлено 0 пакетов, установлено 0 новых пакетов, для удаления отмечено 0 пакетов, и 11 пакетов не обновлено.
+----------------------------------------------------------------------------------------------
+vasi@v ~ $ sudo certbot --apache -d v.perm.ru
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Plugins selected: Authenticator apache, Installer apache
+Cert not yet due for renewal
+
+You have an existing certificate that has exactly the same domains or certificate name you requested and isn't close to expiry.
+(ref: /etc/letsencrypt/renewal/v.perm.ru.conf)
+
+What would you like to do?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: Attempt to reinstall this existing certificate
+2: Renew & replace the cert (limit ~5 per 7 days)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 1
+Keeping the existing certificate
+Deploying Certificate to VirtualHost /etc/apache2/sites-enabled/000-default.conf
+
+Please choose whether or not to redirect HTTP traffic to HTTPS, removing HTTP access.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: No redirect - Make no further changes to the webserver configuration.
+2: Redirect - Make all requests redirect to secure HTTPS access. Choose this for
+new sites, or if you're confident your site works on HTTPS. You can undo this
+change by editing your web server's configuration.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 1
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Congratulations! You have successfully enabled https://v.perm.ru
+
+You should test your configuration at:
+https://www.ssllabs.com/ssltest/analyze.html?d=v.perm.ru
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/v.perm.ru/fullchain.pem
+   Your key file has been saved at:
+   /etc/letsencrypt/live/v.perm.ru/privkey.pem
+   Your cert will expire on 2024-07-28. To obtain a new or tweaked
+   version of this certificate in the future, simply run certbot again
+   with the "certonly" option. To non-interactively renew *all* of
+   your certificates, run "certbot renew"
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+
+----------------------------------
+Проверка сертификата
+https://www.ssllabs.com/ssltest/analyze.html?d=v.perm.ru#whyNotTrusted
+http://192.168.1.20/html/ - 404
+https://v.perm.ru/html/   - OK
+https://v/html/           - OK
+
+https://v.perm.ru/test/dir2/.file_d2.txt - название файла с точкой.
+Этот файл НЕ отображается при обращении к https://v.perm.ru/test/dir2/ (похоже срабатывает линуксовое правило не показывать файлы, начинаюшиеся с точки)
+НО содержимое ДОСТУПНО при обращении к https://v.perm.ru/test/dir2/.file_d2.txt
+
+Тоже самое поведение с каталогами
+В каталоге /test/ 3 подкаталога
+/var/www/main/test/dir1
+/var/www/main/test/.dir2 (с точкой!!!)
+/var/www/main/test/dir2
+НО при обращении к https://v.perm.ru/test/ отображаются только 2:
+dir1  (/var/www/main/test/dir1)
+dir2  (/var/www/main/test/dir2)
+НО, содержимое каталога с точкой доступно: https://v.perm.ru/test/.dir2/
+
+В общем, это такое же поведение, как и в системе ls/ls -a
+
+vasi@v:/var/www/main/test$ ls
+dir1  dir2  h1.html  test.txt
+(.dir2 НЕ показан)
+vasi@v:/var/www/main/test$ ls -a
+dir1  .dir2  dir2  h1.html  test.txt
+(.dir2 ПОКАЗАН)
+
+https://v.perm.ru/.wellknow/aaa.txt - OK
+
+-------------Вариант с acme
+# Установка
+curl https://get.acme.sh | sh
+
+# Получение сертификата
+acme.sh --issue -d example.com -w /var/www/html
+
+# Установка сертификата для Nginx
+acme.sh --install-cert -d example.com \
+  --key-file /etc/nginx/ssl/example.com.key \
+  --fullchain-file /etc/nginx/ssl/example.com.crt \
+  --reloadcmd "systemctl reload nginx"
+

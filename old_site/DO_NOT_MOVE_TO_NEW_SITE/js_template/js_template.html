@@ -1,0 +1,336 @@
+<html>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QL6CK97WJZ"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-QL6CK97WJZ');
+</script>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <meta name="generator" content="LibreOffice 24.2.3.2 (Linux)"/>
+    <meta name="created" content="2024-06-06T12:48:41.285453908"/>
+    <meta name="changed" content="2024-06-06T12:49:54.695177752"/>
+</head>
+Проект в : <a href="https://github.com/cherepakhin/buttons_grid"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://github.com/cherepakhin/buttons_grid</strong>
+</a><br/>
+<a href="https://v.perm.ru/buttons_grid/index.html"
+   target="_blank" rel="noopener noreferrer">
+    <strong>Демо</strong>
+</a><br/>
+<h3>Цель</h3>
+<p>Освоить "резиновую" сетку Bootstrap. Использованы bootstrap, react-bootstrap (см. package.json)</p>
+<hr id="system-readmore"/>
+<h3 style="line-height: 125%; margin-top: 0.64cm; margin-bottom: 0.42cm">Тестирование</h3>
+<pre class="language-java"><code>$ yarn test</code></pre>
+<h3>Локальный запуск</h3>
+<pre class="language-java"><code>$ yarn start</code></pre>
+<h3>Сборка для размещения на web сервере</h3>
+<pre class="language-java"><code>$ yarn build-prod</code></pre>
+см. package.json:<pre class="language-java"><code>"scripts": {
+    "build-prod": "PUBLIC_URL=/buttons_grid/ react-scripts build",
+  }
+</code></pre>
+<strong>PUBLIC_URL=/buttons_grid/</strong> в package.json указывает по какому пути приложение будет доступно на web-сервере.<br/>
+Статические файлы из папки <strong>public</strong> (index.html,css, logo, favicon) будут <strong>скопированы</strong> в <strong>build</strong>.
+Собранный проект будет в build. Log: <pre class="language-java"><code>yarn run v1.22.5
+$ react-scripts build
+Creating an optimized production build...
+Compiled successfully.
+
+File sizes after gzip:
+/sorry/index.html
+  55.71 KB         build/static/js/2.924064c7.chunk.js
+  22.69 KB         build/static/css/2.7f1403ef.chunk.css
+  1.57 KB (-21 B)  build/static/js/main.ba052924.chunk.js
+  1.36 KB          build/static/js/3.8289d0eb.chunk.js
+  1.13 KB          build/static/js/runtime~main.fb67d27a.js
+  750 B (+58 B)    build/static/css/main.2a690229.chunk.css
+</code></pre>
+Содержимое build/ скопировать на сервер v.perm.ru в папку /var/www/buttons_grid/.
+Доступ к приложению: <a href="https://v.perm.ru/buttons_grid/index.html"><u><span style="background: transparent">https://v.perm.ru/buttons_grid/index.html</span></u></a>
+<p>Этот проект сделан на основе простого проекта с React/Redux/Bootstrap <a href="https://github.com/cherepakhin/redux-simple-app"><u><span style="background: transparent">https://github.com/cherepakhin/redux-simple-app</span></u></a>.
+В нем же описание деталей работы с React/Redux и рабочие заметки (подглядывать в историю git).</p>
+<h3>Заметки о css</h3>
+<p>
+<b>Изменение правого отступа div элемента</b> c id=list-group-item-actions-right (App.css):</p>
+<pre class="language-java"><code>.list-group-item-actions-last {
+  right: 11px;
+}
+</code></pre>
+<p>
+<b>Содержание подсказки (tooltip)</b> определяется в поле <em>title</em>:</p>
+<pre class="language-java"><code>&lt;div id="idDeleteBtn"
+     className="col-1 list-group-item-actions list-group-item-actions-last"
+     title="Удалить вакансию"/&gt;
+</code></pre>
+<br/>
+<b>Ошибка "digital envelope routines::unsupported"</b>
+<p>Ответ:</p>
+<p><a href="https://paolochang.github.io/posts/bugfix-digital_envelope_routines_unsupported/"><u><span style="background: transparent">https://paolochang.github.io/posts/bugfix-digital_envelope_routines_unsupported/</span></u></a></span></p>
+<p>If
+you encounter the “digital envelope routines::unsupported” error,
+you may be tempting to use the following easiest solutions:</p>
+<p>Downgrade Node.js to pre v17 OR Use the legacy SSL provider:</p>
+<pre class="language-java"><code>{
+  "scripts": {
+    "start": "react-scripts --openssl-legacy-provider start"
+  }
+}</code></pre>
+Использован 2 вариант из ссылки.</p>
+<b>Установка ширины, отступов элементов в колонках</b>
+<p>В Bootstrap сетка состоит из 12 "колонок". В примере ниже элементам выделяется
+1 колонка. В зависимости от размера окна ширина колонки меняется.</p>
+<pre class="language-java"><code>&lt;Button className="... col-1">...&lt;/Button></code></pre>
+Пример в App.js:<pre class="language-java"><code>&lt;Row className="fixed-top mt-0 md-1 pd-1 pl-0 ml-0 bg-light table-bordered">
+{/*
+   className="fixed-top" - row fixed on TOP PAGE
+   "mt-0 md-1 ml-0" - margin top, margin bottom, margin left
+   "pd-1 pl-0" - padding down, padding left
+   xs={12} одна колонка во всю ширину экрана(12).
+   Отступ элементов внутри колонки сверху(mt-2) и снизу (mb-2) = 8px
+*/}
+  &lt;Col xs={12} className="mt-2 mb-2"/>
+  {/* col-md-1 col-sm-2 все кнопки имеют одинаковую ширину,
+    но разных экранах выделено разное количство колонок:
+    col-md-1 width on middle device = 1 column,
+    col-sm-2 width on small device = 2 columns
+    mr-1 отступ справа внутри колонки margin right = 1 (1 char 'x')
+  */}
+    &lt;Button className="mr-1 col-md-1 col-sm-2 w-12ch">Все&lt;/Button>
+    &lt;Button className="mr-1 col-md-1 col-sm-2 w-12ch">Текущие&lt;/Button>
+    &lt;Button className="mr-1 col-md-1 col-sm-2 w-12ch">Новая&lt;/Button>
+    &lt;Button className="mr-1 col-md-1 col-sm-2 w-12ch">Найти&lt;/Button>
+    &lt;Button className="mr-1 col-md-1 col-sm-2 w-12ch">{getTitle()}&lt;/Button>
+  &lt;/Col>
+&lt;/Row&lt;
+</code></pre>
+<p>
+mr -
+margin right. "mr-1" - margin right = 4 pix<br/>
+ml - margin left pl - padding left pr - padding right col-md-1 col-sm-2
+w-12ch - все кнопки имеют одинаковую ширину
+w-12ch (12 character, 1 char = 'x') , но разных экранах
+выделено разное количество колонок:
+col-md-1 width on middle device = 1 column col-sm-2 width on small
+device = 2 columns</span></p>
+<p>Без
+Bootstrap:</span></p>
+<p><a href="https://stackoverflow.com/questions/1575141/how-to-make-a-div-100-height-of-the-browser-window"><u><span style="background: transparent">https://stackoverflow.com/questions/1575141/how-to-make-a-div-100-height-of-the-browser-window</span></u></a></span></p>
+<p>These
+units are vh (<strong>VIEWPORT</strong>&nbsp;height), vw
+(<strong>VIEWPORT</strong>&nbsp;width), vmin (<strong>VIEWPORT</strong>&nbsp;minimum
+length) and vmax (viewport maximum length).</p>
+<pre class="language-java"><code>div { height: 100vh; }</code></pre>
+<p><strong>Для задания ширины блока нужно указать
+width:</strong></p>
+<pre class="language-java"><code>.button-div {
+    display: inline-block;
+    width: 12ch;
+}</code></pre>
+<p><strong>inline-block</strong>&nbsp;-
+с этим свойством блоки будут отображаться в строку.</p>
+<p><strong>Для центрирования текста по горизонтали в div:</strong></p>
+<pre class="language-java"><code>.button-div {
+    text-align: center;
+}</code></pre>
+<p><strong>Задание высоты div:</strong></p>
+<pre class="language-java"><code>.button-div {
+    height: 4vh; // viewport height
+}</code></pre>
+<p>в css:</span></p>
+<pre class="language-java"><code>.button-div {
+    height: 25px;
+}</code></pre>
+<p><strong>Выравнивание по вертикали:</strong></span></p>
+<pre class="language-java"><code>.button-div {
+    line-height: 30px;
+}</code></pre>
+<p>или от шрифта:</span></p>
+<pre class="language-java"><code>.button-div {
+    line-height: 4ch;
+}</code></pre>
+<p><strong>Задание размера шрифта:</strong></span></p>
+<pre class="language-java"><code>.button-div {
+    font-size: 2ch;
+}</code></pre>
+<p><strong>Единицы размера шрифта:</strong></span></p>
+<p><a href="https://learn.javascript.ru/css-units"><u><span style="background: transparent">https://learn.javascript.ru/css-units</span></u></a></span></p>
+<p>(Давно на свалке: mm, cm, pt, pc. Существуют также
+«производные» от пикселя единицы измерения: mm, cm, pt и pc, но они давноотправились на свалку истории.) Единицы
+ex и ch, которые означают размер символа"x" и размер символа "0". Эти единицы используются чрезвычайно редко,
+так как «размер шрифта» em обычно вполне подходит.</p>
+<p>em
+- относительно текущего заданного
+шрифта. 1em – текущий размер шрифта. "Размер шрифта обычно определяется
+в родителе, и может быть изменён ровно в одном месте, это бывает очень удобно".</p>
+<p>При установке свойства margin-left в %, процент берётся от&nbsp;<strong>ширины родительского</strong>&nbsp;блока,
+а не от его margin-left.</p>
+<p><strong>Итого:</strong><br/>
+<pre class="language-java"><code>.button-div {
+  background-color: #18186A;
+  color: white;
+  // блоки с .button-div в строке, не в столбик, кнопки переносятся на следующий ряд
+  display: inline-block;
+
+  // ширина не меняется
+  // min-width: 10ch;
+  // max-width: 10ch;
+
+  // при разных max-width, min-width ширина меняется при изменении размера окна
+  min-width: 10ch;
+  max-width: 12ch;
+
+  // текст по центру line-height: 3ch;
+  text-align: center;
+
+  // размер шрифта
+  font-size: 2ch;
+}
+</code></pre>
+<p>На телефоне выстраиваются в 1 столбец.</span></p>
+<h3 style="line-height: 125%; margin-top: 0.64cm; margin-bottom: 0.42cm">
+Общая структура</span></h3>
+<ol>
+    <li><p>В index.html указан root</span></p></li>
+</ol>
+<div id="user-content-root" dir="ltr">
+    <ol><li style="display: block"><p></p></li>
+    </ol>
+</div>
+<ol start="2">
+    <li><p>index.js крепится к document.getElementById('root')</span></p></li>
+    <li><p>В index.js определен App.js</span></p></li>
+    <li><p>App.js	импортирует App.css (import './App.css';)</span></p></li>
+</ol>
+<p>App.js:</p>
+<pre class="language-java"><code>import './App.css';
+class App extends React.Component {
+    render() {
+      return (
+        &lt;div className="main-app-container"&gt;
+          &lt;div className="button-div mr-1 col-md-1 col-sm-1"&gt;Button1&lt;/div&gt;
+          ...
+        &lt;/div&gt;
+      );
+    }
+}
+</code></pre>
+App.css:<br/>
+<pre class="language-java"><code>button-div {
+  background-color: #18186A;
+  color: white;
+  display: inline-block;
+  min-width: 10ch;
+  max-width: 10ch;
+  text-align: center;
+  line-height: 4ch;
+  font-size: 2ch;
+  margin-bottom: 0.5ch;
+}
+</code></pre>
+
+<h3>Hover</h3>
+В обычном состоянии скрыть (<strong>display:none;</strong>):<br/>
+<pre class="language-java"><code>.list-group-item-action span {
+  display: none;
+  color: #c00;
+}
+</code></pre>
+<br/>
+Для list-group-item, при наведении курсора (<strong>.list-group-item:hover</strong>):
+<ul>
+    <li><p>показать
+	(<strong>display: inline;</strong>);</p></li>
+    <li><p>изменить
+	курсор (<strong>cursor: pointer;</strong>)</p></li>
+    <li><p>подчеркнуть
+	(<strong>text-decoration: underline;</strong>)</p></li>
+</ul>
+<pre class="language-java"><code>.main-app-container .list-group-item:hover .list-group-item-action span {
+  display: inline;
+  cursor: pointer;
+}
+
+.list-group-item-action span:hover {
+  text-decoration: underline;
+}
+</code></pre>
+В мобилах курсора нет, поэтому показывать всегда.<br/>
+<h3>Отступы</h3>
+<p>
+<ul>
+<li>className="fixed-top" - row fixed on TOP PAGE</li>
+<li>className="mt-0 md-1 ml-0" - margin top, margin bottom, margin left</li>
+<li>className="pd-1 pl-0" - padding down, padding left</li>
+<li>className="xs={12}" - одна колонка во всю ширину экрана(12).</li>
+<li>Отступ элементов внутри колонки сверху(mt-2) и снизу (mb-2) = 8px</li>
+<li>className="col-md-1" - width on middle device = 1 column</li>
+<li>className="col-sm-2" - width on small device = 2 columns</li>
+<li>className="mr-1" - отступ справа внутри колонки margin right = 1 (1 char 'x')</li>
+</ul>
+<h3>Шрифт</h3>
+<p><a href="https://learn.javascript.ru/css-units#otnositelno-shrifta-em"><u><span style="background: transparent">https://learn.javascript.ru/css-units#otnositelno-shrifta-em</span></u></a></span></p>
+<p>Относительно шрифта: em. 1em –&nbsp;<strong>текущий размер шрифта</strong>. Можно брать любые пропорции
+от текущего шрифта: 2em, 0.5em и т.п. Размеры в em – относительные, они определяются
+по текущему контексту.</p>
+<h3 style="line-height: 125%; margin-top: 0.64cm; margin-bottom: 0.42cm">
+var, let, const</h3>
+<p><b>var</b> и <b>let</b> — это два способа объявить <strong>переменную</strong> в JavaScript.</p>
+<p><b>var</b> используется, когда нужна переменная с функциональной областью видимости
+или <strong>глобальная</strong> переменная. Также его можно использовать в устаревшем
+коде, где уже используется <b>var</b>. При определении <b>var</b> "утекает" из области видимости функции в глобальную область видимости.</p>
+<p><b>let</b> применяется, когда нужна переменная с блочной областью видимости, которую не
+нужно тянуть в другие части программы. Также он позволяет избежать неожиданного
+поведения, связанного с поднятием. Если вы используете var, эта переменная «утечёт» за пределы цикла и будет доступна во
+всей функции. В современной разработке и новых проектах разработчики предпочитают <b>let</b> и <b>const</b> из-за их предсказуемости и надёжности. Примеры:
+<pre class="language-java"><code>var myVar = 1;
+
+function setMyVar() {
+  myVar = 2;
+}
+
+setMyVar();
+console.log(myVar); // --> 2
+</code></pre>
+любая функция, объявленная в той же области видимости, сможет обратиться к myVar:
+<pre class="language-java"><code>function setMyVar() {
+  var myVar = 2;
+}
+
+setMyVar();
+
+console.log(myVar); // undefined
+function varTest() {
+  for (var i = 0; i &lt; 3; i++) {
+    console.log(i);
+  }
+  console.log(i); // 3, так как ключевое слово var действует на уровне функции.
+}
+
+varTest();
+</code></pre>
+
+<h3>Подключение разных стилей в index.html, в зависимости от размера экрана</h3>
+<pre class="language-java"><code>&lt;link rel="stylesheet" media="screen and (max-width: 991.98px)" href="%PUBLIC_URL%/mobile.css"&gt;
+&lt;link rel="stylesheet" media="screen and (min-width: 992px)" href="%PUBLIC_URL%/desktop.css"&gt;
+</code></pre>
+
+<h3>Ссылки</h3>
+<ul>
+    <li><p><a href="https://app.diagrams.net/?src=about#G1i8cVXJXj7xbnOIqtzitvihxvn_yiwOuJ%23%7B%22pageId%22%3A%226vxvHjby1d88luMmcxHr%22%7D"><u><span style="background: transparent">Диаграмма
+	состояний</span></u></a></span></p></li>
+    <li><p><a href="https://v.perm.ru/main/index.php/75-oshibka-lib-x86-64-linux-gnu-libc-so-6-version-glibc-2-28-not-found"><u><span style="background: transparent">Ошибка
+	/lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.28' not found</span></u></a></span></p></li>
+    <li><p><a href="https://v.perm.ru/main/index.php/homepage/79-razlichiya-var-let-const-v-js"><u><span style="background: transparent">Различия
+	var, let, const и области видимости в javascript</span></u></a></span></p></li>
+    <li><p><a href="https://v.perm.ru/main/index.php/homepage/81-ui-html"><u><span style="background: transparent">UI html верстка</span></u></a></span></p></li>
+</ul>
+</body>
+</html>

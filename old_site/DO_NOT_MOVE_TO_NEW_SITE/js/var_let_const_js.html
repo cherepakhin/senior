@@ -1,0 +1,64 @@
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QL6CK97WJZ"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-QL6CK97WJZ');
+</script>
+<b>var</b> и <b>let</b> — это два способа объявить <b>переменную</b> в JavaScript.<br/><br/>
+<b>VAR</b> используется, когда нужна переменная с функциональной областью видимости или <b>ГЛОБАЛЬНАЯ</b> переменная.
+Также его можно использовать в устаревшем коде, где уже используется <b>var</b>. При определении <b>var "утекает"</b> из области видимости функции <b>в глобальную область видимости</b>.<br/><br/>
+<hr id="system-readmore" />
+<b>LET</b> применяется, когда нужна переменная с <b>БЛОЧНОЙ</b> областью видимости, которую не нужно тянуть в другие части программы. Также он позволяет избежать неожиданного поведения, связанного с поднятием.
+Если вы используете <b>var</b>, эта переменная «утечёт» за пределы цикла и будет доступна во всей функции.<br/><br/>
+"В современной разработке и новых проектах разработчики предпочитают <b>let</b> и <b>const</b> из-за их предсказуемости и надёжности." (<a style="text-decoration: underline; color: #3366ff;"
+                                                                                                                                           title="Var, let или const? Проблемы областей видимости переменных и ES6 (Habr)"
+                                                                                                                                           href="https://habr.com/ru/companies/ruvds/articles/420359/"
+                                                                                                                                           target="_blank" rel="noopener noreferrer">Var, let или const? Проблемы областей видимости переменных и ES6 (Habr)</a>)<br/>
+<br/>
+<b>Примеры:</b><br/><br/>
+Любая функция, объявленная в той же области видимости, сможет обратиться к myVar:
+<pre class="language-java"><code>var myVar = 1;
+function setMyVar() {
+  myVar = 2;
+}
+setMyVar();
+console.log(myVar); // --> 2
+</code></pre>
+
+Обращение к <b>var</b> за пределами <b>функции</b>:
+<pre class="language-java"><code>function setMyVar() {
+  var myVar = 2;
+}
+setMyVar();
+console.log(myVar); // undefined
+</code></pre>
+Обращение к <b>var</b> за пределами <b>блока</b>:
+<pre class="language-java"><code>function varTest() {
+  for (var i = 0; i < 3; i++) {
+    console.log(i);
+  }
+  console.log(i); // 3! , так как ключевое слово VAR в FOR действует на уровне ФУНКЦИИ.
+}
+varTest(); // 0,1,2,3!
+</code></pre>
+Ошибка <b>ReferenceError</b> и сообщает, что мы пытаемся использовать переменную до её объявления или инициализации.<br/>
+<br/>
+<b>CONST</b><br/><br/>
+Ключевое слово const очень похоже на let, но ключевое слово используется для объявления констант.
+Значения констант <b>после их инициализации менять нельзя</b>.<br/>
+<pre class="language-java"><code>let mutableVar = 1;
+const immutableVar = 2;
+
+mutableVar = 3;
+immutableVar = 4; // ошибка TypeError!
+</code></pre>
+<br/>
+<b>Ссылки:</b><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="Var, let или const? Проблемы областей видимости переменных и ES6 (Habr)"
+   href="https://habr.com/ru/companies/ruvds/articles/420359/"
+   target="_blank" rel="noopener noreferrer">Var, let или const? Проблемы областей видимости переменных и ES6 (Habr)</a>
+<br/>

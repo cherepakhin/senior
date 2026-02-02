@@ -1,0 +1,21 @@
+https://www.commontools.org/tool/soruce-code-highlighter-20
+
+style="background: #ffffff; overflow: auto; width: auto;
+border: solid #092A8F;
+border-width: .1em .1em .1em .8em; padding: .2em .6em;"
+table убирать для code
+            </td>
+        </tr>
+        </tbody>
+    </table>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+border: solid #092A8F;
+
+<
+&lt;
+&gt;
+
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://www.masterspringboot.com/camel/using-camel-log-component/"
+   href="https://www.masterspringboot.com/camel/using-camel-log-component/"
+   target="_blank" rel="noopener noreferrer">https://www.masterspringboot.com/camel/using-camel-log-component/</a>

@@ -1,0 +1,134 @@
+Экономия средств при росте производительности — горячая тема в индустрии.
+Как оценить использование ресурсов? Одним из способов является использование <a style="text-decoration: underline; color: #3366ff;" title="https://github.com/yandex/yandex-tank"
+                                                                                href="https://github.com/yandex/yandex-tank"
+                                                                                target="_blank" rel="noopener noreferrer">yandex_tank</a>.
+Показаны настройки и проведение тестов с помощью этого инструмента в Docker.
+<hr id="system-readmore" />
+
+Содержимое скрипта тестирования ~/prog/yandex-tank/tank-run.sh:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ cat tank-run.sh
+docker run --entrypoint yandex-tank <span style="color: #0000FF">\</span>
+-v <span style="color: #000080; font-weight: bold">$(</span>pwd<span style="color: #000080; font-weight: bold">)</span>:/var/loadtest <span style="color: #0000FF">\</span>
+-v $SSH_AUTH_SOCK:/ssh-agent -e SSH_AUTH_SOCK=/ssh-agent <span style="color: #0000FF">\</span>
+--net host <span style="color: #0000FF">\</span>
+-it direvius/yandex-tank
+</pre></div>
+Тесты проводятся из контейнера Docker:
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://hub.docker.com/r/direvius/yandex-tank#!"
+   href="https://hub.docker.com/r/direvius/yandex-tank#!"
+   target="_blank" rel="noopener noreferrer">https://hub.docker.com/r/direvius/yandex-tank#!</a>,
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/direvius/docker-yatank"
+   href="https://github.com/direvius/docker-yatank"
+   target="_blank" rel="noopener noreferrer">https://github.com/direvius/docker-yatank</a>.
+Можно установить локально yandex-tank, но мне так удобнее.<br/>
+<b>-v $(pwd):/var/loadtest</b> монтируется текущий каталог (со всем в нем файлами) к docker в каталог /var/loadtest.
+Содержимое каталога ~/prog/yandex-tank/:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+-rw-rw-r--  1 vasi vasi     238 апр 26  2020  ammo-phantom.txt
+-rw-rw-r--  1 vasi vasi      13 дек 22  2023  ammo_uri_shop_kotlin.txt
+-rw-rw-r--  1 vasi vasi      61 дек 23  2023  ammo-uri.txt
+-rw-rw-r--  1 vasi vasi     311 апр 26  2020  load-ammo-phantom.yaml
+-rw-rw-r--  1 vasi vasi     317 дек 22  2023  load-ammo-uri.yaml
+-rw-rw-r--  1 vasi vasi     409 апр 27  2020  load-instances.yaml
+-rw-rw-r--  1 vasi vasi     317 апр 26  2020  load-uris.yaml
+-rw-rw-r--  1 vasi vasi     402 дек 23  2023  load.yaml
+drwxr-xr-x 41 vasi vasi    4096 дек 23  2023  logs/
+drwxrwxrwx  3 vasi vasi    4096 мая  7  2021  lot4/
+-rwxr-xr-x  1 vasi vasi     203 апр 29  2021  lot4-run.sh*
+-rwxrwxr-x  1 vasi vasi     198 апр 29  2021  lot4tank.sh*
+-rw-rw-r--  1 vasi vasi     180 апр 26  2020  monitoring.xml
+drwxrwxrwx  2 vasi vasi    4096 апр 27  2020  ssh/
+-rwxrwxrwx  1 root root  902263 дек 23  2023  tank_errors.log*
+-rwxr-xr-x  1 vasi vasi     177 апр 27  2020  tank-run.sh*
+-rwxr-xr-x  1 vasi vasi     177 апр 27  2020  tank_run_shop_kotlin.sh*
+-rwxrwxr-x  1 vasi vasi     171 апр 27  2020  tank.sh*
+-rw-r--r--  1 vasi vasi      33 дек 22  2023  token.txt
+</pre></div>
+Необходим токен yandex-tank, полученный после регистрации в сервисе:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+$ cat token.txt
+daXXXXXXXXXXXXXXXXXXXXXXXXXXX650
+</pre></div>
+В каталоге <b>~/prog/yandex-tank</b> (получение текущего каталога через $(pwd)) должны быть файлы <b>load.yaml,ammo-uri.txt</b> с описанием теста:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ cat load.yaml
+overload:
+enabled: true
+package: yandextank.plugins.DataUploader
+token_file: token.txt
+phantom:
+address: 192.168.1.57:8980
+load_profile:
+load_type: rps
+schedule: const(1000, 20s)
+ammofile: /var/loadtest/ammo-uri.txt
+ammo_type: uri
+console:
+enabled: true
+telegraf:
+config: monitoring.xml
+enabled: true
+kill_old: false
+package: yandextank.plugins.Telegraf
+ssh_timeout: 5s
+</pre></div>
+<b>const(1000, 20s)</b> - Нагрузка постоянная 1000rps в течении 20 сек.<br/>
+<b>address: 192.168.1.57:8980</b> - по какому хосту стрелять. Только адрес хоста (url в ammo.txt).<br/>
+<b>/var/loadtest/ammo-uri.txt</b> - по каким url стрелять. Может быть список url. В ammo.txt url указываются без адреса хоста.<br/>
+Urls для расстрела (ammo-uri.txt):
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">~/prog/yandex-tank$ cat ammo-uri.txt
+[Connection: close]
+[Cookie: None]
+/test/echo?name=STATIC
+/test/dynamic?name=DYNAMIC
+/test/spring?name=SPRING
+</pre></div>
+Запуск тестов ~/prog/yandex-tank/tank-run.sh:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ ~/prog/yandex-tank/tank-run.sh
+....Тут лог тестов....
+</pre></div>
+Итого. Будет стрельба по http://192.168.1.57:8980/test/echo?name=STATIC, http://192.168.1.57:8980/test/dynamic?name=DYNAMIC, http://192.168.1.57:8980/test/spring?name=SPRING
+с ПОСТОЯННОЙ (<b>schedule: const</b>) нагрузкой <b>1000rps</b> в течении <b>20 сек.</b>
+<br/>
+Это только один из вариантов тестирования, остальные детали описаны в документации.<br/>
+При проведении теста, будет выведена картинка в консоли о ходе теста
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="show_test.png" src="images/yandex_tank/show_test.png" alt="show_test" /></p>
+Расстреливаемый сервис подключен к Grafana. В Grafana проведение теста выглядит так:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="result_test_in_grafana" src="images/yandex_tank/result_test_in_grafana.png" alt="result_test_in_grafana.png" /></p>
+<br/>
+На картинке выбрано только отображение нагрузки на CPU. Метрик и отчетов много всяких (память, сеть и т.п.).<br/>
+Yandex-tank это не просто инструмент, это <b>сервис</b>. Результаты тестирования отпраляются, хранятся, отображаются в облаке yandex-tank. Не локально на компьютере пользователя.<br/>
+Облако yandex tank: <a style="text-decoration: underline; color: #3366ff;"
+                       title="https://overload.yandex.net/"
+                       href="https://overload.yandex.net/"
+                       target="_blank" rel="noopener noreferrer">https://overload.yandex.net/</a><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="overload_yandex_net" src="images/yandex_tank/overload_yandex_net.png" alt="overload_yandex_net.png" /></p>
+Результаты тестов в https://overload.yandex.net/:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="results_tests_ya_tank.png" src="images/yandex_tank/results_tests_ya_tank.png" alt="results_tests_ya_tank.png" /></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="results_tests_ext_ya_tank.png.png" src="images/yandex_tank/results_tests_ext_ya_tank.png.png" alt="results_tests_ext_ya_tank.png.png" /></p>
+Ссылки:<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/yandex/yandex-tank"
+   href="https://github.com/yandex/yandex-tank"
+   target="_blank" rel="noopener noreferrer">https://github.com/yandex/yandex-tank</a><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test"
+   href="https://github.com/cherepakhin/shop_kotlin_yandex_tank_test"
+   target="_blank" rel="noopener noreferrer">Мой репозитроий на github для проведения тестов одного из проектов</a><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/cherepakhin/shop_kafka_consumer#test2mln"
+   href="https://github.com/cherepakhin/shop_kafka_consumer#test2mln"
+   target="_blank" rel="noopener noreferrer">Простой проект на Kotlin и Spring Boot для приема сообщений из очереди Kafka (раздел "Ходовые испытания при приеме 2 000 000 сообщений")</a><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="Учимся анализировать результаты нагрузочного тестирования. Алексей Лавренюк"
+   href="https://docs.yandex.ru/docs/view?tm=1726746525&tld=ru&lang=ru&name=____________________________________________________________________________________________________________________________.pdf&text=Учимся%20анализировать%20результаты%20нагрузочного%20тестирования.%20Алексей%20Лавренюк.pdf&url=https%3A%2F%2Fassets.ctfassets.net%2Fut4a3ciohj8i%2F5ZBdOxpn4420QUoU0gOkG8%2Fa1c685d3fb325ad5b47ad5b6290a5e25%2F____________________________________________________________________________________________________________________________.pdf&lr=50&mime=pdf&l10n=ru&sign=ea6487a84d82235a020a270e9c10bc15&keyno=0&serpParams=tm%3D1726746525%26tld%3Dru%26lang%3Dru%26name%3D____________________________________________________________________________________________________________________________.pdf%26text%3D%25D0%25A3%25D1%2587%25D0%25B8%25D0%25BC%25D1%2581%25D1%258F%2B%25D0%25B0%25D0%25BD%25D0%25B0%25D0%25BB%25D0%25B8%25D0%25B7%25D0%25B8%25D1%2580%25D0%25BE%25D0%25B2%25D0%25B0%25D1%2582%25D1%258C%2B%25D1%2580%25D0%25B5%25D0%25B7%25D1%2583%25D0%25BB%25D1%258C%25D1%2582%25D0%25B0%25D1%2582%25D1%258B%2B%25D0%25BD%25D0%25B0%25D0%25B3%25D1%2580%25D1%2583%25D0%25B7%25D0%25BE%25D1%2587%25D0%25BD%25D0%25BE%25D0%25B3%25D0%25BE%2B%25D1%2582%25D0%25B5%25D1%2581%25D1%2582%25D0%25B8%25D1%2580%25D0%25BE%25D0%25B2%25D0%25B0%25D0%25BD%25D0%25B8%25D1%258F.%2B%25D0%2590%25D0%25BB%25D0%25B5%25D0%25BA%25D1%2581%25D0%25B5%25D0%25B9%2B%25D0%259B%25D0%25B0%25D0%25B2%25D1%2580%25D0%25B5%25D0%25BD%25D1%258E%25D0%25BA.pdf%26url%3Dhttps%253A%2F%2Fassets.ctfassets.net%2Fut4a3ciohj8i%2F5ZBdOxpn4420QUoU0gOkG8%2Fa1c685d3fb325ad5b47ad5b6290a5e25%2F____________________________________________________________________________________________________________________________.pdf%26lr%3D50%26mime%3Dpdf%26l10n%3Dru%26sign%3Dea6487a84d82235a020a270e9c10bc15%26keyno%3D0"
+   target="_blank" rel="noopener noreferrer">Учимся анализировать результаты нагрузочного тестирования. Алексей Лавренюк</a><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://hub.docker.com/r/direvius/yandex-tank#!"
+   href="https://hub.docker.com/r/direvius/yandex-tank#!"
+   target="_blank" rel="noopener noreferrer">Docker image Yandex tank</a><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   title="https://github.com/direvius/docker-yatank"
+   href="https://github.com/direvius/docker-yatank"
+   target="_blank" rel="noopener noreferrer">https://github.com/direvius/docker-yatank</a><br/>

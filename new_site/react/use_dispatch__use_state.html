@@ -1,0 +1,82 @@
+Конспект
+<a style="text-decoration: underline; color: #3366ff;" href="https://www.geeksforgeeks.org/reactjs/react-redux-hooks-useselector-and-usedispatch/" target="_blank" rel="noopener noreferrer">https://www.geeksforgeeks.org/reactjs/react-redux-hooks-useselector-and-usedispatch/</a><br/>
+
+<hr id="system-readmore" />
+<h4>С useDispatch и useSelector.</h4>
+
+<ul>
+    <li><b>useSelector</b> - обеспечивает доступ к <b>state</b></li>
+    <li><b>useDispatch</b> -  позволяет функциональным компонентам отправлять действия в хранилище Redux</li>
+</ul>
+
+Использование:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+const counter = useSelector(state => state.counter);
+</pre>
+</div>
+Пример с useDispatch, useSelector:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { increment } from '../actions/actions'; // import ACTION "increment" ( {type: 'INCREMENT'} )
+
+const Example = () => {
+    const counter = useSelector(state => state.counter); // USE_SELECTOR!!! count будет изменяться при обновлении
+    const dispatch = useDispatch(); // USE_DISPATCH!!! определение dispatch для отправки action
+    ....
+    const handleIncrement = () => {
+        dispatch(increment()); // DISPATCH ACTION!!!! Отправка action в reducer.
+                               // increment() возвращает объект, который называется ACTION.
+                               //    export const increment = () => ({ type: actions.INCREMENT });
+                               // В ACTION указывается тип действия и, при необходимости, дополнительные данные (payload):
+                               // Пример action с параметром (https://github.com/cherepakhin/redux_first_app/blob/master/src/store/actions_task.js):
+                               //    export const toggleTask = id => ({
+                               //      type: actions.TASK_TOGGLE,
+                               //      payload: { id: id } // или так: payload: { id }
+                               //    });
+    });
+    ....
+};
+</pre>
+</div>
+<br/>
+<h4>Усовершентсвованный способ работы с Redux через useState.</h4>
+Перехватчик <b>useState</b> - это функция, которая позволяет добавлять состояние к функциональному компоненту.
+Это АЛЬТЕРНАТИВА перехватчику <b>useSelector</b>. С <b>useState</b> так:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+  const [counter, setCounter] = useState(0); // USE_STATE!!! 0 - это начальное значение переменной состояния counter.
+  const dispatch = useDispatch();
+  ....
+  const handleTaskTitleChange = (e) => {
+    setCounter(e.target.value);
+  }
+  ....
+</pre>
+</div>
+
+Полный пример:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+import React, { useState } from "react";
+
+function App() {
+    const [count, setCount] = useState(0); // useState!!!
+    const increment = () => setCount(count + 1);
+    const decrement = () => setCount(count - 1);
+
+    return (
+        &lt;div&gt;
+            &lt;h1&gt;Count: {count}&lt;/h1&gt; {/* Display the current count */}
+            &lt;button onClick={increment}&gt;Increment&lt;/button&gt; {/* Increment the count */}
+            &lt;button onClick={decrement}&gt;Decrement&lt;/button&gt; {/* Decrement the count */}
+        &lt;/div&gt;
+        );
+}
+
+export default App;
+</pre>
+</div>
+

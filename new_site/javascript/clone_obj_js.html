@@ -1,0 +1,32 @@
+Копирование (клонирование) объекта:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">let user = {
+  name: "John",
+  age: 30
+};
+
+let clone = Object.assign({}, user);
+</pre>
+</div>
+но это <b>ПОВЕРХНОСТНОЕ КОПИРОВАНИЕ</b>. Н.п. при клонировании такого объекта:
+<hr id="system-readmore" />
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">let user = {
+name: "John",
+    sizes: {
+    height: 182,
+    width: 50
+    }
+};
+
+let clone = Object.assign({}, user); // клонируется в ПУСТОЙ объект "{}"
+// поле "sizes" НЕ БУДЕТ СКЛОНИРОВАНО.
+alert( user.sizes === clone.sizes ); // true, тот же объект
+
+// user и clone обладают общим свойством sizes
+user.sizes.width++;       // изменяем свойства в первом объекте
+alert(clone.sizes.width); // 51, видим результат в другом
+</pre>
+</div>
+
+Для полного копиования возьмите готовую реализацию, например _.cloneDeep(obj) из библиотеки JavaScript lodash. (<a style="text-decoration: underline; color: #3366ff;" href="https://learn.javascript.ru/object-copy" target="_blank" rel="noopener noreferrer">https://learn.javascript.ru/object-copy</a>)

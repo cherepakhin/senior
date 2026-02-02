@@ -1,0 +1,1 @@
+vasi@v:/home$ sudo apt install prometheus

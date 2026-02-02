@@ -1,0 +1,82 @@
+<p><h4>JavaFX</h4></p><p>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/cherepakhin/javafx_menu.git"
+   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/javafx_menu.git</a>
+<hr id="system-readmore" />
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/controlsfx/"
+   target="_blank" rel="noopener noreferrer">https://github.com/controlsfx/</a> - надстройка над javafx. Добавлены новые компоненты.
+(note:~/prog/java/javafx/javafx/controlsfx)
+<br/>
+<p><h4>JavaFX + SpringBoot</h4></p>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/kecven/JavaFX-with-Spring-Boot.git"
+   target="_blank" rel="noopener noreferrer">https://github.com/kecven/JavaFX-with-Spring-Boot.git</a>
+
+<!-- HTML generated using hilite.me -->
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #080; font-weight: bold">package</span><span style="color: #BBB"> </span><span style="color: #0E84B5; font-weight: bold">com.example.demo</span>;
+
+<span style="color: #080; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #0E84B5; font-weight: bold">javafx.application.Application</span>;
+<span style="color: #080; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #0E84B5; font-weight: bold">javafx.scene.Group</span>;
+<span style="color: #080; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #0E84B5; font-weight: bold">javafx.scene.Scene</span>;
+<span style="color: #080; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #0E84B5; font-weight: bold">javafx.scene.image.Image</span>;
+<span style="color: #080; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #0E84B5; font-weight: bold">javafx.scene.image.ImageView</span>;
+<span style="color: #080; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #0E84B5; font-weight: bold">javafx.stage.Stage</span>;
+<span style="color: #080; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #0E84B5; font-weight: bold">org.springframework.boot.SpringApplication</span>;
+<span style="color: #080; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #0E84B5; font-weight: bold">org.springframework.boot.autoconfigure.SpringBootApplication</span>;
+<span style="color: #080; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #0E84B5; font-weight: bold">org.springframework.boot.builder.SpringApplicationBuilder</span>;
+
+<span style="color: #555; font-weight: bold">@SpringBootApplication</span>
+<span style="color: #080; font-weight: bold">public</span><span style="color: #BBB"> </span><span style="color: #080; font-weight: bold">class</span> <span style="color: #B06; font-weight: bold">DemoApplication</span><span style="color: #BBB"> </span><span style="color: #080; font-weight: bold">extends</span><span style="color: #BBB"> </span>Application<span style="color: #BBB"> </span>{
+
+<span style="color: #BBB">	</span><span style="color: #080; font-weight: bold">public</span><span style="color: #BBB"> </span><span style="color: #080; font-weight: bold">static</span><span style="color: #BBB"> </span>String<span style="color: #333">[]</span><span style="color: #BBB"> </span>args;
+
+<span style="color: #BBB">	</span><span style="color: #080; font-weight: bold">public</span><span style="color: #BBB"> </span><span style="color: #080; font-weight: bold">static</span><span style="color: #BBB"> </span><span style="color: #339; font-weight: bold">void</span><span style="color: #BBB"> </span><span style="color: #06B; font-weight: bold">main</span>(String<span style="color: #333">[]</span><span style="color: #BBB"> </span>args)<span style="color: #BBB"> </span>{
+<span style="color: #BBB">		</span>DemoApplication.<span style="color: #00C">args</span><span style="color: #BBB"> </span><span style="color: #333">=</span><span style="color: #BBB"> </span>args;
+<span style="color: #BBB">		</span>Application.<span style="color: #00C">launch</span>(DemoApplication.<span style="color: #00C">class</span>,<span style="color: #BBB"> </span>args);
+<span style="color: #BBB">	</span>}
+
+<span style="color: #BBB">	</span><span style="color: #555; font-weight: bold">@Override</span>
+<span style="color: #BBB">	</span><span style="color: #080; font-weight: bold">public</span><span style="color: #BBB"> </span><span style="color: #339; font-weight: bold">void</span><span style="color: #BBB"> </span><span style="color: #06B; font-weight: bold">start</span>(Stage<span style="color: #BBB"> </span>primaryStage)<span style="color: #BBB"> </span><span style="color: #080; font-weight: bold">throws</span><span style="color: #BBB"> </span>Exception<span style="color: #BBB"> </span>{
+<span style="color: #BBB">		</span>Image<span style="color: #BBB"> </span>loadingAnimation<span style="color: #BBB"> </span><span style="color: #333">=</span><span style="color: #BBB"> </span><span style="color: #080; font-weight: bold">new</span><span style="color: #BBB"> </span>Image(getClass().<span style="color: #00C">getResourceAsStream</span>(<span style="background-color: #FFF0F0">&quot;/images/loading.gif&quot;</span>));
+<span style="color: #BBB">		</span>ImageView<span style="color: #BBB"> </span>imageView<span style="color: #BBB"> </span><span style="color: #333">=</span><span style="color: #BBB"> </span><span style="color: #080; font-weight: bold">new</span><span style="color: #BBB"> </span>ImageView();
+<span style="color: #BBB">		</span>imageView.<span style="color: #00C">setImage</span>(loadingAnimation);
+<span style="color: #BBB">		</span>Group<span style="color: #BBB"> </span>root<span style="color: #BBB"> </span><span style="color: #333">=</span><span style="color: #BBB"> </span><span style="color: #080; font-weight: bold">new</span><span style="color: #BBB"> </span>Group(imageView);
+<span style="color: #BBB">		</span>Scene<span style="color: #BBB"> </span>scene<span style="color: #BBB"> </span><span style="color: #333">=</span><span style="color: #BBB"> </span><span style="color: #080; font-weight: bold">new</span><span style="color: #BBB"> </span>Scene(root,<span style="color: #BBB"> </span><span style="color: #00D; font-weight: bold">800</span>,<span style="color: #BBB"> </span><span style="color: #00D; font-weight: bold">600</span>);
+<span style="color: #BBB">		</span>primaryStage.<span style="color: #00C">setScene</span>(scene);
+<span style="color: #BBB">		</span>primaryStage.<span style="color: #00C">setTitle</span>(<span style="background-color: #FFF0F0">&quot;JavaFX with Spring Demo&quot;</span>);
+<span style="color: #BBB">		</span>primaryStage.<span style="color: #00C">setScene</span>(scene);
+<span style="color: #BBB">		</span>primaryStage.<span style="color: #00C">show</span>();
+
+<span style="color: #BBB">		</span><span style="color: #080; font-weight: bold">new</span><span style="color: #BBB"> </span>Thread(()<span style="color: #BBB"> </span><span style="color: #333">-&gt;</span><span style="color: #BBB"> </span>{
+<span style="color: #BBB">			</span><span style="color: #080; font-weight: bold">new</span><span style="color: #BBB"> </span>SpringApplicationBuilder(DemoApplication.<span style="color: #00C">class</span>).<span style="color: #00C">run</span>(args);
+<span style="color: #BBB">		</span>},<span style="color: #BBB"> </span><span style="background-color: #FFF0F0">&quot;Spring Thread&quot;</span>).<span style="color: #00C">start</span>();
+<span style="color: #BBB">	</span>}
+}
+</pre></div>
+<br/>
+Серия статей интеграции JavaFX и SpringBoot:
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://habr.com/ru/articles/478402/"
+   target="_blank" rel="noopener noreferrer">https://habr.com/ru/articles/478402/</a>
+<br/>
+JavaFX приложение может быть транспилировано (transpiler) в JS<br/>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://docs.webfx.dev/"
+   target="_blank" rel="noopener noreferrer">WebFX</a>
+<br/>
+WebFX - это компилятор приложений JavaFX на базе GWT. Он может преобразовать приложение JavaFX
+в традиционное автономное веб-приложение на чистом JavaScript (для его выполнения в браузере не требуется плагин или сервер)
+.<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://www.i-programmer.info/news/80-java/15942-webfx-java-to-javascript.html"
+   target="_blank" rel="noopener noreferrer">WebFX - Java To JavaScript</a>
+.<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/webfx-project/webfx"
+   target="_blank" rel="noopener noreferrer">Github WebFX с примерами</a>
+<br/>
+
+
+

@@ -1,0 +1,8 @@
+wget https://nodejs.org/dist/v18.14.2/node-v18.14.2-linux-x64.tar.xz
+
+vasi@note:/usr/local/bin$ node -v
+v16.15.1
+vasi@note:/usr/local/bin$ npm -v
+8.11.0
+$ nvm --version
+0.32.1

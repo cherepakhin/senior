@@ -1,0 +1,41 @@
+Пример проекта с gradle и kotlin:
+<a href="https://github.com/cherepakhin/shop_kotlin"
+   target="_blank" rel="noopener noreferrer">
+  <strong>https://github.com/cherepakhin/shop_kotlin</strong>
+</a><br/>
+В проекте описано все, что нужно для сборки и deploy.
+Более детально
+<a href="https://v.perm.ru/main/index.php/50-organizatsiya-sobstvennogo-ci-cd"
+   target="_blank" rel="noopener noreferrer">
+   <strong>"Организация собственного CI/CD"</strong>.
+</a>
+<hr id="system-readmore"/>
+<br/>
+<b>Примечания:</b><br/>
+<ul>
+  <li><a href="https://habr.com/ru/articles/458046/"
+         target="_blank" rel="noopener noreferrer">
+    <strong>Шпаргалка по Gradle</strong>
+  </a></li>
+  <li>Вывод gradle tasks <code>./gradlew tasks</code></li>
+  <li>Не найден plugin при сборке gradle<br/>
+Добавить в начало:
+<pre class="language-xml"><code>buildscript {
+  repositories {
+    mavenCentral()
+ }
+}</code></pre>
+    Это позволит искать плагин в центральном репозитории maven.
+    Корневая секция (repositories {}) предназначена для dependencies , но не для plugins (buildscript{repositories{}})
+<pre class="language-xml">
+<code>repositories {
+  mavenCentral()
+  }
+}
+</code></pre>
+    <a
+            href="https://ru.stackoverflow.com/questions/1070668/Куда-обращается-gradle-за-org-springframework-boot"
+            target="_blank" rel="noopener noreferrer">
+      <strong>https://ru.stackoverflow.com/questions/1070668/Куда-обращается-gradle-за-org-springframework-boot</strong>
+    </a></li>
+</ul>

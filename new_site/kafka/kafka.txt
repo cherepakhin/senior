@@ -1,0 +1,4 @@
+Запуск zookeeper-server
+vasi@v ~/tools/kafka/bin $ ./zookeeper-server-start.sh /home/vasi/tools/kafka/config/
+
+https://github.com/OtusTeam/Java-Advanced/tree/master

@@ -1,0 +1,172 @@
+Создания бинов с параметрами из базы данных и создания массива бинов и передачей этого массива как зависимость в другой бин.<br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/spring_config" target="_blank" rel="noopener noreferrer">Различные способы задания конфигурации Spring Beans (Java)</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/spring_config_k" target="_blank" rel="noopener noreferrer">Различные способы задания конфигурации Spring Beans (Kotlin)</a><br/>
+В задаче опроса филиалов в проекте МТС<br/>
+<hr id="system-readmore" />
+<h4>Пример подмены bean в runtime для тестов</h4>
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/vacancy_backend_j/blob/auth/src/test/java/ru/perm/v/vacancy_j/rest/EchoRestLoggerTest.java" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/vacancy_backend_j/blob/auth/src/test/java/ru/perm/v/vacancy_j/rest/EchoRestLoggerTest.java</a><br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+package ru.perm.v.vacancy_j.rest;
+
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(EchoRest.class)
+@Import(EchoRestLoggerTest.TestConfig.class)
+public class EchoRestLoggerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private Logger logger; // Этот spring bean создается в TestConfig
+
+    // Пояснения по тесту:
+    // EchoRest создается полностью, штатно SpringBoot-ом и Logger объявлен через @Autowrired
+    // НО. Бин Loggerа создается в конфигурации EchoRestGigaTest.TestConfig
+    // Причем создается хитро, в runtime, через штатный метод с @Bean, @Primary (и это внедряется в контекст)
+    // НО!!! Этот бин создается как мок и его работу можно протестировать.
+    // УХХХХ!!!
+    // https://reflectoring.io/spring-boot-testconfiguration/
+    @Test
+    public void testEcho_NormalMessage_ReturnsSameMessage() throws Exception {
+        String message = "hello";
+
+        mockMvc.perform(get("/echo/" + message))
+                .andExpect(status().isOk())
+                .andExpect(content().string(message));
+        assertNotNull(logger);
+
+        logger.info("Echo message: {}", message);
+        org.mockito.Mockito.verify(logger).info("Echo message: {}", message);
+    }
+
+    @TestConfiguration
+    static class TestConfig {
+        // Генерация бина для тестирования
+        @Bean
+        @Primary
+        Logger logger() {
+            // Я хочу получить мок-объект, а не реальный бин.
+            return org.mockito.Mockito.mock(Logger.class);
+        }
+    }
+}
+</pre>
+</div>
+
+Выполнение кода после иницализации и перед уничтожением bean:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+@Component
+public class DataLoader {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    //method invoked during the startup
+    @PostConstruct
+    public void loadData() {
+        userRepository.save(new User("user"));
+    }
+
+    //method invoked during the shutdown
+    @PreDestroy
+    public void removeData() {
+        userRepository.deleteAll();
+    }
+}
+</pre>
+</div>
+
+Инициализация bean и внесение в контекст SpringBoot:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+@Configuration
+public class HelloWorld {
+
+    @Bean
+    public TweetUserSevice tweetUserSevice() {
+        return new TweetUserSeviceImpl();
+    }
+}
+</pre>
+</div>
+Ключевые моменты @Configuration и @Bean.<br/>
+Еще примеры:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+package com.ronak.tweet.beans;
+@Configuration
+@Order(value=1)
+@Import({
+    TweetBeansConfig.class,
+    TweetSystemHealthBeansConfig.class
+})
+public class TweetMasterSpringConfig {
+
+    public TweetMasterSpringConfig() {
+        System.out.println("Initilaizing master spring config");
+    }
+
+}
+
+package ru.perm.v.beans;
+
+@Configuration
+public class BeanOneConfig {
+    @Bean
+    public BeanOne createBeanOne() {
+        return new BeanOne();
+    }
+}
+
+@Configuration
+public class BeanTwoConfig {
+    @Bean
+    public BeanTwo createBeanTwo() {
+        return new BeanTwo();
+    }
+}
+
+Main class
+
+package ru.perm.v.app;
+
+@SpringBootApplication
+public class DemoApplication extends SpringBootServletInitializer {
+
+    @Bean
+    ResourceConfig resourceConfig() {
+        return new ResourceConfig().packages("ru.perm.v.beans");
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class);
+    }
+
+}
+</pre>
+</div>
+
+<h3>Использование в РЕАЛЬНОМ проекте</h3>
+<a href="https://github.com/cherepakhin/vacancy_backend_j/blob/auth/src/main/java/ru/perm/v/vacancy_j/conf/CreatorExtListSite.java" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/vacancy_backend_j/blob/auth/src/main/java/ru/perm/v/vacancy_j/conf/CreatorExtListSite.java</a><br/>
+<br/>
+Ссылки:<br/>
+<a style="text-decoration: underline; color: #3366ff;" title="https://habr.com/ru/companies/otus/articles/528312/" href="https://habr.com/ru/companies/otus/articles/528312/" target="_blank" rel="noopener noreferrer"> Динамическое создание Spring Bean в рантайме(habr)</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" title="https://www.javaprogramto.com/2019/07/spring-dynamically-register-beans.html" href="https://www.javaprogramto.com/2019/07/spring-dynamically-register-beans.html" target="_blank" rel="noopener noreferrer">Spring - Dynamically register beans in 4 ways At Run-Time</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://www.baeldung.com/spring-dynamic-autowire" target="_blank" rel="noopener noreferrer">How to Dynamically Autowire a Bean in Spring</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://www.baeldung.com/spring-boot-properties-dynamic-update" target="_blank" rel="noopener noreferrer">Changing Spring Boot Properties at Runtime</a><br/>

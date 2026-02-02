@@ -1,0 +1,119 @@
+<b>1. Mockito.mock() (ЭТО МЕТОД)</b><br />
+Метод Mockito.mock() позволяет нам создать фиктивный объект класса или интерфейса.</p>
+<hr id="system-readmore" />
+<p>Мы сами мокируем объект по желанию. Затем мы можем использовать макет,
+чтобы заглушить возвращаемые значения. Применим когда не хочу использовать АННОТАЦИЮ @Mock.
+Т.е. ИСПОЛЬЗОВАТЬ ПО МЕСТУ, в каком-то ЧАСТНОМ СЛУЧАЕ и не нужна как какая-то общая переменная теста (класса).
+Создаем сами ВРУЧНУЮ. Не нужна аннотация @RunWith(MockitoJUnitRunner.class) над junit-классом</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@Test
+<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> givenCountMethodMocked_WhenCountInvoked_ThenMockedValueReturned() {
+    UserRepository localMockRepository = Mockito.<span style="color: #FF0000">mock</span>(UserRepository.<span style="color: #FF0000">class</span>);
+    Mockito.<span style="color: #FF0000">when</span>(localMockRepository.<span style="color: #FF0000">count</span>()).<span style="color: #FF0000">thenReturn</span>(<span style="color: #0000FF">111L</span>);
+
+    <span style="color: #000080; font-weight: bold">long</span> userCount = localMockRepository.<span style="color: #FF0000">count</span>();
+
+    Assert.<span style="color: #FF0000">assertEquals</span>(<span style="color: #0000FF">111L</span>, userCount);
+    Mockito.<span style="color: #FF0000">verify</span>(localMockRepository).<span style="color: #FF0000">count</span>();
+}
+</pre></div>
+
+<br /> <b>2. @Mock (АННОТАЦИЯ)</b><br /> Является СОКРАЩЕНИЕМ для метода Mockito.mock()<br /> В отличие от МЕТОДА mock() , нам нужно включить аннотации Mockito, чтобы использовать эту аннотацию так: @RunWith(MockitoJUnitRunner.class) или либо явным вызовом метода MockitoAnnotations.initMocks(). Этот вызов Mockito.mock():
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">UserRepository localMockRepository = Mockito.mock(UserRepository.class);
+</pre></div>
+уже не нужен, т.к. Mockito сам его создаст. Пример:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@RunWith(MockitoJUnitRunner.<span style="color: #FF0000">class</span>)
+<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">class</span> MockAnnotationUnitTest {
+
+    <span style="color: #008800; font-style: italic">// mock вынесен в переменную класса. Не нужен вызов (!!!)</span>
+    <span style="color: #008800; font-style: italic">// UserRepository localMockRepository = Mockito.mock(UserRepository.class);</span>
+    @Mock
+    UserRepository mockRepository;
+
+    @Test
+    <span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> givenCountMethodMocked_WhenCountInvoked_ThenMockValueReturned() {
+        Mockito.<span style="color: #FF0000">when</span>(mockRepository.<span style="color: #FF0000">count</span>()).<span style="color: #FF0000">thenReturn</span>(<span style="color: #0000FF">123L</span>);
+
+        <span style="color: #000080; font-weight: bold">long</span> userCount = mockRepository.<span style="color: #FF0000">count</span>();
+
+        Assert.<span style="color: #FF0000">assertEquals</span>(<span style="color: #0000FF">123L</span>, userCount);
+        Mockito.<span style="color: #FF0000">verify</span>(mockRepository).<span style="color: #FF0000">count</span>();
+    }
+}
+</pre></div>
+<p><br /> <b>3. @MockBean мокирование бина из Spring окружения</b><br /> Мы можем использовать @MockBean для добавления фиктивных объектов в контекст приложения Spring(!!!SPRING!!!. Это отличие от Mock). @MockBean заменит любой существующий bean-компонент того же типа в SPRING-КОНТЕКСТЕ ПРИЛОЖЕНИЯ и IntegrationTest.</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@RunWith(SpringRunner.<span style="color: #FF0000">class</span>)
+<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">class</span> MockBeanAnnotationIntegrationTest {
+
+    @MockBean
+    UserRepository mockRepository;
+
+    @Autowired
+    ApplicationContext context;
+
+    @Test
+    <span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> givenCountMethodMocked_WhenCountInvoked_ThenMockValueReturned() {
+        Mockito.<span style="color: #FF0000">when</span>(mockRepository.<span style="color: #FF0000">count</span>()).<span style="color: #FF0000">thenReturn</span>(<span style="color: #0000FF">123L</span>);
+
+        UserRepository userRepoFromContext = context.<span style="color: #FF0000">getBean</span>(UserRepository.<span style="color: #FF0000">class</span>);
+        <span style="color: #000080; font-weight: bold">long</span> userCount = userRepoFromContext.<span style="color: #FF0000">count</span>();
+
+        Assert.<span style="color: #FF0000">assertEquals</span>(<span style="color: #0000FF">123L</span>, userCount);
+        Mockito.<span style="color: #FF0000">verify</span>(mockRepository).<span style="color: #FF0000">count</span>();
+    }
+}
+</pre></div>
+<p><br /> <b>4. @InjectMocks</b><br /> Пример:<br /> Определение тестируемого класса ProductRest:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">class</span> ProductRest(val productService: ProductService) {
+    ...
+}
+</pre></div>Класс зависит от сервиса <b>productService</b>. Нужно определить его поведение для тестов (<u>мокировать</u>).
+Тест:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@ExtendWith(MockitoExtension::class)
+internal <span style="color: #000080; font-weight: bold">class</span> ProductRestTest {
+
+    @Mock
+    <span style="color: #000080; font-weight: bold">private</span> lateinit var mockProductService: ProductService
+
+    <span style="color: #008800; font-style: italic">// @InjectMocks Сообщает, что В тестируемый productRest будет ВНЕДРЕН mockProductService,</span>
+    <span style="color: #008800; font-style: italic">// т.к. конструктор ProductRest требует ProductService</span>
+    @InjectMocks
+    <span style="color: #000080; font-weight: bold">private</span> lateinit var productRest: ProductRest
+
+    @Test
+    fun getCountOfProductNames() {
+        val count = <span style="color: #0000FF">5L</span>
+        Mockito.<span style="color: #a61717; background-color: #e3d2d2">`</span>when<span style="color: #a61717; background-color: #e3d2d2">`</span>(mockProductService.<span style="color: #FF0000">getCountOfProductNames</span>()).<span style="color: #FF0000">thenReturn</span>(count)
+        assertEquals(<span style="color: #0000FF">5L</span>, productRest.<span style="color: #FF0000">getCountOfProductNames</span>())
+    }
+    ...
+}
+</pre></div>
+<br/>
+<p><b>5. Ошибка "... available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: ..."</b></p>
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@ExtendWith(SpringExtension::class)
+@WebMvcTest(ProductRest::class)
+<span style="color: #000080; font-weight: bold">class</span> ProductRestMockMvcTest(@Autowired <span style="color: #000080; font-weight: bold">private</span> val mockMvc: MockMvc) {
+
+    <span style="color: #008800; font-style: italic">// Нужно использовать "@MockBean" для исправления ошибки:</span>
+    <span style="color: #008800; font-style: italic">// "... available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: ..."</span>
+    @MockBean
+    <span style="color: #000080; font-weight: bold">private</span> lateinit var mockRepository: ProductRepository
+
+    @Test
+    fun echoMessage() {
+        val mes = mockMvc.<span style="color: #FF0000">perform</span>(
+            MockMvcRequestBuilders.<span style="color: #FF0000">get</span>(<span style="color: #0000FF">"/product/echo/ECHO_MESSAGE"</span>)
+        )
+            .<span style="color: #FF0000">andExpect</span>(MockMvcResultMatchers.<span style="color: #FF0000">status</span>().<span style="color: #FF0000">isOk</span>)
+            .<span style="color: #FF0000">andReturn</span>()
+        Assertions.<span style="color: #FF0000">assertEquals</span>(<span style="color: #0000FF">"ECHO_MESSAGE"</span>, mes.<span style="color: #FF0000">response</span>.<span style="color: #FF0000">contentAsString</span>)
+    }
+}
+</pre></div>
+<br/>
+<b>6. Kotlin</b><br/>
+<a style="color: #3366ff; text-decoration: underline;" href="https://mockk.io/" target="_blank" rel="noopener noreferrer">Mockk</a><br/>
+<a style="color: #3366ff; text-decoration: underline;" href="https://www.baeldung.com/kotlin/mockmvc-kotlin-dsl" target="_blank" rel="noopener noreferrer">MockMcv для Kotlin</a><br/>
+<br/>
+<b>Ссылки:</b><br/>
+<a style="text-decoration: underline; color: #3366ff;" title="java-spring-mockito-mock-mockbean" href="https://for-each.dev/lessons/b/-java-spring-mockito-mock-mockbean" target="_blank" rel="noopener noreferrer">В чем различия между Mockito.mock(), @Mock и @MockBean?</a><br/>

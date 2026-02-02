@@ -1,0 +1,16 @@
+[Unit]
+Description=Elasticsearch service
+After=network.target
+
+[Service]
+User=vasi
+Group=vasi
+Type=simple
+WorkingDirectory=/home/vasi/po/elasticsearch-8.1.1/
+RuntimeDirectoryMode=0750
+ExecStart=/home/vasi/po/elasticsearch-8.1.1/bin/elasticsearch -p pid
+User=vasi
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

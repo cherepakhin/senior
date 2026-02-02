@@ -1,0 +1,120 @@
+    <p>
+        Пример:
+        <a
+          title="Пример build.gradle.kts" href="https://github.com/cherepakhin/shop_kotlin/blob/dev/build.gradle.kts"
+          target="_blank" rel="noopener noreferrer">
+            <strong>https://github.com/cherepakhin/shop_kotlin/blob/dev/build.gradle.kts</strong>
+        </a>
+    </p>
+    <hr id="system-readmore"/>
+    <pre class="language-xml"><code>plugins {
+        ...
+        id("maven-publish")
+        ...
+    }
+
+    publishing {
+        repositories {
+            maven {
+                // ru.perm.v - my private NEXUS repository
+                url = uri("http://192.168.1.20:8081/repository/ru.perm.v/")
+                isAllowInsecureProtocol = true
+                // for publish to nexus do "./gradlew publish". Work from local computer and Jenkins
+                // export NEXUS_CRED_USR=admin
+                // echo $NEXUS_CRED_USR
+                credentials {
+                    username = System.getenv("NEXUS_CRED_USR")
+                    password = System.getenv("NEXUS_CRED_PSW")
+                }
+            }
+        }
+        publications {
+            register("mavenJava", MavenPublication::class) {
+                from(components["java"])
+            }
+        }
+    }
+    </code></pre>
+
+    <br/>
+    Pipeline Jenkins:<br/>
+    <pre class="language-xml">
+    <code>
+    pipeline {
+      agent any
+      stages {
+        stage('Checkout') {
+          steps {
+            checkout scm
+          }
+        }
+
+        stage('Test') {
+          steps {
+            sh './gradlew test'
+          }
+        }
+
+        stage('Build') {
+          steps {
+            sh './gradlew build'
+          }
+        }
+
+        stage('Publish') {
+          environment {
+            NEXUS_CRED = credentials('nexus_admin')
+          }
+          steps {
+            sh './gradlew publish'
+          }
+        }
+      }
+    }
+    </code>
+    </pre>
+    <br/>
+    Результат:<br/>
+    <p>
+        <img
+                style="display: block; margin-left: auto; margin-right: auto;"
+                title="jenkins_result"
+                src="images/jenkins_result.png"
+                alt="jenkins_result"
+                width="1290"
+                height="593"/>
+    </p>
+    <br/>
+
+    <hr/>
+    <i>Примечания:</i><br/>
+    <ul>
+        <li><a href="https://habr.com/ru/articles/458046/"
+               target="_blank" rel="noopener noreferrer">
+            <strong>Шпаргалка по Gradle</strong>
+        </a></li>
+        <li>Вывод заданий gradle:
+            <code>./gradlew tasks</code></li>
+        <li><b>Не найден plugin при сборке gradle.</b>
+            Добавь в начало<pre class="language-xml"><code>buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+</code>
+</pre>
+            Это позволит искать твой плагин в центральном репозитории maven.
+            Обрати внимание, что корневая секция предназначена для dependencies (repositories {} ), но не для plugins (buildscript{repositories{}})
+<pre class="language-xml"><code>repositories {
+    mavenCentral()
+}
+</code>
+</pre>
+
+            <a href="https://ru.stackoverflow.com/questions/1070668/Куда-обращается-gradle-за-org-springframework-boot"
+                    target="_blank" rel="noopener noreferrer">
+                <strong>https://ru.stackoverflow.com/questions/1070668/Куда-обращается-gradle-за-org-springframework-boot</strong>
+            </a>
+        </li>
+    </ul>
+

@@ -1,0 +1,106 @@
+<h3 dir="auto">Оглавление:</h3>
+<ul>
+    <li><a href="#maven-assembly-plugin">maven-assembly-plugin</a></li>
+    <li><a href="#run-maven-spring-boot">Запуск Spring Boot приложения с MAVEN</a></li>
+    <li><a href="#run-gradle-spring-boot">Запуск Spring Boot приложения  с GRADLE</a></li>
+    <li><a href="#other_example">Другие примеры</a></li>
+    <li><a href="#links">Ссылки</a></li>
+</ul>
+<hr id="system-readmore" />
+<p><a id="maven-assembly-plugin"></a></p>
+<h3 dir="auto">maven-assembly-plugin</h3>
+<p>Пример в <a style="text-decoration: underline; color: #3366ff;" title="https://github.com/cherepakhin/camel_spring" href="https://github.com/cherepakhin/camel_spring" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/camel_spring</a>.</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <table>
+        <tbody>
+        <tr>
+            <td>
+<pre style="margin: 0; line-height: 125%;"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37</pre>
+            </td>
+            <td>
+<pre style="margin: 0; line-height: 125%;">&lt;build&gt;<br />      &lt;plugins&gt;<br />...<br />      &lt;!-- fat jar --&gt;<br />      &lt;plugin&gt;<br />        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;<br />        &lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;<br />        &lt;version&gt;3.2.0&lt;/version&gt;<br />        &lt;configuration&gt;<br />          &lt;archive&gt;<br />            &lt;manifest&gt;<br />              &lt;mainClass&gt;ru.perm.v.camelinaction.ch2.GreetMain&lt;/mainClass&gt;<br />            &lt;/manifest&gt;<br />          &lt;/archive&gt;<br />        &lt;/configuration&gt;<br />      &lt;/plugin&gt;<br />      &lt;plugin&gt;<br />        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;<br />        &lt;artifactId&gt;maven-assembly-plugin&lt;/artifactId&gt;<br />        &lt;version&gt;3.6.0&lt;/version&gt;<br />        &lt;configuration&gt;<br />          &lt;descriptorRefs&gt;<br />            &lt;descriptorRef&gt;jar-with-dependencies&lt;/descriptorRef&gt;<br />          &lt;/descriptorRefs&gt;<br />        &lt;/configuration&gt;<br />        &lt;executions&gt;<br />          &lt;execution&gt;<br />            &lt;id&gt;assemble-all&lt;/id&gt;<br />            &lt;phase&gt;package&lt;/phase&gt;<br />            &lt;goals&gt;<br />              &lt;goal&gt;single&lt;/goal&gt;<br />            &lt;/goals&gt;<br />          &lt;/execution&gt;<br />        &lt;/executions&gt;<br />      &lt;/plugin&gt;<br />    &lt;/plugins&gt;<br />&lt;/build&gt;
+</pre>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<p>Сборка:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <pre style="margin: 0; line-height: 125%;">$ mvn package</pre>
+</div>
+<p>Собранный файл будет в ./target/{artifactId+version}-jar-with-dependencies.jar <br /><a id="other_example"></a></p>
+<p>Запуск:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <pre style="margin: 0; line-height: 125%;">$ java -jar {jar-file}</pre>
+</div>
+<br/>
+<h3 dir="auto">Другие примеры:</h3>
+<p><a style="text-decoration: underline; color: #3366ff;" title="https://v.perm.ru/main/index.php/homepage/71-modulnyj-proekt-gradle" href="main/index.php/homepage/71-modulnyj-proekt-gradle" target="_blank" rel="noopener noreferrer">Многомодульный проект Gradle</a> <br />
+<a style="text-decoration: underline; color: #3366ff;" title="https://v.perm.ru/main/index.php/homepage/69-prostoj-proekt-na-kotlin-i-spring-boot#bootjar" href="main/index.php/homepage/69-prostoj-proekt-na-kotlin-i-spring-boot#bootjar" target="_blank" rel="noopener noreferrer">Дополнительные инструменты для проекта на Kotlin и Spring Boot (Создание запускаемого файла и его запуск)</a><br />
+</p>
+<br/>
+<h3 dir="auto">Запуск Spring boot приложения:</h3>
+<b>Только запуск</b>, без сборки jar и т.п.
+<p><a id="run-maven-spring-boot"></a></p>
+<p>
+    <a style="text-decoration: underline; color: #3366ff;"
+       href="https://docs.spring.io/spring-boot/docs/1.5.22.RELEASE/reference/html/using-boot-running-your-application.html#using-boot-running-with-the-maven-plugin"
+       target="_blank" rel="noopener noreferrer">Using the Maven plugin</a><br />
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+$ export MAVEN_OPTS=-Xmx1024m -XX:MaxPermSize=128M
+$ mvn spring-boot:run
+</pre></div>
+<p><a id="run-gradle-spring-boot"></a></p>
+<a style="text-decoration: underline; color: #3366ff;"
+       href="https://docs.spring.io/spring-boot/docs/1.5.22.RELEASE/reference/html/using-boot-running-your-application.html#using-boot-running-with-the-gradle-plugin" target="_blank"
+      rel="noopener noreferrer">Using the Gradle plugin</a> <br />
+"...The bootRun task is added whenever you import the spring-boot-gradle-plugin..."
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+$ export JAVA_OPTS=-Xmx1024m -XX:MaxPermSize=128M
+$ gradle bootRun
+</pre></div>
+<br/>
+<h3 dir="auto">Ссылки:</h3>
+<ul>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/articles/716554/" target="_blank" rel="noopener noreferrer">https://habr.com/ru/articles/716554/</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://docs.spring.io/spring-boot/docs/1.5.22.RELEASE/reference/html/using-boot-running-your-application.html" target="_blank" rel="noopener noreferrer">19. Running your application. Part III. Using Spring Boot</a></li>
+</ul>

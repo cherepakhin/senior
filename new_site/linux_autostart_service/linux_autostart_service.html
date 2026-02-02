@@ -1,0 +1,57 @@
+1. Создать bash скрипт для запуска нужного приложения.<br>
+2. Создать файл в /etc/systemd/system/<b>my_service</b>.service следующего содержания:<br>
+<hr id="system-readmore" />
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">[Unit]
+Description=A description my_service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /home/.../start_my_service.sh
+TimeoutStartSec=0
+
+[Install]
+WantedBy=default.target
+</pre></div>
+
+Перечитать сервисы:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo systemctl daemon-reload
+</pre></div>
+
+Включить сервис:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ systemctl enable <b>my_service</b>.service
+</pre></div>
+
+Проверить:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ systemctl --all | grep my_service.service
+my_service.service loaded    active   running A description my_service
+</pre></div>
+
+и
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ systemctl status my_service
+</pre></div>
+
+или
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ systemctl is-active my_service
+enabled
+</pre></div>
+
+или
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ systemctl is-enabled my_service
+enabled
+</pre></div>
+
+Старт сервиса:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ systemctl start my_service.service
+</pre></div>
+
+<h3>Ссылки:</h3>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://help.skysilk.com/support/solutions/articles/9000162390--basic-how-to-start-a-program-or-script-on-linux-automatically-on-boot-with-systemd"
+   target="_blank" rel="noopener noreferrer">https://help.skysilk.com/support/solutions/articles/9000162390--basic-how-to-start-a-program-or-script-on-linux-automatically-on-boot-with-systemd</a>
+<br/><br/>
+Раскрашенный log:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ grc tail -f /var/log/syslog
+</pre></div>
+

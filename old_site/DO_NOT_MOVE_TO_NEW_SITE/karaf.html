@@ -1,0 +1,51 @@
+Модульный karaf в микросервисе. Мозг в трубочку. А почему бы не кубер в bundle карафа? А может сразу windows в bundle? (были опыты запуска урезанного windows в bundle). Речь идет о модульной java. Модульная java? А это она! Karaf это реализация OSGi. OSGi - шина с <b>плагинами</b> (java-модулями, в терминах OSGi называется <b>bundle</b>),
+ктр. взаимодействуют между собой. Один bundle отправляет сообщение в шину через интерфейс, предоставленный шиной,
+а другой/другие bundle, ктр. заявляют, что могут реализовать интерфейс, обрабатывают сообщение.
+При этом источник даже не знает кому и сколько читателей. И еще одна фишка Karaf (может быть основная) замена функциональности без остановки всего сервиса.
+<hr id="system-readmore" />
+А почему я, вообще, поднял эту тему? А потому-что второй раз попался проект с Karaf в Kubernetes.
+Проект Eclipse RCP это реализация идеи OSGi. Eclipse RCP это десктопное плагинное приложение. Работает отлично!<br/>
+Karaf это реализация идей OSGi, но без десктопа, только шина и инструменты работы с ней.
+Идея использовать OSGi в микросервисе kubernetes выглядит как-то неоднозначно.
+Как должно делаться обновление plugin/bundle OSGi:
+<ul>
+    <li>Нужно подключиться к работающему приложению.</li>
+    <li>Установить из внешнего источника новый bundle.</li>
+    <li>Остановить старый bundle.</li>
+    <li>Запустить новый bundle.</li>
+    <li>Удалить старый bundle</li>
+</ul>
+В случае kubernetes эти операции нужно сделать в <b>каждом</b> микросервисе. А зачем? Kubernetes и сам справляется с этими задачами.
+Возникают специфические требования к devops службе. Зайти в <b>каждый</b> микросервис, где работает karaf,
+инсталировать и активировать новый bundle, остановить и удалить старый (или "забить" на него, их там много потом накапливается).
+Посмотреть логи. Причем bundle может и поднимется, а вот будет ли работать не факт, узнаем на проде. Для тестировщиков совсем закрытая тема.
+Использование "чистых" микросервисов (без karaf) гораздо жестче, надежнее и проще решает задачу ухода от монолита.
+На двух проектах пришлось позаниматься "убийством" karaf в kubernetes. Несложно оказалось.
+В Kubernetes мы завязаны только на json через REST сервис (http), а не на <b>interface java</b>. И java в отношении json  гораздо покладистее.
+Понятно, что есть и другие способы взаимодействия микросервисов.
+<br/>
+Почему же все таки karaf жив? А, действительно, удобно для небольшой компании.<br/>
+<b>Пример:</b> Один программист (ну или два). Kubernetes нет. Торговая система. Стартует новая торговая акция.
+Инсталируем и стартуем новый bundle с логикой новой торговой акции в karaf на сервере.
+И все работает, была остановлена только часть системы, связанная с торговой акцией.<br/>
+<b>Еще пример</b>: Десктоп приложение на Eclipse RCP. Не karaf, но OSGi. В Eclipse RCP другая реализация OSGi - <a
+        style="color: #3366ff; text-decoration: underline;"
+        href="https://eclipse.dev/equinox/" target="_blank"
+        rel="noopener noreferrer">Equinox</a>.
+Устанавкой плагинов, расширяем возможности приложения. С Eclipse plugin-ами многие знакомы.<br/><br/>
+Кстати, есть еще интересная штука <a href="https://cxf.apache.org/dosgi-architecture.html" target="_blank" rel="noopener noreferrer">DOSGi</a> - cвязывание двух или более bundle <b>через сеть</b>. Плагин(bundle) из одного karaf вызывает плагин, находящийся где-то в сети в другом karaf (
+<a
+    style="color: #3366ff; text-decoration: underline;"
+    href="https://github.com/cherepakhin/karaf-dosgi-test" target="_blank"
+    rel="noopener noreferrer">пример</a> ).<br/><br/>
+Избегать тупых ошибок помогал <a style="color: #3366ff; text-decoration: underline;" href="https://v.perm.ru/index.php/component/content/article/multi-module-project?catid=15" target="_blank" rel="noopener noreferrer">мультимодульный проект</a>. Работу в команде при этом, как-то плохо представляю. Точнее, у нас (3 backend разработчика) плохо получалось.
+
+<a id="links"></a>
+<h3 dir="auto" tabindex="-1">Ссылки:</h3>
+<ul>
+    <li><a href="https://java-online.ru/osgi.xhtml" target="_blank" rel="noopener noreferrer">Introduction to OSGi</a></li>
+    <li><a href="https://cxf.apache.org/dosgi-architecture.html" target="_blank" rel="noopener noreferrer">DOSGi in the OSGi spec</a></li>
+    <li><a href="https://www.baeldung.com/osgi" target="_blank" rel="noopener noreferrer">Introduction to OSGi</a></li>
+    <li><a href="https://habr.com/ru/companies/jetinfosystems/articles/324810/" target="_blank" rel="noopener noreferrer">Модульные приложения на Java. Как?</a></li>
+    <li><a href="https://v.perm.ru/index.php/component/content/article/multi-module-project?catid=15" target="_blank" rel="noopener noreferrer">Мультимодульный проект в idea</a></li>
+</ul>

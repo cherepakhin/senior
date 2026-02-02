@@ -1,0 +1,13 @@
+https://www.material-react-table.com/
+
+Примеры:
+https://www.material-react-table.com/docs/examples/basic
+
+https://github.com/KevinVandy/material-react-table/blob/v2/apps/material-react-table-docs/examples/editing-crud-modal/sandbox/src/TS.tsx
+
+Версия 1.
+https://v1.material-react-table.com/docs/examples/editing-crud
+
+Там же примеры кода на JavaScript и TypeScript.
+
+/home/vasi/prog/js/material-react-table/apps/material-react-table-docs/examples/basic/sandbox

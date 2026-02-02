@@ -1,0 +1,64 @@
+<h3>Curl</h3>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em; padding: .1em .1em;">
+<pre style="margin: 0; line-height: 125%;">$ curl --insecure https://192.168.1.20:8443/api/company/
+[{"n":-1,"name":"-"},{"n":1,"name":"Company 1"},{"n":2,"name":"Company 2"}]
+</pre>
+</div>
+<hr id="system-readmore" />
+Тестирование HTTPS:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em; padding: .1em .1em;">
+<pre style="margin: 0; line-height: 125%;">$ curl -k https://127.0.0.1:8443/api/echo/MESSAGE_ECHO
+[{"n":-1,"name":"-"},{"n":1,"name":"Company 1"},{"n":2,"name":"Company 2"}]
+</pre>
+</div>
+<br/>
+<h3>HTTPie</h3>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em; padding: .1em .1em;">
+<pre style="margin: 0; line-height: 125%;">$ http https://http.hexlet.app/http-api/example
+HTTP/1.1 200 OK
+Alt-Svc: h3=":443"; ma=2592000
+Content-Length: 5
+Content-Type: text/plain; charset=utf-8
+Server: Caddy
+Via: 1.1 Caddy
+
+Done!
+</pre>
+</div>
+Тестирование HTTPS:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em; padding: .1em .1em;">
+<pre style="margin: 0; line-height: 125%;">$ https --verify=no https://127.0.0.1:8443/api/echo/MESSAGE_ECHO
+HTTP/1.1 200
+Connection: keep-alive
+Content-Length: 12
+Content-Type: text/plain;charset=ISO-8859-1
+Vary: Origin, Access-Control-Request-Method, Access-Control-Request-Headers
+
+MESSAGE_ECHO
+</pre>
+</div>
+<br/>
+<h3>HTTPX (похожа на httpie)</h3>
+Установка:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em; padding: .1em .1em;">
+<pre style="margin: 0; line-height: 125%;">$ sudo apt install python3-httpx
+</pre>
+</div>
+Использование:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em; padding: .1em .1em;">
+<pre style="margin: 0; line-height: 125%;">$ httpx --no-verify https://127.0.0.1:8443/api/echo/MESSAGE_ECHO
+HTTP/1.1 200
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: text/plain;charset=ISO-8859-1
+Content-Length: 12
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+MESSAGE_ECHO
+</pre>
+</div>
+<br/>
+<h3>POSTMAN</h3>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Тестирование" src="images/rest-test/postman.png" alt="postman.png" /></p>

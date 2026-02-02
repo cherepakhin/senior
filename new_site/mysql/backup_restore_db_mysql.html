@@ -1,0 +1,31 @@
+<p>Backup и restore БД MySql в linux</p>
+
+<b>j3</b> - имя базы данных<br/>
+<b>root</b> - имя пользователя<br/>
+<h3>Backup:</h3>
+<hr id="system-readmore"/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ mysqldump -v -h127.0.0.1 -uroot -p j3 > /tmp/j3_dump.sql
+$ cd /tmp
+$ zip j3_dump.sql.zip j3_dump.sql
+$ rm j3_dump.sql
+</pre>
+</div>
+<h3>Restore (база данных <b>j3</b>):</h3>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ mysql -u root -p
+>pass: ***
+mysql> drop database j3;
+mysql> create database j3;
+mysql> use j3;
+mysql> source /tmp/j3_dump.sql
+</pre></div>
+Еще пример:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+# Пересоздание таблиц БД
+# hv - это хост host = v
+# evg - название базы данных MySql
+mysql --user=igor --password=pass evg -hv < ./create_db.sql
+# Загрузка данных
+mysql --user=igor --password=pass evg -hv < ./load_db.sql
+</pre></div>
+
+

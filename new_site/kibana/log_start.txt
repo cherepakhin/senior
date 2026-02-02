@@ -1,0 +1,83 @@
+vasi@v:~/temp/kibana$ wget https://mirror.yandex.ru/mirrors/elastic/8/pool/main/k/kibana/kibana-8.1.1-amd64.deb
+--2024-11-23 23:25:47--  https://mirror.yandex.ru/mirrors/elastic/8/pool/main/k/kibana/kibana-8.1.1-amd64.deb
+Resolving mirror.yandex.ru (mirror.yandex.ru)... 213.180.204.183, 2a02:6b8::183
+Connecting to mirror.yandex.ru (mirror.yandex.ru)|213.180.204.183|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 274041990 (261M) [application/octet-stream]
+Saving to: ‘kibana-8.1.1-amd64.deb’
+
+kibana-8.1.1-amd64. 100%[===================>] 261,35M  4,53MB/s    in 53s
+
+2024-11-23 23:26:41 (4,94 MB/s) - ‘kibana-8.1.1-amd64.deb’ saved [274041990/274041990]
+
+vasi@v:~/temp/kibana$
+vasi@v:~/po/kibana$ sudo dpkg -i kibana-8.1.1-amd64.deb
+
+476663 ?        Ssl    0:27 /usr/share/kibana/bin/../node/bin/node /usr/share/kibana/bin/../src/cli/dist
+
+http://127.0.0.1:5601/app/integrations/browse
+
+Работает! На v.perm.ru программа запуска:
+/usr/share/kibana/bin/../node/bin/node /usr/share/kibana/bin/../src/cli/dist
+http://192.168.1.20:5601/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))&_a=(columns:!(),filters:!(),index:security-solution-default,interval:auto,query:(language:kuery,query:''),sort:!())
+
+LOG:
+vasi@v:~/po/elasticsearch-8.1.1/config$ /usr/share/kibana/bin/../node/bin/node /usr/share/kibana/bin/../src/cli/dist
+[2024-11-24T01:25:33.174+05:00][INFO ][plugins-service] Plugin "metricsEntities" is disabled.
+[2024-11-24T01:25:33.257+05:00][INFO ][http.server.Preboot] http server running at http://0.0.0.0:5601
+[2024-11-24T01:25:33.365+05:00][INFO ][plugins-system.preboot] Setting up [1] plugins: [interactiveSetup]
+[2024-11-24T01:25:33.419+05:00][WARN ][config.deprecation] The default mechanism for Reporting privileges will work differently in future versions, which will affect the behavior of this cluster. Set "xpack.reporting.roles.enabled" to "false" to adopt the future behavior before upgrading.
+[2024-11-24T01:25:33.584+05:00][INFO ][plugins-system.standard] Setting up [112] plugins: [translations,licensing,globalSearch,globalSearchProviders,features,mapsEms,licenseApiGuard,usageCollection,taskManager,telemetryCollectionManager,telemetryCollectionXpack,kibanaUsageCollection,sharedUX,share,embeddable,uiActionsEnhanced,screenshotMode,screenshotting,banners,telemetry,newsfeed,fieldFormats,expressions,dataViews,charts,esUiShared,bfetch,data,savedObjects,presentationUtil,expressionShape,expressionRevealImage,expressionRepeatImage,expressionMetric,expressionImage,customIntegrations,home,searchprofiler,painlessLab,grokdebugger,management,watcher,licenseManagement,advancedSettings,spaces,security,savedObjectsTagging,reporting,lists,fileUpload,ingestPipelines,encryptedSavedObjects,dataEnhanced,cloud,snapshotRestore,eventLog,actions,alerting,triggersActionsUi,transform,stackAlerts,ruleRegistry,savedObjectsManagement,console,controls,graph,fleet,indexManagement,remoteClusters,crossClusterReplication,indexLifecycleManagement,visualizations,canvas,visTypeXy,visTypeVislib,visTypeVega,visTypeTimeseries,rollup,visTypeTimelion,visTypeTagcloud,visTypeTable,visTypeMetric,visTypeHeatmap,visTypeMarkdown,dashboard,maps,dashboardEnhanced,expressionTagcloud,expressionPie,visTypePie,expressionMetricVis,expressionHeatmap,expressionGauge,dataViewFieldEditor,lens,cases,timelines,discover,osquery,observability,discoverEnhanced,dataVisualizer,ml,uptime,securitySolution,infra,upgradeAssistant,monitoring,logstash,enterpriseSearch,apm,dataViewManagement]
+[2024-11-24T01:25:33.603+05:00][INFO ][plugins.taskManager] TaskManager is identified by the Kibana UUID: d4555a4e-2dce-4eb0-a314-22432dca8d0e
+[2024-11-24T01:25:33.751+05:00][WARN ][plugins.security.config] Generating a random key for xpack.security.encryptionKey. To prevent sessions from being invalidated on restart, please set xpack.security.encryptionKey in the kibana.yml or use the bin/kibana-encryption-keys command.
+[2024-11-24T01:25:33.751+05:00][WARN ][plugins.security.config] Session cookies will be transmitted over insecure connections. This is not recommended.
+[2024-11-24T01:25:33.774+05:00][WARN ][plugins.security.config] Generating a random key for xpack.security.encryptionKey. To prevent sessions from being invalidated on restart, please set xpack.security.encryptionKey in the kibana.yml or use the bin/kibana-encryption-keys command.
+[2024-11-24T01:25:33.774+05:00][WARN ][plugins.security.config] Session cookies will be transmitted over insecure connections. This is not recommended.
+[2024-11-24T01:25:33.791+05:00][WARN ][plugins.reporting.config] Generating a random key for xpack.reporting.encryptionKey. To prevent sessions from being invalidated on restart, please set xpack.reporting.encryptionKey in the kibana.yml or use the bin/kibana-encryption-keys command.
+[2024-11-24T01:25:33.793+05:00][WARN ][plugins.reporting.config] Found 'server.host: "0.0.0.0"' in Kibana configuration. Reporting is not able to use this as the Kibana server hostname. To enable PNG/PDF Reporting to work, 'xpack.reporting.kibanaServer.hostname: localhost' is automatically set in the configuration. You can prevent this message by adding 'xpack.reporting.kibanaServer.hostname: localhost' in kibana.yml.
+[2024-11-24T01:25:33.803+05:00][WARN ][plugins.encryptedSavedObjects] Saved objects encryption key is not set. This will severely limit Kibana functionality. Please set xpack.encryptedSavedObjects.encryptionKey in the kibana.yml or use the bin/kibana-encryption-keys command.
+[2024-11-24T01:25:33.817+05:00][WARN ][plugins.actions] APIs are disabled because the Encrypted Saved Objects plugin is missing encryption key. Please set xpack.encryptedSavedObjects.encryptionKey in the kibana.yml or use the bin/kibana-encryption-keys command.
+[2024-11-24T01:25:33.832+05:00][WARN ][plugins.alerting] APIs are disabled because the Encrypted Saved Objects plugin is missing encryption key. Please set xpack.encryptedSavedObjects.encryptionKey in the kibana.yml or use the bin/kibana-encryption-keys command.
+[2024-11-24T01:25:33.855+05:00][INFO ][plugins.ruleRegistry] Installing common resources shared between all indices
+[2024-11-24T01:25:34.695+05:00][INFO ][plugins.screenshotting.config] Chromium sandbox provides an additional layer of protection, and is supported for Linux Linux Mint 22 OS. Automatically enabling Chromium sandbox.
+[2024-11-24T01:25:34.981+05:00][INFO ][savedobjects-service] Waiting until all Elasticsearch nodes are compatible with Kibana before starting saved objects migrations...
+[2024-11-24T01:25:34.982+05:00][INFO ][savedobjects-service] Starting saved objects migrations
+[2024-11-24T01:25:35.183+05:00][INFO ][savedobjects-service] [.kibana] INIT -> OUTDATED_DOCUMENTS_SEARCH_OPEN_PIT. took: 180ms.
+[2024-11-24T01:25:35.396+05:00][INFO ][savedobjects-service] [.kibana] OUTDATED_DOCUMENTS_SEARCH_OPEN_PIT -> OUTDATED_DOCUMENTS_SEARCH_READ. took: 213ms.
+[2024-11-24T01:25:35.400+05:00][INFO ][savedobjects-service] [.kibana_task_manager] INIT -> OUTDATED_DOCUMENTS_SEARCH_OPEN_PIT. took: 394ms.
+[2024-11-24T01:25:35.653+05:00][INFO ][savedobjects-service] [.kibana] OUTDATED_DOCUMENTS_SEARCH_READ -> OUTDATED_DOCUMENTS_SEARCH_CLOSE_PIT. took: 257ms.
+[2024-11-24T01:25:35.655+05:00][INFO ][savedobjects-service] [.kibana_task_manager] OUTDATED_DOCUMENTS_SEARCH_OPEN_PIT -> OUTDATED_DOCUMENTS_SEARCH_READ. took: 255ms.
+[2024-11-24T01:25:36.021+05:00][INFO ][savedobjects-service] [.kibana] OUTDATED_DOCUMENTS_SEARCH_CLOSE_PIT -> UPDATE_TARGET_MAPPINGS. took: 368ms.
+[2024-11-24T01:25:36.045+05:00][INFO ][savedobjects-service] [.kibana_task_manager] OUTDATED_DOCUMENTS_SEARCH_READ -> OUTDATED_DOCUMENTS_SEARCH_CLOSE_PIT. took: 390ms.
+[2024-11-24T01:25:36.676+05:00][INFO ][savedobjects-service] [.kibana_task_manager] OUTDATED_DOCUMENTS_SEARCH_CLOSE_PIT -> UPDATE_TARGET_MAPPINGS. took: 631ms.
+[2024-11-24T01:25:36.823+05:00][INFO ][savedobjects-service] [.kibana] UPDATE_TARGET_MAPPINGS -> UPDATE_TARGET_MAPPINGS_WAIT_FOR_TASK. took: 802ms.
+[2024-11-24T01:25:36.909+05:00][INFO ][savedobjects-service] [.kibana_task_manager] UPDATE_TARGET_MAPPINGS -> UPDATE_TARGET_MAPPINGS_WAIT_FOR_TASK. took: 233ms.
+[2024-11-24T01:25:37.130+05:00][INFO ][savedobjects-service] [.kibana] UPDATE_TARGET_MAPPINGS_WAIT_FOR_TASK -> DONE. took: 307ms.
+[2024-11-24T01:25:37.131+05:00][INFO ][savedobjects-service] [.kibana] Migration completed after 2128ms
+[2024-11-24T01:25:37.212+05:00][INFO ][savedobjects-service] [.kibana_task_manager] UPDATE_TARGET_MAPPINGS_WAIT_FOR_TASK -> DONE. took: 303ms.
+[2024-11-24T01:25:37.213+05:00][INFO ][savedobjects-service] [.kibana_task_manager] Migration completed after 2207ms
+[2024-11-24T01:25:37.535+05:00][INFO ][plugins-system.preboot] Stopping all plugins.
+[2024-11-24T01:25:37.536+05:00][INFO ][plugins-system.standard] Starting [112] plugins: [translations,licensing,globalSearch,globalSearchProviders,features,mapsEms,licenseApiGuard,usageCollection,taskManager,telemetryCollectionManager,telemetryCollectionXpack,kibanaUsageCollection,sharedUX,share,embeddable,uiActionsEnhanced,screenshotMode,screenshotting,banners,telemetry,newsfeed,fieldFormats,expressions,dataViews,charts,esUiShared,bfetch,data,savedObjects,presentationUtil,expressionShape,expressionRevealImage,expressionRepeatImage,expressionMetric,expressionImage,customIntegrations,home,searchprofiler,painlessLab,grokdebugger,management,watcher,licenseManagement,advancedSettings,spaces,security,savedObjectsTagging,reporting,lists,fileUpload,ingestPipelines,encryptedSavedObjects,dataEnhanced,cloud,snapshotRestore,eventLog,actions,alerting,triggersActionsUi,transform,stackAlerts,ruleRegistry,savedObjectsManagement,console,controls,graph,fleet,indexManagement,remoteClusters,crossClusterReplication,indexLifecycleManagement,visualizations,canvas,visTypeXy,visTypeVislib,visTypeVega,visTypeTimeseries,rollup,visTypeTimelion,visTypeTagcloud,visTypeTable,visTypeMetric,visTypeHeatmap,visTypeMarkdown,dashboard,maps,dashboardEnhanced,expressionTagcloud,expressionPie,visTypePie,expressionMetricVis,expressionHeatmap,expressionGauge,dataViewFieldEditor,lens,cases,timelines,discover,osquery,observability,discoverEnhanced,dataVisualizer,ml,uptime,securitySolution,infra,upgradeAssistant,monitoring,logstash,enterpriseSearch,apm,dataViewManagement]
+[2024-11-24T01:25:38.224+05:00][INFO ][plugins.fleet] Beginning fleet setup
+[2024-11-24T01:25:38.248+05:00][INFO ][plugins.monitoring.monitoring] config sourced from: production cluster
+[2024-11-24T01:25:39.615+05:00][INFO ][http.server.Kibana] http server running at http://0.0.0.0:5601
+[2024-11-24T01:25:39.907+05:00][INFO ][plugins.monitoring.monitoring.kibana-monitoring] Starting monitoring stats collection
+[2024-11-24T01:25:39.920+05:00][INFO ][plugins.ruleRegistry] Installed common resources shared between all indices
+[2024-11-24T01:25:39.920+05:00][INFO ][plugins.ruleRegistry] Installing resources for index .alerts-observability.uptime.alerts
+[2024-11-24T01:25:39.921+05:00][INFO ][plugins.ruleRegistry] Installing resources for index .alerts-security.alerts
+[2024-11-24T01:25:39.921+05:00][INFO ][plugins.ruleRegistry] Installing resources for index .preview.alerts-security.alerts
+[2024-11-24T01:25:39.921+05:00][INFO ][plugins.ruleRegistry] Installing resources for index .alerts-observability.logs.alerts
+[2024-11-24T01:25:39.921+05:00][INFO ][plugins.ruleRegistry] Installing resources for index .alerts-observability.metrics.alerts
+[2024-11-24T01:25:39.922+05:00][INFO ][plugins.ruleRegistry] Installing resources for index .alerts-observability.apm.alerts
+[2024-11-24T01:25:40.077+05:00][INFO ][plugins.ruleRegistry] Installed resources for index .alerts-observability.apm.alerts
+[2024-11-24T01:25:40.079+05:00][INFO ][plugins.ruleRegistry] Installed resources for index .alerts-observability.metrics.alerts
+[2024-11-24T01:25:40.080+05:00][INFO ][plugins.ruleRegistry] Installed resources for index .alerts-observability.logs.alerts
+[2024-11-24T01:25:40.081+05:00][INFO ][plugins.ruleRegistry] Installed resources for index .alerts-security.alerts
+[2024-11-24T01:25:40.081+05:00][INFO ][plugins.ruleRegistry] Installed resources for index .alerts-observability.uptime.alerts
+[2024-11-24T01:25:40.170+05:00][INFO ][plugins.ruleRegistry] Installed resources for index .preview.alerts-security.alerts
+[2024-11-24T01:25:40.265+05:00][INFO ][plugins.fleet] Fleet setup completed
+[2024-11-24T01:25:40.282+05:00][INFO ][plugins.securitySolution] Dependent plugin setup complete - Starting ManifestTask
+[2024-11-24T01:25:40.899+05:00][INFO ][status] Kibana is now degraded
+[2024-11-24T01:25:44.232+05:00][INFO ][status] Kibana is now available (was degraded)
+[2024-11-24T01:25:44.237+05:00][INFO ][plugins.screenshotting.chromium] Browser executable: /usr/share/kibana/x-pack/plugins/screenshotting/chromium/headless_shell-linux_x64/headless_shell
+

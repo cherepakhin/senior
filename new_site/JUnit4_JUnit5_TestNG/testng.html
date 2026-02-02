@@ -1,0 +1,38 @@
+TestNG - еще одна система тестирвания. Можно использовать для интеграционных тестов.
+<a title="https://www.baeldung.com/testng"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank"
+   href="https://www.baeldung.com/testng"
+   rel="noopener noreferrer">https://www.baeldung.com/testng</a>
+Пример с DataProvider:
+<hr id="system-readmore" />
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@DataProvider(name = <span style="color: #0000FF">"numbers"</span>)
+<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">static</span> Object[][] evenNumbers() {
+    <span style="color: #000080; font-weight: bold">return</span> <span style="color: #000080; font-weight: bold">new</span> Object[][]{{<span style="color: #0000FF">1</span>, <span style="color: #000080; font-weight: bold">false</span>}, {<span style="color: #0000FF">2</span>, <span style="color: #000080; font-weight: bold">true</span>}, {<span style="color: #0000FF">4</span>, <span style="color: #000080; font-weight: bold">true</span>}};
+}
+
+@Test(dataProvider = <span style="color: #0000FF">"numbers"</span>)
+<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span>
+  givenNumberFromDataProvider_ifEvenCheckOK_thenCorrect(Integer number, <span style="color: #000080; font-weight: bold">boolean</span> expected) {
+    assertEquals(expected, number % <span style="color: #0000FF">2</span> == <span style="color: #0000FF">0</span>);
+}
+</pre></div>
+Еще пример с DataProvider:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@Test(dataProvider = <span style="color: #0000FF">"numbersObject"</span>)
+<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> givenNumberObjectFromDataProvider_ifEvenCheckOK_thenCorrect(EvenNumber number) {
+    assertEquals(number.<span style="color: #FF0000">isEven</span>(), number.<span style="color: #FF0000">getValue</span>() % <span style="color: #0000FF">2</span> == <span style="color: #0000FF">0</span>);
+}
+
+@DataProvider(name = <span style="color: #0000FF">"numbersObject"</span>)
+<span style="color: #000080; font-weight: bold">public</span> Object[][] parameterProvider() {
+    <span style="color: #000080; font-weight: bold">return</span> <span style="color: #000080; font-weight: bold">new</span> Object[][]{{<span style="color: #000080; font-weight: bold">new</span> EvenNumber(<span style="color: #0000FF">1</span>, <span style="color: #000080; font-weight: bold">false</span>)},
+      {<span style="color: #000080; font-weight: bold">new</span> EvenNumber(<span style="color: #0000FF">2</span>, <span style="color: #000080; font-weight: bold">true</span>)}, {<span style="color: #000080; font-weight: bold">new</span> EvenNumber(<span style="color: #0000FF">4</span>, <span style="color: #000080; font-weight: bold">true</span>)}};
+}
+</pre></div>
+Ссылки:<br/>
+<a title="TestNG @DataProvider for Repeated Tests" href="https://howtodoinjava.com/testng/testng-dataprovider/"
+   target="_blank" rel="noopener noreferrer">
+    <strong>TestNG @DataProvider for Repeated Tests</strong>
+</a>
+<br/>
+

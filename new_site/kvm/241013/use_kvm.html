@@ -1,0 +1,194 @@
+Ниже описано <b>использование</b> KVM. Это не руководство по установке. Установка описана в <a style="color: #3366ff; text-decoration: underline;" target="_blank" tabindex="-1" href="https://v.perm.ru/index.php/instrumenty-devops/win-lin-kvm">https://v.perm.ru/index.php/instrumenty-devops/win-lin-kvm</a>.<br/>
+Дано:
+<ul>
+ <li>"Сервер" - Intel(R) Core(TM) <b>i5</b>-3450 CPU @ 3.10GHz, <b>RAM 12 Gb</b>, LinuxMint</li>
+ <li>"Клиент" - Intel(R) Core(TM) <b>i7</b>-2640M CPU @ 2.80GHz, <b>RAM 16 Gb</b>, LinuxMint</li>
+</ul>
+
+<h3>Запуск службы на сервере:</h3>
+<hr id="system-readmore"/>
+Запуск службы:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+vasi@v:~$ sudo systemctl start libvirtd.service
+</pre></div>
+Либо запустить службу вручную:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+vasi@v:~$ sudo libvirtd
+ 13:06:20.819+0000: 6429: info : libvirt version: 10.0.0, package: 10.0.0-2ubuntu8.4 (Ubuntu)
+ 13:06:20.819+0000: 6429: info : hostname: v.perm.ru
+ 13:06:20.819+0000: 6429: warning : virSecurityManagerNew:194 : Configured security driver "none" disables default policy to create confined guests
+ 13:10:20.635+0000: 7733: info : libvirt version: 10.0.0, package: 10.0.0-2ubuntu8.4 (Ubuntu)
+ 13:10:20.635+0000: 7733: info : hostname: v.perm.ru
+ 13:10:20.635+0000: 7733: warning : virSecurityValidateTimestamp:205 : Invalid XATTR timestamp detected on /var/lib/libvirt/images/win10.qcow2 secdriver=dac
+ 16:44:02.597+0000: 7734: error : qemuMonitorIORead:419 : Unable to read from monitor: Connection reset by peer
+ 16:44:06.018+0000: 6414: warning : virProcessGetStatInfo:1788 : cannot parse process status data
+ 16:45:22.764+0000: 13236: info : libvirt version: 10.0.0, package: 10.0.0-2ubuntu8.4 (Ubuntu)
+ 16:45:22.764+0000: 13236: info : hostname: v.perm.ru
+ 16:45:22.764+0000: 13236: warning : virSecurityValidateTimestamp:205 : Invalid XATTR timestamp detected on /var/lib/libvirt/qemu/domain-3-win10/master-key.aes secdriver=dac
+ 16:55:41.305+0000: 13248: error : qemuMonitorIORead:419 : Unable to read from monitor: Connection reset by peer
+</pre></div>
+<br/>
+<h3>Подключение из ноутбука:</h3>
+<h4>Способ 1 (из меню)</h4>
+В ноуте запустить "Администрирование/Менеджер виртуальных машин"
+Будет запрошен пароль для vasi на v.perm.ru (B..67)
+Откроется окно:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Virtual Machine Manager" src="images/kvm/kvm_step1.png"
+        alt="Virtual Machine Manager" width="547" height="302"/></p>
+На сервере устаовлено 2 виртуальные машины, одна с Linux, вторая с Windows 10.<br/>
+Запустить win10 на v.perm.ru (B..67)
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Virtual Machine Manager" src="images/kvm/kvm_step2.png"
+        alt="Virtual Machine Manager" width="547" height="302"/></p>
+
+Поключиться с vasi/b..o.<br/>
+
+<h4>Способ 2 (из ком.строки)</h4>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">vasi@vasi-note:$ virt-manager -c 'qemu+ssh://vasi@192.168.1.20:22/system?keyfile=id_rsa'
+</pre></div>
+После ввода пароля от ssh 192.168.1.20 откроется окно
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Virtual Machine Manager" src="images/kvm/kvm_step2.png"
+        alt="Virtual Machine Manager" width="547" height="302"/></p>
+Подключаться с vasi/b..o.<br/>
+
+<h4>Virsh</h4>
+Virsh - инструмент управления виртуальными машинами из коммандной строки.<br/>
+Получение общей информации:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo virsh nodeinfo
+CPU model:           x86_64
+CPU(s):              4
+CPU frequency:       3399 MHz
+CPU socket(s):       1
+Core(s) per socket:  4
+Thread(s) per core:  1
+NUMA cell(s):        1
+Memory size:         11924680 KiB
+</pre></div>
+
+Показать все виртуальные машины:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo virsh list --all
+ Id   Name          State
+------------------------------
+ 2    win10         running
+ -    linux2022     shut off
+ -    win10-clone   shut off
+</pre></div>
+Старт машины:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo virsh start win10
+Domain 'win10' started
+</pre></div>
+Показать только запущенные виртуальные машины:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo virsh list
+ Id   Name    State
+-----------------------
+ 2    win10   running
+</pre></div>
+Остановка машины:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo virsh shutdown win10
+Domain 'win10' started
+</pre></div>
+
+Перезагрузка машины:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo virsh reboot win10
+</pre></div>
+
+Переименование машины:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ virsh domrename currentname  newname
+</pre></div>
+
+Изменение конфигурации:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo virsh edit win10
+</pre></div>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="idea_multi_module" src="images/kvm/virsh_edit.png"
+        alt="allure_result_test" width="832" height="408"/></p>
+
+Есть еще создание и удаление машины.<br/>
+Сохранение текущего состояния:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo virsh save win10 win10.saved
+</pre></div>
+
+Восстановление из сохраненного состояния:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo restore win10.saved
+ Domain restored from win10
+</pre></div>
+
+Список volume:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo virsh vol-list --pool default
+Name                Path
+----------------------------------------------------------------
+linux2022.qcow2     /var/lib/libvirt/images/linux2022.qcow2
+linux_iso           /var/lib/libvirt/images/linux_iso
+win10-clone.qcow2   /var/lib/libvirt/images/win10-clone.qcow2
+win10.qcow2         /var/lib/libvirt/images/win10.qcow2
+</pre></div>
+
+Создание снимков:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">sudo virsh snapshot-create-as \
+  --domain test \
+  --name "test_vm_snapshot1" \
+  --description "test vm snapshot 1-working"
+</pre></div>
+
+Другие команды, которые пригодятся:<br/>
+Из linux полезная команда (аналог df -h):
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ lsblk --output NAME,SIZE,TYPE
+NAME     SIZE TYPE
+sda    372,6G disk
+├─sda1     1M part
+├─sda2   513M part
+└─sda3 372,1G part
+sdb    232,9G disk
+└─sdb1 232,9G part
+
+$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+tmpfs           1,2G  3,0M  1,2G   1% /run
+/dev/sda3       366G  122G  226G  35% /
+tmpfs           5,7G   96M  5,6G   2% /dev/shm
+tmpfs           5,0M  8,0K  5,0M   1% /run/lock
+tmpfs           5,7G     0  5,7G   0% /run/qemu
+/dev/sda2       512M  6,2M  506M   2% /boot/efi
+tmpfs           1,2G  196K  1,2G   1% /run/user/1000
+</pre></div>
+Есть команды создания и удаления дисков,
+изменения размера. На пример, увеличить размер диска на 1Gb:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">sudo qemu-img resize /var/lib/libvirt/images/test.qcow2 +1G
+</pre></div>
+
+Клонирование:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ sudo virt-clone --connect qemu:///system \
+--original linux2022 \
+--name linux2022_clone \
+--file /var/lib/libvirt/images/linux2022_clone.qcow2
+
+Allocating 'linux2022_clone'       |  10 GB  00:00:06
+Clone 'linux2022_clone' created successfully.
+</pre></div>
+
+
+<h3>Примечания:</h3>
+<ul>
+ <li>Памяти для запуска <b>ДВУХ</b> виртуальных машин на моем сервере маловато. Запущено 2 машины - linux (выделено RAM 2GB) и Windows&nbsp;10&nbsp;Стандартная (выделено RAM 4GB).
+  Из команды <b>top</b> на хостовой машине:
+  <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Virtual Machine Manager" src="images/kvm/memory_used.png"
+          alt="Virtual Machine Manager" width="818" height="157"/></p></li>
+ <li>К Win10 можно было бы подключиться используя "Удаленный рабочий стол", а не через возню с KVM, но в версии Windows <b>Домашняя</b> эта служба не предусмотрена. Почему "Домашняя"? Потому что на нее у меня есть лицензия. В версиях Prof и выше есть сервис "Удаленный рабочий стол". "Удаленный помощник", если не ошибаюсь, использует сервисы компании Microsoft.</li>
+ <li>Зачем весь этот гемор? При трудоустройстве разработчиком Kotlin в одну из компаний, оказалось <b>ОБЯЗАТЕЛЬНО НУЖНО</b> работать из Windows, т.к. на аппаратный ключ шифрования были только Windows драйвера.</li>
+ <li>Для работы с гостевыми файловыми системами нужно установить:<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">sudo apt install libguestfs-tools</pre></div>
+  <a style="color: #3366ff; text-decoration: underline;" target="_blank" tabindex="-1" href="https://github.com/libguestfs/guestfs-tools">https://github.com/libguestfs/guestfs-tools</a>,<br/>
+  <a style="color: #3366ff; text-decoration: underline;" target="_blank" tabindex="-1" href="https://www.redhat.com/sysadmin/libguestfs-manage-vm">Use libguestfs to manage virtual machine disk images</a>
+ </li>
+ <li>Для обмена файлами между гостевой машиной с Windows 10, На основной Linux машине развернут сервис Samba.</li>
+</ul>
+<h3>Вариант работы с ноутбука</h3><br/>
+1. Запустить Менеджер виртуальных машин с ноута.
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Virtual Machine Manager" src="images/kvm/kvm1.jpg"
+        alt="Virtual Machine Manager" width="575" height="550"/></p>
+2. Выбрать виртуальную машину win10 и запустить ее.<br/>
+3. Вид -> Во весь экран
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="Virtual Machine Manager" src="images/kvm/kvm2.jpg"
+        alt="Virtual Machine Manager" width="1280" height="667"/></p>
+<h3>Ссылки:</h3>
+<ul>
+ <li><a style="color: #3366ff; text-decoration: underline;" target="_blank" tabindex="-1" href="https://v.perm.ru/index.php/instrumenty-devops/win-lin-kvm">Windows из Linux KVM</a></li>
+ <li><a style="color: #3366ff; text-decoration: underline;" target="_blank" tabindex="-1" href="https://computingforgeeks.com/virsh-commands-cheatsheet/">Virsh commands cheatsheet to manage KVM guest virtual machines</a></li>
+</ul>

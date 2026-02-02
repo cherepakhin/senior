@@ -1,0 +1,119 @@
+Установка описана в <a style="text-decoration: underline; color: #3366ff;" href="https://www.dmosk.ru/miniinstruktions.php?mini=kafka-linux"
+                       target="_blank" rel="noopener noreferrer">https://www.dmosk.ru/miniinstruktions.php?mini=kafka-linux</a>.<br/>
+Дистрибутив Kafka: <a style="text-decoration: underline; color: #3366ff;" href="https://downloads.apache.org/kafka/"
+                      target="_blank" rel="noopener noreferrer">https://downloads.apache.org/kafka/</a><br/>
+Скачать <a style="text-decoration: underline; color: #3366ff;" href="https://downloads.apache.org/kafka/3.6.2/kafka_2.12-3.6.2.tgz"
+           target="_blank" rel="noopener noreferrer">https://downloads.apache.org/kafka/3.6.2/kafka_2.12-3.6.2.tgz</a><br/>
+<hr id="system-readmore"/>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ cd ~/tools
+$ mkdir ~/tools/kafka
+$ cd ~/tools/kafka
+~/tools/kafka$ wget https://downloads.apache.org/kafka/3.6.2/kafka_2.12-3.6.2.tgz
+~/tools/kafka$ tar zxf kafka_*.tgz  --strip 1
+~/tools/kafka$ ll
+total 111400
+drwxrwxr-x 7 vasi vasi      4096 Oct  2 16:55 ./
+drwxrwxr-x 7 vasi vasi      4096 Oct  2 16:47 ../
+drwxr-xr-x 3 vasi vasi      4096 Mar 28  2024 bin/
+drwxr-xr-x 3 vasi vasi      4096 Mar 28  2024 config/
+-rw-rw-r-- 1 vasi vasi 113986658 Apr  4 21:47 kafka_2.12-3.6.2.tgz
+drwxr-xr-x 2 vasi vasi     12288 Oct  2 16:55 libs/
+-rw-r--r-- 1 vasi vasi     15165 Mar 28  2024 LICENSE
+drwxr-xr-x 2 vasi vasi      4096 Mar 28  2024 licenses/
+-rw-r--r-- 1 vasi vasi     28184 Mar 28  2024 NOTICE
+drwxr-xr-x 2 vasi vasi      4096 Mar 28  2024 site-docs/
+</pre></div>
+
+В config/server.properties добавим строку (для разрешения удаления темы):
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">delete.topic.enable = true
+</pre></div>
+
+Файл запуска сервиса zookeeper (/etc/systemd/system/zookeeper.service):
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">[Unit]
+Description=Zookeeper Service
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target
+
+[Service]
+Type=simple
+User=kafka
+ExecStart=/home/vasi/tools/kafka/bin/zookeeper-server-start.sh /home/vasi/tools/kafka/config/zookeeper.properties
+ExecStop=/home/vasi/tools/kafka/bin/zookeeper-server-stop.sh
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+</pre></div>
+
+Файл запуска сервиса kafka (/etc/systemd/system/kafka.service):
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+[Unit]
+Description=Kafka Service
+Requires=zookeeper.service
+After=zookeeper.service
+
+[Service]
+Type=simple
+User=kafka
+ExecStart=/bin/sh -c '/opt/kafka/bin/kafka-server-start.sh /home/vasi/tools/kafka/config/server.properties > /home/vasi/tools/kafka/kafka.log 2>&1'
+ExecStop=/home/vasi/tools/kafka/bin/kafka-server-stop.sh
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+</pre></div>
+
+Перечитать сервисы:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ systemctl daemon-reload
+</pre></div>
+И запустить:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ systemctl enable zookeeper kafka
+</pre></div>
+Проверить, что сервис запустился и работает на порту 9092:
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ ss -tunlp | grep :9092
+
+tcp LISTEN  0    50     *:9092  *:* users:(("java",pid=9324,fd=153))
+</pre></div>
+
+Проверка отправки сообщения.
+Создание топика:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ /home/vasi/tools/kafka/bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic Test
+</pre></div>
+Оправка сообщения:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ echo "Hello, World from Kafka" | /home/vasi/tools/kafka/bin/kafka-console-producer.sh --broker-list 192.168.1.20:9092 --topic Test
+</pre></div>
+Прием сообщения:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">$ /home/vasi/tools/kafka/bin/kafka-console-consumer.sh --bootstrap-server 192.168.1.20:9092 --topic Test --from-beginning
+</pre></div>
+С удаленной машины тоже работает.
+<h3>Ссылки:</h3>
+Простой producer на <b>Java</b> <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/kafka-producer"
+                            target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/kafka-producer</a>.<br/>
+Прием сообщения с <b>Java</b> и <b>Camel</b> <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/camel_kafka_consumer_extdto"
+                                  target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/camel_kafka_consumer_extdto</a>.<br/>
+Простой проект на <b>Kotlin</b> и <b>Spring Boot</b> для отправки сообщений в очередь Kafka <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/shop_kafka_producer"
+                                                                                 target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/shop_kafka_producer</a>.<br/>
+Простой проект на <b>Kotlin</b> и <b>Spring Boot</b> для приема сообщений из очереди Kafka <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/shop_kafka_consumer"
+                                                                                target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/shop_kafka_consumer</a>.<br/>
+Передатчик из kafka в <b>Elasticsearch</b> <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/kafka-to-es"
+                                       target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/kafka-to-es</a>.<br/>
+
+В проекте <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/camel_kafka_consumer_extdto"
+             target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/camel_kafka_consumer_extdto</a> проведены <b>нагрузочные</b> испытания с помощью <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/yandex/yandex-tank"
+                                                                                                                                                                          target="_blank" rel="noopener noreferrer">yandex-tank</a>.<br/>
+В <a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/index.php/instrumenty-devops/ui-dla-kafka"
+     target="_blank" rel="noopener noreferrer">https://v.perm.ru/index.php/instrumenty-devops/ui-dla-kafka</a>  рассмотрена работа с UI интрументами Kafka.<br/>

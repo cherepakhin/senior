@@ -1,0 +1,62 @@
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+$ docker pull rabbitmq
+$ docker run -d --hostname my-rabbit --name some-rabbit rabbitmq:3-management
+</pre></div>
+<hr id="system-readmore" />
+
+Доступ к RabbitMQ: <a href="http://172.17.0.2:15672" rel="nofollow">http://172.17.0.2:15672</a><br/>
+<ul>
+    <li>Login: guest</li>
+    <li>Password: guest</li>
+</ul>
+
+<p><span style="font-weight: 400;">
+    <img class="pull-center" src="images/rabbitmq/rabbit_docker1.png" alt="rabbit_docker1.png" />
+</span></p>
+Проверка из командной строки:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+curl -s -u guest:guest http://172.17.0.2:15672/api/vhosts | jq
+[
+    {
+        "cluster_state": {
+            "rabbit@my-rabbit": "running"
+        },
+        "default_queue_type": "undefined",
+        "description": "Default virtual host",
+        "metadata": {
+            "description": "Default virtual host",
+            "tags": []
+        },
+        "name": "/",
+        "tags": [],
+        "tracing": false
+    }
+]
+</pre></div>
+
+или с HTTPie:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+$ http --auth guest:guest http://172.17.0.2:15672/api/vhosts | jq
+[
+    {
+    "cluster_state": {
+        "rabbit@my-rabbit": "running"
+    },
+    "default_queue_type": "undefined",
+    "description": "Default virtual host",
+    "metadata": {
+        "description": "Default virtual host",
+        "tags": []
+    },
+    "name": "/",
+    "tags": [],
+    "tracing": false
+    }
+]
+</pre></div>
+
+
+
+
+
+

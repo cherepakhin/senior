@@ -1,0 +1,157 @@
+-----------------------
+TanStack
+React
+https://blog.openreplay.com/tanstack--how-to-add-tables-to-your-react-app/
+https://github.com/TanStack/table
+https://muhimasri.com/blogs/react-editable-table/
+https://tanstack.com/table/latest/docs/framework/react/examples/basic
+Tanstack: How To Add Tables To Your React App (https://blog.openreplay.com/tanstack--how-to-add-tables-to-your-react-app/)
+
+-----------------------
+Kafka UI (пример использования TanStack)
+~/prog/js/1/kafka-ui
+
+from '@tanstack/react-table'; (/home/vasi/prog/js/1/kafka-ui/kafka-ui-react-app/src/components/common/NewTable/Table.tsx (TSX!!!))
+
+import {
+  flexRender,
+  getCoreRowModel,
+  getExpandedRowModel,
+  getSortedRowModel,
+  useReactTable,
+  getPaginationRowModel,
+} from '@tanstack/react-table';
+import type {
+  Row,
+  SortingState,
+  OnChangeFn,
+  PaginationState,
+  ColumnDef,
+} from '@tanstack/react-table';
+
+
+Демо:
+vasi@v ~/tools/kafka_ui $ ./start.sh
+
+Исходники:
+~/prog/js/1/kafka-ui$
+
+Пример 1 (NewTable это доработка TanStack table для задач проекта):
+/home/vasi/prog/js/1/kafka-ui/kafka-ui-react-app/src/components/common/NewTable/Table.tsx
+(в 77 строке описание доработки и в доке ссылки на ориг.док-ию)
+import React from 'react';
+import {
+  flexRender,
+  getCoreRowModel,
+  getExpandedRowModel,
+  getSortedRowModel,
+  useReactTable,
+  getPaginationRowModel,
+} from '@tanstack/react-table';
+
+// Определение колонок
+import { CellContext, ColumnDef } from '@tanstack/react-table';
+  const columns = React.useMemo<ColumnDef<BrokerConfig>[]>(
+    () => [
+      { header: 'Key', accessorKey: 'name' },
+      {
+        header: 'Value',
+        accessorKey: 'value',
+        cell: renderCell,
+      },
+      {
+        // eslint-disable-next-line react/no-unstable-nested-components
+        header: () => {
+          return (
+            <S.Source>
+              Source
+              <Tooltip
+                value={<InfoIcon />}
+                content={tooltipContent}
+                placement="top-end"
+              />
+            </S.Source>
+          );
+        },
+        accessorKey: 'source',
+      },
+    ],
+    []
+  );
+
+  return (
+    <>
+      <S.SearchWrapper>
+        <Search
+          onChange={setKeyword}
+          placeholder="Search by Key"
+          value={keyword}
+        />
+      </S.SearchWrapper>
+      <Table columns={columns} data={dataSource} />
+    </>
+  );
+-----------------------
+Пример 2:
+
+/home/vasi/prog/js/1/kafka-ui/kafka-ui-react-app/src/components/Brokers/Broker/Configs/Configs.tsx
+
+http://192.168.1.20:8960/ui/clusters/local/brokers/0/configs
+
+Определение таблицы с колонками (см.выше const columns) и данными (data = {dataSource}):
+      <Table columns={columns} data={dataSource} />
+  // columns
+  const columns = React.useMemo<ColumnDef<BrokerConfig>[]>(
+    () => [
+      {                                         // COLUMN "Key"
+        header: 'Key',                          // column name
+        accessorKey: 'name'
+      },
+      {                                         // COLUMN "Value"
+        header: 'Value',                        // column name
+        accessorKey: 'value',
+        cell: renderCell,
+      },
+      {                                         // COLUMN "Source"
+        // eslint-disable-next-line react/no-unstable-nested-components
+        header: () => {
+          return (
+            <S.Source>
+              Source                            // column name
+              <Tooltip
+                value={<InfoIcon />}
+                content={tooltipContent}
+                placement="top-end"
+              />
+            </S.Source>
+          );
+        },
+        accessorKey: 'source',
+      },
+    ],
+    []
+  );
+
+  // dataSource
+  const dataSource = React.useMemo(() => getData(), [data, keyword]); // на keyword пока не обращать внимание. Это фильтр НАЗВАНИЙ свойств по образцу. useMemo() - кеширование
+  Попробовать просто: const dataSource = getData() => {...}
+
+  Получение данных:
+  const { data = [] } = useBrokerConfig(clusterName, Number(brokerId));
+
+  const getData = () => {
+    return data
+      .filter((item) => item.name.toLocaleLowerCase().indexOf(keyword) > -1) // filter ПОКА не нужен?
+      .sort((a, b) => {
+        if (a.source === b.source) return 0;
+
+        return a.source === ConfigSource.DYNAMIC_BROKER_CONFIG ? -1 : 1;
+      });
+  };
+
+-----------------------
+Пример 3:
+
+Example: /home/vasi/prog/js/material-react-table/apps/material-react-table-docs/examples/basic/sandbox
+
+http://localhost:5173/
