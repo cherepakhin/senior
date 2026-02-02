@@ -1,0 +1,131 @@
+<b>Dagger</b> — фреймворк для внедрения зависимостей (Dependency Injection, DI) в приложения на платформе Java. Разрабатывался компанией Square, но сейчас поддерживается Google.
+<br/>
+<h3>Задачи Dagger</h3>
+
+<ul>
+    <li>Автоматическое внедрение зависимостей в объекты (классы, интерфейсы, контексты и другие объекты);</li>
+    <li>Управление жизненным циклом зависимостей;</li>
+    <li>Создание синглтонов (единственных экземпляров) или одноразовых зависимостей (создаются новые экземпляры при каждом запросе);</li>
+    <li>Обработка сложных зависимостей;</li>
+    <li>Модульное тестирование (возможность заменять реальные зависимости на фиктивные или подставные объекты).</li>
+</ul>
+<hr id="system-readmore" />
+
+<h3>Особенности</h3>
+<ul>
+    <li>проверяет зависимости на этапе компиляции, в отличие от некоторых других фреймворков, которые используют рефлексию;</li>
+    <li>генерирует код, который обрабатывает создание и предоставление зависимостей в соответствии с определёнными правилами;</li>
+</ul>
+
+<h3>Аннотации</h3>
+
+Dagger использует аннотации, чтобы пометить классы и методы, которые участвуют в процессе внедрения зависимостей. Некоторые распространённые аннотации:
+<ul>
+    <li><b>@Component</b> — используется для __интерфейса__, который объединяет части процесса внедрения зависимостей ([com.sample.app.components.DataPrinterComponent](src/main/java/com/sample/app/components/DataPrinterComponent.java)).</li>
+    <li><b>@Module</b> — отмечает модули и классы программного средства ([com.sample.app.modules.DependenciesProviderModule](src/main/java/com/sample/app/modules/DependenciesProviderModule.java)) .</li>
+    <li><b>@Provides</b> — этой аннотацией помечаются методы предоставления зависимостей внутри модулей ([com.sample.app.modules.DependenciesProviderModule](src/main/java/com/sample/app/modules/DependenciesProviderModule.java)).</li>
+    <li><b>@Inject</b> — метка зависимостей, которые должны быть предоставлены фреймворком для внедрения. Может использоваться с конструктором класса, полями класса или методами ([com.sample.app.util.DataPrinter](src/main/java/com/sample/app/util/DataPrinter.java)).</li>
+</ul>
+
+<a style="text-decoration: underline; color: #3366ff;" href="https://www.baeldung.com/dagger-2" target="_blank" rel="noopener noreferrer">Introduction to Dagger 2 (www.baeldung.com)</a>
+
+<h3>Разбор полетов</h3>
+Hello world: <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/dagger_hello_world" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/dagger_hello_world</a>
+
+<ul>
+    <li><b>@Module</b> — отмечает модули и классы программного средства ([com.sample.app.modules.DependenciesProviderModule](src/main/java/com/sample/app/modules/DependenciesProviderModule.java)) .</li>
+    <li><b>@Component</b> — используется для __интерфейса__, который объединяет части процесса внедрения зависимостей ([com.sample.app.components.DataPrinterComponent](src/main/java/com/sample/app/components/DataPrinterComponent.java)).</li>
+    <li><b>@Provides</b> — этой аннотацией помечаются методы предоставления зависимостей внутри модулей ([com.sample.app.modules.DependenciesProviderModule](src/main/java/com/sample/app/modules/DependenciesProviderModule.java)).</li>
+    <li><b>@Inject</b> — метка зависимостей, которые должны быть предоставлены фреймворком для внедрения. Может использоваться с конструктором класса, полями класса или методами ([com.sample.app.util.DataPrinter](src/main/java/com/sample/app/util/DataPrinter.java)).</li>
+</ul>
+
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/dagger_hello_world/blob/master/src/main/java/com/sample/app/modules/DependenciesProviderModule.java" target="_blank" rel="noopener noreferrer">@Module DependenciesProviderModule.java</a>
+объявляет два сервиса <b>@Provides @Named("sql")</b> и <b>@Provides @Named("file")</b>.
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+package com.sample.app.modules;
+
+import javax.inject.Named;
+
+import com.sample.app.interfaces.DataSource;
+import com.sample.app.interfaces.impl.FileDataSource;
+import com.sample.app.interfaces.impl.MySQLDataSource;
+
+import dagger.Module;
+import dagger.Provides;
+
+@Module
+public class DependenciesProviderModule {
+
+    @Provides
+    @Named("sql")
+    public static DataSource provideMySqlDataSource() {
+        return new MySQLDataSource();
+    }
+
+    @Provides
+    @Named("file")
+    public static DataSource provideFileDataSource() {
+        return new FileDataSource();
+    }
+}
+</pre></div>
+
+Эти сервисы используются в
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/dagger_hello_world/blob/master/src/main/java/com/sample/app/util/DataPrinter.java" target="_blank" rel="noopener noreferrer">com.sample.app.util.DataPrinter</a>
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+package com.sample.app.util;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import com.sample.app.interfaces.DataSource;
+
+public class DataPrinter {
+
+    private DataSource sqlSource;
+
+    private DataSource fileSource;
+
+    @Inject
+    public DataPrinter(@Named("sql") DataSource sqlSource, @Named("file") DataSource fileSource) {
+        this.sqlSource = sqlSource;
+        this.fileSource = fileSource;
+    }
+
+    public void print() {
+        System.out.println("dataFromSQL: " + getDataFromSQL());
+        System.out.println("dataFromFile: " + getDataFromFile());
+    }
+
+    public String getDataFromSQL() {
+        return sqlSource.read();
+    }
+
+    public String getDataFromFile() {
+        return fileSource.read();
+    }
+
+}
+</pre></div>
+
+И вызываются в
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/dagger_hello_world/blob/master/src/main/java/com/sample/app/App.java" target="_blank" rel="noopener noreferrer">src/main/java/com/sample/app/App.java</a>
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+public class App {
+
+    public static void main(String[] args) {
+        // DaggerDataPrinterComponent - generated class by Dagger from interface DataPrinterComponent
+        DataPrinterComponent dataPrinterComponent = DaggerDataPrinterComponent.builder().build();
+        DataPrinter dataPrinter = dataPrinterComponent.dataPrinter();
+
+        dataPrinter.print();
+    }
+
+}
+</pre></div>
