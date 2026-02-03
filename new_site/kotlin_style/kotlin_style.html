@@ -8,7 +8,7 @@
     <li>Частое использование <code>var</code>, где можно использовать <code>val</code></li>
 </ul>
 <hr id="system-readmore" />
-<h3>Много одиночных файлов для Data Class вместо одного</h3>
+<h3>Много одиночных файлов для <code>Data Class</code> вместо одного</h3>
 Java-style (до):
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
 <pre style="margin: 0; line-height: 125%;">
@@ -30,7 +30,7 @@ data class UserResponse(val id: Long, val name: String)
 data class UserError(val code: String, val message: String)
 </pre></div>
 <br/>
-<h3>Константы в Companion Object нужно размещать в конце файла</h3>
+<h3>Константы в <code>Companion Object</code> нужно размещать в конце файла</h3>
 Java-style (до):
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
 <pre style="margin: 0; line-height: 125%;">public class Config {
@@ -48,7 +48,7 @@ Kotlin-style (после):
 }
 </pre></div>
 <br/>
-<h3>Для однострочных выражений используется <b>fun</b></h3>
+<h3>Для однострочных выражений используется <code>fun</code></h3>
 Java-style (до):
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
 <pre style="margin: 0; line-height: 125%;">
@@ -76,7 +76,7 @@ fun getUserFullName(user: User): String =
     "${user.firstName} ${user.lastName}"
 </pre></div>
 <br/>
-<h3>Игнорирование Elvis оператора</h3>
+<h3>Игнорирование <code>Elvis</code> оператора</h3>
 Java-style (до):
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
 <pre style="margin: 0; line-height: 125%;">
@@ -112,7 +112,7 @@ fun calculateTotal(price: Double?): Double =
     price ?: 0.0
 </pre></div>
 <br/>
-<h3>Игнорирование it в lambda</h3>
+<h3>Игнорирование <code>it</code> в lambda</h3>
 Java-style (до):
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
 <pre style="margin: 0; line-height: 125%;">
@@ -217,7 +217,7 @@ if (userId in allowedIds) {
     // logic
 }</pre></div>
 <br/>
-<h3>Игнорирование Stream API Kotlin</h3>
+<h3>Игнорирование <code>Stream API Kotlin</code></h3>
 Java-style (до):
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
 <pre style="margin: 0; line-height: 125%;">
@@ -245,7 +245,7 @@ val totalAmount = orders.sumOf { it.amount }
 val hasAdult = users.any { it.age >= 18 }
 </pre></div>
 <br/>
-<h3>let, run, with для Functional Style</h3>
+<h3><code>let, run, with</code> для Functional Style</h3>
 Java-style (до):
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
 <pre style="margin: 0; line-height: 125%;">
@@ -300,7 +300,7 @@ val config = Config().apply {
 }
 </pre></div>
 <br/>
-<h3>Игнорирование Immutable коллекций</h3>
+<h3>Игнорирование <code>Immutable</code> коллекций</h3>
 Java-style (до):
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
 <pre style="margin: 0; line-height: 125%;">
@@ -338,7 +338,7 @@ val names = setOf("Alice", "Bob", "Charlie")
 </pre></div>
 
 <br/>
-<h3>Нужно использовать <u>val</u> вместо <u>var</u></h3>
+<h3>Нужно использовать <code>val</code> вместо <code>var</code></h3>
 Java-style (до):
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
 <pre style="margin: 0; line-height: 125%;">
