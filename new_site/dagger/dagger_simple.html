@@ -1,6 +1,10 @@
 <b>Dagger</b> — фреймворк для внедрения зависимостей (Dependency Injection, DI) в приложения на платформе Java. Разрабатывался компанией Square, но сейчас поддерживается <b>Google</b>.<br/>
 Документация: <a style="text-decoration: underline; color: #3366ff;" href="https://dagger.dev/dev-guide/" target="_blank" rel="noopener noreferrer">https://dagger.dev/dev-guide/</a><br/>
 Github: <a style="text-decoration: underline; color: #3366ff;" href="https://square.github.io/dagger/" target="_blank" rel="noopener noreferrer">https://square.github.io/dagger/</a><br/>
+<br/>
+Очень примитивный пример: <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/dagger_simplest" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/dagger_simplest</a><br/>
+Hello World: <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/dagger_hello_world" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/dagger_hello_world</a><br/>
+
 <h3>Задачи Dagger</h3>
 
 <ul>
@@ -22,12 +26,33 @@ Github: <a style="text-decoration: underline; color: #3366ff;" href="https://squ
 
 Dagger использует аннотации, чтобы пометить классы и методы, которые участвуют в процессе внедрения зависимостей. Некоторые распространённые аннотации:
 <ul>
-    <li><b>@Component</b> — используется для <b>интерфейса</b>, который объединяет части процесса внедрения зависимостей (<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/dagger_hello_world/blob/master/src/main/java/com/sample/app/components/DataPrinterComponent.java" target="_blank" rel="noopener noreferrer">com.sample.app.components.DataPrinterComponent.java</a>).</li>
-    <li><b>@Module</b> — отмечает модули и классы программного средства (<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/dagger_hello_world/blob/master/src/main/java/com/sample/app/modules/DependenciesProviderModule.java" target="_blank" rel="noopener noreferrer">com.sample.app.modules.DependenciesProviderModule.java</a>).</li>
-    <li><b>@Provides</b> — этой аннотацией помечаются методы предоставления зависимостей внутри модулей (<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/dagger_hello_world/blob/master/src/main/java/com/sample/app/modules/DependenciesProviderModule.java" target="_blank" rel="noopener noreferrer">com.sample.app.modules.DependenciesProviderModule.java</a>).</li>
-    <li><b>@Inject</b> — метка зависимостей, которые должны быть предоставлены фреймворком для внедрения. Может использоваться с конструктором класса, полями класса или методами (<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/dagger_hello_world/blob/master/src/main/java/com/sample/app/util/DataPrinter.java" target="_blank" rel="noopener noreferrer">com.sample.app.util.DataPrinter.java</a>).</li>
+    <li><b>@Module</b> — отмечает модули и классы программного средства (<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/dagger_hello_world/blob/master/src/main/java/com/sample/app/modules/DependenciesProviderModule.java" target="_blank" rel="noopener noreferrer">com.sample.app.modules.DependenciesProviderModule.java</a>) (аннотация класса).</li>
+    <li><b>@Provides</b> — этой аннотацией помечаются методы предоставления зависимостей внутри модулей (<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/dagger_hello_world/blob/master/src/main/java/com/sample/app/modules/DependenciesProviderModule.java" target="_blank" rel="noopener noreferrer">com.sample.app.modules.DependenciesProviderModule.java</a>) (аннотация метода).</li>
+    <li><b>@Named</b> - используется вместе с @Provides для установки имени <b>предоставляемого</b>  бина
+        <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">@dagger.Provides
+@javax.inject.Named("sql") // предоставление зависимости с именем "sql"
+public static DataSource provideMySqlDataSource() {...}
+</pre>
+        </div>
+        и в классе, который <b>использует</b> зависимость:
+        <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">@Inject
+public DataPrinter(@Named("sql") com.sample.app.interfaces.DataSource sqlSource,
+        @Named("file") com.sample.app.interfaces.DataSource fileSource) { ... }
+</pre>
+        </div>
+
+    </li>
+    <li><b>@Component</b> — используется для <b>интерфейса</b>, который объединяет части процесса внедрения зависимостей (<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/dagger_hello_world/blob/master/src/main/java/com/sample/app/components/DataPrinterComponent.java" target="_blank" rel="noopener noreferrer">com.sample.app.components.DataPrinterComponent.java</a>) (аннотация класса).</li>
+    <li><b>@Inject</b> — метка запроса зависимостей, которые должны быть предоставлены фреймворком для внедрения. Может использоваться с конструктором класса, полями класса или методами (<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/dagger_hello_world/blob/master/src/main/java/com/sample/app/util/DataPrinter.java" target="_blank" rel="noopener noreferrer">com.sample.app.util.DataPrinter.java</a>) (аннотация метода).</li>
 </ul>
 
+Дополнительно понадобятся аннотации из javax.inject:
+<ul>
+    <li>@Inject - для конструкторов и полей классов (аннотация метода)</li>
+    <li>@Singleton - для синглтонов @Provides (аннотация метода)</li>
+</ul>
 <a style="text-decoration: underline; color: #3366ff;" href="https://www.baeldung.com/dagger-2" target="_blank" rel="noopener noreferrer">Introduction to Dagger 2 (www.baeldung.com)</a>
 
 <h3>Использование на примере</h3>
@@ -49,17 +74,23 @@ import com.sample.app.interfaces.impl.MySQLDataSource;
 import dagger.Module;
 import dagger.Provides;
 
+/**
+ * Предоставляет реализации зависимостей с именами "file" и "sql"
+ * зависимости используется в DataPrinter
+ */
 <b>@Module</b>
 public class DependenciesProviderModule {
 
-    <b>@Provides</b>
-    @Named("sql")
+    // Реализация зависимости и внесение в контекст (@dagger.Provides) с именем "sql" (@Named("sql"))
+    // используется в DataPrinter через @Inject --> @javax.inject.Named("sql") DataSource sqlSource
+    <b>@Provides</b> // @Provides - для внесения зависимости в контекст
+    <b>@Named("sql")</b>    // внесение в контекст bean с именем "sql"
     public static DataSource provideMySqlDataSource() {
         return new MySQLDataSource();
     }
 
     <b>@Provides</b>
-    @Named("file")
+    <b>@Named("file")</b>
     public static DataSource provideFileDataSource() {
         return new FileDataSource();
     }
@@ -81,7 +112,7 @@ import dagger.Module;
 // Используется в App.java как:
 // DataPrinterComponent dataPrinterComponent = DaggerDataPrinterComponent.builder().build();
 
-// Реализация В DependenciesProviderModule.java
+// Реализация В DependenciesProviderModule.java так:
 // @Module
 // public class DependenciesProviderModule
 <b>@Component(modules = {DependenciesProviderModule.class})</b>
@@ -180,6 +211,7 @@ public class App {
 
 <b>Ссылки:</b>
 <ul>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://dagger.dev/dev-guide/" target="_blank" rel="noopener noreferrer">Dagger dev guide</a></li>
     <li><a style="text-decoration: underline; color: #3366ff;" href="https://dagger.dev/dev-guide/" target="_blank" rel="noopener noreferrer">Dagger dev guide</a></li>
     <li><a style="text-decoration: underline; color: #3366ff;" href="https://square.github.io/dagger/" target="_blank" rel="noopener noreferrer">A fast dependency injector for Android and Java</a></li>
 </ul>
