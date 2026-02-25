@@ -45,3 +45,49 @@
         target="_blank" rel="noopener noreferrer">
     <strong>https://tomgregory.com/gradle/how-to-update-gradle/</strong>
 </a>
+
+Запуск конкретного теста из консоли: <br/>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+./gradlew test --tests "material.design.controller.CountryControllerMvcTest"
+</pre></div>
+
+Тест для сервиса с авторизацией (ключевое @WithMockUser(value = "user")):
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+@RunWith(SpringRunner.class)
+@WebMvcTest(CountryController.class)
+public class CountryControllerMvcTest {
+    @Autowired
+    private MockMvc mockMvc;
+    @MockBean
+    CountryRepository repository;
+
+    @WithMockUser(value = "user")
+    @Test
+    public void getCountryOk() throws Exception {
+        List<Country> countries = new ArrayList<>();
+        Country country = new Country();
+        country.setId(1L);
+        countries.add(country);
+        when(repository.findAll()).thenReturn(countries);
+        this.mockMvc.perform(get("/country")).andDo(print()).andExpect(status().isOk());
+    }
+    ...
+</pre></div>
+
+Прогон только интеграционных тестов:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./gradlew test -Dtest.profile=integration
+</pre>
+</div>
+
+Для этого в build.gradle прописать:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+test {
+    if (System.properties['test.profile'] != 'integration') {
+    exclude '**/*integrationTests*'
+}
+</pre>
+</div>

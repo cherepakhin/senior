@@ -159,6 +159,25 @@ allopen {
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">./gradlew clean <span style="color: #007020">test</span> --tests *TestIntegration*
 ./gradlew clean <span style="color: #007020">test</span> --tests *TestIntegration
 </pre></div>
+
+<b><u>или</u></b> для прогона интеграционных тестов выполнить:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./gradlew test -Dtest.profile=integration
+</pre>
+</div>
+
+Для этого в build.gradle прописать:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+test {
+    if (System.properties['test.profile'] != 'integration') {
+    exclude '**/*integrationTests*'
+}
+</pre>
+</div>
+
+
 <p dir="auto">Другие примеры:</p>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">gradle <span style="color: #007020">test</span> --tests org.gradle.SomeTest.someSpecificFeature
 gradle <span style="color: #007020">test</span> --tests *SomeTest.someSpecificFeature

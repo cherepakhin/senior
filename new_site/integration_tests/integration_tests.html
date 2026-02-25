@@ -33,6 +33,16 @@ tasks.withType<Test> {
 </pre>
 </div>
 
+Для этого в build.gradle прописать:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+test {
+    if (System.properties['test.profile'] != 'integration') {
+    exclude '**/*integrationTests*'
+}
+</pre>
+</div>
+
 Для тестированмя сервисов, работающих с базой данных, использовать DBUnit (
 <a style="text-decoration: underline; color: #3366ff;" href="https://www.dbunit.org/" target="_blank" rel="noopener noreferrer">https://www.dbunit.org/</a>,
 <a style="text-decoration: underline; color: #3366ff;" href="https://www.baeldung.com/java-dbunit" target="_blank" rel="noopener noreferrer">Introduction to DBUnit (Baeldung)</a>,
