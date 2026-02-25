@@ -1,0 +1,137 @@
+Из статьи: <a href="https://habr.com/ru/articles/675716/" rel="nofollow">Изучаем ResponseEntity<?> и избавляемся от него в контроллерах Spring Boot</a>
+<hr id="system-readmore" />
+<h3>1. Метод с возвратом объекта</h3>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@ResponseBody
+@GetMapping("/products")
+public Product getProduct(@RequestParam Long id){
+    return productsService.findById(id);
+}
+</pre></div>
+
+Возврат ошибок через advice. Создать exception (1):
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+public class ResourceNotFoundException extends RuntimeException {
+    public ResourceNotFoundException(String message) { // ResourceNotFoundException
+        super(message);
+    }
+}
+</pre></div>
+
+и обработка ResourceNotFoundException через Advice и Handler (2):
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+@ControllerAdvice
+@Slf4j
+public class GlobalExceptionHandler {
+    @ExceptionHandler
+    public ResponseEntity<AppError> catchResourceNotFoundException(ResourceNotFoundException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(new AppError(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+}
+</pre></div>
+
+где AppError:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+    public class AppError {
+    private int statusCode;
+    private String message;
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public AppError() {
+    }
+
+    public AppError(int statusCode, String message) {
+        this.statusCode = statusCode;
+        this.message = message;
+    }
+}
+</pre></div>
+
+
+Просто тестировать.
+
+<h3>2. Метод с возвратом  ResponseEntity&lt;?&gt;</h3>
+
+Возвращать ResponseEntity&lt;?&gt;.
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+@GetMapping("/products")
+public ResponseEntity<?> getProduct(Long id) {
+    try {
+        Product product = productsService.findById(id).orElseThrow();
+        return new ResponseEntity<>(product, HttpStatus.OK);
+    } catch (Exception e){
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+}
+</pre></div>
+
+Возврат ошибки делается так:
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+@GetMapping("/products")
+public ResponseEntity<?> getProduct(Long id){
+    try {
+        Product product = productsService.findById(id).orElseThrow();
+        return new ResponseEntity<>(product, HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>(
+                        new AppError(
+                            HttpStatus.NOT_FOUND.value(),
+                            "Product with id " + id + " nor found"),HttpStatus.NOT_FOUND
+                   );
+    }
+}
+</pre></div>
+
+где AppError:
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+public class AppError {
+    private int statusCode;
+    private String message;
+
+    public AppError() {
+    }
+
+    public AppError(int statusCode, String message) {
+        this.statusCode = statusCode;
+        this.message = message;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+}
+</pre></div>
+
+Тестировать с помощью этого объекта.
+
