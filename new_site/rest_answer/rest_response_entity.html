@@ -9,13 +9,14 @@
 @GetMapping("/{message}")
 public ResponseEntity<?> echo(@PathVariable("message") String message) {
     if (message == null || message.isEmpty() || message.equals("test_error")) {
-        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("message is empty"); // error cod 502
+      return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("message is empty"); // error cod 502
     }
 
     if (message.length() < 2) {
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body("message is too short"); // error cod 503
+    } else {
+        return ResponseEntity.ok(new SimpleObj(message));
     }
-    return ResponseEntity.ok(new SimpleObj(message));
 }
 </pre></div>
 ResponseEntity&lt;?&gt; - это обертка над HttpStatus и Object. Возвращается в любом случае, даже если объект не найден.
@@ -28,14 +29,14 @@ ResponseEntity&lt;?&gt; - это обертка над HttpStatus и Object. В�
 public ResponseEntity<?> getProduct(Long id){
     try {
         Product product = productsService.findById(id).orElseThrow();
-        return new ResponseEntity<>(product, HttpStatus.OK); // Возврат объекта
+            return new ResponseEntity<>(product, HttpStatus.OK); // Возврат объекта
     } catch (Exception e) {
         return new ResponseEntity<>(
-                        new AppError(
-                            HttpStatus.NOT_FOUND.value(),
-                            "Product with id " + id + " not found"),HttpStatus.NOT_FOUND
-                   );
-    }
+            new AppError(
+                    HttpStatus.NOT_FOUND.value(),
+                    "Product with id " + id + " not found"),HttpStatus.NOT_FOUND
+            );
+        }
 }
 </pre></div>
 
@@ -46,8 +47,7 @@ public class AppError {
     private int statusCode;
     private String message;
 
-    public AppError() {
-    }
+    public AppError() {}
 
     public AppError(int statusCode, String message) {
         this.statusCode = statusCode;
@@ -81,32 +81,32 @@ public class AppError {
 @RequestMapping("/simpleobj")
 public class SimpleObjRest {
     @GetMapping("/{message}")
-    public SimpleObj getMessageWithExcption(@PathVariable("message") String name) throws MyResourceErrorException {
+    public SimpleObj getMessageWithExcption(@PathVariable("message") String name) throws MyResourceException {
         SimpleObj simpleObj = new SimpleObj(name);
         if (name.equals("error")) {
-            throw new MyResourceErrorException("Exception for name=error");
+            throw new MyResourceException("Exception for name=error");
         }
         return simpleObj;
     }
 }
 </pre></div>
-где MyResourceErrorException это класс исключения:
+где MyResourceException это класс исключения:
 
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">public class MyResourceErrorException extends Throwable {
-    public MyResourceErrorException(String message) {
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">public class MyResourceException extends Throwable {
+    public MyResourceException(String message) {
         super(message);
     }
 }
 </pre></div>
 
-и обработка MyResourceErrorException через Advice и Handler:
+и обработка MyResourceException через Advice и Handler:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler
-    public ResponseEntity catchResourceNotFoundException(MyResourceErrorException e) { // MyResourceErrorException !!!
+    public ResponseEntity catchResourceNotFoundException(MyResourceException e) { // MyResourceException !!!
         logger.error("GlobalExceptionHandler.catchResourceNotFoundException");
         logger.error(e.getMessage(), e);
         return new ResponseEntity(new AppError(e.getMessage()), HttpStatus.SERVICE_UNAVAILABLE);
@@ -116,34 +116,33 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 где AppError:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
-    public class AppError {
-    private int statusCode;
+public class AppError {
     private String message;
 
-    public int getStatusCode() {
-        return statusCode;
+    public AppError() {
+        this("Internal Server Error");
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public AppError(String message) {
+        this.message = message;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AppError)) return false;
+        AppError appError = (AppError) o;
+        return Objects.equals(message, appError.message);
     }
 
-    public AppError() {
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(message);
     }
-
-    public AppError(int statusCode, String message) {
-        this.statusCode = statusCode;
-        this.message = message;
-    }
-}
 </pre></div>
 
 (про ResponseBody см. <a href="https://www.baeldung.com/spring-request-response-body" rel="nofollow">https://www.baeldung.com/spring-request-response-body</a>).
