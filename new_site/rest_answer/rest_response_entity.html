@@ -1,32 +1,115 @@
 Из статьи: <a href="https://habr.com/ru/articles/675716/" rel="nofollow">Изучаем ResponseEntity<?> и избавляемся от него в контроллерах Spring Boot</a>
 <hr id="system-readmore" />
-<h3>1. Метод с возвратом объекта</h3>
 
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@ResponseBody
+<h3>1. Метод с возвратом  ResponseEntity&lt;?&gt;</h3>
+
+Возвращается ResponseEntity&lt;?&gt;.
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+@GetMapping("/{message}")
+public ResponseEntity<?> echo(@PathVariable("message") String message) {
+    if (message == null || message.isEmpty() || message.equals("test_error")) {
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("message is empty"); // error cod 502
+    }
+
+    if (message.length() < 2) {
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body("message is too short"); // error cod 503
+    }
+    return ResponseEntity.ok(new SimpleObj(message));
+}
+</pre></div>
+ResponseEntity&lt;?&gt; - это обертка над HttpStatus и Object. Возвращается в любом случае, даже если объект не найден.
+Т.е. можно не обрабатывать исключения.
+
+Для более полного описания ошибки можно сделать так (с помощью AppError):
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
 @GetMapping("/products")
-public Product getProduct(@RequestParam Long id){
-    return productsService.findById(id);
+public ResponseEntity<?> getProduct(Long id){
+    try {
+        Product product = productsService.findById(id).orElseThrow();
+        return new ResponseEntity<>(product, HttpStatus.OK); // Возврат объекта
+    } catch (Exception e) {
+        return new ResponseEntity<>(
+                        new AppError(
+                            HttpStatus.NOT_FOUND.value(),
+                            "Product with id " + id + " not found"),HttpStatus.NOT_FOUND
+                   );
+    }
 }
 </pre></div>
 
-Возврат ошибок через advice. Создать exception (1):
+где AppError это простой класс:
+
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
-public class ResourceNotFoundException extends RuntimeException {
-    public ResourceNotFoundException(String message) { // ResourceNotFoundException
+public class AppError {
+    private int statusCode;
+    private String message;
+
+    public AppError() {
+    }
+
+    public AppError(int statusCode, String message) {
+        this.statusCode = statusCode;
+        this.message = message;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+}
+</pre></div>
+
+Тестировать с помощью ResponseEntity. Некрасиво, что возвращается в виде ResponseEntity&lt;?&gt;.
+Пример <a href="https://github.com/cherepakhin/response_entity" rel="nofollow">https://github.com/cherepakhin/response_entity</a>
+
+<h3>2. Метод с возвратом объекта</h3>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@RestController
+@RequestMapping("/simpleobj")
+public class SimpleObjRest {
+    @GetMapping("/{message}")
+    public SimpleObj getMessageWithExcption(@PathVariable("message") String name) throws MyResourceErrorException {
+        SimpleObj simpleObj = new SimpleObj(name);
+        if (name.equals("error")) {
+            throw new MyResourceErrorException("Exception for name=error");
+        }
+        return simpleObj;
+    }
+}
+</pre></div>
+где MyResourceErrorException это класс исключения:
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">public class MyResourceErrorException extends Throwable {
+    public MyResourceErrorException(String message) {
         super(message);
     }
 }
 </pre></div>
 
-и обработка ResourceNotFoundException через Advice и Handler (2):
+и обработка MyResourceErrorException через Advice и Handler:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
 @ControllerAdvice
-@Slf4j
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+    private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler
-    public ResponseEntity<AppError> catchResourceNotFoundException(ResourceNotFoundException e) {
-        log.error(e.getMessage(), e);
-        return new ResponseEntity<>(new AppError(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+    public ResponseEntity catchResourceNotFoundException(MyResourceErrorException e) { // MyResourceErrorException !!!
+        logger.error("GlobalExceptionHandler.catchResourceNotFoundException");
+        logger.error(e.getMessage(), e);
+        return new ResponseEntity(new AppError(e.getMessage()), HttpStatus.SERVICE_UNAVAILABLE);
     }
 }
 </pre></div>
@@ -63,75 +146,10 @@ public class GlobalExceptionHandler {
 }
 </pre></div>
 
+(про ResponseBody см. <a href="https://www.baeldung.com/spring-request-response-body" rel="nofollow">https://www.baeldung.com/spring-request-response-body</a>).
 
 Просто тестировать.
 
-<h3>2. Метод с возвратом  ResponseEntity&lt;?&gt;</h3>
+Пример <a href="https://github.com/cherepakhin/object_and_excp" rel="nofollow">https://github.com/cherepakhin/object_and_excp</a>
 
-Возвращать ResponseEntity&lt;?&gt;.
-
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
-@GetMapping("/products")
-public ResponseEntity<?> getProduct(Long id) {
-    try {
-        Product product = productsService.findById(id).orElseThrow();
-        return new ResponseEntity<>(product, HttpStatus.OK);
-    } catch (Exception e){
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-}
-</pre></div>
-
-Возврат ошибки делается так:
-
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
-@GetMapping("/products")
-public ResponseEntity<?> getProduct(Long id){
-    try {
-        Product product = productsService.findById(id).orElseThrow();
-        return new ResponseEntity<>(product, HttpStatus.OK);
-    } catch (Exception e) {
-        return new ResponseEntity<>(
-                        new AppError(
-                            HttpStatus.NOT_FOUND.value(),
-                            "Product with id " + id + " nor found"),HttpStatus.NOT_FOUND
-                   );
-    }
-}
-</pre></div>
-
-где AppError:
-
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
-public class AppError {
-    private int statusCode;
-    private String message;
-
-    public AppError() {
-    }
-
-    public AppError(int statusCode, String message) {
-        this.statusCode = statusCode;
-        this.message = message;
-    }
-
-    public int getStatusCode() {
-        return statusCode;
-    }
-
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-}
-</pre></div>
-
-Тестировать с помощью этого объекта.
 
