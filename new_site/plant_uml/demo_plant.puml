@@ -1,0 +1,13 @@
+@startuml
+Allice -> Bob : dot
+
+Allice - Dom1: AAA
+
+Bob3 - Allice: Hello
+
+Allice -> Bob : hello            
+
+Allice ..> Bob1 : hello dot
+Allice ..> Bob2 : hello dot 2
+
+@enduml

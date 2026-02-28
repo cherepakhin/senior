@@ -1,0 +1,56 @@
+Средство для рисования UML диаграмм, с несложным синтаксисом.
+<hr id="system-readmore" />
+
+Описание диаграммы текстом. Пример:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+@startuml
+
+participant Client
+participant API
+participant Database
+
+Client -> API: POST /orders
+API -> Database: Insert new Order
+Database --> API: Order ID (ID: 456)
+API --> Client: Order Created (ID: 456)
+
+Client -> API: GET /orders/456
+API -> Database: Fetch Order Details
+Database --> API: Order Data
+API --> Client: Order Details
+
+Client -> API: PATCH /orders/456/cancel
+API -> Database: Update Order Status (cancelled)
+Database --> API: Succes
+API --> Client: Order Cancelled
+
+Client -> API: PATCH /orders/456/complete
+API -> Database: Update Order Status (completed)
+Database --> API: Success
+API --> Client: Order Completed
+
+@enduml
+</pre></div>
+
+Есть плагин для GigaIde, VSCode. В VSCode выглядит так:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="create_order" src="images/plantuml/create_order.png"
+        alt="create_order.png" width="1105" height="616"/></p>
+
+Примеры:
+
+<a href="https://v.perm.ru/plant_uml/diagram.puml"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">diagram.puml</a><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="create_order" src="images/plantuml/diagram.png"
+        alt="create_order.png" width="1046" height="600"/></p>
+
+Ссылки:<br>
+<a href="https://plantuml.com/"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">https://plantuml.com/</a><br/>
+
+<a href="https://habr.com/ru/articles/860952/"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">Использование PlantUML для описания API. Визуализация для начинающих (habr.com)</a><br/>
+
