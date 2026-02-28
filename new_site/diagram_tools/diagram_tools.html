@@ -1,0 +1,75 @@
+<p dir="auto">
+    <a href="#plantuml">1. Plantuml</a><br />
+    <a href="#dia">2. Dia</a><br />
+    <a href="#drawio">3. Draw.io</a><br />
+    <a href="#miro">4. Miro</a><br />
+    <a href="#mermaid">5. mermaid.ai</a><br />
+</p>
+Диаграммы как рабочие инструмент, а не только для документирования и презентаций.
+Для индивидуального использования я выбрал <b>PlantUML</b>, а для работы в команде <b>Miro</b>.<br/>
+<b>PlantUML</b> - мой выбор, потому что диаграмму можно писать текстом, а PlantUML ее сам визуализирует и размещает на странице, бесплатный и работает везде, что-то типа блокнота.<br/>
+<br/>
+<b>Miro</b> - отличный сервис, мегамонстр, но платный (есть бесплатный вариант с некоторыми ограничениями). И в одном из проектов очень даже показал себя.<br/>
+<b>Drawio и Dia</b> - бесплатный сервис, удобен когда нужно еще и распечатать или вывести на печать, сохранить в pdf.<br/>
+<hr id="system-readmore" />
+<a id="plantuml"></a>
+<h3>1. Plantuml</h3>
+Online и offline.<br/>
+Разработан на Java.<br/>
+Online сервис:<br/>
+<a href="https://plantuml.com/ru/" rel="nofollow">https://plantuml.com/ru/</a><br/>
+<a href="https://plantuml.com/ru/running" rel="nofollow">Online сервис</a><br/>
+<a href="https://habr.com/ru/companies/alfa/articles/740518/" rel="nofollow">Диаграммы без боли и страданий: PlantUML (habr.com)</a><br/>
+Запуск в командной строке:<br/>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000;">java -jar ~/po/plantuml/plantuml-gplv2-1.2026.2.jar
+</pre></div>
+(Java 11)
+Фишка программы в том, что описание диаграммы можно писать прямо <b>в текстовом файле</b>, а программа сама ее рисует.<br/>
+Есть плагин для VSCode:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="vscode_plantuml" src="images/diagram/vscode_plantuml.png"
+        alt="vscode_plantuml" width="1035" height="643"/></p>
+
+<a id="dia"></a>
+<h3>2. Dia</h3>
+<a href="https://gitlab.gnome.org/GNOME/dia/" rel="nofollow">Dia</a><br/>
+Работает в offline.<br/>
+Пример диаграмм:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="dia" src="images/diagram/dia.png"
+        alt="dia" width="1156" height="672"/></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="dia_offline" src="images/diagram/dia_offline.png"
+        alt="dia_offline" width="1149" height="662"/></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="dia_offline" src="images/diagram/dia_offline.png"
+        alt="dia_offline" width="1149" height="662"/></p>
+
+<a id="drawio"></a>
+<h3>3. Draw.io</h3>
+<a href="https://app.diagrams.net/" rel="nofollow">Сервис Draw.io</a><br/><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="drawio_example1" src="images/diagram/drawio_example1.png"
+        alt="drawio_example1" width="1200" height="736"/></p>
+
+<a id="miro"></a>
+<h3>4. Miro</h3>
+Online web сервис. Монстр!<br/>
+<a href="https://miro.com/" rel="nofollow">https://miro.com/</a><br/>
+Пример диаграммы:
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="miro" src="images/diagram/miro.png"
+        alt="miro" width="1360" height="583"/></p>
+
+<a id="mermaid"></a>
+<h3>5. Mermaid.ai</h3>
+<a href="https://mermaid.ai/open-source/" rel="nofollow">https://mermaid.ai/open-source/</a><br/>
+Так же как и <b>PlantUML</b> описание диаграммы пишется в текстовом файле.
+Пример диаграммы:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+flowchart TD
+A[Christmas] -->|Get money| B(Go shopping)
+B --> C{Let me think}
+C -->|One| D[Laptop]
+C -->|Two| E[iPhone]
+C -->|Three| F[fa:fa-car Car]
+    </pre>
+</div>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="mermaid" src="images/diagram/mermaid.png"
+        alt="mermaid" width="1360" height="572"/></p>
+
