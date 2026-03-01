@@ -1,0 +1,27 @@
+@startuml
+
+participant Client
+participant API
+participant Database
+
+Client -> API: POST /orders
+API -> Database: Insert new Order
+Database --> API: Order ID (ID: 456)
+API --> Client: Order Created (ID: 456)
+
+Client -> API: GET /orders/456
+API -> Database: Fetch Order Details
+Database --> API: Order Data
+API --> Client: Order Details
+
+Client -> API: PATCH /orders/456/cancel
+API -> Database: Update Order Status (cancelled)
+Database --> API: Succes
+API --> Client: Order Cancelled
+
+Client -> API: PATCH /orders/456/complete
+API -> Database: Update Order Status (completed)
+Database --> API: Success
+API --> Client: Order Completed
+
+@enduml
