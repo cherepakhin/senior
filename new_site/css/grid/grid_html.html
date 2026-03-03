@@ -1,0 +1,150 @@
+<a href="https://www.geeksforgeeks.org/css/css-grid-layout-module/" rel="nofollow">CSS Grid Layout Module</a><br/>
+<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/gap" rel="nofollow">Документация по тегам "gap", "grid"</a><br/>
+<hr id="system-readmore" />
+<br/>
+<h3>2 колонки</h3>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;"><pre style="margin: 0; line-height: 125%;">
+&lt;html&gt;
+&lt;head&gt;
+    &lt;style&gt;
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+        }
+        .grid-item {
+            background-color: #f0f0f0;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class="grid-container"&gt;
+    &lt;div class="grid-item"&gt;Item 1&lt;/div&gt;
+    &lt;div class="grid-item"&gt;Item 2&lt;/div&gt;
+    &lt;div class="grid-item"&gt;Item 3&lt;/div&gt;
+    &lt;div class="grid-item"&gt;Item 4&lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+</html>
+</pre></div>
+Результат:
+<img style="display: block; margin-left: auto; margin-right: auto;" title="grid_2_col.png" src="/images/css_grid/grid_2_col_v1.png" width="685" height="263" alt="grid_2_col_v1.png">
+<a href="https://v.perm.ru/images/css_grid/grid_2_col.html" rel="nofollow">https://v.perm.ru/images/css_grid/grid_2_col.html</a><br/>
+
+<h3>3 колонки</h3>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;"><pre style="margin: 0; line-height: 125%;">
+&lt;html&gt;
+&lt;head&gt;
+    &lt;style&gt;
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+        .grid-item {
+            background-color: #f0f0f0;
+            padding: 20px;
+            text-align: center;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class="grid-container"&gt;
+    &lt;div class="grid-item"&gt;Column 1&lt;/div&gt;
+    &lt;div class="grid-item"&gt;Column 2&lt;/div&gt;
+    &lt;div class="grid-item"&gt;Column 3&lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></div>
+Результат:
+<img style="display: block; margin-left: auto; margin-right: auto;" title="grid_3_col.png" src="/images/css_grid/grid_3_col.png" width="685" height="263" alt="grid_3_col.png">
+<a href="https://v.perm.ru/images/css_grid/grid_3_col.html" rel="nofollow">https://v.perm.ru/images/css_grid/grid_3_col.html</a><br/>
+
+<h3>3 колонки (10%-20%-70%)</h3>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+&lt;html&gt;
+&lt;head&gt;
+    &lt;style&gt;
+        .box {
+            background-color: rgb(83 134 234);
+            border: 5px solid rebeccapurple;
+            display: flow-root;
+        }
+
+        .p_left {
+            float: left;
+            width: 10%;
+            height: 100px;
+            background-color: white;
+            border: 1px solid black;
+            padding: 1pt;
+        }
+        .p_middle {
+            float: left;
+            width: 20%;
+            height: 100px;
+            background-color: white;
+            border: 1px solid black;
+            padding: 1pt;
+        }
+        .p_rigth {
+        /* width уже не важен, займёт всё пространство справа */
+        /* width: 20%; */
+            float: right;
+            background-color: white;
+            border: 1px solid black;
+            padding: 10px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class="box"&gt;
+    &lt;div class="p_left"&gt;float left 10%&lt;/div&gt;
+    &lt;div class="p_middle"&gt;middle 20%&lt;/div&gt;
+    &lt;div class="p_right"&gt;other space in the container.&lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;    
+</pre></div>
+<img style="display: block; margin-left: auto; margin-right: auto;" title="grid_inline_10_20_70.png" src="/images/css_grid/grid_inline_10_20_70.png" width="685" height="263" alt="grid_inline_10_20_70.png">
+<a href="https://v.perm.ru/images/css_grid/grid_inline_10_20_70.html" rel="nofollow">https://v.perm.ru/images/css_grid/grid_inline_10_20_70.html</a><br/>
+
+<h3>4 одинаковые колонки</h3>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+&lt;html&gt;
+&lt;head&gt;
+    &lt;style&gt;
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .grid-item {
+            background-color: #f0f0f0;
+            padding: 20px;
+            text-align: center;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class="grid-container"&gt;
+    &lt;div class="grid-item"&gt;Item 1&lt;/div&gt;
+    &lt;div class="grid-item"&gt;Item 2&lt;/div&gt;
+    &lt;div class="grid-item"&gt;Item 3&lt;/div&gt;
+    &lt;div class="grid-item"&gt;Item 4&lt;/div&gt;
+&lt;/div&gt;
+&lt;/html&gt;    
+</pre></div>
+<img style="display: block; margin-left: auto; margin-right: auto;" title="grid_4_col.png" src="/images/css_grid/grid_4_col.png" width="913" height="99" alt="grid_4_col.png">
+<a href="https://v.perm.ru/images/css_grid/grid_4_col.html" rel="nofollow">https://v.perm.ru/images/css_grid/grid_4_col.html</a><br/>
+
+Ещё примеры:<br/>
+<ul>
+    <li><a href="https://v.perm.ru/images/css_grid/grid_inline_20_80.html" rel="nofollow">inline 20% 80%</a></li>
+    <li><a href="https://v.perm.ru/images/css_grid/responsive_two_row_layout.html" rel="nofollow">responsive_two_row_layout</a><br/>
+        <img style="display: block; margin-left: auto; margin-right: auto;" title="responsive_two_row_layout.png" src="/images/css_grid/responsive_two_row_layout.png" width="688" height="263" alt="responsive_two_row_layout.png"></li>
+</ul>

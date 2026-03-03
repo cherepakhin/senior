@@ -1,0 +1,34 @@
+<html>
+<head>
+    <style>
+        .box {
+            background-color: rgb(83 134 234);
+            border: 5px solid rebeccapurple;
+            display: flow-root;
+        }
+
+        .p_left {
+            float: left;
+            width: 20%;
+            height: 100px;
+            background-color: white;
+            border: 1px solid black;
+            padding: 1pt;
+        }
+        .p_rigth {
+            /* width уже не важен, займёт всё пространство справа */
+            /* width: 20%; */
+            float: right;
+            background-color: white;
+            border: 1px solid black;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="p_left">I am a floated box!</div>
+    <div class="p_right">I am content inside the container.</div>
+</div>
+</body>
+</html>
