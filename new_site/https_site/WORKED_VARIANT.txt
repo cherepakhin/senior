@@ -150,13 +150,20 @@ keytool -genkeypair -alias tomcat -keyalg RSA -keystore keystore.p12 -storetype 
 
 https://v.perm.ru
 2/04/2026================
- в yandex_browser с ноута показывает ошибку https (вычистить кеш!!!),
+ в yandex_browser с ноута показывает ошибку https (вычистить кеш!!! ЧИСТИТЬ КЕШ! ЧИСТИТЬ КЕШ!),
 с телефонов все ОК!!!
 в chrome на ноуте все ОК!!!
 в yandex_browser в защищенном режиме (incognito mode) - OK!!!
-в yandex_browser вычистил кеш и стало - OK!!!
+в yandex_browser вычистил кеш и стало - OK!!! ЧИСТИТЬ КЕШ!ЧИСТИТЬ КЕШ!ЧИСТИТЬ КЕШ!ЧИСТИТЬ КЕШ!
 ![security_overview.png](security_overview.png)
 
 2/04/2026================
-Проверил через wifi - OK!
+Проверил https://v.perm.ru через wifi - OK! ЧИСТИТЬ КЕШ!ЧИСТИТЬ КЕШ!ЧИСТИТЬ КЕШ!ЧИСТИТЬ КЕШ!
+
+Для проверки можно запускать в incognito mode
+ЧИСТИТЬ КЕШ!
 ================
+Прога vasi@v:~/temp$ ./hr_admin.sh по https://v.perm.ru:8088/ открывается с ошибкой HTTPS
+
+
+
