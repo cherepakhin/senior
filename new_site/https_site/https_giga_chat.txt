@@ -1,0 +1,311 @@
+
+USER at 2026-04-02T00:47:46.822557989:
+
+как исправить ошибку "This page is not secure (broken HTTPS)" , "Certificate: Subject Alternative Name missing"
+
+ASSISTANT at 2026-04-02T00:48:10.919711880:
+
+```yaml src/main/resources/application.yaml
+server:
+  port: 8443
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: changeit
+    key-store-type: PKCS12
+    key-alias: tomcat
+
+spring:
+  freemarker:
+    template-loader-path: classpath:/templates
+    suffix: .ftl
+    cache: false
+    enabled: true
+    content-type: text/html
+    charset: UTF-8
+  datasource:
+    url: jdbc:h2:mem:employees_db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate.ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      hibernate.type: trace
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.orm.jdbc.bind: TRACE
+```
+
+---
+
+### 🔒 Проблема:  
+> **"This page is not secure (broken HTTPS)"**,  
+> **"Certificate: Subject Alternative Name missing"**
+
+Это происходит потому, что ваш самоподписанный сертификат (`keystore.p12`) **не содержит Subject Alternative Name (SAN)** и не доверен браузером.
+
+---
+
+## ✅ Решение 1: Добавить SAN при генерации сертификата
+
+Пересоздайте `keystore.p12` с указанием SAN:
+
+```bash
+keytool -genkeypair -alias tomcat \
+  -keyalg RSA \
+  -keysize 2048 \
+  -storetype PKCS12 \
+  -keystore keystore.p12 \
+  -validity 365 \
+  -storepass changeit \
+  -keypass changeit \
+  -dname "CN=localhost, OU=Development, O=Company, L=City, ST=State, C=RU" \
+  -ext san=dns:localhost,ip:127.0.0.1
+```
+
+### Объяснение:
+- `-ext san=dns:localhost,ip:127.0.0.1` — добавляет **Subject Alternative Name**
+- Теперь сертификат будет валидным для `https://localhost:8443` и `https://127.0.0.1:8443`
+
+---
+
+## ✅ Решение 2: Проигнорировать ошибку (только для разработки)
+
+Если вы на **локальной машине**, можно:
+1. Открыить `https://localhost:8443`
+2. Нажать **"Дополнительно" → "Перейти на сайт (небезопасно)"**
+
+⚠️ Это безопасно **только в dev-среде**.
+
+---
+
+## ✅ Решение 3: Добавить сертификат в доверенные (Windows/macOS)
+
+### Для Windows:
+1. Экспортируйте сертификат:
+   ```bash
+   keytool -exportcert -alias tomcat -file cert.cer -keystore keystore.p12 -storepass changeit
+   ```
+2. Откройте `cert.cer` → "Установить сертификат" → "Доверенные корневые центры сертификации"
+
+### Для macOS:
+1. Откройте Keychain Access
+2. Перетащите `cert.cer` в "System" или "login"
+3. Дважды кликните → "Доверять" → "Всегда доверять"
+
+---
+
+## ✅ Решение 4: Использовать Let's Encrypt (для продакшена)
+
+Если сайт публичный — используйте [Let's Encrypt](https://letsencrypt.org) через Nginx или Traefik. Spring Boot напрямую не поддерживает автоматическую выдачу Let's Encrypt.
+
+---
+
+## ✅ Проверка
+
+После пересоздания сертификата:
+```bash
+keytool -list -v -keystore keystore.p12 -storepass changeit
+```
+Убедитесь, что в выводе есть:
+```
+Subject Alternative Name:
+    DNS: localhost, IP Address: 127.0.0.1
+```
+
+---
+
+✅ Теперь ошибка **"Subject Alternative Name missing"** исчезнет, и браузер будет считать HTTPS валидным (хотя и самоподписанным).
+
+> 💡 Совет: В production всегда используйте сертификаты от Let's Encrypt или других доверенных CA.
+
+
+USER at 2026-04-02T00:50:03.113926657:
+
+нужно сделать исправления для сайта https://v.perm.ru
+
+ASSISTANT at 2026-04-02T00:50:36.313532463:
+
+```yaml src/main/resources/application.yaml
+server:
+  port: 8443
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: changeit
+    key-store-type: PKCS12
+    key-alias: tomcat
+
+spring:
+  freemarker:
+    template-loader-path: classpath:/templates
+    suffix: .ftl
+    cache: false
+    enabled: true
+    content-type: text/html
+    charset: UTF-8
+  datasource:
+    url: jdbc:h2:mem:employees_db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate.ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      hibernate.type: trace
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.orm.jdbc.bind: TRACE
+```
+
+---
+
+### 🔐 Как настроить для `https://v.perm.ru` (реальный сайт)
+
+Ваш текущий `application.yaml` использует **самоподписанный сертификат**, который **не подходит** для публичного сайта. Для `v.perm.ru` нужно:
+
+---
+
+## ✅ Шаг 1: Получите реальный SSL-сертификат (Let's Encrypt)
+
+Сертификат должен быть выдан для домена `v.perm.ru`.
+
+Используйте [Certbot](https://certbot.eff.org) или другой способ:
+
+```bash
+sudo certbot certonly --standalone -d v.perm.ru
+```
+
+Это создаст файлы:
+- `fullchain.pem`
+- `privkey.pem`
+
+---
+
+## ✅ Шаг 2: Конвертируйте в `.p12` (PKCS12)
+
+Spring Boot требует `.p12`:
+
+```bash
+openssl pkcs12 -export \
+  -in /etc/letsencrypt/live/v.perm.ru/fullchain.pem \
+  -inkey /etc/letsencrypt/live/v.perm.ru/privkey.pem \
+  -out keystore.p12 \
+  -name tomcat \
+  -CAfile /etc/letsencrypt/live/v.perm.ru/chain.pem \
+  -caname root \
+  -password pass:changeit
+```
+
+Скопируйте `keystore.p12` в `src/main/resources/`.
+
+---
+
+## ✅ Шаг 3: Обновите `application.yaml`
+
+```yaml src/main/resources/application.yaml
+server:
+  port: 443  # HTTPS по умолчанию
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: changeit
+    key-store-type: PKCS12
+    key-alias: tomcat
+    key-password: changeit  # пароль от приватного ключа
+
+spring:
+  freemarker:
+    template-loader-path: classpath:/templates
+    suffix: .ftl
+    cache: false
+    enabled: true
+    content-type: text/html
+    charset: UTF-8
+  datasource:
+    url: jdbc:h2:mem:employees_db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate.ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      hibernate.type: trace
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.orm.jdbc.bind: TRACE
+```
+
+---
+
+## ✅ Шаг 4: Настройте DNS и фаервол
+
+- Убедитесь, что `v.perm.ru` указывает на IP вашего сервера
+- Откройте порт `443` в фаерволе:
+  ```bash
+  sudo ufw allow 443/tcp
+  ```
+
+---
+
+## ✅ Шаг 5: Запустите приложение с правами root (или через proxy)
+
+Порт `443` требует прав суперпользователя.
+
+### Вариант A: Запуск от root (не рекомендуется)
+```bash
+sudo java -jar your-app.jar
+```
+
+### Вариант B: Использовать Nginx как reverse proxy (рекомендуется)
+
+```nginx
+server {
+    listen 443 ssl;
+    server_name v.perm.ru;
+
+    ssl_certificate /etc/letsencrypt/live/v.perm.ru/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/v.perm.ru/privkey.pem;
+
+    location / {
+        proxy_pass http://localhost:8080;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+Тогда в `application.yaml` оставьте `server.port=8080`, а HTTPS будет обрабатываться Nginx.
+
+---
+
+## ✅ Результат
+
+| Что | Сделано |
+|-----|--------|
+| Домен | `v.perm.ru` |
+| HTTPS | Да, через Let's Encrypt |
+| Сертификат | Валидный, без ошибок |
+| Браузер | Не показывает предупреждений |
+
+---
+
+✅ Теперь ваш сайт будет работать как `https://v.perm.ru` с **надёжным и доверенным HTTPS**.
+
+Хотите, я помогу автоматизировать обновление сертификата?

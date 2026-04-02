@@ -26,6 +26,8 @@ Found the following certs:
 ОБНОВЛЕНИЕ (!!!) сертификата
 root@v:/var/log/letsencrypt# sudo certbot renew
 >Saving debug log to /var/log/letsencrypt/letsencrypt.log
+
+
 >
 > - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 > Processing /etc/letsencrypt/renewal/v.perm.ru.conf
@@ -124,4 +126,19 @@ Mapping портов:
 Маппинг для МОИХ java сервисов:
 8080 -> 192.168.1.20:8080 (tomcat)
 8443 -> 192.168.1.20:8443 (tomcat для программ, работающих через HTTPS, значок HTTPS красный)
+
+02/04/2026===================================================
+Все получилось!!!
+v.perm.ru и с наружи (телефонов) - OK и с ноута - OK
+https_ok.png
+(но протокол ниже под вопросом, как-то так делал, в следуюший раз делать через letsencrypt renew)
+на router порты 443 TCP,UDP перенаправить на 192.168.1.20
+
+Тестирование конфигурации:
+sudo openssl x509 -noout -checkhost v.perm.ru
+sudo openssl x509 -in sslcert.crt -noout -checkhost v.perm.ru
+keytool -genkeypair -alias tomcat -keyalg RSA -keystore keystore.p12 -storetype PKCS12 -validity 365 -storepass changeit
+================
+См. etc.zip
+================
 

@@ -1,0 +1,167 @@
+Шаг 1: Получите реальный SSL-сертификат (Let's Encrypt)
+Сертификат должен быть выдан для домена v.perm.ru.
+Используйте Certbot или другой способ:
+
+````shell
+sudo certbot certonly --standalone -d v.perm.ru
+````
+
+Это создаст файлы:
+
+fullchain.pem
+privkey.pem
+
+
+Шаг 2: Конвертируйте в .p12 (PKCS12)
+
+Spring Boot требует .p12:
+
+openssl pkcs12 -export \
+  -in /etc/letsencrypt/live/v.perm.ru/fullchain.pem \
+  -inkey /etc/letsencrypt/live/v.perm.ru/privkey.pem \
+  -out keystore.p12 \
+  -name tomcat \
+  -CAfile /etc/letsencrypt/live/v.perm.ru/chain.pem \
+  -caname root \
+  -password pass:changeit
+
+Скопируйте keystore.p12 в src/main/resources/.
+
+✅ Шаг 3: Обновите application.yaml
+
+server:
+  port: 443  # HTTPS по умолчанию
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: changeit
+    key-store-type: PKCS12
+    key-alias: tomcat
+    key-password: changeit  # пароль от приватного ключа
+
+spring:
+  freemarker:
+    template-loader-path: classpath:/templates
+    suffix: .ftl
+    cache: false
+    enabled: true
+    content-type: text/html
+    charset: UTF-8
+  datasource:
+    url: jdbc:h2:mem:employees_db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate.ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      hibernate.type: trace
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.orm.jdbc.bind: TRACE
+
+
+Шаг 4: Настройте DNS и фаервол
+
+Убедитесь, что v.perm.ru указывает на IP вашего сервера
+Откройте порт 443 в фаерволе:
+
+  sudo ufw allow 443/tcp
+  
+Шаг 5: Запустите приложение с правами root (или через proxy)
+Порт 443 требует прав суперпользователя.
+Вариант A: Запуск от root (не рекомендуется)
+
+sudo java -jar your-app.jar
+
+Вариант B: Использовать Nginx как reverse proxy (рекомендуется)
+
+server {
+    listen 443 ssl;
+    server_name v.perm.ru;
+
+    ssl_certificate /etc/letsencrypt/live/v.perm.ru/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/v.perm.ru/privkey.pem;
+
+    location / {
+        proxy_pass http://localhost:8080;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+Тогда в application.yaml оставьте server.port=8080, а HTTPS будет обрабатываться Nginx.
+
+Результат
+Что
+Сделано
+Домен
+v.perm.ru
+HTTPS
+Да, через Let's Encrypt
+Сертификат
+Валидный, без ошибок
+Браузер
+Не показывает предупреждений
+
+✅ Теперь ваш сайт будет работать как https://v.perm.ru с надёжным и доверенным HTTPS.
+
+
+======================================
+вместо порта 443 нужно сделать 8443
+--------------------------------------
+server:
+  port: 8443
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: changeit
+    key-store-type: PKCS12
+    key-alias: tomcat
+
+spring:
+  freemarker:
+    template-loader-path: classpath:/templates
+    suffix: .ftl
+    cache: false
+    enabled: true
+    content-type: text/html
+    charset: UTF-8
+  datasource:
+    url: jdbc:h2:mem:employees_db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate.ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      hibernate.type: trace
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.orm.jdbc.bind: TRACE
+
+Порт уже корректно установлен на 8443 — изменений не требуется.
+Если вы хотите, чтобы приложение было доступно по https://v.perm.ru:8443, убедитесь:
+
+DNS — v.perm.ru указывает на IP вашего сервера.
+Фаервол — порт 8443 открыт:
+
+sudo ufw allow 8443/tcp
+
+Сертификат — содержит SAN для v.perm.ru (как описано ранее).
+Теперь сайт будет доступен по:
+
+https://v.perm.ru:8443
+
+   
