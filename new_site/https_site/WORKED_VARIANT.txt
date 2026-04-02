@@ -138,7 +138,25 @@ https_ok.png
 sudo openssl x509 -noout -checkhost v.perm.ru
 sudo openssl x509 -in sslcert.crt -noout -checkhost v.perm.ru
 keytool -genkeypair -alias tomcat -keyalg RSA -keystore keystore.p12 -storetype PKCS12 -validity 365 -storepass changeit
-================
+2/04/2026================
 См. etc.zip
-================
+2/04/2026================
 
+2/04/2026================
+Все что ниже через сделано телефон
+Открывать сайты в chrome, yandex_browser с вычишенным кешем (!!!)
+
+Настройка https в ~/temp/https_chat/chat2.txt
+
+https://v.perm.ru
+2/04/2026================
+ в yandex_browser с ноута показывает ошибку https (вычистить кеш!!!),
+с телефонов все ОК!!!
+в chrome на ноуте все ОК!!!
+в yandex_browser в защищенном режиме (incognito mode) - OK!!!
+в yandex_browser вычистил кеш и стало - OK!!!
+![security_overview.png](security_overview.png)
+
+2/04/2026================
+Проверил через wifi - OK!
+================
