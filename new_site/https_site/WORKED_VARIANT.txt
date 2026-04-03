@@ -165,5 +165,59 @@ https://v.perm.ru
 ================
 Прога vasi@v:~/temp$ ./hr_admin.sh по https://v.perm.ru:8088/ открывается с ошибкой HTTPS
 
+=====================Настройка HTTPS !!! APACHE_2 !!!=====================
 
+000-default-le-ssl.conf:
 
+````shell
+root@v:/etc/apache2/sites-available# cat 000-default-le-ssl.conf
+
+<IfModule mod_ssl.c>
+    <VirtualHost *:443>
+	ServerName v.perm.ru
+
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/main/
+
+	LogLevel debug
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+	#ServerName v.perm.ru
+	SSLEngine on
+
+	#SSLProxyEngine On
+	#ProxyPreserveHost on
+	#ProxyRequests off
+
+    # ВОТ ЭТИ НАСТРОЙКИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	SSLCertificateFile /etc/letsencrypt/live/v.perm.ru/cert.pem
+	SSLCertificateChainFile /etc/letsencrypt/live/v.perm.ru/fullchain.pem
+	SSLCertificateKeyFile /etc/letsencrypt/live/v.perm.ru/privkey.pem
+	SSLCACertificateFile /etc/letsencrypt/live/v.perm.ru/chain.pem
+	Include /etc/letsencrypt/options-ssl-apache.conf
+    </VirtualHost>
+</IfModule>
+````
+
+/etc/letsencrypt/live это ссылки:
+
+````shell
+root@v:/etc/letsencrypt/live/v.perm.ru# ll
+total 16
+drwxr-xr-x 2 root root 4096 Feb 16 22:23 ./
+drwxr-xr-x 3 root root 4096 Aug 11  2024 ../
+lrwxrwxrwx 1 root root   33 Feb 16 22:23 cert.pem -> ../../archive/v.perm.ru/cert9.pem
+lrwxrwxrwx 1 root root   34 Feb 16 22:23 chain.pem -> ../../archive/v.perm.ru/chain9.pem
+lrwxrwxrwx 1 root root   38 Feb 16 22:23 fullchain.pem -> ../../archive/v.perm.ru/fullchain9.pem
+-rw-rw-rw- 1 vasi vasi 2845 Dec 17 11:06 keystore.p12
+lrwxrwxrwx 1 root root   36 Feb 16 22:23 privkey.pem -> ../../archive/v.perm.ru/privkey9.pem
+-rw-r--r-- 1 root root  692 Aug 11  2024 README
+````
+
+Все файлы /etc/letsencrypt в worked.zip
+
+==========> Эти настройки не касаются tomcat и java программ, только APACHE 2.
+
+Настройки для tomcat описаны тут https://tomcat.apache.org/tomcat-8.5-doc/ssl-howto.html (TODO: не делал)
