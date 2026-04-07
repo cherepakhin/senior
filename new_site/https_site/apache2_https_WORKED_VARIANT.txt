@@ -8,17 +8,17 @@ $ openssl x509 -noout -enddate -in /etc/letsencrypt/live/v.perm.ru/fullchain.pem
 
 https://think.unblog.ch/en/how-to-check-lets-encrypt-certificate-expiry-date/
 ============================================================================================
-Просмотр текущнго сертификата:
+Просмотр текущего сертификата:
 # sudo certbot certificates
 Saving debug log to /var/log/letsencrypt/letsencrypt.log
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Found the following certs:
   Certificate Name: v.perm.ru
-    Serial Number: 518459ce5f1e22f699c25f1715294584f3b
+    Serial Number: 65386b86dc5e336333f9638fa4814b96cc8
     Key Type: ECDSA
     Domains: v.perm.ru
-    Expiry Date: 2025-11-05 04:06:21+00:00 (INVALID: EXPIRED)
+    Expiry Date: 2026-05-17 16:24:33+00:00 (VALID: 44 days)
     Certificate Path: /etc/letsencrypt/live/v.perm.ru/fullchain.pem
     Private Key Path: /etc/letsencrypt/live/v.perm.ru/privkey.pem
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -49,7 +49,7 @@ notBefore=Dec 18 04:50:54 2025 GMT
 notAfter=Mar 18 04:50:53 2026 GMT
 
 При проверке обращения к сайту, дата сертификата ОБНОВИЛАСЬ (!!!!!!),
-но "https" в адресной строке все равно КРАСНЫЙ (да и хрен с ним).
+но "https" в адресной строке все равно КРАСНЫЙ (может быть нужно перезайти в браузер?).
 
 ===========================================================================================
 Копия статьи https://think.unblog.ch/en/how-to-check-lets-encrypt-certificate-expiry-date/
@@ -73,23 +73,22 @@ So let’s see the options, using commands in examples, to get the expiry date o
 Check Certificates Expiry Date
 To view a list of the certificates Certbot knows about, run the certificates subcommand in the terminal shell:
 
-$ sudo certbot certificates
-This returns details similar as follows, along with the Expiry Date:
-
-Saving debug log to /var/log/letsencrypt/letsencrypt.log
+v$ sudo certbot certificates
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Found the following certs:
-  Certificate Name: myhost.domain.org
-    Domains: myhost.domain.org
-    Expiry Date: 2023-03-26 08:39:39+00:00 (VALID: 14 days)
-    Certificate Path: /etc/letsencryp/live/myhost.example.tld/fullchain.pem
-    Private Key Path: /etc/letsencryp/live/myhost.example.tld/privkey.pem
+  Certificate Name: v.perm.ru
+    Serial Number: 65386b86dc5e336333f9638fa4814b96cc8
+    Key Type: ECDSA
+    Domains: v.perm.ru
+    Expiry Date: 2026-05-17 16:24:33+00:00 (VALID: 44 days)
+    Certificate Path: /etc/letsencrypt/live/v.perm.ru/fullchain.pem
+    Private Key Path: /etc/letsencrypt/live/v.perm.ru/privkey.pem
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Let’s see how the expiry date of any certificate can be queried, so not just only Let’s Encrypt certificates.
 
-$ sudo openssl x509 -dates -noout < /etc/letsencrypt/live/myhost.example.tld/cert.pem
-This command, running in a Linux terminal, displays the expiration date of each certificate, according to the ITU-T standard specifications for X.509 digital certificates.
+vasi@v:~/temp$ sudo openssl x509 -dates -noout < /etc/letsencrypt/live/v.perm.ru/cert.pem
+notBefore=Feb 16 16:24:34 2026 GMT
+notAfter=May 17 16:24:33 2026 GMT
 
 Renew Let’s Encrypt Certificates use Certbot
 The Let’s Encrypt certificates can be renewed before they expire using this command.
@@ -218,6 +217,24 @@ lrwxrwxrwx 1 root root   36 Feb 16 22:23 privkey.pem -> ../../archive/v.perm.ru/
 
 Все файлы /etc/letsencrypt в worked.zip
 
-==========> Эти настройки не касаются tomcat и java программ, только APACHE 2.
+==========> Эти настройки (ктр. ВЫШЕ) не касаются tomcat и java программ, только APACHE 2.
 
-Настройки для tomcat описаны тут https://tomcat.apache.org/tomcat-8.5-doc/ssl-howto.html (TODO: не делал)
+========== Теперь настройки для tomcat
+
+У меня tomcat в /usr/share/tomcat9.
+
+Настройки для tomcat описаны тут
+https://tomcat.apache.org/tomcat-8.5-doc/ssl-howto.html (TODO: не делал)
+
+Править файл $CATALINA_BASE/conf/server.xml
+
+Сертификаты _БЫЛИ_ сгенерированы см.ВЫШЕ строку 140:
+
+````shell
+keytool -genkeypair -alias tomcat -keyalg RSA -keystore keystore.p12 -storetype PKCS12 -validity 365 -storepass changeit
+````
+keystore.p12 из /etc/letsencrypt/live/v.perm.ru/keystore.p12
+"-storepass changeit" тоже из строки 140
+
+https://v:8443/manager/html - КРАСНЫЙ!
+vasi/pass
