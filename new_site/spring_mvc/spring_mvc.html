@@ -1,4 +1,23 @@
+<h3>hr-admin</h3>
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/hr_admin" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/hr_admin</a><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="screen_main_screen.png" src="images/spring_mvc/hr_admin.png"
+        width="1362" height="572"/></p>
+Заготовка для UI проектов со Spring Boot Web<br/>
+Java 17<br/>
+Основная цель <b>ТОЛЬКО FRONTEND</b>.<br/>
+<ul>
+    <li>В качестве template использован <b>Freemarker</b> с помощью библиотеки <a style="text-decoration: underline; color: #3366ff;" href="https://www.baeldung.com/freemarker-in-spring-mvc-tutorial" target="_blank" rel="noopener noreferrer">spring-boot-starter-freemarker</a></li>
+    <li>Простой CRUD. База данных <b>H2</b>.</li>
+    <li>Использован <b>Tailwind CSS Framework</b>(TailwindCSS) - CSS-фреймворк для оформления интерфейсов.</li>
+    <li>При тестировании использован <a style="text-decoration: underline; color: #3366ff;" href="https://www.baeldung.com/introduction-to-assertj" target="_blank" rel="noopener noreferrer">AssertJ</a></li>
+    <li>Тесты в <b>BDD</b> стиле с <b>Mockito</b> (смотри файл <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/hr_admin/blob/v0.0.3/src/test/java/net/guides/springboot2/freemarker/controller/EmployeeControllerTest.java" target="_blank" rel="noopener noreferrer">EmployeeControllerTest.java</a>)</li>
+    <li><b>DataJpaTest</b> в (смотри файл <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/hr_admin/blob/v0.0.3/src/test/java/net/guides/springboot2/freemarker/repository/EmployeeRepositoryDataJpaTest.java" target="_blank" rel="noopener noreferrer">EmployeeRepositoryDataJpaTest.java</a>)</li>
+    <li>Использован <b>GigaChat</b></li>
+</ul>
+Развернуто тут: <a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/hr_admin/" target="_blank" rel="noopener noreferrer">https://v.perm.ru/hr_admin/</a> (запустить ~/temp/hr_admin.sh)<br/>
+<br/>
 <h3>spring-boot-mdl</h3>
+<hr id="system-readmore" />
 <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/spring-boot-mdl" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/spring-boot-mdl</a><br/>
 Использован template framework: <a style="text-decoration: underline; color: #3366ff;" href="https://www.thymeleaf.org/" target="_blank" rel="noopener noreferrer">Thymeleaf</a>.
 <br/>
@@ -36,9 +55,32 @@
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="notebook_mobile.jpg" src="images/spring_mvc/notebook_mobile.jpg"
         width="360" height="640"/></p>
 
+<b>Themleaf</b>:
+Использование org.springframework.ui.<b>model</b>
+<a style="text-decoration: underline; color: #3366ff;" href="https://www.makariev.com/blog/nobuild-web-spring-boot-thymeleaf-htmx/" target="_blank" rel="noopener noreferrer">Creating a Web Application with Thymeleaf and HTMX</a>:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+@GetMapping("/htmx/pagination")
+public String getPagination(@RequestParam(name = "page", defaultValue = "0") int page,
+@RequestParam(name = "size", defaultValue = "5") int size, Model model) {
+    Pageable pageable = PageRequest.of(page, size);
+    Page&lt;Person&gt; personPage = personRepository.findAll(pageable);
+
+    model.addAttribute("totalPages", personPage.getTotalPages());
+    model.addAttribute("currentPage", personPage);
+    model.addAttribute("size", size);
+
+    return "person-crud-htmx";
+    }
+}
+</pre></div>
+
 <h3>Ссылки</h3>
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/hr_admin" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/hr_admin</a><br/>
 <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/spring-boot-mdl" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/spring-boot-mdl</a><br/>
 <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/notebook" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/notebook</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/springboot-thymeleaf-security-demo" target="_blank" rel="noopener noreferrer">Spring Boot + Thymeleaf + Security</a><br/>
+
 <br/>
 <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/OtusTeam/Spring/tree/master/2024-05/spring-17-mvc" target="_blank" rel="noopener noreferrer">Примеры на gihub от OTUS</a><br/>
 <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/OtusTeam/Spring/tree/master/2024-05/spring-18-view" target="_blank" rel="noopener noreferrer">Примеры VIEW на gihub от OTUS</a><br/>
@@ -48,3 +90,11 @@
 <br/>
 <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/javadevjournal/javadevjournal/tree/master/Spring-Boot/spring-mvc-file-upload/src/main" target="_blank" rel="noopener noreferrer">Загрузка файлов в Spring MVC</a><br/>
 <a href="https://www.thymeleaf.org/doc/tutorials/3.1/thymeleafspring.html" rel="nofollow">Tutorial: Thymeleaf + Spring</a><br/>
+<br/>
+<b>О Thymeleaf:</b><br/>
+<a href="https://habr.com/ru/articles/350862/" rel="nofollow">Руководство: Thymeleaf + Spring. Часть 1,2,3 (habr)</a><br/>
+<br/>
+<b>Стили для Material Design:</b><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/articles/351432/" target="_blank" rel="noopener noreferrer">Сравнение Material Design CSS фреймворков (habr)</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://www.muicss.com/docs/v1/css-js/buttons" target="_blank" rel="noopener noreferrer">muicss.com (!!!)</a><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://materializecss.com/buttons.html" target="_blank" rel="noopener noreferrer">materializecss.com</a><br/>
