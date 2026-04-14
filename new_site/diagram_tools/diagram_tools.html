@@ -16,6 +16,7 @@
 <h3>1. Plantuml</h3>
 Online и offline.<br/>
 Разработано на Java.<br/>
+Есть плагин для VSCode</br/>
 Online сервис:<br/>
 <a href="https://plantuml.com/ru/" rel="nofollow">https://plantuml.com/ru/</a><br/>
 <a href="https://habr.com/ru/companies/alfa/articles/740518/" rel="nofollow">Диаграммы без боли и страданий: PlantUML (habr.com)</a><br/>
@@ -27,6 +28,97 @@ Online сервис:<br/>
 Есть плагин для VSCode:
 <p><img style="display: block; margin-left: auto; margin-right: auto;" title="vscode_plantuml" src="images/diagram/vscode_plantuml.png"
         alt="vscode_plantuml" width="1035" height="643"/></p>
+
+Еще примеры:<br/>
+<h4>Пример 1</h4>
+<a href="https://github.com/cherepakhin/senior/blob/main/new_site/plant_uml/create_order.puml" rel="nofollow">create_order.puml</a>:
+
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+@startuml
+
+participant Client
+participant API
+participant Database
+
+Client -> API: POST /orders
+API -> Database: Insert new Order
+Database --> API: Order ID (ID: 456)
+API --> Client: Order Created (ID: 456)
+
+Client -> API: GET /orders/456
+API -> Database: Fetch Order Details
+Database --> API: Order Data
+API --> Client: Order Details
+
+Client -> API: PATCH /orders/456/cancel
+API -> Database: Update Order Status (cancelled)
+Database --> API: Succes
+API --> Client: Order Cancelled
+
+Client -> API: PATCH /orders/456/complete
+API -> Database: Update Order Status (completed)
+Database --> API: Success
+API --> Client: Order Completed
+
+@enduml
+</pre></div>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="create_order.png" src="images/diagram/create_order.png"
+        alt="create_order.png" width="502" height="603"/></p>
+
+<h4>Пример 2</h4>
+<a href="https://github.com/cherepakhin/senior/blob/main/new_site/plant_uml/demo_plant.puml" rel="nofollow">demo_plant.puml</a>:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+@startuml
+Allice -> Bob3 : dot_3
+
+Allice - Dom1: AAA
+
+Bob3 - Allice: Hello
+
+Allice -> Bob : hello
+
+Allice ..> Bob1 : hello dot
+Allice ..> Bob2 : hello dot 2
+
+@enduml
+</pre></div>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="demo_plant.png" src="images/diagram/demo_plant.png"
+        alt="demo_plant.png" width="502" height="603"/></p>
+
+<h4>Пример 3</h4>
+<a href="https://github.com/cherepakhin/senior/blob/main/new_site/plant_uml/plant_uml2.puml" rel="nofollow">plant_uml2.puml</a>:
+<div style="background: #ffffff; overflow:auto;width:auto;border: solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+@startuml
+
+package "Клиентская часть" {
+  [Мобильное приложение]
+  [Веб-приложение]
+}
+
+package "Серверная часть API" {
+  [API Gateway]
+  [Сервис управления заказами]
+  [Сервис очередей задач]
+}
+
+package "Внешние системы" {
+  [Платежный сервис]
+  [Сервис доставки]
+  [Сервис уведомлений]
+}
+
+[Мобильное приложение] --> [API Gateway]
+[Веб-приложение] --> [API Gateway]
+[API Gateway] --> [Сервис управления заказами]
+[Сервис управления заказами] --> [Сервис очередей задач]
+[Сервис управления заказами] --> [Платежный сервис]
+[Сервис управления заказами] --> [Сервис доставки]
+[Сервис очередей задач] --> [Сервис уведомлений]
+
+@enduml
+</pre></div>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="plant_uml2.png" src="images/diagram/plant_uml2.png"
+        alt="plant_uml2.png" width="587" height="627"/></p>
 
 <a id="dia"></a>
 <h3>2. Dia</h3>
