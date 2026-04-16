@@ -9,7 +9,7 @@ TODO: Install GigaIde
 (https://id.cloud.ru/login?tab=NDgzYWUwNDAtZTJhOC00NDY3LWExMjgtYTljMDYyODA4ZGJiJmdpdHZlcnNl.2510eee82115d551607570829f7b3bace5bceec52ad379261e5b3f8e5aa3bf23)
 vasi.che@gmail.com/B.._1970
 Код из СМС
-
+==============================================================
 Новая GPT от Yandex:
 https://alice.yandex.ru/
 https://alice.yandex.ru/chat/0195483f-796a-409a-97d7-f8d782949fb9/
@@ -19,3 +19,26 @@ https://gitverse.ru/services/gigacode?code=9ea6228a8dddd17f3b479638599b61fe627f5
 
 Добавить активацию из gigaide из "Activation".
 Проверить из java кода (значек GIGACODE в ide остается серым).
+==============================================================
+16.04
+Добавил ключ https://gitverse.ru/settings/keys
+
+ключ взял так vasi@vasi-note:~$ cat ~/.ssh/id_rsa.pub
+строку из id_rsa.pub добавил в поле ввода.
+До кучи, зашел https://gitverse.ru/dashboard в свой аккаунт.
+
+В GigaIde строка "GIGACODE" в подвале остается серая (так и задумано???)
+По ссылке из гигаиде НЕ переходит в аккаунт.
+
+Проверил работу на коде и в Readme.md через WIFI - РАБОТАЕТ
+
+Подключенные устройства
+При нажатии на серый значок "Gigacode" внизу выдаст что-то типа такого:
+ Malformed URL: ?code=9ea6228a8dddd17f3b479638599b61fe627f51527b04e35a8438a8095d1d95df&ide=GIGA IDE
+
+Нужно строку ?code... вставить в:
+https://gitverse.ru/services/gigacode?code=9ea6228a8dddd17f3b479638599b61fe627f51527b04e35a8438a8095d1d95df&ide=GIGA IDE
+
+Будут показаны "Устройства
+               Здесь перечислены IDE и устройства, на которые установлен плагин GigaCode"
+и сообщено, что GigaCode активирован (см. gigacode_gitverse.png)
