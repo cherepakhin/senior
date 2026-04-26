@@ -1,0 +1,326 @@
+Как распознать голос с помощью Java и Springboot?
+Алиса
+Разберу пошагово, как реализовать распознавание голоса (speech‑to‑text) в Spring Boot‑приложении на Java.
+
+Вариант 1. Через OpenAI Whisper (рекомендуемый для старта)
+Шаг 1. Настройка проекта и зависимости
+Для Maven (pom.xml):
+
+xml
+<dependency>
+    <groupId>org.springframework.ai</groupId>
+    <artifactId>spring-ai-openai-spring-boot-starter</artifactId>
+    <version>1.0.0</version>
+</dependency>
+Для Gradle (build.gradle):
+
+gradle
+implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter:1.0.0'
+Шаг 2. Конфигурация в application.properties
+properties
+# Обязательный API‑ключ OpenAI
+spring.ai.openai.api-key=${OPENAI_API_KEY}
+
+# Модель Whisper для распознавания речи
+spring.ai.openai.audio.transcription.options.model=whisper-1
+
+# Формат вывода: text, json, srt, verbose_json, vtt
+spring.ai.openai.audio.transcription.options.response-format=text
+
+# Температура выборки (0–1)
+spring.ai.openai.audio.transcription.options.temperature=0
+
+# Язык аудио (ISO 639‑1)
+# spring.ai.openai.audio.transcription.options.language=ru
+Шаг 3. Сервис для распознавания
+java
+@Service
+public class SpeechRecognitionService {
+
+    private final OpenAiAudioTranscriptionModel transcriptionModel;
+
+    public SpeechRecognitionService(OpenAiAudioTranscriptionModel transcriptionModel) {
+        this.transcriptionModel = transcriptionModel;
+    }
+
+    public String transcribeAudio(MultipartFile audioFile) throws IOException {
+        // Конвертируем MultipartFile в Resource
+        Resource audioResource = new ByteArrayResource(audioFile.getBytes());
+
+        // Создаём промпт для модели
+        AudioTranscriptionPrompt prompt = new AudioTranscriptionPrompt(audioResource);
+
+        // Отправляем запрос к Whisper
+        AudioTranscriptionResponse response = transcriptionModel.call(prompt);
+
+        // Возвращаем текст
+        return response.getResult().getOutput();
+    }
+}
+Шаг 4. REST‑контроллер
+java
+@RestController
+@RequestMapping("/api/speech")
+public class SpeechController {
+
+    private final SpeechRecognitionService speechService;
+
+    public SpeechController(SpeechRecognitionService speechService) {
+        this.speechService = speechService;
+    }
+
+    @PostMapping("/transcribe")
+    public ResponseEntity<String> transcribe(
+            @RequestParam("audio") MultipartFile audioFile) {
+        try {
+            String text = speechService.transcribeAudio(audioFile);
+            return ResponseEntity.ok(text);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Ошибка распознавания: " + e.getMessage());
+        }
+    }
+}
+Вариант 2. Через Google Cloud Speech‑to‑Text
+Зависимости (build.gradle)
+gradle
+implementation 'com.google.cloud:google-cloud-speech:1.22.0'
+implementation 'org.springframework.boot:spring-boot-starter-web'
+Конфигурация
+java
+@Configuration
+public class SpeechConfig {
+
+    @Bean
+    public SpeechClient speechClient() throws IOException {
+        return SpeechClient.create();
+    }
+}
+Сервис
+java
+@Service
+public class GoogleSpeechService {
+
+    private final SpeechClient speechClient;
+
+    public GoogleSpeechService(SpeechClient speechClient) {
+        this.speechClient = speechClient;
+    }
+
+    public String transcribe(MultipartFile audioFile) throws Exception {
+        ByteString audioBytes = ByteString.readFrom(audioFile.getInputStream());
+
+        RecognitionConfig config = RecognitionConfig.newBuilder()
+            .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
+            .setSampleRateHertz(16000)
+            .setLanguageCode("ru-RU") // Для русского языка
+            .build();
+
+        RecognitionAudio audio = RecognitionAudio.newBuilder()
+            .setContent(audioBytes)
+            .build();
+
+        RecognizeResponse response = speechClient.recognize(config, audio);
+
+        return response.getResultsList().stream()
+            .map(RecognitionResult::getAlternativesList)
+            .flatMap(Collection::stream)
+            .map(SpeechRecognitionAlternative::getTranscript)
+            .collect(Collectors.joining("\n"));
+    }
+}
+Важные замечания
+Форматы аудиофайлов:
+
+OpenAI Whisper: MP3, WAV, FLAC, M4A и др.
+
+Google Cloud: WAV (LINEAR16), FLAC и др.
+
+Размер файлов:
+
+Для OpenAI есть лимит на размер файла (обычно до 25 МБ). Для длинных записей используйте потоковую передачу.
+
+Аутентификация:
+
+OpenAI: установите переменную окружения OPENAI_API_KEY.
+
+Google Cloud: настройте аутентификацию через gcloud auth application-default login или сервисный аккаунт.
+
+Оптимизация:
+
+Для больших файлов реализуйте chunking (разбиение на части).
+
+Добавьте кэширование результатов.
+
+Используйте асинхронные вызовы для долгих операций.
+
+Обработка ошибок:
+
+Проверяйте формат и размер файла перед отправкой.
+
+Обрабатывайте сетевые ошибки и лимиты API.
+
+Тестирование
+Используйте Postman или curl:
+
+bash
+curl -X POST http://localhost:8080/api/speech/transcribe \
+  -F "audio=@path/to/your/audio.mp3"
+Ответ будет текстовой расшифровкой аудиофайла.
+
+Хотите, я раскрою какой‑то шаг подробнее или помогу адаптировать решение под ваш сценарий?
+
+Я
+это бесплатно
+Я
+Вопрос-это бесплатная услуга
+Алиса
+Разберу подробно, какие есть полностью бесплатные варианты распознавания голоса для Java/Spring Boot — без подписок, лимитов по времени и скрытых платежей.
+
+Полностью бесплатные решения
+1. Vosk
+Особенности:
+
+открытый исходный код (Apache 2.0);
+
+работает полностью офлайн — не требует интернет‑соединения;
+
+поддерживает русский язык;
+
+модели разного размера: от 40 МБ (базовая точность) до 2 ГБ (высокая точность);
+
+нативная Java‑библиотека с простой интеграцией в Spring Boot.
+
+Как подключить:
+
+Добавьте зависимость в pom.xml:
+
+xml
+<dependency>
+    <groupId>org.vosk</groupId>
+    <artifactId>vosk-java</artifactId>
+    <version>1.0.0</version>
+</dependency>
+Скачайте модель для русского языка с официального сайта Vosk и поместите в проект.
+
+Используйте Java‑код для инициализации модели и распознавания аудио.
+
+Плюсы:
+
+нулевые затраты;
+
+высокая скорость после загрузки модели;
+
+конфиденциальность — данные не уходят наружу.
+
+Минусы:
+
+требуется место для хранения моделей;
+
+точность ниже, чем у коммерческих облачных решений.
+
+2. Mozilla DeepSpeech
+Особенности:
+
+открытый исходный код (Mozilla Public License);
+
+локальное развёртывание;
+
+поддержка русского языка (через пользовательские модели);
+
+API для Java.
+
+Как подключить:
+
+Установите библиотеку DeepSpeech через Maven/Gradle.
+
+Загрузите предобученную модель (или дообучите свою).
+
+Интегрируйте в Spring Boot через REST‑контроллер.
+
+Плюсы:
+
+полностью бесплатно;
+
+гибкость настройки под специфические задачи.
+
+Минусы:
+
+сложность настройки и дообучения;
+
+высокие требования к ресурсам CPU/RAM;
+
+средняя точность «из коробки».
+
+3. CMU Sphinx (PocketSphinx)
+Особенности:
+
+открытый исходный код (BSD‑лицензия);
+
+офлайн‑работа;
+
+Java‑библиотека для интеграции;
+
+базовая поддержка русского языка.
+
+Как подключить:
+
+Добавьте зависимость PocketSphinx в проект:
+
+xml
+<dependency>
+    <groupId>edu.cmu.sphinx</groupId>
+    <artifactId>pocketsphinx-java</artifactId>
+    <version>5.0.0</version>
+</dependency>
+Настройте акустическую модель и словарь для русского языка.
+
+Реализуйте распознавание через API PocketSphinx.
+
+Плюсы:
+
+бесплатное использование;
+
+малый размер и низкое потребление ресурсов.
+
+Минусы:
+
+ограниченная точность для сложных сценариев;
+
+требует тонкой настройки акустической модели.
+
+Почему другие популярные сервисы не считаются бесплатными
+OpenAI Whisper: бесплатный пробный период (обычно $5 на 3 месяца), затем оплата за минуту аудио.
+
+Google Cloud Speech‑to‑Text: первые 60 минут в месяц бесплатно, далее — по тарифу.
+
+Yandex SpeechKit: до 1 000 запросов в месяц бесплатно, потом — оплата по квотам.
+
+Эти решения подходят для прототипов, но не для постоянного бесплатного использования на больших объёмах.
+
+Сравнительная таблица
+Решение	Оффлайн	Русский язык	Сложность настройки	Точность	Ресурсы
+Vosk	✅	✅	Средняя	Средняя	Низкие
+DeepSpeech	✅	✅ (через модели)	Высокая	Средняя/высокая	Высокие
+PocketSphinx	✅	Базовая поддержка	Средняя	Низкая/средняя	Очень низкие
+Рекомендации по выбору
+Для быстрого старта и баланса точности/ресурсов: Vosk. Просто скачайте модель, подключите библиотеку — и начинайте распознавать.
+
+Для максимальной кастомизации и контроля: DeepSpeech. Подойдёт, если готовы потратить время на дообучение модели.
+
+Для лёгких устройств и простых команд: PocketSphinx. Оптимален для IoT или встроенных систем с ограниченными ресурсами.
+
+Краткий план внедрения (на примере Vosk)
+Создайте Spring Boot‑проект.
+
+Добавьте зависимость Vosk в pom.xml.
+
+Скачайте русскую модель Vosk и положите в папку resources/.
+
+Напишите сервис для загрузки модели при старте приложения.
+
+Создайте REST‑контроллер, принимающий аудиофайл и возвращающий текст.
+
+Протестируйте через Postman/curl.
+
+Хотите, я раскрою какой‑то из шагов подробнее или помогу с примером кода для выбранного решения?
