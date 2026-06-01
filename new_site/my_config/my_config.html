@@ -1,0 +1,30 @@
+Ссылка на репозиторий:  <a href="https://github.com/cherepakhin/FileUploadExample">FileUploadExample</a>
+
+В проекте используется <b><u>ЧАСТНЫЙ</u></b> параметр конфигурации <b>myconfig:catalogForSave</b> из <b>application.yml</b>:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+myconfig:
+  catalogForSave: ${user.home}/temp/1
+</pre></div>
+<hr id="system-readmore" />
+Использование в Spring bean:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+@Controller
+public class UploadController {
+    ...
+    @Value("${myconfig.catalogForSave}")
+    String catalogForSave;
+
+    @PostConstruct
+    void init() {
+        logger.info("=====================");
+        logger.info("Catalog For Save location= '{}'", catalogForSave);
+        logger.info("=====================");
+    }
+    ...
+}
+</pre></div>
+
+Для контроля создан метод с аннотацией <b>@PostConstruct</b>.
+
