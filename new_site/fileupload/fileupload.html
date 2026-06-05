@@ -1,0 +1,84 @@
+Используется Java 11, Spring Boot, Themeleaf, Bootstrap.<br/>
+Ссылка на репозиторий:  <a href="https://github.com/cherepakhin/FileUploadExample">FileUploadExample</a>
+<hr id="system-readmore" />
+Так выглядит страница загрузки файлов:
+
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="fileupload" src="images/fileupload/fileupload1.png"
+        alt="fileupload" width="1378" height="535"/></p><br/>
+
+Выбранный файл будет сохранен в папку на сервере. Папка для хранения задается на backend.<br/>
+<br/>
+
+<a href="https://github.com/cherepakhin/FileUploadExample/blob/main/src/main/resources/templates/Homepage.html">HomePage.html</a>:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">&lt;form method="POST" action="/upload"
+      onsubmit="return Validate(this);" enctype="multipart/form-data"&gt;
+    &lt;div class="col-md-2"&gt;
+        &lt;b&gt;Загрузка файлов&lt;/b&gt;
+    &lt;/div&gt;
+    &lt;label for="choose_file" class="col-md-2 btn btn-primary" style="height: 2.6em; margin-right: 1em;"&gt;1. Выбрать файл&lt;/label&gt;
+    &lt;input id="choose_file" type="file" name="file"  style="display: none;"  accept=".csv" value="Выбрать файл:"/&gt;
+    &nbsp;
+    &lt;input type="submit" class="col-md-2 btn btn-primary"   style="height: 2.6em;" value="2. Загрузить"/&gt;
+&lt;/form&gt;
+</pre></div>
+<br/>
+<h3>Frontend</h3>
+Ключевые элементы формы:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">&lt;form method="POST" action="/upload"
+      onsubmit="return Validate(this);" enctype="multipart/form-data"&gt;
+</pre></div>
+<b>method="POST"</b><br/>
+<b>action="/upload"</b> - метод на backend для приема файла.<br/>
+<b>Validate(this);</b> - проверка расширения файла. Функция возвращает true/false.<br/>
+<b>enctype="multipart/form-data"</b> - формат передачи данных для POST запроса.<br/>
+<br/>
+<h3>Backend</h3>
+
+<a title="UploadController.java"
+   href="https://github.com/cherepakhin/FileUploadExample/blob/main/src/main/java/com/programinjava/learn/controller/UploadController.java"
+   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/FileUploadExample/blob/main/src/main/java/com/programinjava/learn/controller/UploadController.java</a><br/>
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+@PostMapping("/upload")
+public String singleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, ModelMap modelMap) {
+    logger.info("POST /upload");
+    logger.info("Multipart name: {}", file.getName());
+    logger.info("Multipart OriginalFilename={}", file.getOriginalFilename());
+
+    if (file.isEmpty()) {
+        redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+        return "redirect:uploadStatus";
+    }
+
+    logger.info("Домашний каталог пользователя: {}", userHomeDir); //  /home/vasi
+    logger.info("Catalog for save: {}", catalogForSave);
+
+    String fileName = file.getOriginalFilename();
+    logger.info("FileName : {}", fileName);
+
+    // save file to disk
+    if (!storageService.store(file, userHomeDir + catalogForSave, fileName)) {
+        redirectAttributes.addFlashAttribute("message", "Error occurred while uploading the file");
+        redirectAttributes.addFlashAttribute("status", "false");
+        return "redirect:/uploadStatus";
+    }
+    String catalog = userHomeDir + catalogForSave;
+    logger.info("last saved file: {}/{}", catalog, fileName);
+
+    List<String> listLoadedFiles = storageService.getHistoryLoadedFiles();
+    redirectAttributes.addFlashAttribute("listLoadedFiles", listLoadedFiles);
+
+    redirectAttributes.addFlashAttribute("fileName", fileName);
+    redirectAttributes.addFlashAttribute("message", "Загружен файл '" + fileName + "'");
+    redirectAttributes.addFlashAttribute("status", "true");
+    redirectAttributes.addFlashAttribute("getLastUploaded", storageService.getHistoryLoadedFiles());
+
+    return "redirect:/uploadStatus";
+}
+</pre></div>
+<br/>
+<h3>Ссылки</h3>
+
