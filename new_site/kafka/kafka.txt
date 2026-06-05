@@ -1,4 +1,65 @@
+-----------------------------------------------------------
 Запуск zookeeper-server
+-----------------------------------------------------------
 vasi@v ~/tools/kafka/bin $ ./zookeeper-server-start.sh /home/vasi/tools/kafka/config/
+/home/vasi/tools/kafka/bin/zookeeper-server-start.sh /home/vasi/tools/kafka/config/zookeeper.properties
+
+Проверка:
+http://v:9191/commands
+
+-----------------------------------------------------------
+Запуск kafka:
+-----------------------------------------------------------
+vasi@v:~/tools/kafka/config$ /home/vasi/tools/kafka/bin/kafka-server-start.sh /home/vasi/tools/kafka/config/server.properties
+
 
 https://github.com/OtusTeam/Java-Advanced/tree/master
+
+-------------------------- 11/05/2026
+Zookeeper так работает:
+--------------------------
+root@v:/home/vasi/tools/kafka/config# cat zookeeper.properties
+
+dataDir=/tmp/zookeeper
+# the port at which the clients will connect
+clientPort=2181
+# disable the per-ip limit on the number of connections since this is a non-production config
+maxClientCnxns=0
+# Disable the adminserver by default to avoid port conflicts.
+# Set the port to something non-conflicting if choosing to enable this
+admin.enableServer=true
+admin.serverPort=8282
+jute.maxbuffer=1610612736
+
+vasi@v:~/tools/kafka_ui$ sudo /home/vasi/tools/kafka/bin/zookeeper-server-start.sh /home/vasi/tools/kafka/config/zookeeper.properties
+
+Открыть http://v:8282/commands
+Откроется new_site/kafka/zookeeper.png
+
+--------------------------
+/home/vasi/doc/senior/new_site/kafka/kafka.txt
+
+/home/vasi/tools/kafka/bin/kafka-server-start.sh /home/vasi/tools/kafka/config/server.properties
+
+20/05/2026 --------------------------------------------
+Запуск вручную и проверка:
+1) В одном терминале:
+/home/vasi/tools/kafka/bin/zookeeper-server-start.sh /home/vasi/tools/kafka/config/zookeeper.properties
+
+2) В другом терминале:
+/home/vasi/tools/kafka/bin/kafka-server-start.sh /home/vasi/tools/kafka/config/server.properties
+
+3) Запуск consumer
+/home/vasi/tools/kafka/bin/kafka-console-consumer.sh --bootstrap-server v:9092 --topic Test --from-beginning
+
+    ./kafka-console-consumer.sh --bootstrap-server v:9092 --topic Test --from-beginning
+
+    --from-beginning — позволяет начать чтение сообщений с начала истории топика, а не только новых.
+    без этой опцции будут читаться только новые
+
+4) Посылка сообщения
+echo "Hello, World from Kafka1" | /home/vasi/tools/kafka/bin/kafka-console-producer.sh --broker-list v:9092 --topic Test
+
+5) Удаление топика
+./kafka-topics.sh --bootstrap-server v:9092 --delete --topic camel-integration
+
