@@ -1,0 +1,15 @@
+[Unit]
+Description=activemq
+Wants=network-online.target
+After=network-online.target
+[Service]
+Type=simple
+User=vasi
+Group=vasi
+ExecReload=/bin/kill -HUP 
+ExecStart=/home/vasi/po/activemq/bin/activemq start
+SyslogIdentifier=activemq
+StandardOutput=file:/var/log/activemq.log
+Restart=always
+[Install]
+WantedBy=multi-user.target
