@@ -79,22 +79,52 @@
     </style>
 </head>
 <body>
-<h1 id="ActiveMQ">ActiveMQ</h1>
-Файлы настройки ActiveMQ находятся в папке v:/home/vasi/po/activemq/conf
+Файлы настройки ActiveMQ находятся в папке v:/home/vasi/po/activemq/conf. <br/>
+Копии файлов в <a href="https://github.com/cherepakhin/senior/tree/main/new_site/activemq/conf">https://github.com/cherepakhin/senior/tree/main/new_site/activemq/conf</a><br/>
+<hr id="system-readmore" />
+<h5>activemq.service</h5>
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
 <pre style="margin: 0; line-height: 125%;">
+[Unit]
+Description=activemq
+Wants=network-online.target
+After=network-online.target
+[Service]
+Type=simple
+User=vasi
+Group=vasi
+ExecReload=/bin/kill -HUP
+ExecStart=/home/vasi/po/activemq/bin/activemq start
+SyslogIdentifier=activemq
+StandardOutput=file:/var/log/activemq.log
+Restart=always
+[Install]
+WantedBy=multi-user.target
 </pre></div>
-Копии файлов: <a href="https://github.com/cherepakhin/simple_boot_camel/blob/main/doc/health_check.json">health_check.json</a><br/>
-<h5>Запуск сервиса:</h5><br/>
+<h5>Запуск сервиса:</h5>
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
 <pre style="margin: 0; line-height: 125%;">
 sudo systemctl start activemq.service
 </pre></div>
+<h5>Остановка сервиса:</h5>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+sudo systemctl start activemq.service
+</pre></div>
+<h5>Админ.панель:</h5>
+Админ.панель (доступна только из локальной сети): <a href="http://v:8161/admin/">http://v:8161/admin/</a><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="activemq_admin" src="images/activemq/activemq_admin.png" width="1338" height="561" /></p>
+<h5>Очереди:</h5>
+<a href="http://v:8161/admin/queues.jsp">http://v:8161/admin/queues.jsp</a><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="activemq_queues" src="images/activemq/activemq_queues.png" width="1329" height="565" /></p>
+<h5>Топики:</h5>
+<a href="http://v:8161/admin/topics.jsp">http://v:8161/admin/topics.jsp</a><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="activemq_topics" src="images/activemq/activemq_topics.png" width="1337" height="567" /></p>
+<h5>Отправка сообщения:</h5>
+<a href="http://v:8161/admin/send.jsp">http://v:8161/admin/send.jsp</a><br/>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="activemq_send" src="images/activemq/activemq_send.png" width="1329" height="604" /></p>
+<br/>
 
-<h5>Остановка сервиса:</h5><br/>
-<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
-<pre style="margin: 0; line-height: 125%;">
-sudo systemctl start activemq.service
-</pre></div>
 </body>
 </html>
+
