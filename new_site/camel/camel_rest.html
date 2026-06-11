@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpringBoot + Camel REST API</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2, h3, h4 {
+            color: #24292e;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 0.3em;
+        }
+        h1 { padding-bottom: 10px; }
+        h2 { margin-top: 24px; }
+        pre {
+            background-color: #f6f8fa;
+            padding: 16px;
+            overflow-x: auto;
+            border-radius: 6px;
+            border: 1px solid #e1e4e8;
+            margin: 10px 0;
+        }
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 85%;
+            background-color: #f6f8fa;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            color: #e36209;
+        }
+        a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+        a:hover { text-decoration: underline; }
+        .shell {
+            color: #24292e;
+            background-color: #f6f8fa;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 10px 0;
+        }
+        .json {
+            color: #24292e;
+            background-color: #f6f8fa;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 10px 0;
+        }
+        .text-block {
+            background-color: #f6f8fa;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+        .markdown-heading {
+            display: flex;
+            align-items: center;
+        }
+        .anchor {
+            margin-left: 10px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .markdown-heading:hover .anchor {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+<h1 id="springboot--camel-rest-api">SpringBoot + Camel REST API</h1>
+
+Репозиторий на GitHub: <a href="https://github.com/cherepakhin/simple_boot_camel">https://github.com/cherepakhin/simple_boot_camel</a>
+<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <pre style="margin: 0; line-height: 125%;"><code>echo $JAVA_HOME
+/usr/lib/jvm/java-1.8.0-openjdk-amd64</code></pre>
+</div>
+Запуск:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <pre style="margin: 0; line-height: 125%;">export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+./mvnw spring-boot:run</pre>
+</div>
+
+<hr>
+<hr id="system-readmore"/>
+
+<p><a href="http://127.0.0.1:8080/camel-rest/api-doc">http://127.0.0.1:8080/camel-rest/api-doc</a></p>
+
+<hr>
+
+<h4>Запрос:</h4>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">http :8080/camel-rest/books/</pre>
+</div>
+
+<p><a href="http://127.0.0.1:8080/camel-rest/books/">http://127.0.0.1:8080/camel-rest/books/</a></p>
+
+<h5>Ответ:</h5>
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">[
+    {
+        "isbn": "1",
+        "title": "This is book 1"
+    },
+    {
+        "isbn": "2",
+        "title": "This is book 2"
+    },
+    {
+        "isbn": "3",
+        "title": "This is book 3"
+    },
+    {
+        "isbn": "4",
+        "title": "This is book 4"
+    },
+    {
+        "isbn": "5",
+        "title": "This is book 5"
+    },
+    {
+        "isbn": "6",
+        "title": "This is book 6"
+    },
+    {
+        "isbn": "7",
+        "title": "This is book 7"
+    },
+    {
+        "isbn": "8",
+        "title": "This is book 8"
+    },
+    {
+        "isbn": "9",
+        "title": "This is book 9"
+    }
+]</pre>
+</div>
+
+<hr>
+
+<h2>Запрос "/books/9":</h2>
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">http :8080/camel-rest/books/9</pre>
+</div>
+
+<p><a href="http://127.0.0.1:8080/camel-rest/books/9">http://127.0.0.1:8080/camel-rest/books/9</a></p>
+
+<h5>Ответ:</h5>
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">id: 9
+{
+    "isbn": "9",
+        "title": "This is book 9"
+}</pre>
+</div>
+
+<hr>
+<h2 id="service-info">Служебные запросы</h2>
+<hr>
+<h4 id="beans">Запрос "/beans":</h4>
+
+<p><a href="http://127.0.0.1:8080/beans">http://127.0.0.1:8080/beans</a></p>
+
+<h5>Ответ:</h5>
+ <a href="https://github.com/cherepakhin/simple_boot_camel/blob/main/doc/beans.json">beans.json</a></p>
+
+<hr>
+
+<h4 id="mappings">Запрос "/mappings":</h4>
+
+<p><a href="http://127.0.0.1:8080/mappings">http://127.0.0.1:8080/mappings</a></p>
+
+<h5>Ответ:</h5>
+<a href="https://github.com/cherepakhin/simple_boot_camel/blob/main/doc/mappings.json">mappings.json</a>
+
+<hr>
+
+<h4 id="запрос-error">Запрос "/error":</h4>
+
+<p><a href="http://127.0.0.1:8080/error">http://127.0.0.1:8080/error</a></p>
+
+
+<h5>Ответ:</h5>
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">{
+    "error": "None",
+    "message": "No message available",
+    "status": 999,
+    "timestamp": 1781121228131
+}</pre>
+</div>
+
+<hr>
+
+<h4 id="metrics">Запрос "/metrics":</h4>
+
+<p><a href="http://127.0.0.1:8080/metrics">http://127.0.0.1:8080/metrics</a></p>
+
+<h5>Ответ:</h5>
+<a href="https://github.com/cherepakhin/simple_boot_camel/blob/main/doc/metrics.json">metrics.json</a>
+
+<hr>
+
+<h4 id="запрос-health">Запрос "/health.json":</h4>
+
+<p><a href="http://127.0.0.1:8080/health.json">http://127.0.0.1:8080/health.json</a></p>
+
+<h5>Ответ:</h5>
+
+<a href="https://github.com/cherepakhin/simple_boot_camel/blob/main/doc/health_check.json">health_check.json</a>
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">{
+    "camel": {
+        "contextStatus": "Started",
+        "name": "SpringBootCamel",
+        "status": "UP",
+        "version": "2.20.0"
+    },
+    "camel-health-checks": {
+        "route:book-api": "UP",
+        "route:books-api": "UP",
+        "route:doc-api": "UP",
+        "status": "UP"
+    },
+    "diskSpace": {
+        "free": 3200131072,
+        "status": "UP",
+        "threshold": 10485760,
+        "total": 204755746816
+    },
+    "status": "UP"
+}</pre>
+</div>
+
+<h4 id="trace">Запрос "/trace.json":</h4>
+
+<p><a href="http://127.0.0.1:8080/trace.json">http://127.0.0.1:8080/trace.json</a></p>
+
+<p>Выводит историю запросов</p>
+<a href="https://github.com/cherepakhin/simple_boot_camel/blob/main/doc/trace.json">trace.json</a>
+
+</body>
+</html>

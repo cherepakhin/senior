@@ -1,0 +1,1025 @@
+[
+  {
+    "timestamp": 1781173958223,
+    "info": {
+      "method": "GET",
+      "path": "/trace.json",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "127.0.0.1:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 10:32:38 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "2"
+    }
+  },
+  {
+    "timestamp": 1781173933640,
+    "info": {
+      "method": "GET",
+      "path": "/trace.json",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "127.0.0.1:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 10:32:13 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "15"
+    }
+  },
+  {
+    "timestamp": 1781172731108,
+    "info": {
+      "method": "GET",
+      "path": "/mappings",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 10:12:11 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "14"
+    }
+  },
+  {
+    "timestamp": 1781163735525,
+    "info": {
+      "method": "GET",
+      "path": "/mappings.json",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 07:42:15 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "2"
+    }
+  },
+  {
+    "timestamp": 1781163082111,
+    "info": {
+      "method": "GET",
+      "path": "/mappings",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 07:31:22 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "2"
+    }
+  },
+  {
+    "timestamp": 1781163072894,
+    "info": {
+      "method": "GET",
+      "path": "/mappings",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 07:31:12 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "5"
+    }
+  },
+  {
+    "timestamp": 1781163067896,
+    "info": {
+      "method": "GET",
+      "path": "/camel/mappings",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "X-Application-Context": "application",
+          "status": "404"
+        }
+      },
+      "timeTaken": "2"
+    }
+  },
+  {
+    "timestamp": 1781163039897,
+    "info": {
+      "method": "GET",
+      "path": "/camel/mappings",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "X-Application-Context": "application",
+          "status": "404"
+        }
+      },
+      "timeTaken": "2"
+    }
+  },
+  {
+    "timestamp": 1781162910682,
+    "info": {
+      "method": "GET",
+      "path": "/beans",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 07:28:30 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "9"
+    }
+  },
+  {
+    "timestamp": 1781162097204,
+    "info": {
+      "method": "GET",
+      "path": "/camel/routes",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 07:14:57 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "1"
+    }
+  },
+  {
+    "timestamp": 1781162055234,
+    "info": {
+      "method": "GET",
+      "path": "/camel/routes/book-api/detail",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 07:14:15 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "17"
+    }
+  },
+  {
+    "timestamp": 1781162038679,
+    "info": {
+      "method": "GET",
+      "path": "/camel/routes/book-api/detail",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 07:13:58 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "26"
+    }
+  },
+  {
+    "timestamp": 1781162010848,
+    "info": {
+      "method": "GET",
+      "path": "/camel/routes/book-api/detail",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 07:13:30 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "25"
+    }
+  },
+  {
+    "timestamp": 1781161925292,
+    "info": {
+      "method": "GET",
+      "path": "/camel/routes.json",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 07:12:05 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "2"
+    }
+  },
+  {
+    "timestamp": 1781161920005,
+    "info": {
+      "method": "GET",
+      "path": "/routes.json",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "X-Application-Context": "application",
+          "status": "404"
+        }
+      },
+      "timeTaken": "7"
+    }
+  },
+  {
+    "timestamp": 1781161916470,
+    "info": {
+      "method": "GET",
+      "path": "/beans.json",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 07:11:56 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "6"
+    }
+  },
+  {
+    "timestamp": 1781161908953,
+    "info": {
+      "method": "GET",
+      "path": "/routes.json",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "X-Application-Context": "application",
+          "status": "404"
+        }
+      },
+      "timeTaken": "2"
+    }
+  },
+  {
+    "timestamp": 1781161854976,
+    "info": {
+      "method": "GET",
+      "path": "/beans.json",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 07:10:54 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "8"
+    }
+  },
+  {
+    "timestamp": 1781161846187,
+    "info": {
+      "method": "GET",
+      "path": "/info/",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 07:10:46 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "3"
+    }
+  },
+  {
+    "timestamp": 1781161838586,
+    "info": {
+      "method": "GET",
+      "path": "/camel/beans.json",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "X-Application-Context": "application",
+          "status": "404"
+        }
+      },
+      "timeTaken": "2"
+    }
+  },
+  {
+    "timestamp": 1781161823891,
+    "info": {
+      "method": "GET",
+      "path": "/camel/auditevents.json",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "X-Application-Context": "application",
+          "status": "404"
+        }
+      },
+      "timeTaken": "2"
+    }
+  },
+  {
+    "timestamp": 1781161806755,
+    "info": {
+      "method": "GET",
+      "path": "/camel/route-controller.json",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 07:10:06 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "3"
+    }
+  },
+  {
+    "timestamp": 1781161779459,
+    "info": {
+      "method": "GET",
+      "path": "/camel/routes.json",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 07:09:39 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "2"
+    }
+  },
+  {
+    "timestamp": 1781161761892,
+    "info": {
+      "method": "GET",
+      "path": "/camel/health",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "X-Application-Context": "application",
+          "status": "404"
+        }
+      },
+      "timeTaken": "5"
+    }
+  },
+  {
+    "timestamp": 1781161758763,
+    "info": {
+      "method": "GET",
+      "path": "/camel/health/",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "X-Application-Context": "application",
+          "status": "404"
+        }
+      },
+      "timeTaken": "3"
+    }
+  },
+  {
+    "timestamp": 1781161739661,
+    "info": {
+      "method": "GET",
+      "path": "/info/",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 07:08:59 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "4"
+    }
+  },
+  {
+    "timestamp": 1781161735958,
+    "info": {
+      "method": "GET",
+      "path": "//info/",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 07:08:55 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "15"
+    }
+  },
+  {
+    "timestamp": 1781161731102,
+    "info": {
+      "method": "GET",
+      "path": "/camel/info/",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "X-Application-Context": "application",
+          "status": "404"
+        }
+      },
+      "timeTaken": "3"
+    }
+  },
+  {
+    "timestamp": 1781161714060,
+    "info": {
+      "method": "GET",
+      "path": "/camel/info",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "X-Application-Context": "application",
+          "status": "404"
+        }
+      },
+      "timeTaken": "3"
+    }
+  },
+  {
+    "timestamp": 1781161648305,
+    "info": {
+      "method": "GET",
+      "path": "/camel/health/check/contextStatus/invoke",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "X-Application-Context": "application",
+          "status": "404"
+        }
+      },
+      "timeTaken": "21"
+    }
+  },
+  {
+    "timestamp": 1781161592592,
+    "info": {
+      "method": "GET",
+      "path": "/camel/autoconfig",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "X-Application-Context": "application",
+          "status": "404"
+        }
+      },
+      "timeTaken": "4"
+    }
+  },
+  {
+    "timestamp": 1781161586569,
+    "info": {
+      "method": "GET",
+      "path": "//camel/autoconfig",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "X-Application-Context": "application",
+          "status": "404"
+        }
+      },
+      "timeTaken": "9"
+    }
+  },
+  {
+    "timestamp": 1781160079254,
+    "info": {
+      "method": "GET",
+      "path": "//camel/health/check",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 06:41:19 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "7"
+    }
+  },
+  {
+    "timestamp": 1781160037872,
+    "info": {
+      "method": "GET",
+      "path": "//camel/health/check",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 06:40:37 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "67"
+    }
+  },
+  {
+    "timestamp": 1781159944640,
+    "info": {
+      "method": "GET",
+      "path": "/beans.json",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 06:39:04 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "11"
+    }
+  },
+  {
+    "timestamp": 1781159818243,
+    "info": {
+      "method": "GET",
+      "path": "/beans.json",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 06:36:58 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "11"
+    }
+  },
+  {
+    "timestamp": 1781159797553,
+    "info": {
+      "method": "GET",
+      "path": "/beans.json",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 06:36:37 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "16"
+    }
+  },
+  {
+    "timestamp": 1781159786092,
+    "info": {
+      "method": "GET",
+      "path": "/beans.json",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 06:36:26 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "49"
+    }
+  },
+  {
+    "timestamp": 1781159729638,
+    "info": {
+      "method": "GET",
+      "path": "/autoconfig",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 06:35:29 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "11"
+    }
+  },
+  {
+    "timestamp": 1781159682123,
+    "info": {
+      "method": "GET",
+      "path": "/autoconfig",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 06:34:42 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "32"
+    }
+  },
+  {
+    "timestamp": 1781159669661,
+    "info": {
+      "method": "GET",
+      "path": "/auditevents",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 06:34:29 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "17"
+    }
+  },
+  {
+    "timestamp": 1781159585320,
+    "info": {
+      "method": "GET",
+      "path": "/env",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 06:33:05 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "30"
+    }
+  },
+  {
+    "timestamp": 1781159474948,
+    "info": {
+      "method": "GET",
+      "path": "/camel/routes",
+      "headers": {
+        "request": {
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+          "User-Agent": "HTTPie/3.2.2",
+          "Host": "localhost:8080",
+          "Accept-Encoding": "gzip, deflate, br"
+        },
+        "response": {
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "X-Application-Context": "application",
+          "Date": "Thu, 11 Jun 2026 06:31:14 GMT",
+          "Content-Type": "application/vnd.spring-boot.actuator.v1+json;charset=UTF-8",
+          "status": "200"
+        }
+      },
+      "timeTaken": "141"
+    }
+  }
+]
