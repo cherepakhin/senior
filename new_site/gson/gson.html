@@ -3,3 +3,14 @@
     <li><a style="text-decoration: underline; color: #3366ff;" href="https://github.com/google/gson" target="_blank" rel="noopener noreferrer">https://github.com/google/gson</a></li>
     <li><a style="text-decoration: underline; color: #3366ff;" href="https://github.com/google/gson/blob/main/UserGuide.md" target="_blank" rel="noopener noreferrer">https://github.com/google/gson/blob/main/UserGuide.md</a></li>
 </ul>
+<br/>
+<hr id="system-readmore"/>
+Save JSON to file:
+<a style="text-decoration: underline; color: #3366ff;" href="https://www.baeldung.com/gson-save-file" target="_blank" rel="noopener noreferrer">https://www.baeldung.com/gson-save-file</a>
+
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000000">gson.toJson(123.45, new FileWriter(filePath));
+
+User user = new User(1, "Tom Smith", "American");
+gson.toJson(user, new FileWriter(filePath));
+</span></pre></div>
+
