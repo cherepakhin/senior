@@ -7,9 +7,18 @@ Line numbers: v
 style: borland
 css: border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;
 
--------------------------------
+===========================================================
+vasi-note:~/prog/java/camel/camel-demos/camel-demos/examples/spring-boot/call-rest-service
+
+1. Выполнение GET запроса к внешнему REST сервису https://api.github.com/user.
+2. POST запрос к внешнему сервису https://gist.github.com
+
+===========================================================
 https://camel.apache.org/manual/camel-jbang.html
-A JBang-based Camel app for easily running Camel routes.
+JBang — инструмент командной строки, который превращает Java в язык сценариев,
+делая его таким же доступным, как Shell.
+
+A JBang-based Camel app for easily running Camel routes. (И при чем здесь JBang?, откуда выполнить?)
 
 Пример 1:
 -----------
@@ -64,3 +73,4 @@ public class PriceAggregationStrategy implements AggregationStrategy {
 	}
 
 }
+

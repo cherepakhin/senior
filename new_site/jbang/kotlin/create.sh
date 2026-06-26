@@ -1,0 +1,1 @@
+jbang init -t hello.kt myhello.kt
