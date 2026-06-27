@@ -3,6 +3,7 @@
 Ссылки:
 - [https://github.com/jbangdev/jbang](https://github.com/jbangdev/jbang)
 - [https://www.baeldung.com/jbang-guide](https://www.baeldung.com/jbang-guide)
+- [https://github.com/dmakariev/examples.git](https://github.com/dmakariev/examples.git)
 
 Hello world:
 
@@ -74,3 +75,4 @@ jbang hello.java Max!
 Hello Max!
 ````
 
+Из [https://github.com/dmakariev/examples.git](https://github.com/dmakariev/examples.git)

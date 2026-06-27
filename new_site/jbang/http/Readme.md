@@ -1,3 +1,9 @@
+#JBang + Quarkus
+
+JBang - инструмент для выполнения Java файлов (без сборки maven/gradle). Maven зависимости описаны прямо в Java файле в виде комментариев.
+Quarkus (RedHat) - разработан с акцентом на высокую производительность, низкое потребление памяти и быструю загрузку приложений. [Quarkus — сверхзвуковая субатомная Java.](https://habr.com/ru/companies/haulmont/articles/443242/).
+Quarkus Использует GraalVM — виртуальная машина Java и JDK, написанная на Java. Версия с открытым исходным кодом основана на OpenJDK.
+
 Для HTTP запросов используется javax.ws.rs.
 Код __myfile.java__ взят из [https://www.baeldung.com/jbang-guide](https://www.baeldung.com/jbang-guide)
 

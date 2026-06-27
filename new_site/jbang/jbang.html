@@ -1,4 +1,5 @@
-<b>JBang</b> - инструмент выполнение Java кода из <b>КОМАНДНОЙ СТРОКИ</b>.
+JBang — это CLI - инструмент, который позволяет запускать Java-код прямо из <b>КОМАНДНОЙ СТРОКИ</b>,
+без сложной структуры проекта, файлов сборки (Maven/Gradle) и явного объявления pom.xml.
 
 Ссылки:
 <ul>
@@ -55,11 +56,34 @@ class hello implements Callable<Integer> {
 Запуск:<br/>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ jbang hello.java Max!
 </pre></div>
-
 Результат:<br/>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">[jbang] Building jar for hello.java...
 21
 Hello Max!
 </pre></div>
-<br/>
 Из <a href="https://github.com/dmakariev/examples.git](https://github.com/dmakariev/examples.git">https://github.com/dmakariev/examples.git</a>
+<br/>
+<h4>Для Kotlin</h4>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">jbang init -t hello.kt myhello.kt
+</pre></div>
+<a href="https://github.com/cherepakhin/senior/blob/main/new_site/jbang/kotlin/create.sh">kotlin/create.sh</a>
+<br/>
+<h4>Для Spring Boot</h4>
+<a href="https://github.com/cherepakhin/senior/blob/main/new_site/jbang/spring/create.sh">kotlin/create.sh</a>
+<br/>
+Генерация:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">jbang -Dspring.datasource.url=jdbc:h2:mem:person-db  springbootJpaVue.java
+</pre></div>
+Создание Spring Boot исполняемого файла:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">jbang export fatjar springbootJpaVue.java
+</pre></div>
+Результат:<br/>
+<a href="https://github.com/cherepakhin/senior/blob/main/new_site/jbang/spring-boot-jpa-vue/springbootJpaVue.java">spring-boot-jpa-vue/springbootJpaVue.java</a>
+<br/>
+Запуск:<br/>
+<a href="https://github.com/cherepakhin/senior/blob/main/new_site/jbang/spring-boot-jpa-vue/run_springbootJpaVue.sh">spring-boot-jpa-vue/run_springbootJpaVue.sh</a>:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">jbang -Dspring.datasource.url=jdbc:h2:mem:person-db  springbootJpaVue.java
+</pre></div>
+<h4>Еще примеры</h4>
+<a href="https://github.com/jbangdev/jbang](https://github.com/jbangdev/jbang">https://github.com/jbangdev/jbang](https://github.com/jbangdev/jbang</a>
+
