@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee CRUD</title>
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body { font-family: Roboto, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .search-section { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
+        .search-field { flex-grow: 1; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { cursor: pointer; user-select: none; }
+        th:hover { background-color: #f0f0f0; }
+        .sort-icon { margin-left: 5px; font-size: 16px; vertical-align: middle; }
+        .mdc-button { margin-right: 5px; }
+        .active-sort { background-color: #e3f2fd; }
+        .no-results { text-align: center; padding: 40px; color: #666; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1 class="mdc-typography--headline4">Employee Directory</h1>
+        <a href="/showNewEmployeeForm" class="mdc-button mdc-button--raised">
+            <span class="mdc-button__label">Add Employee</span>
+        </a>
+    </div>
+
+    <!-- Форма поиска -->
+    <div class="search-section">
+        <form action="/" method="GET" class="search-field" style="display: flex; gap: 10px;">
+            <div class="mdc-text-field mdc-text-field--outlined" style="flex-grow: 1;">
+                <input class="mdc-text-field__input" name="keyword" th:value="${keyword}" placeholder="Search by name or email...">
+                <div class="mdc-notched-outline">
+                    <div class="mdc-notched-outline__leading"></div>
+                    <div class="mdc-notched-outline__notch">
+                        <label class="mdc-floating-label">Search</label>
+                    </div>
+                    <div class="mdc-notched-outline__trailing"></div>
+                </div>
+            </div>
+            <button type="submit" class="mdc-button mdc-button--outlined">
+                <span class="material-icons mdc-button__icon">search</span>
+                <span class="mdc-button__label">Search</span>
+            </button>
+            <a href="/" class="mdc-button mdc-button--outlined">
+                <span class="material-icons mdc-button__icon">clear</span>
+                <span class="mdc-button__label">Clear</span>
+            </a>
+        </form>
+    </div>
+
+    <!-- Таблица с сортировкой -->
+    <table class="mdc-data-table">
+        <thead>
+        <tr class="mdc-data-table__header-row">
+            <th class="mdc-data-table__header-cell" 
+                th:classappend="${sortBy} == 'firstName' ? 'active-sort' : ''"
+                th:onclick="'window.location.href=\'/?sortBy=firstName&sortDir=' + ${reverseSortDir} + ( ${keyword} ? '&keyword=' + ${keyword} : \'\' ) + '\''">
+                First Name
+                <span class="material-icons sort-icon" th:if="${sortBy} == 'firstName'">
+                    <span th:text="${sortDir} == 'asc' ? 'arrow_upward' : 'arrow_downward'"></span>
+                </span>
+            </th>
+            <th class="mdc-data-table__header-cell"
+                th:classappend="${sortBy} == 'lastName' ? 'active-sort' : ''"
+                th:onclick="'window.location.href=\'/?sortBy=lastName&sortDir=' + ${reverseSortDir} + ( ${keyword} ? '&keyword=' + ${keyword} : \'\' ) + '\''">
+                Last Name
+                <span class="material-icons sort-icon" th:if="${sortBy} == 'lastName'">
+                    <span th:text="${sortDir} == 'asc' ? 'arrow_upward' : 'arrow_downward'"></span>
+                </span>
+            </th>
+            <th class="mdc-data-table__header-cell"
+                th:classappend="${sortBy} == 'email' ? 'active-sort' : ''"
+                th:onclick="'window.location.href=\'/?sortBy=email&sortDir=' + ${reverseSortDir} + ( ${keyword} ? '&keyword=' + ${keyword} : \'\' ) + '\''">
+                Email
+                <span class="material-icons sort-icon" th:if="${sortBy} == 'email'">
+                    <span th:text="${sortDir} == 'asc' ? 'arrow_upward' : 'arrow_downward'"></span>
+                </span>
+            </th>
+            <th class="mdc-data-table__header-cell">Actions</th>
+        </tr>
+        </thead>
+        <tbody class="mdc-data-table__content">
+        <tr th:if="${#lists.isEmpty(employees)}" class="mdc-data-table__row">
+            <td colspan="4" class="no-results">
+                <span class="material-icons" style="font-size: 48px; color: #999;">search_off</span>
+                <p>No employees found</p>
+            </td>
+        </tr>
+        <tr th:each="emp : ${employees}" class="mdc-data-table__row">
+            <td class="mdc-data-table__cell" th:text="${emp.firstName}"></td>
+            <td class="mdc-data-table__cell" th:text="${emp.lastName}"></td>
+            <td class="mdc-data-table__cell" th:text="${emp.email}"></td>
+            <td class="mdc-data-table__cell">
+                <a th:href="@{/showUpdateForm/{id}(id=${emp.id})}" class="mdc-button mdc-button--outlined">
+                    <span class="material-icons mdc-button__icon">edit</span>
+                    <span class="mdc-button__label">Update</span>
+                </a>
+                <a th:href="@{/deleteEmployee/{id}(id=${emp.id})}" class="mdc-button mdc-button--unelevated" 
+                   style="background-color: #b00020; color: white;"
+                   onclick="return confirm('Are you sure?')">
+                    <span class="material-icons mdc-button__icon">delete</span>
+                    <span class="mdc-button__label">Delete</span>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    
+    <div style="margin-top: 15px; color: #666; font-size: 14px;">
+        <span th:text="${#lists.size(employees)} + ' employee(s) found'"></span>
+        <span th:if="${keyword} != null and ${keyword} != ''" th:text="' for &quot;' + ${keyword} + '&quot;'"></span>
+    </div>
+</div>
+</body>
+</html>
