@@ -1,0 +1,43 @@
+----
+https://github.com/rhasspy/rhasspy3
+----
+https://habr.com/ru/companies/dcmiran/articles/482764/
+----
+Rhasspy — безопасный голосовой помощник, который работает автономно.
+Он ничего не передаёт на удалённые сервисы, при этом успешно справляется с распознаванием речи и
+голосовых команд.
+----
+Непосредственно распознавание речи выполняет pocketsphinx:
+легковесный опенсорсный движок с поддержкой русского языка.
+----
+Обработка звука происходит автономно на вашем устройстве.
+Сам звук может поступать ... или из аудиопотока по сети.
+----
+Автор Rhasspy также является автором проекта voice2json: это консольная программа примерно
+для той же задачи, чтобы легко преобразовать человеческую речь в
+список компьютерных команд (или наоборот).
+----
+WebSocket API
+ws://localhost:13331/<endpoint>
+----
+
+docker:
+
+sudo systemctl restart docker
+docker pull --platform linux/arm/v6 rhasspy/rhasspy
+
+sudo docker run -d -p 12101:12101       --name rhasspy       --restart unless-stopped       -v "$HOME/.config/rhasspy/profiles:/profiles"       -v "/etc/localtime:/etc/localtime:ro"       --device /dev/snd:/dev/snd       rhasspy/rhasspy       --user-profiles /profiles       --profile en
+
+------------------ 22.05.2026
+sudo docker run -d -p 12101:12101       --name rhasspy       --restart unless-stopped       -v "$HOME/.config/rhasspy/profiles:/profiles"       -v "/etc/localtime:/etc/localtime:ro"       --device /dev/snd:/dev/snd       rhasspy/rhasspy       --user-profiles /profiles       --profile en
+
+Открыл http://localhost:12101/
+
+$ docker ps --no-trunc
+CONTAINER ID                                                       IMAGE                      COMMAND                                                                              CREATED             STATUS             PORTS                                             NAMES
+749c8cddde2246129be1b8123f8a786f0624e71573e6276838d009ec02e6f027   alphacep/kaldi-ru:latest   "python3 ./asr_server.py /opt/vosk-model-ru/model"                                   About an hour ago   Up About an hour   0.0.0.0:2700->2700/tcp, [::]:2700->2700/tcp       bold_edison
+885d1c329c7e8b9c0ec6942bd97385d916048d2b6e4b766a95f8fbd29f13a3ed   rhasspy/rhasspy            "bash /usr/lib/rhasspy/bin/rhasspy-voltron --user-profiles /profiles --profile en"   46 hours ago        Up 16 hours        0.0.0.0:12101->12101/tcp, [::]:12101->12101/tcp   rhasspy
+
+----
+Sherpa-Onnx — это open-source библиотека от команды K2-FSA (известной по проекту Kaldi) для локальной обработки голоса. В отличие от облачных сервисов, всё работает на устройстве пользователя — никаких запросов в интернет.
+----
