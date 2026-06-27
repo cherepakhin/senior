@@ -1,0 +1,1 @@
+jbang export fatjar springbootJpaVue.java

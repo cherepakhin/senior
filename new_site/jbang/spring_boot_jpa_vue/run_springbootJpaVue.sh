@@ -1,0 +1,1 @@
+jbang -Dspring.datasource.url=jdbc:h2:mem:person-db  springbootJpaVue.java
