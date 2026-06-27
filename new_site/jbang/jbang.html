@@ -1,0 +1,65 @@
+<b>JBang</b> - инструмент выполнение Java кода из <b>КОМАНДНОЙ СТРОКИ</b>.
+
+Ссылки:
+<ul>
+    <li><a href="https://github.com/jbangdev/jbang](https://github.com/jbangdev/jbang">https://github.com/jbangdev/jbang](https://github.com/jbangdev/jbang</a></li>
+    <li><a href="https://www.baeldung.com/jbang-guide](https://www.baeldung.com/jbang-guide">https://www.baeldung.com/jbang-guide](https://www.baeldung.com/jbang-guide</a></li>
+    <li><a href="https://github.com/dmakariev/examples.git](https://github.com/dmakariev/examples.git">https://github.com/dmakariev/examples.git](https://github.com/dmakariev/examples.git</a></li>
+</ul>
+Инициализация и запуск Hello World в консоли с помощью команды `init`:
+<hr id="system-readmore"/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">jbang init --template=cli hello.java
+</pre></div>
+Результат:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">[jbang] File initialized. You can now run it with 'jbang hello.java'
+or edit it using 'jbang edit --open=[editor] hello.java' where [editor] is your editor or IDE,
+e.g. 'eclipse'.
+If your IDE supports JBang, you can edit the directory instead: 'jbang edit . hello.java'.
+See https://jbang.dev/ide
+</pre></div>
+или
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ jbang init hello.java
+$ ls
+hello.java
+$ cat hello.java
+///usr/bin/env jbang "$0" "$@" ; exit $?
+//DEPS info.picocli:picocli:4.6.3
+
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Parameters;
+
+import java.util.concurrent.Callable;
+
+@Command(name = "hello", mixinStandardHelpOptions = true, version = "hello 0.1",
+description = "hello made with jbang")
+class hello implements Callable<Integer> {
+
+    @Parameters(index = "0", description = "The greeting to print", defaultValue = "World!")
+    private String greeting;
+
+    public static void main(String... args) {
+    int exitCode = new CommandLine(new hello()).execute(args);
+    System.exit(exitCode);
+    }
+
+    @Override
+    public Integer call() throws Exception { // your business logic goes here...
+    System.out.println(System.getProperty("java.version"));
+    System.out.println("Hello " + greeting);
+    return 0;
+    }
+}
+</pre></div>
+
+Запуск:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ jbang hello.java Max!
+</pre></div>
+
+Результат:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">[jbang] Building jar for hello.java...
+21
+Hello Max!
+</pre></div>
+<br/>
+Из <a href="https://github.com/dmakariev/examples.git](https://github.com/dmakariev/examples.git">https://github.com/dmakariev/examples.git</a>
