@@ -1,0 +1,20 @@
+<h3>MapDB</h3>
+Проект заброшен, но рабочий.
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+DB db = DBMaker.fileDB("file.db").make()
+</pre></div>
+<a href="https://www.baeldung.com/mapdb">https://www.baeldung.com/mapdb</a><br />
+<a href="https://github.com/jankotek/mapdb/">https://github.com/jankotek/mapdb/</a><br />
+<hr id="system-readmore" />
+
+<h3>GSON</h3>
+Save JSON to file:
+<a href="https://www.baeldung.com/gson-save-file">https://www.baeldung.com/gson-save-file</a><br />
+Примеры кода:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+gson.toJson(123.45, new FileWriter(filePath));
+
+User user = new User(1, "Tom Smith", "American");
+gson.toJson(user, new FileWriter(filePath));
+</pre></div>
