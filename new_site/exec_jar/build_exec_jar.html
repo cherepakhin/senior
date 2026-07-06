@@ -99,8 +99,73 @@ $ export JAVA_OPTS=-Xmx1024m -XX:MaxPermSize=128M
 $ gradle bootRun
 </pre></div>
 <br/>
+
+Еще пример из ~/prog/java/camel/camel-examples/java-lambda. Секция <b>build</b> из <b>pom.xml</b>:
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+    &lt;build&gt;
+        &lt;plugins&gt;
+            &lt;!-- Allows the example to be run via 'mvn compile camel:run' --&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.apache.camel&lt;/groupId&gt;
+                &lt;artifactId&gt;camel-maven-plugin&lt;/artifactId&gt;
+                &lt;version&gt;${camel.version}&lt;/version&gt;
+                &lt;configuration&gt;
+                    &lt;mainClass&gt;org.apache.camel.example.java8.MyApplication&lt;/mainClass&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+            &lt;!-- mvn clean compile exec:java --&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+                &lt;artifactId&gt;exec-maven-plugin&lt;/artifactId&gt;
+                &lt;version&gt;1.6.0&lt;/version&gt;
+                &lt;configuration&gt;
+                    &lt;mainClass&gt;org.apache.camel.example.java8.MyApplication&lt;/mainClass&gt;
+                    &lt;includePluginDependencies&gt;false&lt;/includePluginDependencies&gt;
+                    &lt;cleanupDaemonThreads&gt;false&lt;/cleanupDaemonThreads&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+            &lt;!-- java -jar target/....jar --&gt;
+            &lt;plugin&gt;
+                &lt;artifactId&gt;maven-assembly-plugin&lt;/artifactId&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;phase&gt;package&lt;/phase&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;single&lt;/goal&gt;
+                        &lt;/goals&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+                &lt;configuration&gt;
+                    &lt;archive&gt;
+                        &lt;manifest&gt;
+                            &lt;addClasspath&gt;true&lt;/addClasspath&gt;
+                            &lt;mainClass&gt;org.apache.camel.example.java8.MyApplication&lt;/mainClass&gt;
+                        &lt;/manifest&gt;
+                    &lt;/archive&gt;
+                    &lt;descriptorRefs&gt;
+                        &lt;descriptorRef&gt;jar-with-dependencies&lt;/descriptorRef&gt;
+                    &lt;/descriptorRefs&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+</pre></div>
+Сборка:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./mvnw clean package
+</pre></div>
+Запуск:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+/usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java -jar target/camel-example-java-lambda-4.10.0-jar-with-dependencies.jar
+</pre></div>
+
 <h3 dir="auto">Ссылки:</h3>
 <ul>
     <li><a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/articles/716554/" target="_blank" rel="noopener noreferrer">https://habr.com/ru/articles/716554/</a></li>
     <li><a style="text-decoration: underline; color: #3366ff;" href="https://docs.spring.io/spring-boot/docs/1.5.22.RELEASE/reference/html/using-boot-running-your-application.html" target="_blank" rel="noopener noreferrer">19. Running your application. Part III. Using Spring Boot</a></li>
 </ul>
+
