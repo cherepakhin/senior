@@ -1,0 +1,1 @@
+docker run -it --name youtrack1 -v /home/vasi/po/youtrack/data:/opt/youtrack/data -v /home/vasi/po/youtrack/conf:/opt/youtrack/conf -v /home/vasi/po/youtrack/logs:/opt/youtrack/logs -v /home/vasi/po/youtrack/backups:/opt/youtrack/backups -p 8086:8080 jetbrains/youtrack:2023.3.22912
