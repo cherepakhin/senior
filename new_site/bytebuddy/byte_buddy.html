@@ -1,0 +1,40 @@
+<a href="https://bytebuddy.net/#/"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">Сайт проекта bytebuddy.net</a>
+<br/>
+<a href="https://tproger.ru/articles/kak-izmenit-kod-rabotayushhego-java-prilozheniya--piwem-svoj-hotswap"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">Как изменить код работающего Java-приложения? Пишем свой HotSwap</a>
+<hr id="system-readmore"/>
+
+<b>Byte Buddy</b> — библиотека генерации кода и манипуляций для __создания и модификации классов Java
+<b>во время выполнения приложения</b> Java без помощи компилятора.<br/>
+<br/>
+Некоторые особенности Byte Buddy:
+<ul>
+    <li>Позволяет создавать произвольные классы, а не ограничиваться только реализацией интерфейсов
+        для создания прокси-объектов во время выполнения.</li>
+    <li>Предлагает удобный API для изменения классов вручную, с помощью агента Java или во время сборки.</li>
+    <li>Не требует понимания байт-кода Java или формата файла класса.</li>
+    <li>даже если метод final. (если только он не static final).</li>
+</ul>
+
+Hello world:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+// генерация класса
+Class<?> dynamicType = new ByteBuddy()
+                            .subclass(Object.class) // наследник от
+                            .method(ElementMatchers.named("toString")) // определение названия метода
+                            .intercept(FixedValue.value("Hello World!")) // определение результат выполнения метода
+                            .make()
+                            .load(getClass().getClassLoader())
+                            .getLoaded();
+
+// создание экземпляра класса .newInstance() и вызов метода
+assertThat(dynamicType.newInstance().toString(), is("Hello World!"));
+    </pre>
+</div>
+<a href="https://github.com/aotyurin/jvm-demo/](https://github.com/aotyurin/jvm-demo/"
+   style="text-decoration: underline; color: #3366ff;"
+   target="_blank" rel="noopener noreferrer">https://github.com/aotyurin/jvm-demo/</a>
