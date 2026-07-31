@@ -1,4 +1,4 @@
-<p>В системе настройки сделаны для java 11. В путях linux указана <b>java 11</b>. Нужно настроить maven проект на <b>java 17</b>.</p>
+<p>В операционной системе настройки сделаны для java 11. В путях linux указана <b>java 11</b>. Нужно настроить maven проект на <b>java 17</b>.</p>
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
 <pre style="margin: 0; line-height: 125%;">$ java -version
 openjdk version <span style="color: #0000ff;">"11.0.18"</span> 2023-01-17
@@ -232,3 +232,23 @@ update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/java to provid
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
 ./gradlew wrapper --gradle-version 7.4.2
 </pre></div>
+<br/>
+Запуск тестов <b>Maven</b>:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+./mvnw clean test
+</pre></div>
+Запуск тестов <b>Gradle</b>:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+./gradlew test
+</pre></div>
+
+<b>Maven</b> запуск Spring Boot приложения:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+./mvnw clean spring-boot:run
+</pre></div>
+
+<b>Gradle</b> запуск Spring Boot приложения:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+./gradlew bootRun
+</pre></div>
+
