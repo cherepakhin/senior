@@ -1,0 +1,156 @@
+GitHub проекта: <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/springboot-thymeleaf-security-demo" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/springboot-thymeleaf-security-demo</a>
+<br>
+Демонстрация SpringBoot WEB приложения с авторизацией и аутентификаци Spring Security.
+<br/>
+Использованы следующие технологии:
+<ul>
+    <li>Spring Boot</li>
+    <li>Spring MVC</li>
+    <li>Thymeleaf</li>
+    <li>Spring Security</li>
+    <li>Spring Data JPA</li>
+    <li>MySQL</li>
+</ul>
+<hr id="system-readmore" />
+<h3>Запуск</h3>
+<b>Java 11</b>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+./mvnw spring-boot:run</pre>
+</div>
+
+Открыть в браузере:
+<a style="text-decoration: underline; color: #3366ff;" href="http://localhost:8080/" target="_blank" rel="noopener noreferrer">http://localhost:8080/</a><br/>
+
+<b>Вход в программу по email</b>
+<ul>
+    <li>User: admin@gmail.com Password: admin</li>
+    <li>User: user@gmail.com  Password: user</li>
+</ul>
+
+Открыть домашнюю страницу пользователя: <a style="text-decoration: underline; color: #3366ff;" href="http://127.0.0.1:8080/home" target="_blank" rel="noopener noreferrer">http://127.0.0.1:8080/home</a><br/>
+Она будет разная для разных пользователей.<br/>
+<h3>Screens</h3>
+
+__Not__ logged:
+
+![doc/not_logged.png](doc/not_logged.png)
+
+<h3>Interface for Admin</h3>
+
+View for admin:
+
+![home_admin](doc/home_admin.png)
+
+<ul>
+    <li>Added menu "To Admin"</li>
+    <li>you see message __"You will see this only if you are ADMIN"__):
+        ![doc/home_admin.png](doc/home_admin.png)
+    </li>
+</ul>
+
+<h3>Interface for User</h3>
+
+Result to admin page for user:
+
+For __user__ login:
+
+![doc/home_user.png](doc/home_user.png)
+
+Not access to __Admin page__ for user:
+
+![doc/from_user_to_admin_page.png](doc/from_user_to_admin_page.png))
+
+[userhome.html](src/main/resources/templates/userhome.html) (line 20):
+
+````html
+<div sec:authorize="hasRole('ROLE_ADMIN')">
+    <h3>You will see this only if you are <b>ADMIN</b></h3>
+    <p>
+        <a th:href="@{/admin/home}">Admin Home</a>
+    </p>
+</div>
+````
+
+__WebSecurityConfig.java defines the rules for accessing pages.__
+
+<h3>Mobile screens</h3>
+
+<img src="doc/screen_mobile2.png" alt="Alt text" width="200" height="400">
+<img src="doc/screen_mobile1.png" alt="Alt text" width="200" height="400">
+<img src="doc/screen_mobile3.png" alt="Alt text" width="200" height="400">
+
+<h3>Link action form to java code</h3>
+
+Form (html):
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">link: th:object="${content}" th:action="@{/new_message}" method="post"</pre>
+</div>
+
+
+
+<h4>New Message</h4>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+&lt;div class="container" style="padding-left: 0px; margin-left: 0px;"&gt;
+    &lt;form class="form-horizontal" th:object="${content}" th:action="@{/new_message}"
+          name="new_form"
+          id="edit_form"
+          method="post" role="form"&gt; // &lt;--- POST!!! /new_message
+        &lt;div class="form-group" style="margin-left: 0px;"&gt;
+            &lt;label for="message_content"&gt;Сообщение (max 100 символов):&lt;/label&gt;
+            &lt;input class="form-control" id="content" maxlength="100" type="text" th:name="content"/&gt;
+        &lt;/div&gt;
+        &lt;button type="submit" class="btn btn-primary" value="Save"&gt;Сохранить&lt;/button&gt;
+        &lt;a class="btn btn-default" th:href="@{/home}"&gt;Отмена&lt;/a&gt;
+    &lt;/form&gt;
+&lt;/div&gt;</pre>
+</div>
+Handler in Java code (@PostMapping("/new_message")):
+<ul>
+    <li><b>Method POST</b>: @PostMapping(value = "/new_message")</li>
+    <li><b>Value</b>: th:object="${content}"</li>
+</ul>
+Обработка в Java-коде контроллера:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">@Controller
+public class HomeController {
+    @PostMapping(value = "/new_message")
+    public String newMessage(@RequestParam(defaultValue = "----", value = "content") String newContent) {
+        ...
+    }
+}</pre>
+</div>
+
+<h3>Покрытие тестами (test coverage)</h3>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">./mvnw clean test
+./mvnw jacoco:report</pre>
+</div>
+
+Open <a style="text-decoration: underline; color: #3366ff;" href="target/site/jacoco/index.html](target/site/jacoco/index.html" target="_blank" rel="noopener noreferrer">target/site/jacoco/index.html](target/site/jacoco/index.html</a><br/>
+
+<h3>Links</h3>
+<ul>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://github.com/dkubrakov/spring-boot-thymeleaf-security" target="_blank" rel="noopener noreferrer">https://github.com/dkubrakov/spring-boot-thymeleaf-security</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html" target="_blank" rel="noopener noreferrer">https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://www.javaguides.net/2018/09/spring-boot-spring-mvc-role-based-spring-security-jpa-thymeleaf-mysql-tutorial.html" target="_blank" rel="noopener noreferrer">https://www.javaguides.net/2018/09/spring-boot-spring-mvc-role-based-spring-security-jpa-thymeleaf-mysql-tutorial.html</a></li>
+</ul>
+
+<h3>Разное</h3>
+Подключение к MySQL из shell:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">mysql -u vasi -h v -p</pre>
+</div>
+
+<b>database:</b> thymeleaf_security_demo
+
+<h3>TODO</h3>
+<ul>
+    <li>tests</li>
+    <li>paging messages</li>
+</ul>
+
