@@ -1,8 +1,4 @@
-GitHub проекта: <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/springboot-thymeleaf-security-demo" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/springboot-thymeleaf-security-demo</a>
-<br>
-Демонстрация SpringBoot WEB приложения с авторизацией Spring Security.
-<br/>
-Использованы следующие технологии:
+<p>GitHub проекта: <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/springboot-thymeleaf-security-demo" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/springboot-thymeleaf-security-demo</a> <br />Демонстрация SpringBoot WEB приложения с авторизацией Spring Security. <br />Использованы следующие технологии:</p>
 <ul>
     <li>Spring Boot</li>
     <li>Spring MVC</li>
@@ -13,66 +9,34 @@ GitHub проекта: <a style="text-decoration: underline; color: #3366ff;" hr
 </ul>
 <hr id="system-readmore" />
 <h3>Запуск</h3>
-<b>Java 11</b>
-
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-    <pre style="margin: 0; line-height: 125%">export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+<p><b>Java 11</b></p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #020274; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 ./mvnw spring-boot:run</pre>
 </div>
-
-Открыть в браузере:
-<a style="text-decoration: underline; color: #3366ff;" href="http://localhost:8080/" target="_blank" rel="noopener noreferrer">http://localhost:8080/</a><br/>
-
-<b>Вход в программу по email</b>
+<p>Открыть в браузере: <a style="text-decoration: underline; color: #3366ff;" href="http://localhost:8080/" target="_blank" rel="noopener noreferrer">http://localhost:8080/</a><br /><b>Вход в программу по email</b></p>
 <ul>
     <li>User: admin@gmail.com Password: admin</li>
-    <li>User: user@gmail.com  Password: user</li>
+    <li>User: user@gmail.com Password: user</li>
 </ul>
-
-Открыть домашнюю страницу пользователя: <a style="text-decoration: underline; color: #3366ff;" href="http://127.0.0.1:8080/home" target="_blank" rel="noopener noreferrer">http://127.0.0.1:8080/home</a><br/>
-Она будет разная для разных пользователей.<br/>
-
+<p>Открыть домашнюю страницу пользователя: <a style="text-decoration: underline; color: #3366ff;" href="http://127.0.0.1:8080/home" target="_blank" rel="noopener noreferrer">http://127.0.0.1:8080/home</a><br />Она будет разная для разных пользователей.</p>
 <h3>Экраны</h3>
-
-Для незарегистрированных пользователей:
-
-<p><span style="font-weight: 400;">
-    <img class="pull-center" src="images/spring_security/not_logged.png" alt="" />
-</span></p>
-
+<p>Для незарегистрированных пользователей:</p>
+<p><span style="font-weight: 400;"> <img class="pull-center" src="images/spring_security/not_logged.png" alt="" /> </span></p>
 <h3>Для Admin</h3>
-
-<p><span style="font-weight: 400;">
-    <img class="pull-center" src="images/spring_security/home_admin.png" alt="" />
-</span></p>
-
+<p><span style="font-weight: 400;"> <img class="pull-center" src="images/spring_security/home_admin.png" alt="" /> </span></p>
 <ul>
     <li>Доступен пункт меню "To Admin"</li>
     <li>Содержимое страницы "To Admin": "You will see this only if you are ADMIN":
-        <p><span style="font-weight: 400;">
-                <img class="pull-center" src="images/spring_security/home_admin.png" alt="" />
-            </span>
-        </p>
+        <p><span style="font-weight: 400;"> <img class="pull-center" src="images/spring_security/home_admin.png" alt="" /> </span></p>
     </li>
 </ul>
-
 <h3>Экран для User</h3>
-
-<img class="pull-center" src="images/spring_security/home_user.png" alt="" />
-
-Нет доступа к <b>Admin page</b> для User:
-
-<p>
-    <span style="font-weight: 400;">
-        <img class="pull-center" src="images/spring_security/from_user_to_admin_page.png" alt="" />
-    </span>
-</p>
-
-Определение роли пользователя в шаблоне <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/springboot-thymeleaf-security-demo/blob/main/src/main/resources/templates/userhome.html" target="_blank" rel="noopener noreferrer">main/src/main/resources/templates/userhome.html</a>:
-
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-    <pre style="margin: 0; line-height: 125%">
-&lt;div sec:authorize="hasRole('ROLE_ADMIN')"&gt;
+<p><img class="pull-center" src="images/spring_security/home_user.png" alt="" /> Нет доступа к <b>Admin page</b> для User:</p>
+<p><span style="font-weight: 400;"> <img class="pull-center" src="images/spring_security/from_user_to_admin_page.png" alt="" /> </span></p>
+<p>Определение роли пользователя в шаблоне <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/springboot-thymeleaf-security-demo/blob/main/src/main/resources/templates/userhome.html" target="_blank" rel="noopener noreferrer">main/src/main/resources/templates/userhome.html</a>:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #020274; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">&lt;div sec:authorize="hasRole('ROLE_ADMIN')"&gt;
     &lt;h3&gt;You will see this only if you are &lt;b&gt;ADMIN&lt;/b&gt;&lt;/h3&gt;
     &lt;p&gt;
         &lt;a th:href="@{/admin/home}"&gt;Admin Home&lt;/a&gt;
@@ -80,28 +44,17 @@ GitHub проекта: <a style="text-decoration: underline; color: #3366ff;" hr
 &lt;/div&gt;
 </pre>
 </div>
-
-<b>WebSecurityConfig.java defines the rules for accessing pages.</b>
-
+<p><b>WebSecurityConfig.java defines the rules for accessing pages.</b></p>
 <h3>Mobile screens</h3>
-
-<img class="pull-center" src="images/spring_security/screen_mobile2.png" alt="" />
-<img class="pull-center" src="images/spring_security/screen_mobile1.png" alt="" />
-<img class="pull-center" src="images/spring_security/screen_mobile3.png" alt="" />
-
+<p><img class="pull-center" src="images/spring_security/screen_mobile2_50.png" alt="" /> <img class="pull-center" src="images/spring_security/screen_mobile1_50.png" alt="" /> <img class="pull-center" src="images/spring_security/screen_mobile3_50.png" alt="" /></p>
 <h3>Link action form to java code</h3>
-
-Form (html):
-
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-    <pre style="margin: 0; line-height: 125%">link: th:object="${content}" th:action="@{/new_message}" method="post"</pre>
+<p>Form (html):</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #020274; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <pre style="margin: 0; line-height: 125%;">link: th:object="${content}" th:action="@{/new_message}" method="post"</pre>
 </div>
-
-
 <h4>New Message</h4>
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-    <pre style="margin: 0; line-height: 125%">
-&lt;div class="container" style="padding-left: 0px; margin-left: 0px;"&gt;
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #020274; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">&lt;div class="container" style="padding-left: 0px; margin-left: 0px;"&gt;
     &lt;form class="form-horizontal" th:object="${content}" th:action="@{/new_message}"
           name="new_form"
           id="edit_form"
@@ -110,19 +63,19 @@ Form (html):
             &lt;label for="message_content"&gt;Сообщение (max 100 символов):&lt;/label&gt;
             &lt;input class="form-control" id="content" maxlength="100" type="text" th:name="content"/&gt;
         &lt;/div&gt;
-        &lt;button type="submit" class="btn btn-primary" value="Save"&gt;Сохранить&lt/button&gt;
+        &lt;button type="submit" class="btn btn-primary" value="Save"&gt;Сохранить&amp;lt/button&gt;
         &lt;a class="btn btn-default" th:href="@{/home}"&gt;Отмена&lt;/a&gt;
     &lt;/form&gt;
 %lt;/div&gt;</pre>
 </div>
-Handler in Java code (@PostMapping("/new_message")):
+<p>Handler in Java code (@PostMapping("/new_message")):</p>
 <ul>
     <li><b>Method POST</b>: @PostMapping(value = "/new_message")</li>
     <li><b>Value</b>: th:object="${content}"</li>
 </ul>
-Обработка в Java-коде контроллера:
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-    <pre style="margin: 0; line-height: 125%">@Controller
+<p>Обработка в Java-коде контроллера:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #020274; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">@Controller
 public class HomeController {
     @PostMapping(value = "/new_message")
     public String newMessage(@RequestParam(defaultValue = "----", value = "content") String newContent) {
@@ -130,34 +83,26 @@ public class HomeController {
     }
 }</pre>
 </div>
-
 <h3>Покрытие тестами (test coverage)</h3>
-
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-    <pre style="margin: 0; line-height: 125%">./mvnw clean test
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #020274; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">./mvnw clean test
 ./mvnw jacoco:report</pre>
 </div>
-
-Открыть <a style="text-decoration: underline; color: #3366ff;" href="target/site/jacoco/index.html](target/site/jacoco/index.html" target="_blank" rel="noopener noreferrer">target/site/jacoco/index.html](target/site/jacoco/index.html</a><br/>
-
+<p>Открыть <a style="text-decoration: underline; color: #3366ff;" href="target/site/jacoco/index.html](target/site/jacoco/index.html" target="_blank" rel="noopener noreferrer">target/site/jacoco/index.html](target/site/jacoco/index.html</a></p>
 <h3>Links</h3>
 <ul>
     <li><a style="text-decoration: underline; color: #3366ff;" href="https://github.com/dkubrakov/spring-boot-thymeleaf-security" target="_blank" rel="noopener noreferrer">https://github.com/dkubrakov/spring-boot-thymeleaf-security</a></li>
     <li><a style="text-decoration: underline; color: #3366ff;" href="https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html" target="_blank" rel="noopener noreferrer">https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html</a></li>
     <li><a style="text-decoration: underline; color: #3366ff;" href="https://www.javaguides.net/2018/09/spring-boot-spring-mvc-role-based-spring-security-jpa-thymeleaf-mysql-tutorial.html" target="_blank" rel="noopener noreferrer">https://www.javaguides.net/2018/09/spring-boot-spring-mvc-role-based-spring-security-jpa-thymeleaf-mysql-tutorial.html</a></li>
 </ul>
-
 <h3>Разное</h3>
-Подключение к MySQL из shell:<br/>
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-    <pre style="margin: 0; line-height: 125%">mysql -u vasi -h v -p</pre>
+<p>Подключение к MySQL из shell:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #020274; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <pre style="margin: 0; line-height: 125%;">mysql -u vasi -h v -p</pre>
 </div>
-
-<b>database:</b> thymeleaf_security_demo
-
+<p><b>database:</b> thymeleaf_security_demo</p>
 <h3>TODO</h3>
 <ul>
     <li>tests</li>
     <li>paging messages</li>
 </ul>
-
