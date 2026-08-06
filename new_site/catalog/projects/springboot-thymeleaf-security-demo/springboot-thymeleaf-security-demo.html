@@ -1,6 +1,6 @@
 GitHub проекта: <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/springboot-thymeleaf-security-demo" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/springboot-thymeleaf-security-demo</a>
 <br>
-Демонстрация SpringBoot WEB приложения с авторизацией и аутентификаци Spring Security.
+Демонстрация SpringBoot WEB приложения с авторизацией Spring Security.
 <br/>
 Использованы следующие технологии:
 <ul>
@@ -31,55 +31,63 @@ GitHub проекта: <a style="text-decoration: underline; color: #3366ff;" hr
 
 Открыть домашнюю страницу пользователя: <a style="text-decoration: underline; color: #3366ff;" href="http://127.0.0.1:8080/home" target="_blank" rel="noopener noreferrer">http://127.0.0.1:8080/home</a><br/>
 Она будет разная для разных пользователей.<br/>
-<h3>Screens</h3>
 
-__Not__ logged:
+<h3>Экраны</h3>
 
-![doc/not_logged.png](doc/not_logged.png)
+Для незарегистрированных пользователей:
 
-<h3>Interface for Admin</h3>
+<p><span style="font-weight: 400;">
+    <img class="pull-center" src="images/spring_security/not_logged.png" alt="" />
+</span></p>
 
-View for admin:
+<h3>Для Admin</h3>
 
-![home_admin](doc/home_admin.png)
+<p><span style="font-weight: 400;">
+    <img class="pull-center" src="images/spring_security/home_admin.png" alt="" />
+</span></p>
 
 <ul>
-    <li>Added menu "To Admin"</li>
-    <li>you see message __"You will see this only if you are ADMIN"__):
-        ![doc/home_admin.png](doc/home_admin.png)
+    <li>Доступен пункт меню "To Admin"</li>
+    <li>Содержимое страницы "To Admin": "You will see this only if you are ADMIN":
+        <p><span style="font-weight: 400;">
+                <img class="pull-center" src="images/spring_security/home_admin.png" alt="" />
+            </span>
+        </p>
     </li>
 </ul>
 
-<h3>Interface for User</h3>
+<h3>Экран для User</h3>
 
-Result to admin page for user:
+<img class="pull-center" src="images/spring_security/home_user.png" alt="" />
 
-For __user__ login:
+Нет доступа к <b>Admin page</b> для User:
 
-![doc/home_user.png](doc/home_user.png)
+<p>
+    <span style="font-weight: 400;">
+        <img class="pull-center" src="images/spring_security/from_user_to_admin_page.png" alt="" />
+    </span>
+</p>
 
-Not access to __Admin page__ for user:
+Определение роли пользователя в шаблоне <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/springboot-thymeleaf-security-demo/blob/main/src/main/resources/templates/userhome.html" target="_blank" rel="noopener noreferrer">main/src/main/resources/templates/userhome.html</a>:
 
-![doc/from_user_to_admin_page.png](doc/from_user_to_admin_page.png))
-
-[userhome.html](src/main/resources/templates/userhome.html) (line 20):
-
-````html
-<div sec:authorize="hasRole('ROLE_ADMIN')">
-    <h3>You will see this only if you are <b>ADMIN</b></h3>
-    <p>
-        <a th:href="@{/admin/home}">Admin Home</a>
-    </p>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+&lt;div sec:authorize="hasRole('ROLE_ADMIN')"&gt;
+    &lt;h3&gt;You will see this only if you are &lt;b&gt;ADMIN&lt;/b&gt;&lt;/h3&gt;
+    &lt;p&gt;
+        &lt;a th:href="@{/admin/home}"&gt;Admin Home&lt;/a&gt;
+    &lt;/p&gt;
+&lt;/div&gt;
+</pre>
 </div>
-````
 
-__WebSecurityConfig.java defines the rules for accessing pages.__
+<b>WebSecurityConfig.java defines the rules for accessing pages.</b>
 
 <h3>Mobile screens</h3>
 
-<img src="doc/screen_mobile2.png" alt="Alt text" width="200" height="400">
-<img src="doc/screen_mobile1.png" alt="Alt text" width="200" height="400">
-<img src="doc/screen_mobile3.png" alt="Alt text" width="200" height="400">
+<img class="pull-center" src="images/spring_security/screen_mobile2.png" alt="" />
+<img class="pull-center" src="images/spring_security/screen_mobile1.png" alt="" />
+<img class="pull-center" src="images/spring_security/screen_mobile3.png" alt="" />
 
 <h3>Link action form to java code</h3>
 
@@ -88,7 +96,6 @@ Form (html):
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
     <pre style="margin: 0; line-height: 125%">link: th:object="${content}" th:action="@{/new_message}" method="post"</pre>
 </div>
-
 
 
 <h4>New Message</h4>
@@ -103,10 +110,10 @@ Form (html):
             &lt;label for="message_content"&gt;Сообщение (max 100 символов):&lt;/label&gt;
             &lt;input class="form-control" id="content" maxlength="100" type="text" th:name="content"/&gt;
         &lt;/div&gt;
-        &lt;button type="submit" class="btn btn-primary" value="Save"&gt;Сохранить&lt;/button&gt;
+        &lt;button type="submit" class="btn btn-primary" value="Save"&gt;Сохранить&lt/button&gt;
         &lt;a class="btn btn-default" th:href="@{/home}"&gt;Отмена&lt;/a&gt;
     &lt;/form&gt;
-&lt;/div&gt;</pre>
+%lt;/div&gt;</pre>
 </div>
 Handler in Java code (@PostMapping("/new_message")):
 <ul>
