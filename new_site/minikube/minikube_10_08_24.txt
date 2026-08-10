@@ -1,0 +1,72 @@
+vasi@v:/usr/bin$ ./minikube start
+😄  minikube v1.34.0 on Linuxmint 22
+❗  Specified Kubernetes version 1.32.0 is newer than the newest supported version: v1.31.0. Use `minikube config defaults kubernetes-version` for details.
+❗  Specified Kubernetes version 1.32.0 not found in Kubernetes version list
+🤔  Searching the internet for Kubernetes version...
+✅  Kubernetes version 1.32.0 found in GitHub version list
+✨  Using the podman driver based on existing profile
+👍  Starting "minikube" primary control-plane node in "minikube" cluster
+🚜  Pulling base image v0.0.45 ...
+E0810 17:59:03.099092 3020010 cache.go:189] Error downloading kic artifacts:  not yet implemented, see issue #8426
+🏃  Updating the running podman "minikube" container ...
+❗  Image was not built for the current minikube version. To resolve this you can delete and recreate your minikube cluster using the latest images. Expected minikube version: v1.35.0 -> Actual minikube version: v1.34.0
+    > kubeadm.sha256:  64 B / 64 B [-------------------------] 100.00% ? p/s 0s
+    > kubeadm:  67.66 MiB / 67.66 MiB [-------------] 100.00% 1.03 MiB p/s 1m6s
+🐳  Preparing Kubernetes v1.32.0 on Docker 27.4.1 ...
+🤦  Unable to restart control-plane node(s), will reset cluster: <no value>
+    ▪ Generating certificates and keys ...
+    ▪ Booting up control plane ...
+    ▪ Configuring RBAC rules ...
+🔗  Configuring bridge CNI (Container Networking Interface) ...
+🔎  Verifying Kubernetes components...
+    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+    ▪ Using image docker.io/kubernetesui/dashboard:v2.7.0
+    ▪ Using image docker.io/kubernetesui/metrics-scraper:v1.0.8
+💡  Some dashboard features require the metrics-server addon. To enable all features please run:
+
+	minikube addons enable metrics-server
+
+🌟  Enabled addons: default-storageclass, storage-provisioner, dashboard
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+ЖДАТЬ!!!
+vasi@v:/usr/bin$
+--------------------------------
+В другом окне
+vasi@v:/usr/bin$ minikube dashboard
+🤔  Verifying dashboard health ...
+🚀  Launching proxy ...
+🤔  Verifying proxy health ...
+🎉  Opening http://127.0.0.1:42067/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ in your default browser...
+Found ffmpeg: /opt/yandex/browser/libffmpeg.so
+	avcodec: 4005732
+	avformat: 4000106
+	avutil: 3880804
+Ffmpeg version is OK! Let's use it.
+Opening in existing browser session.
+--------------------------------
+Будет открыта страница dashboard в браузере
+http://127.0.0.1:42067/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/workloads?namespace=default
+
+---------------
+Проверить тестовый ECHO сервис:
+
+vasi@v:/usr/bin$ kubectl expose deployment hello-minikube --type=LoadBalancer --port=8080
+service/hello-minikube exposed
+vasi@v:/usr/bin$ minikube service hello-minikube
+|-----------|----------------|-------------|---------------------------|
+| NAMESPACE |      NAME      | TARGET PORT |            URL            |
+|-----------|----------------|-------------|---------------------------|
+| default   | hello-minikube |        8080 | http://192.168.67.2:30377 |
+|-----------|----------------|-------------|---------------------------|
+🎉  Opening service default/hello-minikube in default browser...
+vasi@v:/usr/bin$ Found ffmpeg: /opt/yandex/browser/libffmpeg.so
+	avcodec: 4005732
+	avformat: 4000106
+	avutil: 3880804
+Ffmpeg version is OK! Let's use it.
+Opening in existing browser session.
+
+Открыть в браузере http://192.168.67.2:30377 (URL из таблицы выше)
+Вместо ECHO, будет выведена информация о hello-minikube
+---------------
+

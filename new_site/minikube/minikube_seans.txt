@@ -108,10 +108,36 @@ mc
 cd ~/tools/
 ls
 ./kubectl cluster-info
+
 minikube status
+----
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+----
+
 minikube stop
 minikube start --vm-driver=kvm2
 minikube kubectl -- get pods -A
+----
+NAMESPACE              NAME                                         READY   STATUS    RESTARTS      AGE
+default                hello-minikube-ffcbb5874-j5lrt               1/1     Running   0             8m35s
+kube-system            coredns-668d6bf9bc-l7pt6                     1/1     Running   0             20m
+kube-system            coredns-668d6bf9bc-pzdz6                     1/1     Running   0             20m
+kube-system            etcd-minikube                                1/1     Running   0             20m
+kube-system            kube-apiserver-minikube                      1/1     Running   0             20m
+kube-system            kube-controller-manager-minikube             1/1     Running   0             20m
+kube-system            kube-proxy-dcdxb                             1/1     Running   0             20m
+kube-system            kube-scheduler-minikube                      1/1     Running   0             20m
+kube-system            metrics-server-7fbb699795-tf6kh              1/1     Running   0             4m44s
+kube-system            storage-provisioner                          1/1     Running   1 (19m ago)   20m
+kubernetes-dashboard   dashboard-metrics-scraper-5d59dccf9b-hrc5v   1/1     Running   0             20m
+kubernetes-dashboard   kubernetes-dashboard-7779f9b69b-xs62p        1/1     Running   1 (19m ago)   20m
+----
+
 minikube start --vm-driver=kvm2
 ssh vasi@192.168.39.197
 ssh-keygen -f '/home/vasi/.ssh/known_hosts' -R '192.168.39.197'
