@@ -1,0 +1,89 @@
+Пример в
+<a href="https://github.com/cherepakhin/hr_admin/blob/v0.0.6/src/main/java/net/guides/springboot2/freemarker/controller/PositionController.java"
+   target="_blank" rel="noopener noreferrer">
+    <strong>https://github.com/cherepakhin/hr_admin/blob/v0.0.6/src/main/java/net/guides/springboot2/freemarker/controller/PositionController.java</strong></a><br/>
+<hr id="system-readmore"/>
+В проверяемом классе поле name должно быть от 3 до 15 символов, указано сообщение при ошибке:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+@Entity
+@Table(name = "positions")
+public class Position {
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Size(min = 3, max = 15, message = "Название должности должно быть от 3 to 15 символов.")
+    @Column(nullable = false, unique = true, length = 15)
+    private String name = "";
+
+    public Position() {}
+    ....
+}
+    </pre>
+</div>
+Контроллер. Внимание на аннотации <b>@Validated</b> , <b>@Valid</b>.
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+@Validated // добавляем валидацию!!!
+@Controller
+@RequestMapping("/positions")
+public class PositionController {
+        ....
+    // POST /positions/update/{id} - обработка обновления
+    @PostMapping("/update/{id}")
+    public String updatePosition(@PathVariable Long id,
+                                 @Valid @ModelAttribute Position position, // что валидируем
+                                 BindingResult bindingResult,
+                                 Model model) {
+        String errors = "";
+        log.info("Update position: {}", position);
+        // Первый УРОВЕНЬ проверки - обработка ошибок @Valid.
+        // Ошибки @Valid АВТОМАТИЧЕСКИ сохраняются в объекте bindingResult.
+        if (bindingResult.hasErrors()) {
+            // Обработка ошибок @Valid. Ошибки @Valid сохраняются в bindingResult.
+            log.info("Binding result: {}", bindingResult);
+            for (ObjectError error : bindingResult.getAllErrors()) {
+                errors += error.getDefaultMessage() + "\n";
+                log.error(error.getDefaultMessage());
+            }
+            model.addAttribute("name", position.getName());
+            model.addAttribute("error_for_name", errors);
+            position.setId(id); // Восстановление id для формы
+            return NamesView.EDIT_POSITION;
+        }
+        // Второй УРОВЕНЬ проверки. Backend проверка.
+        if (positionRepository.existsByName(position.getName())) {
+            // Обработка backend ошибки
+            log.error("Position with name {} already exists", position.getName());
+            model.addAttribute("name", position.getName());
+            model.addAttribute("error_for_name", "Должность с таким названием УЖЕ существует.");
+            //bindingResult.rejectValue("name", "error_for_name", "Должность с таким названием УЖЕ существует.");
+            position.setId(id); // Восстановление id для формы
+            return NamesView.EDIT_POSITION;
+        }
+        position.setId(id);
+        positionRepository.save(position);
+        return "redirect:/" + NamesView.POSITIONS + "/";
+    }</pre>
+</div>
+<br/>
+Размещение сообщения об ошибке в форме:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+&lt;form action="${springMacroRequestContext.contextPath}/positions/update/${position.id}" method="post" class="p-6 space-y-4"&gt;
+    &lt;div&gt;
+        &lt;label class="block text-base font-medium text-gray-700"&gt;Название&lt;/label&gt;
+        &lt;input type="text"
+               name="name"
+               value="${position.name}"
+               required
+               class="mt-1 block w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-sky-500 focus:border-sky-500"&gt;
+        &lt;#if error_for_name??&gt;
+        &lt;p class="text-red-600 text-xs mt-1"&gt;${error_for_name}&lt;/p&gt;
+    &lt;/#if&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<br/>
+Для демонстрации пример упрощен (entity передается сразу в контроллер, нет сервисного слоя и т.д.).
