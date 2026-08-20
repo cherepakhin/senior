@@ -1,0 +1,109 @@
+<h3>Скрытие элементов в мобильной версии</h3>
+Класс md:hidden (md от middle device (?) ) используется в Tailwind CSS
+для скрытия элемента на экранах среднего размера
+(и шире — на больших экранах). Пример:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+&lt;div class="md:hidden "&gt;
+    &lt;!-- остальной html content --&gt;
+</pre>
+</div>
+<hr id="system-readmore"/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://george75.gitlab.io/articles/tailwind-css-responsive-design" target="_blank" rel="noopener noreferrer">https://george75.gitlab.io/articles/tailwind-css-responsive-design</a><br/>
+Помимо md:hidden, в Tailwind есть и другие способы управления видимостью:
+<ul>
+    <li><b>hidden</b> — скрывает элемент на всех экранах (базовый класс).</li>
+    <li><b>lg:block</b> — показывает элемент только на экранах lg и выше.</li>
+    <li><b>max-md:hidden</b> — скрывает элемент, пока ШИРИНА экрана не достигнет md (то есть на экранах меньше md элемент виден).</li>
+</ul>
+Контрольные точки в Tailwind:
+<ul>
+    <li><b>sm</b> — 640 пикселей и больше</li>
+    <li><b>md</b> — 768 пикселей и больше</li>
+    <li><b>lg</b> — 1024 пикселей и больше</li>
+    <li><b>xl</b> — 1280 пикселей и больше</li>
+    <li><b>2xl</b> — 1536 пикселей и больше</li>
+</ul>
+<h3>Применение адаптивных утилит</h3>
+Любой утилитарный класс можно сделать адаптивным, добавив ему префикс контрольной точки.
+Это позволяет изменять стили при разных размерах экрана, не создавая пользовательские медиазапросы.
+<br/>
+Пример:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+&lt;div class="text-base md:text-lg lg:text-xl"&gt;
+    Responsive Text
+&lt;/div&gt;
+</pre>
+</div>
+
+В этом примере:
+<ul>
+    <li><b>text-base</b> - применяется для мобильных экранов.</li>
+    <li><b>md:text-lg</b> - увеличивает размер текста на экранах средних размеров (768 пикселей и более).</li>
+    <li><b>lg:text-xl</b> - увеличивает размер текста на экранах больших размеров (1024 пикселей и более).</li>
+</ul>
+Пример скрытия текста на мобильных устройствах:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+class="invisible md:visible"
+</pre>
+</div>
+<h3>Альтернативы</h3>
+Помимо <b>md:hidden</b>, в Tailwind есть и другие способы управления видимостью:
+<ul>
+    <li><b>hidden</b> — скрывает элемент на всех экранах</li>
+    <li><b>lg:block</b> — показывает элемент только на экранах <b>lg</b> и выше.</li>
+    <li><b>max-md:hidden</b> — скрывает элемент, пока ширина экрана не достигнет <b>md</b> (то есть на экранах меньше md элемент виден).</li>
+</ul>
+<h3>Адаптивные сетки</h3>
+Система сеток Tailwind по умолчанию является адаптивной. Можно контролировать количество столбцов и их расположение на экранах разных размеров.
+<br/>
+Пример:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+&lt;div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"&gt;
+    &lt;div class="bg-gray-200 p-4"&gt;Item 1&lt;/div&gt;
+    &lt;div class="bg-gray-200 p-4"&gt;Item 2&lt;/div&gt;
+    &lt;div class="bg-gray-200 p-4"&gt;Item 3&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>    
+<b>grid-cols-1</b> - одна колонка на небольших экранах.
+<b>md:grid-cols-2</b> - две колонки на средних экранах.
+<b>lg:grid-cols-3</b> - три колонки на больших экранах.
+
+<h3>Адаптивное скрытие элементов</h3>
+
+Tailwind предоставляет утилиты, позволяющие отобразить или скрыть элементы в различных контрольных точках с помощью класса <b>hidden</b> 
+и адаптивных утилит <b>block</b>, <b>inline-block</b> и <b>flex</b>, обеспечивающих видимость.
+
+Пример:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+&lt;div class="hidden lg:block"&gt;
+    This element is hidden on mobile but visible on large screens.
+&lt;/div&gt;
+</pre>
+</div>    
+В этом примере элемент по умолчанию скрыт, но становится видимым <b>block</b> на экранах размером <b>lg</b> (1024 пикселя и больше).
+
+<h3>Адаптивные утилиты Flexbox</h3>
+
+Tailwind упрощает создание адаптивных макетов с использованием <b>flexbox</b> модели, позволяя переключаться между
+макетами в разных контрольных точках (контрольные точки (в английском — breakpoints) в CSS — это специальные значения ширины экрана, при достижении которых дизайн сайта меняется).
+
+Пример:
+<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+&lt;div class="flex flex-col md:flex-row"&gt;
+    &lt;div class="bg-blue-500 p-4"&gt;Column 1&lt;/div&gt;
+    &lt;div class="bg-blue-500 p-4"&gt;Column 2&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<ul>
+    <li><b>flex-col</b> - располагает элементы вертикально на небольших экранах.</li>
+    <li><b>md:flex-row:</b> - переключает в горизонтальную компоновку на экранах среднего и большого размеров.</li>
+</ul>
