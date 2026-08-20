@@ -58,7 +58,11 @@ public class PositionController {
             log.error("Position with name {} already exists", position.getName());
             model.addAttribute("name", position.getName());
             model.addAttribute("error_for_name", "Должность с таким названием УЖЕ существует.");
-            //bindingResult.rejectValue("name", "error_for_name", "Должность с таким названием УЖЕ существует.");
+
+			// Другой способ сообщения об ошибке:
+			// Метод rejectValue() — мощный инструмент для реализации сложной бизнес-логики валидации.
+			// bindingResult.rejectValue("name", "error_for_name", "Должность с таким названием УЖЕ существует.");
+
             position.setId(id); // Восстановление id для формы
             return NamesView.EDIT_POSITION;
         }
