@@ -1,0 +1,33 @@
+<ul>
+    <li><a href="#css_tailwind"><b>CSS (Tailwind)</b></a></li>
+    <li><a href="#spring_mobile"><b>Spring Mobile</b></a></li>
+    <li><a href="#spring_device"><b>Spring Device</b></a></li>
+    <li><a href="#spring_device"><b>Сторонние библиотеки</b></a></li>
+</ul>
+<hr id="system-readmore" />
+<a id="css_tailwind"></a>
+<h4>Адаптация экрана к мобильным устройствам с помощью Tailwind CSS.</h4>
+Описано в <a href="https://v.perm.ru/index.php/component/content/article/tailwind-mobile?catid=15">Tailwind mobile</a>
+
+<a id="spring_mobile"></a>
+<h4>Spring Mobile</h4>
+Это отдельный модуль (проект) и объявлен <b>УСТАРЕВШИМ</b> в экосистеме Spring, который как раз добавл<b>ЯЛ</b>
+функционал для адаптации веб-приложений под разные устройства (мобильные, планшеты и т.п.).
+Он умел определять тип устройства по запросу (анализируя User-Agent), и на основе этого можно
+было отдавать разные шаблоны представлений (views), оптимизировать загрузку ресурсов под
+медленные мобильные сети, использовать разные CSS-фреймворки.
+
+<b>Важное предупреждение:</b> сейчас проект Spring Mobile объявлен <b>УСТАРЕВШИМ(deprecated)</b> и больше не поддерживается.
+В современных проектах его не используют. Вместо этого рекомендуют <b>Spring Device</b> (см.ниже).
+<br/>
+<a id="spring_device"></a>
+<h4>Spring Device</h4>
+<a href="https://github.com/cherepakhin/device-resolution">https://github.com/cherepakhin/device-resolution</a>
+<br/>
+Используются встроенные возможности Spring Web (например, анализировать запрос в контроллере через параметр
+типа <b>Device</b>).
+<br/>
+<a id="other_lib"></a>
+<h4>Сторонние библиотеки</h4>
+<a href="https://uadetector.sourceforge.net/">https://uadetector.sourceforge.net/<a><br/>
+<a href="https://github.com/nandor23/UaDetector">https://github.com/nandor23/UaDetector</a><br/>
