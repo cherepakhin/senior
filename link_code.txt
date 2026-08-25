@@ -1,7 +1,21 @@
 <hr id="system-readmore" />
+------------------------------------------------------
+Оглавление:
+<h3 dir="auto">Оглавление:</h3>
+<ul>
+    <li><a href="#spring_boot_mvc">Spring Boot MVC</a></li>
+    <li><a href="#spring_boot_admin">Spring Boot Admin</a></li>
+</ul>
+<hr id="system-readmore" />
+....
+<h3 dir="auto">Spring Boot MVC</h3>
+<p><a id="spring_boot_mvc"></a></p>
+....
+------------------------------------------------------
 
 Сервис для генерации html кода:
 https://highlight.hohli.com/?theme=vs&language=java
+https://markdown2html.github.io/
 
 <a style="text-decoration: underline; color: #3366ff;" href="" target="_blank" rel="noopener noreferrer"></a><br/>
 
@@ -23,6 +37,11 @@ border:solid #020274
 <pre style="margin: 0; line-height: 125%">$ cat tank-run.sh
 </pre></div>
 
+Синяя граница:
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<code>
+</code>
+</pre>
 
 Картинка:
 <p><span style="font-weight: 400;">

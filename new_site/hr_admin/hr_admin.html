@@ -1,0 +1,1280 @@
+<h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Заготовка для UI проектов со Spring Boot Web и
+    FreeMarker</h3>
+<h3 dir="auto">Оглавление:</h3>
+<ul>
+    <li><a href="#about_project">О проекте в общем</a></li>
+    <li><a href="#screens">Внешний вид страниц</a></li>
+    <li><a href="#maven_wrapper">Создание maven wrapper</a></li>
+    <li><a href="#model_and_view">ModelAndView</a></li>
+    <li><a href="#testing">Тестирование</a></li>
+    <li><a href="#test_coverage">Покрытие тестами</a></li>
+    <li><a href="#build">Сборка</a></li>
+    <li><a href="#run">Запуск</a></li>
+    <li><a href="#deploy">Использование</a></li>
+    <li><a href="#mapping">Проброс HTTPS через Apache web server</a></li>
+    <li><a href="#other">Разное</a></li>
+    <li><a href="#freemarker_about">О Freemarker</a></li>
+    <li><a href="#freemarker_makros">Макросы Freemarker</a></li>
+    <li><a href="#https_use">HTTPS</a></li>
+</ul>
+<hr id="system-readmore" />
+
+<h3 dir="auto">О проекте в общем</h3>
+<p><a id="about_project"></a></p>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Git репозиторий <a
+        href="https://github.com/cherepakhin/hr_admin.git" title="" style="color: #0366d6; text-decoration: none;">https://github.com/cherepakhin/hr_admin.git</a>.
+</p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Java 17:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs shell language-shell">export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64</code></pre><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Открыть <a href="http://127.0.0.1:8088/hr_admin/"
+                                                                             title=""
+                                                                             style="color: #0366d6; text-decoration: none;">http://127.0.0.1:8088/hr_admin/</a>
+</p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">URL для разработки <a
+        href="http://127.0.0.1:8088/hr_admin/employees/" title="" style="color: #0366d6; text-decoration: none;">http://127.0.0.1:8088/hr_admin/employees/</a>
+</p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Развернуто на <a href="https://v.perm.ru/hr_admin/"
+                                                                                  title=""
+                                                                                  style="color: #0366d6; text-decoration: none;">https://v.perm.ru/hr_admin/</a>.
+</p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Основная цель <strong style="font-weight: bold;">ТОЛЬКО
+    FRONTEND</strong>.</p>
+<ul style="padding-left: 24px; list-style-type: disc;">
+    <li style="margin: 8px 0;">В качестве template использован <strong style="font-weight: bold;">Freemarker</strong>
+        (<strong style="font-weight: bold;">spring-boot-starter-freemarker</strong>).
+    </li>
+    <li style="margin: 8px 0;">Простой CRUD. База данных <strong style="font-weight: bold;">H2</strong>.</li>
+    <li style="margin: 8px 0;">Использован <strong style="font-weight: bold;">Tailwind</strong> - CSS-фреймворк для
+        оформления интерфейсов.
+    </li>
+    <li style="margin: 8px 0;">При тестировании использован <strong style="font-weight: bold;">AssertJ</strong>.</li>
+    <li style="margin: 8px 0;">Использован <strong style="font-weight: bold;">GigaChat</strong>.</li>
+    <li style="margin: 8px 0;">тесты в <strong style="font-weight: bold;">BDD</strong> стиле с <strong
+            style="font-weight: bold;">Mockito</strong> в EmployeeControllerTest.java
+    </li>
+    <li style="margin: 8px 0;"><strong style="font-weight: bold;">DataJpaTest</strong> в EmployeeRepositoryTest.java
+    </li>
+</ul>
+
+<h3 dir="auto">Внешний вид страниц</h3>
+<p><a id="screens"></a></p>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Основной экран в виде карточек:</p><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/hr_admin.png" alt="doc/hr_admin.png"
+                                                                       title="" style="max-width: 100%; height: auto;">
+</p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Список сотрудников в виде таблицы с сортировкой и
+    СВЕРНУТОЙ панелью:</p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/list_employees.png"
+                                                                                            alt="doc/list_employees.png"
+                                                                                            title=""
+                                                                                            style="max-width: 100%; height: auto;">
+</p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Список сотрудников в виде таблицы с сортировкой и
+    РАЗВЕРНУТОЙ панелью:</p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/show_panel.png"
+                                                                                              alt="doc/show_panel.png"
+                                                                                              title=""
+                                                                                              style="max-width: 100%; height: auto;">
+</p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Диалог ввода сотрудника:</p><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/add_employee.png"
+                                                                       alt="doc/add_employee.png" title=""
+                                                                       style="max-width: 100%; height: auto;"></p><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Диалог изменение данных сотрудника:</p><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/edit_employee.png"
+                                                                       alt="doc/edit_employee.png" title=""
+                                                                       style="max-width: 100%; height: auto;"></p><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Список должностей:</p><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/positions.png" alt="doc/positions.png"
+                                                                       title="" style="max-width: 100%; height: auto;">
+</p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Редатирование должности:</p><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/edit_position.png"
+                                                                       alt="doc/edit_position.png" title=""
+                                                                       style="max-width: 100%; height: auto;"></p><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Экранные формы для мобильных устройств: <a
+        href="doc/mobile_screens/" title="" style="color: #0366d6; text-decoration: none;">doc/mobile_screens/</a></p>
+
+<h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Создание maven wrapper</h3>
+<p><a id="maven_wrapper"></a></p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs shell language-shell">mvn -N wrapper:wrapper -Dmaven=3.9.9</code></pre>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs shell language-shell">./mvnw --version</code></pre>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs text language-plaintext">Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)
+Maven home: /home/vasi/.m2/wrapper/dists/apache-maven-3.9.9/3477a4f1
+Java version: 17.0.17, vendor: Ubuntu, runtime: /usr/lib/jvm/java-17-openjdk-amd64
+Default locale: en_US, platform encoding: UTF-8
+OS name: "linux", version: "6.14.0-37-generic", arch: "amd64", family: "unix"
+</code></pre>
+
+<h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">ModelAndView</h3>
+<p><a id="model_and_view"></a></p>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">В стандартном подходе Spring Boot Web должны
+    возвращаться <strong style="font-weight: bold;">ModelAndView</strong>:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs java language-java"><span class="hljs-keyword">import</span> org.springframework.http.HttpStatus;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.GetMapping;
+<span class="hljs-keyword">import</span> org.springframework.web.servlet.ModelAndView;
+
+<span class="hljs-meta">@Controller</span>
+<span class="hljs-meta">@RequestMapping("catalog/products")</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ProductController</span> {
+
+    <span class="hljs-meta">@GetMapping("list")</span>
+    ModelAndView <span class="hljs-title function_">list</span><span class="hljs-params">()</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ModelAndView</span>(<span
+            class="hljs-string">"catalog/products/list"</span>,
+            Map.of(<span class="hljs-string">"products"</span>, <span class="hljs-built_in">this</span>.productRepository.findAll()),
+            HttpStatus.OK);
+    }
+}</code></pre><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">В этом проекте возвращаются имена <strong
+        style="font-weight: bold;">view</strong>. </p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">
+    Внедрение значений в html файлы осуществляется через <strong style="font-weight: bold;">Model</strong> <a
+        href="src/main/java/ru/perm/v/hr_admin/controller/EmployeeController.java" title=""
+        style="color: #0366d6; text-decoration: none;">EmployeeController.java</a> и<br>возврат имени view (не
+    ModelAndVew) </p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs java language-java">    <span class="hljs-meta">@RequestMapping(value = "/employees/new", method = RequestMethod.GET)</span>
+    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">showCreateForm</span><span
+            class="hljs-params">(Model model)</span> {
+        log.info(<span class="hljs-string">"showCreateForm"</span>);
+        model.addAttribute(<span class="hljs-string">"employee"</span>, <span class="hljs-keyword">new</span> <span
+            class="hljs-title class_">Employee</span>());
+        model.addAttribute(<span class="hljs-string">"positions"</span>, positionRepository.findAll());
+        log.info(<span class="hljs-string">"/employees/new: from page={}"</span>, currentIndexPage);
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"create_employee"</span>; <span
+            class="hljs-comment">// имя template из src/main/resources/templates</span>
+    }</code></pre><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Пример использования <strong
+        style="font-weight: bold;">positions</strong> из примера выше в форме <a
+        href="src/main/resources/templates/create_employee.ftlh" title=""
+        style="color: #0366d6; text-decoration: none;">src/main/resources/templates/create_employee.ftlh</a>:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs html language-xml">                    <span class="hljs-comment">&lt;!-- Position --&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span
+                                class="hljs-attr">for</span>=<span class="hljs-string">"position_id"</span>&gt;</span>Должность<span
+            class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">select</span>
+                            <span class="hljs-attr">id</span>=<span class="hljs-string">"position_id"</span>
+                            <span class="hljs-attr">name</span>=<span class="hljs-string">"position.id"</span>
+                            <span class="hljs-attr">class</span>=<span class="hljs-string">"border border-gray-300 shadow-sm py-2 px-3 focus:ring-0 focus:ring-sky-500 focus:outline-none combo-btn"</span>
+                            <span class="hljs-attr">style</span>=<span class="hljs-string">"width: 12em; padding-left: 1em; padding-right: 1em;"</span>
+                            <span class="hljs-attr">required</span>&gt;</span>
+                            &lt;#list positions as pos&gt; <span class="hljs-comment">&lt;!-- Пример использования positions --&gt;</span>
+                                <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span
+                                        class="hljs-attr">value</span>=<span class="hljs-string">"${pos.id}"</span>&gt;</span>${pos.name}<span
+            class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+                            &lt;/#list&gt;
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">При этом подходе есть особенности
+    тестирования. Пример:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs java language-java">    <span class="hljs-meta">@Test</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">shouldShowEditFormForExistingEmployee</span><span
+            class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception {
+        <span class="hljs-comment">// Given</span>
+        <span class="hljs-type">Position</span> <span class="hljs-variable">position</span> <span class="hljs-operator">=</span> <span
+            class="hljs-keyword">new</span> <span class="hljs-title class_">Position</span>(<span
+            class="hljs-number">1L</span>, <span class="hljs-string">"Developer"</span>);
+        <span class="hljs-type">Employee</span> <span class="hljs-variable">employee</span> <span class="hljs-operator">=</span> <span
+            class="hljs-keyword">new</span> <span class="hljs-title class_">Employee</span>(<span class="hljs-string">"John"</span>, <span
+            class="hljs-string">"Doe"</span>, <span class="hljs-string">"john.doe@example.com"</span>, position);
+        employee.setId(<span class="hljs-number">1L</span>);
+
+        given(employeeRepository.findById(<span class="hljs-number">1L</span>)).willReturn(Optional.of(employee));
+        given(positionRepository.findAll()).willReturn(List.of(position));
+
+        <span class="hljs-comment">// When &amp; Then</span>
+        mockMvc.perform(get(<span class="hljs-string">"/employees/edit/1"</span>))
+                .andExpect(status().isOk())
+                .andExpect(view().name(<span class="hljs-string">"edit_employee"</span>))
+                .andExpect(model().attributeExists(<span class="hljs-string">"employee"</span>, <span
+            class="hljs-string">"positions"</span>))
+                .andExpect(model().attribute(<span class="hljs-string">"employee"</span>, employee));
+    }</code></pre><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Обращение из <strong
+        style="font-weight: bold;">файлов шаблонов (*.ftlh)</strong> к ресурсам <strong style="font-weight: bold;">src/resource/STATIC/</strong>
+    происходит через переменную <strong style="font-weight: bold;">springMacroRequestContext.contextPath</strong>.<br>Нужно
+    для минимизации запросов к внешним ресурсам интернета (и прочим вопросам безопаснотси).<br>Пример из <a
+            href="src/resource/templates/positions.ftlh" title="" style="color: #0366d6; text-decoration: none;">src/resource/templates/positions.ftlh</a>:
+</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Tailwind CSS via CDN --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span
+            class="hljs-string">"${springMacroRequestContext.contextPath}/js/tailwind.js"</span>&gt;</span><span
+            class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!-- Alpine.js for interactivity --&gt;</span>
+    <span class="hljs-comment">&lt;!--&lt;script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer&gt;&lt;/script&gt;--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span
+            class="hljs-string">"${springMacroRequestContext.contextPath}/js/cdn.min.js"</span> <span class="hljs-attr">defer</span>&gt;</span><span
+            class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+...</code></pre>
+
+<h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Тестирование</h3>
+<p><a id="testing"></a></p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs shell language-shell">export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
+./mvnw clean test</code></pre><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">При тестировании с MockMVC,
+    подстановка bean в модель страницы можно выполнить вручную с помощью <strong
+            style="font-weight: bold;">.flashAttr</strong>:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs java language-java">        <span class="hljs-type">ResultActions</span> <span
+        class="hljs-variable">result</span> <span class="hljs-operator">=</span> mockMvc.perform(post(<span
+        class="hljs-string">"/employees/"</span>)
+                .flashAttr(<span class="hljs-string">"positions"</span>, asList(position1)) <span class="hljs-comment">// подстановка в модель аттрибута positions как asList(position1) !!!</span>
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param(<span class="hljs-string">"firstName"</span>, <span class="hljs-string">"0123456789_0123456789_0123456789_0123456789"</span>)  <span
+            class="hljs-comment">// &gt; 15 символов</span>
+                .param(<span class="hljs-string">"lastName"</span>, <span class="hljs-string">"LastName"</span>)
+                .param(<span class="hljs-string">"email"</span>, <span class="hljs-string">"user@example.com"</span>)
+                .param(<span class="hljs-string">"position.id"</span>, <span
+            class="hljs-string">"1"</span>));</code></pre>
+<h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Покрытие тестами</h3>
+<p><a id="test_coverage"></a></p>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Подключен плагин JaCoCo report для создания отчета
+    покрытия тестами.</p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Для генерации отчета выполнить
+    (<strong style="font-weight: bold;">ОБЯЗАТЕЛЬНО</strong> проверить версию Java! export
+    JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64 ):</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs shell language-shell">./mvnw jacoco:report</code></pre><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Отчет в <a href="target/site/jacoco/index.html"
+                                                                             title=""
+                                                                             style="color: #0366d6; text-decoration: none;">target/site/jacoco/index.html</a>.
+</p>
+
+<h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Сборка</h3>
+<p><a id="build"></a></p>
+
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs shell language-shell">./mvnw clean package</code></pre><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Собранный <strong
+        style="font-weight: bold;">FAT</strong> jar будет в target/hr-admin-0.0.3.jar</p><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Использован <strong style="font-weight: bold;">org.springframework.boot:spring-boot-maven-plugin</strong>
+    .</p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Так же есть <a href="Jenkinsfile" title=""
+                                                                                     style="color: #0366d6; text-decoration: none;">Jenkinsfile</a>
+</p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">В Jenkinsfile клонирование из ветки <strong
+        style="font-weight: bold;">main</strong>:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs shell language-shell">sh 'rm -rf hr_admin; git clone https://github.com/cherepakhin/hr_admin'</code></pre>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">клонирование из ветки <strong style="font-weight: bold;">v0.0.7</strong>:
+</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs shell language-shell">git clone -b v0.0.7 https://github.com/cherepakhin/hr_admin</code></pre>
+
+<h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Запуск</h3>
+<p><a id="run"></a></p>
+
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs shell language-shell"> /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java -jar target/hr-admin-0.0.3.jar</code></pre>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Запуск на другом порту:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs shell language-shell">/usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java -jar target/hr-admin-0.0.3.jar --server.port=8088</code></pre>
+
+<h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Использование</h3>
+<p><a id="deploy"></a></p>
+<p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Открыть <a
+        href="http://127.0.0.1:8088/hr_admin/employees/" title="" style="color: #0366d6; text-decoration: none;">http://127.0.0.1:8088/hr_admin/employees/</a>
+</p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">(см. application.yaml)</p><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Для запуска выполнить на v.perm.ru:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs shell language-shell">/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar ./hr-admin-0.0.3.jar  --server.port=8088</code></pre>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Открыть <a href="https://v.perm.ru:8088/" title=""
+                                                                        style="color: #0366d6; text-decoration: none;">https://v.perm.ru:8088/</a><br>(проверено
+    29/03/26 на другом компьютере. Открывается с предупреждением о сертификате.)</p><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Ниже более лучший вариант без заморочек с
+    сертификатами.</p>
+
+<h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Проброс через Apache HTTPS</h3>
+<p><a id="mapping"></a></p>
+
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Размещено на <a href="https://v.perm.ru/hr_admin/"
+                                                                                  title=""
+                                                                                  style="color: #0366d6; text-decoration: none;">https://v.perm.ru/hr_admin/</a>
+</p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Работа через HTTPS сделана с помощью проксирования
+    через apache2. В приложении никаких настроек на HTTPS <strong style="font-weight: bold;">нет</strong>.</p><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">В <a href="doc/https/" title=""
+                                                                       style="color: #0366d6; text-decoration: none;">doc/https/</a>
+    другая (неудавшаяся) настройка на HTTPS. </p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Через
+    <strong style="font-weight: bold;">Apache proxy</strong> настройка проще. Примеры смотри в <a
+            href="doc/https/000-default-le-ssl.conf" title="" style="color: #0366d6; text-decoration: none;">doc/https/000-default-le-ssl.conf</a>
+</p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Настройка apache2 (см. # Проксирование запросов для
+    Spring Boot приложения hr_admin (работает по HTTP на localhost:8088)):</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs text language-plaintext">root@v:/etc/apache2/sites-enabled# cat 000-default-le-ssl.conf
+&lt;IfModule mod_ssl.c&gt;
+    &lt;VirtualHost *:443&gt;
+    ServerName v.perm.ru
+
+    ServerAdmin vasi.che@gmail.com
+    DocumentRoot /var/www/main/
+
+    LogLevel debug
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    # Настройка HTTPS для Apache2
+    SSLEngine on
+
+    SSLCertificateFile /etc/letsencrypt/live/v.perm.ru/cert.pem
+    SSLCertificateChainFile /etc/letsencrypt/live/v.perm.ru/fullchain.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/v.perm.ru/privkey.pem
+    SSLCACertificateFile /etc/letsencrypt/live/v.perm.ru/chain.pem
+    Include /etc/letsencrypt/options-ssl-apache.conf
+
+    # Проксирование запросов для Spring Boot приложения hr_admin (работает по HTTP на localhost:8088)
+    ProxyPreserveHost On
+    ProxyPass /hr_admin http://192.168.1.20:8088/hr_admin
+    ProxyPassReverse /hr_admin http://192.168.1.20:8088/hr_admin
+    # Передача информации о протоколе (важно для Spring Boot)
+    RequestHeader set X-Forwarded-Proto https
+
+    # Дополнительные настройки безопасности и логирования
+    Protocols h2 http/1.1
+    SSLProtocol all -SSLv3 -TLSv1 -TLSv1.1
+    ErrorLog ${APACHE_LOG_DIR}/spring-proxy-error.log
+    CustomLog ${APACHE_LOG_DIR}/spring-proxy.log combined
+    &lt;/VirtualHost&gt;
+&lt;/IfModule&gt;</code></pre><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Логи на сервере смотреть в
+    v.perm.ru:/home/vasi/temp/hr_admin/hr_admin.log.</p>
+
+<h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Разное</h3>
+<p><a id="other"></a></p>
+
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">SQL запросы логируются. Для этого сделена
+    настройка:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs text language-plaintext">spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true</code></pre><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Не переносить слова <strong
+        style="font-weight: bold;">whitespace-nowrap</strong>: </p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs text language-plaintext">&lt;span class="ml-3 whitespace-nowrap"&gt;Скрыть панель&lt;/span&gt;</code></pre>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">В контроллерах использовать <strong
+        style="font-weight: bold;">RequestMapping</strong> вместо <strong style="font-weight: bold;">GetMapping</strong>.
+    Почему?<br>Потому что здесь не простой REST Controller, а управление страницами. Методы те же, но нужна
+    дополнительная функциональность типа "redirect". </p>
+
+<h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">О Freemarker</h3>
+<p><a id="about_freemarker"></a></p>
+
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><a href="https://habr.com/ru/articles/420549/"
+                                                                     title=""
+                                                                     style="color: #0366d6; text-decoration: none;">https://habr.com/ru/articles/420549/</a>
+</p><h4 style="font-size: 16px; font-weight: bold; margin: 18px 0;">Пример 1:</h4>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs html language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+  &lt;#list father as item&gt;
+      <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>${item}<span class="hljs-tag">&lt;/<span
+            class="hljs-name">li</span>&gt;</span>
+  &lt;/#list&gt;
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs java language-java">Map&lt;String, Object&gt; root = <span class="hljs-keyword">new</span> <span
+        class="hljs-title class_">HashMap</span>&lt;&gt;();
+....
+root.put(<span class="hljs-string">"father"</span>, Arrays.asList(<span class="hljs-string">"Alexander"</span>, <span
+            class="hljs-string">"Petrov"</span>, <span class="hljs-number">47</span>));</code></pre><h4
+        style="font-size: 16px; font-weight: bold; margin: 18px 0;">Пример 2:</h4><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Шаблон hello_test.ftl:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs html language-xml"><span class="hljs-meta">&lt;!DOCTYPE <span
+        class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span
+        class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span
+            class="hljs-string">"UTF-8"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Hello ${name}!<span class="hljs-tag">&lt;/<span
+            class="hljs-name">title</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span
+        class="hljs-string">"text"</span> <span class="hljs-attr">placeholder</span>=<span
+        class="hljs-string">"${name}"</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">table</span>&gt;</span>
+    &lt;#list persons as row&gt;
+    <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+        &lt;#list row as field&gt;
+            <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>${field}<span
+            class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+        &lt;/#list&gt;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+    &lt;/#list&gt;
+<span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</code></pre>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs java language-java"><span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CommandLine</span> <span
+            class="hljs-keyword">implements</span> <span class="hljs-title class_">CommandLineRunner</span> {
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> Configuration configuration;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span
+            class="hljs-params">(String... args)</span> {
+        Map&lt;String, Object&gt; root = <span class="hljs-keyword">new</span> <span
+            class="hljs-title class_">HashMap</span>&lt;&gt;();
+        <span class="hljs-comment">// для ${name}</span>
+        root.put(<span class="hljs-string">"name"</span>, <span class="hljs-string">"Fremarker"</span>);
+        <span class="hljs-comment">// для &lt;#list persons</span>
+        List&lt;List&gt; persons = <span class="hljs-keyword">new</span> <span
+            class="hljs-title class_">ArrayList</span>&lt;&gt;();
+        persons.add(Arrays.asList(<span class="hljs-string">"Alexander"</span>, <span
+            class="hljs-string">"Petrov"</span>, <span class="hljs-number">47</span>));
+        persons.add(Arrays.asList(<span class="hljs-string">"Slava"</span>, <span
+            class="hljs-string">"Petrov"</span>, <span class="hljs-number">13</span>));
+        root.put(<span class="hljs-string">"persons"</span>, persons);
+
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-type">Template</span> <span class="hljs-variable">template</span> <span
+            class="hljs-operator">=</span> configuration.getTemplate(<span class="hljs-string">"hello_test.ftl"</span>);
+            <span class="hljs-type">Writer</span> <span class="hljs-variable">out</span> <span
+            class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">OutputStreamWriter</span>(System.out);
+            <span class="hljs-keyword">try</span> {
+                template.process(root, out);
+            } <span class="hljs-keyword">catch</span> (TemplateException e) {
+                e.printStackTrace();
+            }
+        } <span class="hljs-keyword">catch</span> (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Результат:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs html language-xml"><span class="hljs-meta">&lt;!DOCTYPE <span
+        class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span
+        class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span
+            class="hljs-string">"UTF-8"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Hello Fremarker!<span class="hljs-tag">&lt;/<span
+            class="hljs-name">title</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span
+        class="hljs-string">"text"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Fremarker"</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">table</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>Alexander<span class="hljs-tag">&lt;/<span
+            class="hljs-name">td</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>Petrov<span
+            class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>47<span class="hljs-tag">&lt;/<span
+            class="hljs-name">td</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>Slava<span
+            class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>Petrov<span
+            class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>13<span class="hljs-tag">&lt;/<span
+            class="hljs-name">td</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></code></pre>
+
+<h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Макросы FreeMarker</h3>
+<p><a id="freemarker_macros"></a></p>
+
+<h4
+        style="font-size: 16px; font-weight: bold; margin: 18px 0;">Пример 1</h4><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Объявление макроса <strong style="font-weight: bold;">textInput</strong>
+    в файле <strong style="font-weight: bold;">"ui.ftl"</strong>:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs html language-xml">&lt;#macro textInput id value="-"&gt;
+  <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span
+          class="hljs-string">"text"</span> <span class="hljs-attr">id</span>=<span
+          class="hljs-string">"${id}"</span> <span class="hljs-attr">value</span>=<span
+          class="hljs-string">"${value}"</span>&gt;</span>
+&lt;/#macro&gt;</code></pre><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Ключевое слово <strong
+        style="font-weight: bold;">&lt;#macro&gt;</strong> , <strong style="font-weight: bold;">&lt;/#macro&gt;</strong>.<br><strong
+        style="font-weight: bold;">textInput</strong> имя макроса.<br><strong style="font-weight: bold;">id</strong> и
+    <strong style="font-weight: bold;">value</strong> - параметры макроса (value="-" - значение по умолчанию).</p><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Подключение макроса через <strong
+        style="font-weight: bold;">import</strong>:<br>(ключевое слово <strong
+        style="font-weight: bold;">#import</strong>)</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs html language-xml">&lt;#import "ui.ftl" as ui/&gt;</code></pre><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">"ui" - алиас для использования.</p><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">В шаблоне макрос "textInput" из импорта "ui"
+    вызывается так:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs html language-xml">&lt;@ui.textInput id="name" value="${name}"/&gt;</code></pre><h3
+        style="font-size: 19px; font-weight: bold; margin: 14px 0;">Пример 2:</h3><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Файл макрос__ОВ__ <strong style="font-weight: bold;">ui.ftl</strong>:
+</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs html language-xml">&lt;#-- textInput macro for html input --&gt;
+&lt;#macro textInput id placeholder="" value=""&gt;
+  <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span
+          class="hljs-string">"text"</span> <span class="hljs-attr">id</span>=<span
+          class="hljs-string">"${id}"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"${placeholder}"</span> <span
+          class="hljs-attr">value</span>=<span class="hljs-string">"${value}"</span>&gt;</span>
+&lt;/#macro&gt;
+
+&lt;#-- table macro for html table --&gt;
+&lt;#macro table id rows&gt;
+<span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">id</span>=<span
+        class="hljs-string">"${id}"</span>&gt;</span>
+    &lt;#list rows as row&gt;            &lt;#-- ЦИКЛ!!! --&gt;
+    <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>${row?index + 1}<span class="hljs-tag">&lt;/<span
+            class="hljs-name">td</span>&gt;</span>  &lt;#-- ВЫЧИСЛЕНИЕ!!! --&gt;
+        &lt;#list row as field&gt;       &lt;#-- ЦИКЛ!!! --&gt;
+            <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>${field}<span
+            class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+        &lt;/#list&gt;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+    &lt;/#list&gt;
+<span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span>
+&lt;/#macro&gt;</code></pre><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Использование <strong
+        style="font-weight: bold;">ui.ftl</strong> в <strong style="font-weight: bold;">hello.ftl</strong>:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs html language-xml">&lt;#import "ui.ftl" as ui/&gt;
+
+<span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span
+        class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span
+            class="hljs-string">"UTF-8"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Hello ${name}!<span class="hljs-tag">&lt;/<span
+            class="hljs-name">title</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+
+&lt;@ui.textInput id="name" placeholder="Enter name" value="${name}"/&gt;
+&lt;@ui.table id="table1" rows=persons/&gt;
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Расширения файлов freemarket должны быть <strong
+        style="font-weight: bold;">ftlh</strong>. С расширением .ftlh автоматически активируется защита от XSS-атаксов
+    (HTML-автоэкранирование).</p>
+
+<h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">HTTPS</h3>
+<p><a id="https_use"></a></p>
+
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs shell language-shell">keytool -genkeypair -alias tomcat -keyalg RSA -keystore keystore.p12 -storetype PKCS12 -validity 365 -storepass changeit</code></pre>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs shell language-shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">keytool -genkeypair -<span
+        class="hljs-built_in">alias</span> tomcat -keyalg RSA -keystore keystore.p12 -storetype PKCS12 -validity 365 -storepass changeit</span>
+Enter the distinguished name. Provide a single dot (.) to leave a sub-component empty or press ENTER to use the default value in braces.
+What is your first and last name?
+[Unknown]:  Cherepakhin
+What is the name of your organizational unit?
+[Unknown]:  Vasili OU
+What is the name of your organization?
+[Unknown]:  Vasili Organization
+What is the name of your City or Locality?
+[Unknown]:  Perm
+What is the name of your State or Province?
+[Unknown]:  Perm
+What is the two-letter country code for this unit?
+[Unknown]:  RU
+Is CN=Cherepakhin, OU=Vasili OU, O=Vasili Organization, L=Perm, ST=Perm, C=RU correct?
+[no]:  yes
+
+Generating 3072-bit RSA key pair and self-signed certificate (SHA384withRSA) with a validity of 365 days
+for: CN=Cherepakhin, OU=Vasili OU, O=Vasili Organization, L=Perm, ST=Perm, C=RU</code></pre><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Создастся файл ./keystore.p12<br>Сохраните его в
+    src/main/resources:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs shell language-shell">cp keystore.p12 src/main/resources</code></pre><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Добавьте настройки в application.yaml.</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs yaml language-yaml"><span class="hljs-comment"># Включить HTTPS</span>
+<span class="hljs-attr">server:</span>
+  <span class="hljs-attr">port:</span> <span class="hljs-number">8443</span>
+  <span class="hljs-attr">ssl:</span>
+    <span class="hljs-attr">key-store:</span> <span class="hljs-string">classpath:keystore.p12</span>
+    <span class="hljs-attr">key-store-password:</span> <span class="hljs-string">changeit</span>
+    <span class="hljs-attr">key-store-type:</span> <span class="hljs-string">PKCS12</span>
+    <span class="hljs-attr">key-alias:</span> <span class="hljs-string">tomcat</span></code></pre><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Пароль не вводил.</p><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Информация о сертификате при запуске с v.perm.ru <a
+        href="https://www.misterpki.com/keytool-list-certs/" title="" style="color: #0366d6; text-decoration: none;">https://www.misterpki.com/keytool-list-certs/</a>:
+</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs text language-plaintext">Common Name (CN)	Cherepakhin
+Organization (O)	Vasili Organization
+Organizational Unit (OU)	Vasili OU
+Common Name (CN)	Cherepakhin
+Organization (O)	Vasili Organization
+Organizational Unit (OU)	Vasili OU
+Issued On	Wednesday, April 1, 2026 at 10:15:07PM
+Expires On	Thursday, April 1, 2027 at 10:15:07PM</code></pre><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Просмотр keystore:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs shell language-shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span
+        class="hljs-built_in">cat</span> https.sh</span>
+<span class="hljs-meta prompt_">$ </span><span class="language-bash">keytool -list -keystore src/main/resources/keystore.p12</span>
+Enter keystore password: нет пароля
+
+*****************  WARNING WARNING WARNING  *****************
+* The integrity of the information stored in your keystore  *
+* has NOT been verified!  In order to verify its integrity, *
+* you must provide your keystore password.                  *
+  *****************  WARNING WARNING WARNING  *****************
+
+Keystore type: PKCS12
+Keystore provider: SUN
+
+Your keystore contains 1 entry
+
+Alias name: tomcat
+Creation date: Apr 3, 2026
+Entry type: PrivateKeyEntry
+Certificate chain length: 0
+</code></pre>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs shell language-shell">keytool -list -v -alias tomcat -keystore src/main/resources/keystore.p12
+pass: пусто
+
+Alias name: tomcat
+Creation date: Apr 3, 2026
+Entry type: PrivateKeyEntry
+Certificate chain length: 0</code></pre>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs shell language-shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">openssl s_client -connect v:443 -showcerts</span>
+CONNECTED(00000003)
+Can't use SSL_get_servername
+depth=2 C = US, O = Internet Security Research Group, CN = ISRG Root X1
+verify return:1
+depth=1 C = US, O = Let's Encrypt, CN = E7
+verify return:1
+depth=0 CN = v.perm.ru
+verify return:1
+---
+Certificate chain
+ 0 s:CN = v.perm.ru
+   i:C = US, O = Let's Encrypt, CN = E7
+   a:PKEY: id-ecPublicKey, 256 (bit); sigalg: ecdsa-with-SHA384
+   v:NotBefore: Feb 16 16:24:34 2026 GMT; NotAfter: May 17 16:24:33 2026 GMT
+-----BEGIN CERTIFICATE-----
+....
+-----END CERTIFICATE-----
+
+1 s:CN = v.perm.ru
+   i:C = US, O = Let's Encrypt, CN = E7
+   a:PKEY: id-ecPublicKey, 256 (bit); sigalg: ecdsa-with-SHA384
+   v:NotBefore: Feb 16 16:24:34 2026 GMT; NotAfter: May 17 16:24:33 2026 GMT
+-----BEGIN CERTIFICATE-----
+....
+-----END CERTIFICATE-----
+ 2 s:C = US, O = Let's Encrypt, CN = E7
+   i:C = US, O = Internet Security Research Group, CN = ISRG Root X1
+   a:PKEY: id-ecPublicKey, 384 (bit); sigalg: RSA-SHA256
+   v:NotBefore: Mar 13 00:00:00 2024 GMT; NotAfter: Mar 12 23:59:59 2027 GMT
+-----BEGIN CERTIFICATE----
+....
+-----END CERTIFICATE-----
+---
+Server certificate
+subject=CN = v.perm.ru
+issuer=C = US, O = Let's Encrypt, CN = E7
+...</code></pre><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">От gigachat:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs text language-plaintext">Запрос:
+Работает https сервер apache2 на linux. Есть доступ к нему по https. Есть cert.pem  chain.pem  fullchain.pem  keystore.p12  privkey.pem. Нужно запустить spring boot приложение на этом сервере. Какие настройки нужно сделать в application.yaml этого приложения?
+
+Ответ:
+Для запуска Spring Boot-приложения по HTTPS с использованием ваших сертификатов и ключей, настройки в application.yaml будут следующими.
+
+Пример конфигурации для application.yaml
+
+server:
+  port: 8443 # или любой другой порт, который вы хотите использовать
+  ssl:
+    enabled: true
+    key-store: /path/to/keystore.p12
+    key-store-type: PKCS12
+    key-store-password: your_keystore_password # укажите пароль от keystore.p12
+    key-alias: your_key_alias # если есть, иначе можно не указывать
+Пояснения
+key-store: путь к вашему файлу keystore.p12.
+key-store-type: тип хранилища ключей. Для .p12 — это PKCS12.
+key-store-password: пароль для доступа к keystore.
+key-alias: псевдоним ключа внутри keystore (если он есть, иначе можно не указывать).
+Если вы хотите использовать отдельные файлы (privkey.pem и fullchain.pem)
+Spring Boot также поддерживает конфигурацию через отдельные файлы ключа и сертификата:
+
+server:                 &lt;----- МОЙ ВАРИАНТ
+  port: 8443
+  ssl:
+    enabled: true
+    key-store-type: PKCS12
+    key-store: /path/to/keystore.p12
+    key-store-password: your_keystore_password
+
+# Либо так, если не используете keystore:
+# server:
+#   ssl:
+#     key-store-type: PKCS12
+#     key-store: classpath:keystore.p12
+#     key-store-password: your_keystore_password
+
+# Или для отдельных файлов (Spring Boot 2.2+):
+# server:
+#   ssl:
+#     key-store-type: PEM
+#     ssl-certificate: file:/path/to/fullchain.pem
+#     ssl-key: file:/path/to/privkey.pem
+Важно: поддержка отдельных PEM-файлов появилась в Spring Boot 2.2+. Если у вас более старая версия, используйте только keystore.
+
+Рекомендация
+Если у вас уже есть keystore.p12, лучше использовать его, так как это наиболее универсальный и поддерживаемый способ для Spring Boot.</code></pre>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Запустите приложение.</p>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Теперь доступно по: <a href="https://192.168.1.79:8443"
+                                                                                    title=""
+                                                                                    style="color: #0366d6; text-decoration: none;">https://
+    <ip computer="">:8443</ip>
+</a></p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Если хотите, чтобы HTTP → перенаправлялся на HTTPS,
+    добавьте конфигурацию:<br>SecurityConfig.java:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs java language-java"><span class="hljs-keyword">package</span> net.guides.springboot2.freemarker.config;
+
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Bean;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;
+<span class="hljs-keyword">import</span> org.springframework.security.config.annotation.web.builders.HttpSecurity;
+<span class="hljs-keyword">import</span> org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+<span class="hljs-keyword">import</span> org.springframework.security.web.SecurityFilterChain;
+<span class="hljs-keyword">import</span> org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+<span class="hljs-meta">@Configuration</span>
+<span class="hljs-meta">@EnableWebSecurity</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SecurityConfig</span> {
+
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-keyword">public</span> SecurityFilterChain <span
+            class="hljs-title function_">filterChain</span><span class="hljs-params">(HttpSecurity http)</span> <span
+            class="hljs-keyword">throws</span> Exception {
+        http
+            .requiresChannel(channel -&gt; channel
+                .requestMatchers(AntPathRequestMatcher.antMatcher(<span class="hljs-string">"/secure/**"</span>))
+                .requiresSecure()
+            )
+            .authorizeHttpRequests(authz -&gt; authz
+                .anyRequest().permitAll()
+            )
+            .portMapper(mapper -&gt; mapper
+                .http(<span class="hljs-number">8080</span>).mapsTo(<span class="hljs-number">8443</span>)
+            );
+        <span class="hljs-keyword">return</span> http.build();
+    }
+}</code></pre><h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Перенаправление трафика через apache2</h3>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">000-default-le-ssl.conf:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+        style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+        class="hljs text language-plaintext">&lt;IfModule mod_ssl.c&gt;
+    &lt;VirtualHost *:443&gt;
+    # The ServerName directive sets the request scheme, hostname and port that
+    # the server uses to identify itself. This is used when creating
+    # redirection URLs. In the context of virtual hosts, the ServerName
+    # specifies what hostname must appear in the request's Host: header to
+    # match this virtual host. For the default virtual host (this file) this
+    # value is not decisive as it is used as a last resort host regardless.
+    # However, you must set it for any further virtual host explicitly.
+    ServerName v.perm.ru
+
+    ServerAdmin vasi.che@gmail.com
+    DocumentRoot /var/www/main/
+
+    # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+    # error, crit, alert, emerg.
+    # It is also possible to configure the loglevel for particular
+    # modules, e.g.
+    LogLevel debug
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    # For most configuration files from conf-available/, which are
+    # enabled or disabled at a global level, it is possible to
+    # include a line for only one particular virtual host. For example the
+    # following line enables the CGI configuration for this host only
+    # after it has been globally disabled with "a2disconf".
+    #Include conf-available/serve-cgi-bin.conf
+
+    #ServerName v.perm.ru
+    SSLEngine on
+
+    #SSLProxyEngine On
+    #ProxyPreserveHost on
+    #ProxyRequests off
+
+    SSLCertificateFile /etc/letsencrypt/live/v.perm.ru/cert.pem
+    #SSLCertificateFile /etc/letsencrypt/live/v.perm.ru/cert.pem
+    SSLCertificateChainFile /etc/letsencrypt/live/v.perm.ru/fullchain.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/v.perm.ru/privkey.pem
+    SSLCACertificateFile /etc/letsencrypt/live/v.perm.ru/chain.pem
+    Include /etc/letsencrypt/options-ssl-apache.conf
+
+    # Проксирование запросов на Spring Boot (работает по HTTP на localhost:8088)
+    # Снаружи доступно по https://v.perm.ru/hr_admin
+    # 192.168.1.20:8888 - адрес машнины во внутренней сети с запущенным сервисом
+    ProxyPreserveHost On
+    ProxyPass /hr_admin http://192.168.1.20:8088
+    ProxyPassReverse /hr_admin http://192.168.1.20:8088
+    # Передача информации о протоколе (важно для Spring Boot)
+    RequestHeader set X-Forwarded-Proto https
+
+    # Дополнительные настройки безопасности и логирования
+    Protocols h2 http/1.1
+    SSLProtocol all -SSLv3 -TLSv1 -TLSv1.1
+    ErrorLog ${APACHE_LOG_DIR}/spring-proxy-error.log
+    CustomLog ${APACHE_LOG_DIR}/spring-proxy.log combined
+    &lt;/VirtualHost&gt;
+</code></pre><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Полностью в <a
+        href="doc/https/000-default-le-ssl.conf" title="" style="color: #0366d6; text-decoration: none;">doc/https/000-default-le-ssl.conf</a>
+</p><h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Ссылки</h3><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;"><a href="https://habr.com/ru/articles/420549/"
+                                                                     title=""
+                                                                     style="color: #0366d6; text-decoration: none;">FreeMarker
+    шаблоны (habr)</a><br><a href="https://velocity.apache.org/" title=""
+                             style="color: #0366d6; text-decoration: none;">Альтернатива Freemarker - Velocity</a>.</p>
+<h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Примечания</h3>
+<div class="rounded-md"> - скругленный углы
+    class="flex-1" - класс в Tailwind CSS, который позволяет элементу занимать равную долю доступного пространства в
+    контейнере Flexbox.
+
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">При тестировании с mock, если используется any...(), то
+        остальные поля должны быть заданы в виде типа eq(...)<br>Пример:</p>
+    <pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+            style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+            class="hljs java language-java">verify(<span
+            class="hljs-built_in">this</span>.employeeRepository, times(<span class="hljs-number">1</span>)).findByFiltersAndSort(eq(<span
+            class="hljs-string">"firstName1"</span>), eq(<span class="hljs-string">"lastName1"</span>), eq(<span
+            class="hljs-string">"email1"</span>), any());</code></pre>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><a href="https://svgicons.com/icon/180/arrow-down"
+                                                                    title=""
+                                                                    style="color: #0366d6; text-decoration: none;">SVG
+        иконки (пример стрелки вниз)</a><br><a href="https://svgicons.com/icon/187/arrow-left" title=""
+                                               style="color: #0366d6; text-decoration: none;">SVG иконки (пример стрелки
+        влево)</a></p>
+    <pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+            style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+            class="hljs text language-plaintext">&lt;svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"&gt;&lt;title&gt;Arrow-down SVG Icon&lt;/title&gt;&lt;path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20V4m-7 9l7 7l7-7"/&gt;&lt;/svg&gt;</code></pre>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><a
+            href="https://dev.to/andypeters/creating-a-modal-dialog-in-tailwindcss-and-alpinejs-bc5" title=""
+            style="color: #0366d6; text-decoration: none;">Диалоговое окно подтверждения</a></p>
+    <h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Стили</h3>
+    <ul style="padding-left: 24px; list-style-type: disc;">
+        <li style="margin: 8px 0;">py-2 = padding 8 px (*4)</li>
+        <li style="margin: 8px 0;">px-3 = padding 12 px (*4)</li>
+        <li style="margin: 8px 0;">mb-2 = margin buttom 8 px (*4)</li>
+        <li style="margin: 8px 0;">w-full - растянуть на всю доступную ширину</li>
+        <li style="margin: 8px 0;">max-w-6xl - определение максимальной ширины</li>
+        <li style="margin: 8px 0;">justify-center - динамическое центрирование по вертикали</li>
+        <li style="margin: 8px 0;">justify-end - прижать к правому краю</li>
+    </ul>
+    <h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Прижать кнопки к правой стороне</h3>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><strong style="font-weight: bold;">text-right</strong>
+        - стиль для выравнивания текста<br><strong style="font-weight: bold;">justify-end</strong> - работает по другому
+        принципу, чем <strong style="font-weight: bold;">text-right</strong>.</p>
+    <pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+            style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+            class="hljs text language-plaintext">    &lt;tr id="position-${position.id}" class="border-b border-gray-100 hover:bg-gray-50 transition"&gt;
+        &lt;td class="px-4 py-2 font-medium"&gt;${position.name}&lt;/td&gt;
+        &lt;td class="px-4 py-2 text-right"&gt;                       &lt;!-- !!!!!!!!!!!!!!!!!!!!!! --&gt;
+            &lt;!-- Edit Action --&gt;
+            &lt;a ...&lt;/a&gt;
+            &lt;!-- Delete Action with Custom Modal --&gt;
+            &lt;button ... &lt;/button&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;</code></pre>
+    <h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Тестирование снаружи</h3>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Screen shot tool URL <a
+            href="https://iotools.cloud/tool/website-screenshot/" title=""
+            style="color: #0366d6; text-decoration: none;">https://iotools.cloud/tool/website-screenshot/</a></p>
+    <h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">TODO</h3>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Мелкий шрифт на пагинации на телефоне.</p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Шрифты <a href="https://tailwindcss.com/docs/font-size"
+                                                                           title=""
+                                                                           style="color: #0366d6; text-decoration: none;">https://tailwindcss.com/docs/font-size</a>.
+    </p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Freemaker assign value:</p>
+    <pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+            style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+            class="hljs text language-plaintext">&lt;#assign value="\t\tweather\n\n"&gt;
+&lt;#compress&gt;
+${value}
+Today is a wonderful day.
+1 2   3       4     5
+&lt;/#compress&gt;</code></pre>
+    <h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Удаление</h3>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Выполнение DELETE запроса (совет <a
+            href="https://stackoverflow.com/questions/24256051/delete-or-put-methods-in-thymeleaf" title=""
+            style="color: #0366d6; text-decoration: none;">отсюда</a>):</p>
+    <pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+            style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+            class="hljs javascript language-javascript">&lt;script <span class="hljs-attr">th</span>:inline=<span
+            class="hljs-string">"javascript"</span>&gt;
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">sendDelete</span>(<span
+                class="hljs-params">url</span>) {
+        <span class="hljs-keyword">var</span> xhttp = <span class="hljs-keyword">new</span> <span
+                class="hljs-title class_">XMLHttpRequest</span>();
+        xhttp.<span class="hljs-title function_">open</span>(<span class="hljs-string">"DELETE"</span>, url, <span
+                class="hljs-literal">true</span>);
+        xhttp.<span class="hljs-property">onload</span> = <span class="hljs-keyword">function</span> (<span
+                class="hljs-params"></span>) {
+            <span class="hljs-keyword">let</span> responseURL = xhttp.<span class="hljs-property">responseURL</span>;
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span
+                class="hljs-string">"Redirecting to:"</span>, responseURL);
+            <span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>.<span
+                class="hljs-title function_">replace</span>(responseURL);
+        };
+        xhttp.<span class="hljs-title function_">send</span>();
+    }
+&lt;/script&gt;</code></pre>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Использование на страницах:</p>
+    <pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+            style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+            class="hljs html language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span
+            class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span
+            class="hljs-attr">th:with</span>=<span class="hljs-string">"url = @{&lt;your_url&gt;}"</span> <span
+            class="hljs-attr">th:onclick</span>=<span class="hljs-string">"sendDelete([[${url}]])"</span>&gt;</span>Delete<span
+            class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre>
+    <h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Ветки</h3>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">v0.0.5 - работает CRUD (особенно удаление) позиций и
+        сотрудников.</p>
+    <h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Разное</h3>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Нормально работает tools из браузера</p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Просмотреть скриншоты сайта:</p>
+    <ul style="padding-left: 24px; list-style-type: disc;">
+        <li style="margin: 8px 0;"><a href="https://convertico.com/website-screenshot/" title=""
+                                      style="color: #0366d6; text-decoration: none;">https://convertico.com/website-screenshot/</a>
+        </li>
+        <li style="margin: 8px 0;">для проверки ДОСТУПНОСТИ из web <a href="https://convertico.com/website-screenshot/"
+                                                                      title=""
+                                                                      style="color: #0366d6; text-decoration: none;">https://convertico.com/website-screenshot/</a>
+        </li>
+        <li style="margin: 8px 0;"><a href="https://anytools.pro/ru/img/screenshot" title=""
+                                      style="color: #0366d6; text-decoration: none;">https://anytools.pro/ru/img/screenshot</a>
+        </li>
+        <li style="margin: 8px 0;"><a href="https://screenshot.guru/" title=""
+                                      style="color: #0366d6; text-decoration: none;">https://screenshot.guru/</a></li>
+        <li style="margin: 8px 0;"><a href="https://iotools.cloud/tool/website-screenshot/" title=""
+                                      style="color: #0366d6; text-decoration: none;">https://iotools.cloud/tool/website-screenshot/</a>
+        </li>
+    </ul>
+    <h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">PageSpeedInsights</h3>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><strong
+            style="font-weight: bold;">PageSpeedInsights</strong> - Инструмент тестирования скорости загрузки и <strong
+            style="font-weight: bold;">качества</strong> html разметки <a
+            href="https://pagespeed.web.dev/analysis/https-v-perm-ru-hr_admin/wlfhga6g6l?hl=ru&amp;form_factor=desktop"
+            title="" style="color: #0366d6; text-decoration: none;">https://pagespeed.web.dev/analysis/https-v-perm-ru-hr_admin/wlfhga6g6l?hl=ru&amp;form_factor=desktop</a><br>Некоторые
+        результаты работы PageSpeedInsights:</p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/pagespeed/pagespeed_common.png"
+                                                                      alt="doc/pagespeed/pagespeed_common.png" title=""
+                                                                      style="max-width: 100%; height: auto;"></p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/pagespeed/pagespeed_speed_result.png"
+                                                                      alt="doc/pagespeed/pagespeed_speed_result.png"
+                                                                      title="" style="max-width: 100%; height: auto;">
+    </p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/pagespeed/pagespeed_1.png"
+                                                                      alt="doc/pagespeed/pagespeed_speed1.png" title=""
+                                                                      style="max-width: 100%; height: auto;"></p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/pagespeed/pagespeed_2.png"
+                                                                      alt="doc/pagespeed/pagespeed_2.png" title=""
+                                                                      style="max-width: 100%; height: auto;"></p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/pagespeed/pagespeed_3.png"
+                                                                      alt="doc/pagespeed/pagespeed_3.png" title=""
+                                                                      style="max-width: 100%; height: auto;"></p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/pagespeed/pagespeed_4.png"
+                                                                      alt="doc/pagespeed/pagespeed_4.png" title=""
+                                                                      style="max-width: 100%; height: auto;"></p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/pagespeed/pagespeed_5.png"
+                                                                      alt="doc/pagespeed/pagespeed_5.png" title=""
+                                                                      style="max-width: 100%; height: auto;"></p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Просмотр commits на github <a
+            href="https://github.com/cherepakhin/hr_admin/commits/v0.0.5" title=""
+            style="color: #0366d6; text-decoration: none;">https://github.com/cherepakhin/hr_admin/commits/v0.0.5</a>
+    </p>
+    <h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Диалоги</h3>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Простой диалог с сообщением:</p>
+    <pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+            style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+            class="hljs text language-plaintext">                                &lt;!-- Delete Action with Confirmation --&gt;
+                                &lt;a href="${springMacroRequestContext.contextPath}/positions/delete/${position.id}"
+                                   onclick="return confirm('Вы уверены, что хотите удалить ${position.name} ?');"
+                                   class="action-delete inline-flex items-center justify-center w-5 h-5 rounded-full hover:bg-red-100 transition text-red-600"
+                                   viewBox="0 0 24 24"
+                                   title="Удалить"&gt;
+                                    &lt;svg class="action-icon" xmlns="https://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"&gt;
+                                        &lt;path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/&gt;
+                                    &lt;/svg&gt;
+                                &lt;/a&gt;
+</code></pre>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Убрать скругления углов:</p>
+    <pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+            style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+            class="hljs text language-plaintext">.modal-container: border-radius: 0
+.btn-cancel: border-radius: 0
+.btn-delete: border-radius: 0</code></pre>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Диалог подтверждения удаления позиции:</p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/dialog_delete_position.png"
+                                                                      alt="doc/dialog_delete_position.png" title=""
+                                                                      style="max-width: 100%; height: auto;"></p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><a
+            href="doc/view-source_127.0.0.1_8088_hr_admin_positions_.html" title=""
+            style="color: #0366d6; text-decoration: none;">HTML код страницы с диалогом подтверждения удаления и
+        комментариями</a></p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Стиль "gap-4" - уместить 4 элемента </p>
+    <h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Экраны для мобильных устройств</h3>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/mobile_screens/all_employees.png"
+                                                                      alt="doc/mobile_screens/all_employees.png"
+                                                                      title="" style="max-width: 100%; height: auto;">
+    </p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/mobile_screens/delete_employee.png"
+                                                                      alt="doc/mobile_screens/delete_employee.png"
+                                                                      title="" style="max-width: 100%; height: auto;">
+    </p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/mobile_screens/find_employees.png"
+                                                                      alt="doc/mobile_screens/find_employees.png"
+                                                                      title="" style="max-width: 100%; height: auto;">
+    </p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/mobile_screens/list_employees.png"
+                                                                      alt="doc/mobile_screens/list_employees.png"
+                                                                      title="" style="max-width: 100%; height: auto;">
+    </p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/mobile_screens/new_employee.png"
+                                                                      alt="doc/mobile_screens/new_employee.png" title=""
+                                                                      style="max-width: 100%; height: auto;"></p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="doc/mobile_screens/positions.png"
+                                                                      alt="doc/mobile_screens/positions.png" title=""
+                                                                      style="max-width: 100%; height: auto;"></p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Toolbar на больших экранах слева, на маленьких снизу.
+        Сделано с помощью CSS.<br>На самом деле, в программе есть две панели: <strong style="font-weight: bold;">sidebar.ftl</strong>
+        и <strong style="font-weight: bold;">bottom-navigation.ftl</strong>.<br>Внимание на свойство <strong
+                style="font-weight: bold;">md</strong> (middle device).<br>Для больших экранов работает <strong
+                style="font-weight: bold;">sidebar.ftl</strong>:<br><strong style="font-weight: bold;">id="sidebar"
+            class="hidden md:flex ..."</strong> - по умолчанию скрыто (<strong
+                style="font-weight: bold;">hidden</strong>), но на открыто на средних и больше экранах (<strong
+                style="font-weight: bold;">md:flex</strong>).</p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Для маленьких экранов используется <strong
+            style="font-weight: bold;">bottom-navigation.ftl</strong>: <strong style="font-weight: bold;">class="md:hidden</strong>
+        (<strong style="font-weight: bold;">md</strong> - middle device) - скрыто на больших экранах.</p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Совет из интернета: Часто к md:flex добавляют другие
+        утилиты для тонкой настройки. Например:</p>
+    <ul style="padding-left: 24px; list-style-type: disc;">
+        <li style="margin: 8px 0;">md:shrink-0 — запрещает элементу сжиматься на средних и больших экранах.</li>
+        <li style="margin: 8px 0;">md:w-48 — задаёт ширину 48 rem на средних экранах и выше.</li>
+    </ul>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Другой способ адаптации к мобильным устройствам
+        использовать свойство <strong style="font-weight: bold;">Device</strong> из Spring MVC пример в проекте <a
+                href="https://github.com/cherepakhin/device-resolution" title=""
+                style="color: #0366d6; text-decoration: none;">https://github.com/cherepakhin/device-resolution</a>.<br>Суть
+        в том, что в контроллере мы можем определить, на каком устройстве работает пользователь и в зависимости от этого
+        отдавать разные представления.</p>
+    <h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Включено логирование SQL запросов в
+        application.yaml:</h3>
+    <pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+            style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+            class="hljs yaml language-yaml"><span class="hljs-attr">logging:</span>
+  <span class="hljs-attr">level:</span>
+    <span class="hljs-attr">org.hibernate.SQL:</span> <span class="hljs-string">DEBUG</span>
+    <span class="hljs-attr">org.hibernate.orm.jdbc.bind:</span> <span class="hljs-string">trace</span></code></pre>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Log:</p>
+    <pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+            style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+            class="hljs text language-plaintext">Hibernate:
+    insert
+    into
+        employees
+        (email, first_name, last_name, position_id, id)
+    values
+        (?, ?, ?, ?, default)
+23:54:07.281+05:00 TRACE 16885 --- [           main] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) &lt;- [emp9@example.com]
+23:54:07.282+05:00 TRACE 16885 --- [           main] org.hibernate.orm.jdbc.bind              : binding parameter (2:VARCHAR) &lt;- [Name 9]
+23:54:07.283+05:00 TRACE 16885 --- [           main] org.hibernate.orm.jdbc.bind              : binding parameter (3:VARCHAR) &lt;- [Lastname 9]
+23:54:07.293+05:00 TRACE 16885 --- [           main] org.hibernate.orm.jdbc.bind              : binding parameter (4:BIGINT) &lt;- [3]
+23:54:07.301+05:00  INFO 16885 --- [           main] n.g.s.f.initializer.DataInitializer      : Test data added.</code></pre>
+    <h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Запуск как сервис в Linux</h3>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Описано здесь <a
+            href="https://v.perm.ru/index.php/instrumenty-devops/autostart-service" title=""
+            style="color: #0366d6; text-decoration: none;">Autostart сервиса в linux</a>.</p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Создать файл hr_admin.service в /etc/systemd:</p>
+    <pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+            style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+            class="hljs text language-plaintext">[Unit]
+Description=HR admin
+Wants=network-online.target
+After=network-online.target
+[Service]
+Type=simple
+User=vasi
+Group=vasi
+ExecReload=/bin/kill -HUP
+ExecStart=/home/vasi/temp/hr_admin.sh
+SyslogIdentifier=hr_admin
+Restart=always
+[Install]
+WantedBy=multi-user.target</code></pre>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">/home/vasi/temp/hr_admin.sh:</p>
+    <pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+            style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+            class="hljs shell language-shell">/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar /home/vasi/temp/hr-admin-0.0.5.jar --server.port=8088</code></pre>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Перечитать сервисы:</p>
+    <pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+            style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+            class="hljs shell language-shell">sudo systemctl daemon-reload</code></pre>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Включить сервис:</p>
+    <pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+            style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+            class="hljs shell language-shell">systemctl enable hr_admin.service</code></pre>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Запустить сервис:</p>
+    <pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+            style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+            class="hljs shell language-shell">systemctl start hr_admin.service</code></pre>
+    <h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Подключение к MCP сервису для VS Code</h3>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Создать каталог .codeassistant в каталоге проекта. В
+        нем создать файл mcp.json:</p>
+    <pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+            style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+            class="hljs json language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"mcpServers"</span><span class="hljs-punctuation">:</span> <span
+                class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"github"</span><span class="hljs-punctuation">:</span> <span
+                class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span
+                class="hljs-string">"stdio"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"command"</span><span class="hljs-punctuation">:</span> <span
+                class="hljs-string">"docker"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"args"</span><span class="hljs-punctuation">:</span> <span
+                class="hljs-punctuation">[</span>
+        <span class="hljs-string">"run"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-string">"-i"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-string">"--rm"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-string">"-e"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-string">"GITHUB_PERSONAL_ACCESS_TOKEN"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-string">"-e"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-string">"GITHUB_TOOLSETS"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-string">"-e"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-string">"GITHUB_READ_ONLY"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-string">"ghcr.io/github/github-mcp-server"</span>
+      <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"env"</span><span class="hljs-punctuation">:</span> <span
+                class="hljs-punctuation">{</span>
+        <span class="hljs-attr">"GITHUB_PERSONAL_ACCESS_TOKEN"</span><span class="hljs-punctuation">:</span> <span
+                class="hljs-string">"ТОКЕН_GITHUB"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">"GITHUB_TOOLSETS"</span><span class="hljs-punctuation">:</span> <span
+                class="hljs-string">""</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">"GITHUB_READ_ONLY"</span><span class="hljs-punctuation">:</span> <span
+                class="hljs-string">""</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+    <h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Задание RULES для gigacode агента</h3>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Правил находятся в файле <a
+            href=".gigacode/rules/hr_admin_rules" title="" style="color: #0366d6; text-decoration: none;">.gigacode/rules/hr_admin_rules.md</a>
+    </p>
+    <pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+            style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+            class="hljs text language-plaintext"># Правила проекта
+## Архитектура
+- Используй слоистую архитектуру: controller, service, repository, model, dto.
+- Бизнес-логика должна находиться в service-слое.
+- Controller не должен напрямую обращаться к repository.
+- названия методов должны быть глаголами в форме глагол + объект.
+## Тестирование
+- Для всех новых публичных методов создавай unit-тесты.
+- Для API-изменений добавляй интеграционные тесты.
+- Используй существующий стиль тестов проекта.
+## Безопасность
+- Не читай и не изменяй файлы .env, credentials.json, secrets.yaml.
+- Не выводи секреты и токены в ответах.
+- При изменении авторизации указывай возможные риски.</code></pre>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">(скачал откуда-то)</p>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Итоговые правила (prompt: "покажи rules для
+        агента"):</p>
+    <pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
+            style="font-family: Consolas, 'Courier New', monospace; font-size: 14px; color: #24292e; background-color: unset;"
+            class="hljs text language-plaintext"># HR Admin Rules
+
+## Архитектура
+- Используй слоистую архитектуру: controller, service, repository, model, dto
+- Бизнес-логика должна находиться в service-слое
+- Controller не должен напрямую обращаться к repository
+- Названия методов должны быть глаголами в форме "глагол + объект" (например: `createEmployee`, `deletePosition`)
+
+## Тестирование
+- Для всех новых публичных методов создавай unit-тесты
+- Для API-изменений добавляй интеграционные тесты
+- Используй существующий стиль тестов проекта (JUnit 5 + Mockito)
+- Тесты пишутся в snake_case или camelCase для методов (например: `shouldListEmployeesWithPagination`, `create_employee_and_redirect`)
+
+## Безопасность
+- Не читай и не изменяй файлы `.env`, `credentials.json`, `secrets.yaml`
+- Не выводи секреты и токены в ответах
+- При изменении авторизации указывай возможные риски
+
+## Код-стайл (AGENTS.md)
+- Индентация: 4 пробела
+- Максимальная длина строки: 120 символов
+- Используй IntelliJ IDEA default code style для Java
+- Используем Lombok: `@RequiredArgsConstructor` для DI, `@Slf4j` для логирования
+- Предпочитаем инициализацию final полей через конструктор
+- Избегай `var` — предпочитай явные типы
+- Избегай мутаций объектов, особенно в foreach и Stream API
+- Используй ранний выход (early return) где возможно
+- Избегай методов с `throws` — используй unchecked exceptions
+- Контроллеры называются `...Controller`, сервисы — `...Service`, репозитории — `...Repository`
+- Для шаблонов используем FreeMarker с расширением `.ftlh`
+- View-имена храним в интерфейсе `NamesView`</code></pre>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Из GigaIde в облаке <a
+            href="https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8088/hr_admin/https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8088/hr_admin/"
+            title="" style="color: #0366d6; text-decoration: none;">https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8088/hr_admin/https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8088/hr_admin/</a>
+    </p>
+    <h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Ввод голосом</h3>
+    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">На мобильных телефонах значения в текстовые поля можно
+        вводить голосом при нажатии на иконку микрофона в правом верхнем углу клавиатуры.</p></div>
