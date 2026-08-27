@@ -3,7 +3,8 @@
 <h3 dir="auto">Оглавление:</h3>
 <ul>
     <li><a href="#about_project">О проекте в общем</a></li>
-    <li><a href="#screens">Внешний вид страниц</a></li>
+    <li><a href="#screens_desktop">Внешний вид страниц для desktop</a></li>
+    <li><a href="#screens_mobile">Экраны для мобильных устройств</a></li>
     <li><a href="#maven_wrapper">Создание maven wrapper</a></li>
     <li><a href="#model_and_view">ModelAndView</a></li>
     <li><a href="#testing">Тестирование</a></li>
@@ -55,8 +56,8 @@
     </li>
 </ul>
 
-<h3 dir="auto">Внешний вид страниц</h3>
-<p><a id="screens"></a></p>
+<h3 dir="auto">Внешний вид страниц для desktop</h3>
+<p><a id="screens_desktop"></a></p>
 <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Основной экран в виде карточек:</p><p
         style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="images/hr_admin/hr_admin.png" alt="hr_admin/hr_admin.png"
                                                                        title="" style="max-width: 100%; height: auto;">
@@ -81,12 +82,61 @@
         style="margin: 16px 0; line-height: 1.6; color: #24292e;">Список должностей:</p><p
         style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="images/hr_admin/positions.png" alt="hr_admin/positions.png"
                                                                        title="" style="max-width: 100%; height: auto;">
-</p><p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Редатирование должности:</p><p
-        style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="images/hr_admin/edit_position.png"
-                                                                       alt="hr_admin/edit_position.png" title=""
-                                                                       style="max-width: 100%; height: auto;"></p><p
-        style="margin: 16px 0; line-height: 1.6; color: #24292e;">Экранные формы для мобильных устройств: <a
-        href="hr_admin/mobile_screens/" title="" style="color: #0366d6; text-decoration: none;">hr_admin/mobile_screens/</a></p>
+</p>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Редатирование должности:</p>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">
+    <img src="images/hr_admin/edit_position.png" alt="hr_admin/edit_position.png" title="" style="max-width: 100%; height: auto;">
+</p>
+
+<!-- mobile screens -->
+<h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Экраны для мобильных устройств</h3>
+<p><a id="screens_mobile"></a></p>
+
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="images/hr_admin/mobile_screens/all_employees.png"
+                                                                  alt="hr_admin/mobile_screens/all_employees.png"
+                                                                  title="" style="max-width: 100%; height: auto;">
+</p>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="images/hr_admin/mobile_screens/delete_employee.png"
+                                                                  alt="hr_admin/mobile_screens/delete_employee.png"
+                                                                  title="" style="max-width: 100%; height: auto;">
+</p>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="images/hr_admin/mobile_screens/find_employees.png"
+                                                                  alt="hr_admin/mobile_screens/find_employees.png"
+                                                                  title="" style="max-width: 100%; height: auto;">
+</p>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="images/hr_admin/mobile_screens/list_employees.png"
+                                                                  alt="hr_admin/mobile_screens/list_employees.png"
+                                                                  title="" style="max-width: 100%; height: auto;">
+</p>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="images/hr_admin/mobile_screens/new_employee.png"
+                                                                  alt="hr_admin/mobile_screens/new_employee.png" title=""
+                                                                  style="max-width: 100%; height: auto;"></p>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="images/hr_admin/mobile_screens/positions.png"
+                                                                  alt="hr_admin/mobile_screens/positions.png" title=""
+                                                                  style="max-width: 100%; height: auto;"></p>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Toolbar на больших экранах слева, на маленьких снизу.
+    Сделано с помощью CSS.<br>На самом деле, в программе есть две панели: <strong style="font-weight: bold;">sidebar.ftl</strong>
+    и <strong style="font-weight: bold;">bottom-navigation.ftl</strong>.<br>Внимание на свойство <strong
+            style="font-weight: bold;">md</strong> (middle device).<br>Для больших экранов работает <strong
+            style="font-weight: bold;">sidebar.ftl</strong>:<br><strong style="font-weight: bold;">id="sidebar"
+        class="hidden md:flex ..."</strong> - по умолчанию скрыто (<strong
+            style="font-weight: bold;">hidden</strong>), но на открыто на средних и больше экранах (<strong
+            style="font-weight: bold;">md:flex</strong>).</p>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Для маленьких экранов используется <strong
+        style="font-weight: bold;">bottom-navigation.ftl</strong>: <strong style="font-weight: bold;">class="md:hidden</strong>
+    (<strong style="font-weight: bold;">md</strong> - middle device) - скрыто на больших экранах.</p>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Совет из интернета: Часто к md:flex добавляют другие
+    утилиты для тонкой настройки. Например:</p>
+<ul style="padding-left: 24px; list-style-type: disc;">
+    <li style="margin: 8px 0;">md:shrink-0 — запрещает элементу сжиматься на средних и больших экранах.</li>
+    <li style="margin: 8px 0;">md:w-48 — задаёт ширину 48 rem на средних экранах и выше.</li>
+</ul>
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Другой способ адаптации к мобильным устройствам
+    использовать свойство <strong style="font-weight: bold;">Device</strong> из Spring MVC пример в проекте <a
+            href="https://github.com/cherepakhin/device-resolution" title=""
+            style="color: #0366d6; text-decoration: none;">https://github.com/cherepakhin/device-resolution</a>.<br>Суть
+    в том, что в контроллере мы можем определить, на каком устройстве работает пользователь и в зависимости от этого
+    отдавать разные представления.</p>
 
 <h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Создание maven wrapper</h3>
 <p><a id="maven_wrapper"></a></p>
@@ -1069,52 +1119,7 @@ Today is a wonderful day.
             style="color: #0366d6; text-decoration: none;">HTML код страницы с диалогом подтверждения удаления и
         комментариями</a></p>
     <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Стиль "gap-4" - уместить 4 элемента </p>
-    <h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Экраны для мобильных устройств</h3>
-    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="images/hr_admin/mobile_screens/all_employees.png"
-                                                                      alt="hr_admin/mobile_screens/all_employees.png"
-                                                                      title="" style="max-width: 100%; height: auto;">
-    </p>
-    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="images/hr_admin/mobile_screens/delete_employee.png"
-                                                                      alt="hr_admin/mobile_screens/delete_employee.png"
-                                                                      title="" style="max-width: 100%; height: auto;">
-    </p>
-    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="images/hr_admin/mobile_screens/find_employees.png"
-                                                                      alt="hr_admin/mobile_screens/find_employees.png"
-                                                                      title="" style="max-width: 100%; height: auto;">
-    </p>
-    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="images/hr_admin/mobile_screens/list_employees.png"
-                                                                      alt="hr_admin/mobile_screens/list_employees.png"
-                                                                      title="" style="max-width: 100%; height: auto;">
-    </p>
-    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="images/hr_admin/mobile_screens/new_employee.png"
-                                                                      alt="hr_admin/mobile_screens/new_employee.png" title=""
-                                                                      style="max-width: 100%; height: auto;"></p>
-    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img src="images/hr_admin/mobile_screens/positions.png"
-                                                                      alt="hr_admin/mobile_screens/positions.png" title=""
-                                                                      style="max-width: 100%; height: auto;"></p>
-    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Toolbar на больших экранах слева, на маленьких снизу.
-        Сделано с помощью CSS.<br>На самом деле, в программе есть две панели: <strong style="font-weight: bold;">sidebar.ftl</strong>
-        и <strong style="font-weight: bold;">bottom-navigation.ftl</strong>.<br>Внимание на свойство <strong
-                style="font-weight: bold;">md</strong> (middle device).<br>Для больших экранов работает <strong
-                style="font-weight: bold;">sidebar.ftl</strong>:<br><strong style="font-weight: bold;">id="sidebar"
-            class="hidden md:flex ..."</strong> - по умолчанию скрыто (<strong
-                style="font-weight: bold;">hidden</strong>), но на открыто на средних и больше экранах (<strong
-                style="font-weight: bold;">md:flex</strong>).</p>
-    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Для маленьких экранов используется <strong
-            style="font-weight: bold;">bottom-navigation.ftl</strong>: <strong style="font-weight: bold;">class="md:hidden</strong>
-        (<strong style="font-weight: bold;">md</strong> - middle device) - скрыто на больших экранах.</p>
-    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Совет из интернета: Часто к md:flex добавляют другие
-        утилиты для тонкой настройки. Например:</p>
-    <ul style="padding-left: 24px; list-style-type: disc;">
-        <li style="margin: 8px 0;">md:shrink-0 — запрещает элементу сжиматься на средних и больших экранах.</li>
-        <li style="margin: 8px 0;">md:w-48 — задаёт ширину 48 rem на средних экранах и выше.</li>
-    </ul>
-    <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Другой способ адаптации к мобильным устройствам
-        использовать свойство <strong style="font-weight: bold;">Device</strong> из Spring MVC пример в проекте <a
-                href="https://github.com/cherepakhin/device-resolution" title=""
-                style="color: #0366d6; text-decoration: none;">https://github.com/cherepakhin/device-resolution</a>.<br>Суть
-        в том, что в контроллере мы можем определить, на каком устройстве работает пользователь и в зависимости от этого
-        отдавать разные представления.</p>
+
     <h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Включено логирование SQL запросов в
         application.yaml:</h3>
     <pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><code
@@ -1272,8 +1277,8 @@ WantedBy=multi-user.target</code></pre>
 - Для шаблонов используем FreeMarker с расширением `.ftlh`
 - View-имена храним в интерфейсе `NamesView`</code></pre>
     <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Из GigaIde в облаке <a
-            href="https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8088/hr_admin/https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8088/hr_admin/"
-            title="" style="color: #0366d6; text-decoration: none;">https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8088/hr_admin/https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8088/hr_admin/</a>
+            href="https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8088/hr_admin/"
+            title="" style="color: #0366d6; text-decoration: none;">https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8088/hr_admin/</a>
     </p>
     <h3 style="font-size: 19px; font-weight: bold; margin: 14px 0;">Ввод голосом</h3>
     <p style="margin: 16px 0; line-height: 1.6; color: #24292e;">На мобильных телефонах значения в текстовые поля можно
