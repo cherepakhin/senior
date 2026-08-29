@@ -40,6 +40,7 @@
 но один и тот же рассказ они расскажут вам за одно и то же время.
 
 https://lingua-airlines.ru/articles/skorost-rechi-v-anglijskom-yazyke/
+
 "Русский язык в этом исследовании не рассматривался, но можно предположить, что за счет более длинных слов,
 чем в английском, средняя смысловая насыщенность одного слога в нем ниже. А значит, темп русской речи выше,
 чем английской. Другими словами, мы говорим быстрее и произносим больше звуков в минуту.
@@ -50,9 +51,23 @@ https://lingua-airlines.ru/articles/skorost-rechi-v-anglijskom-yazyke/
 
 deepspeech - УМЕР!
 ---------------------------------
-Online сервис распознавания https://teamlogs.ru/transcript/ab9e9494-adf0-4c85-9560-590259a7188c
+Online сервис распознавания:
+
+https://teamlogs.ru/transcript/ab9e9494-adf0-4c85-9560-590259a7188c
+
 Работает с UI. Расшивровка приходит на почту.
 
 Минута - 10 руб.
+
 https://teamlogs.ru/ws/HYGfj2FiD95xOSdB/payment?minutes=1&promocode=
+
+---------------------------------
+
+В итоге:
+---------------------------------
+__Работает распознавание средствами брузера (проверено в yandex_browser, edge)__. Результаты смотри в папке [voice_to_text/](https://github.com/cherepakhin/senior/tree/main/new_site/voice/voice_to_text)
+и в 
+
+https://v.perm.ru/test_voice_to_text.html
+
 ---------------------------------
