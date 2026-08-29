@@ -1,4 +1,5 @@
 Результаты поиска инструментов перевода речи в текст<br/>
+Решения только для ввода текста в поля редактирования текста. Не подойдет для эмуляции нажатия кнопок, combobox и т.д., хотя как то и можно приспособить, но в этой заметке не про это.<br/>
 <h3 dir="auto">Оглавление:</h3>
 <ul>
     <li><a href="#vosk">Vosk</a></li>
@@ -81,49 +82,51 @@ pip install ffmpeg-python
 <p><a id="js"></a></p>
 <h3 dir="auto">Встроенные в браузер средства на JavaScript (<b>Web Speech API</b>).</h3>
 Пример:
-<a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/test_speech.html" target="_blank" rel="noopener noreferrer">https://v.perm.ru/test_speech.html</a>
+<a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/test_voice_to_text.html" target="_blank" rel="noopener noreferrer">https://v.perm.ru/test_voice_to_text.html</a>
 <br/>
 <b><u>В НАСТРОЙКАХ БРАУЗЕРА НУЖНО РАЗРЕШИТЬ ИСПОЛЬЗОВАНИЕ МИКРОФОНА!</u></b> (во всех браузерах по разному)<br/>
 Вся суть решения в html коде страницы:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
     <pre style="margin: 0; line-height: 125%">
-// Проверяем наличие Web Speech API
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    // Проверяем наличие Web Speech API
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-if (SpeechRecognition) {
-    // РАСПОЗНАВАТЕЛЬ!
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'ru-RU'; // Устанавливаем язык
-    recognition.continuous = false; // Остановка после первой паузы
-    recognition.interimResults = false; // Не показываем промежуточные результаты
+    if (SpeechRecognition) {
+        // РАСПОЗНАВАТЕЛЬ!
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'ru-RU'; // Устанавливаем язык
+        recognition.continuous = false; // Остановка после первой паузы
+        recognition.interimResults = false; // Не показываем промежуточные результаты
 
-    const voiceBtn = document.getElementById('voiceBtn');
-    const searchInput = document.getElementById('searchInput');
+        const voiceBtn = document.getElementById('voiceBtn');
+        const searchInput = document.getElementById('searchInput');
+        const textPad = document.getElementById('textPad');
 
-    voiceBtn.addEventListener('click', () => {
-        // РАСПОЗНАВАНИЕ!
-        recognition.start();
-    });
+        voiceBtn.addEventListener('click', () => {
+            // РАСПОЗНАВАНИЕ!
+            recognition.start();
+        });
 
-    // Событие при получении результата распознавания
-    recognition.addEventListener('result', (event) => {
-        const transcript = event.results[0][0].transcript;
-        searchInput.value = transcript;
-        console.log('Распознанный текст:', transcript);
+        // Событие при получении результата распознавания
+        recognition.addEventListener('result', (event) => {
+            const transcript = event.results[0][0].transcript;
+            searchInput.value = transcript;
+            textPad.value = transcript;
+            console.log('Распознанный текст:', transcript);
 
-        // Здесь вы можете, например, автоматически отправлять текст на сервер,
-        // осуществлять поиск по сайту и т.д.
-        // Пример: отправить форму:
-        // document.getElementById('searchForm').submit();
-    });
+            // Здесь вы можете, например, автоматически отправлять текст на сервер,
+            // осуществлять поиск по сайту и т.д.
+            // Пример: отправить форму:
+            // document.getElementById('searchForm').submit();
+        });
 
-    // Событие после окончания прослушивания
-    recognition.addEventListener('end', () => {
-        console.log('Распознавание завершено');
-    });
-} else {
-    alert('К сожалению, ваш браузер не поддерживает Web Speech API');
-}
+        // Событие после окончания прослушивания
+        recognition.addEventListener('end', () => {
+            console.log('Распознавание завершено');
+        });
+    } else {
+        alert('К сожалению, ваш браузер не поддерживает Web Speech API');
+    }
     </pre>
 </div>
 
@@ -131,8 +134,9 @@ if (SpeechRecognition) {
 <h3 dir="auto">Ссылки:</h3>
 <ul>
   <li><a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/companies/amvera/articles/691288/" target="_blank" rel="noopener noreferrer">Как работают системы распознавания речи(habr)</a></li>
-  <li><a style="text-decoration: underline; color: #3366ff;" href="https://blog.skillfactory.ru/kak-rabotaet-tehnologiya-raspoznavaniya-rechi/" target="_blank" rel="noopener noreferrer">Как работает технология распознавания речи и где ее используют </a></li>
-  <li><a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/test_speech.html" target="_blank" rel="noopener noreferrer">Пример использования Web Speech API</a></li>
+  <li><a style="text-decoration: underline; color: #3366ff;" href="https://blog.skillfactory.ru/kak-rabotaet-tehnologiya-raspoznavaniya-rechi/" target="_blank" rel="noopener noreferrer">Как работает технология распознавания речи и где ее используют</a></li>
+  <li><a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/test_voice_to_text.html" target="_blank" rel="noopener noreferrer">Пример использования Web Speech API на моем сайте</a></li>
+  <li><a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/test_speech.html" target="_blank" rel="noopener noreferrer">Еще один пример использования Web Speech API на моем сайте (попроще)</a></li>
 </ul>
 
 
