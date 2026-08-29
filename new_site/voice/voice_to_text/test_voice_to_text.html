@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Тест Web Speech API</title>
+</head>
+<body>
+<h1>Тест распознавания голоса</h1>
+Нажми кнопку "Слушать" и скажи что-нибудь.<br/>
+Распознавание закончится после первой паузы.<br/>
+При записи будет значок записи в ярлыке окна страницы браузера.<br/>
+<button id="voiceBtn">Слушать</button>
+<textarea id="textpad" rows="5" cols="80" placeholder="Скажите что-нибудь..."></textarea>
+<input type="text" id="searchInput" placeholder="Скажите что-нибудь..." />
+<script>
+    // Проверяем наличие Web Speech API
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (SpeechRecognition) {
+        // РАСПОЗНАВАТЕЛЬ!
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'ru-RU'; // Устанавливаем язык
+        recognition.continuous = false; // Остановка после первой паузы
+        recognition.interimResults = false; // Не показываем промежуточные результаты
+
+        const voiceBtn = document.getElementById('voiceBtn');
+        const searchInput = document.getElementById('searchInput');
+
+        voiceBtn.addEventListener('click', () => {
+            // РАСПОЗНАВАНИЕ!
+            recognition.start();
+        });
+
+        // Событие при получении результата распознавания
+        recognition.addEventListener('result', (event) => {
+            const transcript = event.results[0][0].transcript;
+            searchInput.value = transcript;
+            console.log('Распознанный текст:', transcript);
+
+            // Здесь вы можете, например, автоматически отправлять текст на сервер,
+            // осуществлять поиск по сайту и т.д.
+            // Пример: отправить форму:
+            // document.getElementById('searchForm').submit();
+        });
+
+        // Событие после окончания прослушивания
+        recognition.addEventListener('end', () => {
+            console.log('Распознавание завершено');
+        });
+    } else {
+        alert('К сожалению, ваш браузер не поддерживает Web Speech API');
+    }
+
+</script>
+</body>
+</html>
