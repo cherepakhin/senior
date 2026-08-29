@@ -57,4 +57,8 @@ Online сервис распознавания https://teamlogs.ru/transcript/ab
 https://teamlogs.ru/ws/HYGfj2FiD95xOSdB/payment?minutes=1&promocode=
 ---------------------------------
 
+В итоге:
+---------------------------------
 __Работает распознавание средствами брузера (проверено в yandex_browser, edge)__. Результаты смотри в папке [voice_to_text/](https://github.com/cherepakhin/senior/tree/main/new_site/voice/voice_to_text)
+
+---------------------------------
