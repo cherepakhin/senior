@@ -6,12 +6,19 @@
 </head>
 <body>
 <h1>Тест распознавания голоса</h1>
-Нажми кнопку "Слушать" и скажи что-нибудь.<br/>
+Нажми кнопку "Нажми для записи голоса" и скажи что-нибудь.<br/>
 Распознавание закончится после первой паузы.<br/>
-При записи будет значок записи в ярлыке окна страницы браузера.<br/>
-<button id="voiceBtn">Слушать</button>
-<textarea id="textpad" rows="5" cols="80" placeholder="Скажите что-нибудь..."></textarea>
-<input type="text" id="searchInput" placeholder="Скажите что-нибудь..." />
+При записи будет значок записи в ярлыке окна страницы браузера или в toolbar системы.<br/>
+Результаты распознавания будут отображаться в текстовых полях.<br/>
+Дополнительно, нужно дать разрешения на доступ к микрофону в настройках браузера (значок щита в адресной строке).<br/>
+Телевизор не распознает.<br/>
+<br/>
+<button id="voiceBtn">Нажми для записи голоса</button><br/>
+<br/>
+<input type="text" id="searchInput" placeholder="Тут будет распознанный текст ..." /><br/>
+<br/>
+<textarea id="textPad" rows="5" cols="80" placeholder="Тут будет распознанный текст ..."></textarea><br/>
+
 <script>
     // Проверяем наличие Web Speech API
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -25,6 +32,7 @@
 
         const voiceBtn = document.getElementById('voiceBtn');
         const searchInput = document.getElementById('searchInput');
+        const textPad = document.getElementById('textPad');
 
         voiceBtn.addEventListener('click', () => {
             // РАСПОЗНАВАНИЕ!
@@ -35,6 +43,7 @@
         recognition.addEventListener('result', (event) => {
             const transcript = event.results[0][0].transcript;
             searchInput.value = transcript;
+            textPad.value = transcript;
             console.log('Распознанный текст:', transcript);
 
             // Здесь вы можете, например, автоматически отправлять текст на сервер,
