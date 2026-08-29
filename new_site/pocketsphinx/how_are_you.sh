@@ -1,0 +1,1 @@
+pocketsphinx_continuous -inmic yes -keyphrase "how are you" -kws_threshold 1e-50
