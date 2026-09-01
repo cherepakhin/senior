@@ -9,6 +9,10 @@ JAVA 17
     <li><a href="#admin">Добавляем администратора Wildfly</a></li>
     <li><a href="#run_from_network">Запуск сервера с доступом из сети</a></li>
     <li><a href="#admin_console">Консоль управления</a></li>
+    <li><a href="#check">Проверка</a></li>
+    <li><a href="#hello_world">Hello world</a></li>
+    <li><a href="#database">База данных как ресурс</a></li>
+    <li><a href="#apache_cxf">Apache CXF</a></li>
     <li><a href="#generate_wsdl">Генерация клиентских классов по WSDL</a></li>
 </ul>
 
@@ -380,7 +384,11 @@ WantedBy=multi-user.target
 
 <a href="http://v:9990/console" target="_blank" rel="noopener">http://v:9990/console</a>
 <a href="http://v:9990/console/index.html#deployments" target="_blank" rel="noopener">http://v:9990/console/index.html#deployments</a>
-<a href="http://192.168.1.20:8080/helloworld1/HelloWorld" target="_blank" rel="noopener">http://192.168.1.20:8080/helloworld1/HelloWorld</a>
+
+<h3 dir="auto">Hello world</h3>
+<p><a id="hello_world"></a></p>
+
+<a href="https://github.com/wildfly/quickstart/blob/main/helloworld-ws" target="_blank" rel="noopener">https://github.com/wildfly/quickstart/blob/main/helloworld-ws</a>
 
 Проверка с v:
 
@@ -398,6 +406,8 @@ Content-Type: text/html;charset=ISO-8859-1
 &lt;/body&gt;&lt;/html&gt;
     </pre>
 </div>
+
+<a href="http://v.perm.ru:8080/helloworld1/HelloWorld" target="_blank" rel="noopener">http://v.perm.ru:8080/helloworld1/HelloWorld</a>
 
 <h3 dir="auto">База данных как ресурс</h3>
 <p><a id="database"></a></p>
@@ -434,6 +444,7 @@ module add --name=org.postgres --resources=/home/vasi/po/postgresql-42.7.8.jar -
 </ul>
 
 <h2>Apache CXF</h2>
+<p><a id="apache_cxf"></a></p>
 <ul>
     <li><a href="https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jst.ws.cxf.doc.user%2Ftasks%2Fcreate_client.html" target="_blank">Eclipse CXF Documentation — Create SOAP Client</a></li>
     <li><a href="https://habr.com/ru/articles/137543/" target="_blank">SOAP-сервер на Java при участии Apache CXF и Spring (2012)</a></li>
