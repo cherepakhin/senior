@@ -420,9 +420,16 @@ You are disconnected at the moment. Type 'connect' to connect to the server or '
     </pre>
 </div>
 
+Устанавливал по https://bgasparotto.com/add-datasource-wildfly
+module add --name=org.postgres --resources=/home/vasi/po/postgresql-42.7.8.jar --dependencies=javax.api,javax.transaction.api
+/subsystem=datasources/jdbc-driver=postgres:add(driver-name="postgres",driver-module-name="org.postgres",driver-class-name=org.postgresql.Driver)
+Ответ: {"outcome" => "success"}
+
 <ul>
     <li><a href="https://www.tune-it.ru/web/bleizard/blog/-/blogs/1331555" target="_blank">tune-it.ru</a></li>
     <li><a href="https://docs.wildfly.org/quickstart/spring-resteasy/" target="_blank">WildFly Spring RESTEasy Quickstart</a></li>
+    <li><a href="https://github.com/wildfly-extras" target="_blank">WildFly Extras (примеры использования)</a></li>
+    <li><a href="https://www.wildfly.org/guides/database-integrating-with-postgresql/" target="_blank">Integrating WildFly with a PostgreSQL database</a></li>
 </ul>
 
 <h2>Apache CXF</h2>
