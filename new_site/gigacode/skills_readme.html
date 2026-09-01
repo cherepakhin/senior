@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GigaCode Skills</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #34495e;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: "Consolas", "Monaco", "Courier New", monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: "Consolas", "Monaco", "Courier New", monospace;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        strong {
+            color: #2c3e50;
+        }
+        p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>GigaCode Skills — Навыки ИИ-агента</h1>
+
+    <p><strong>GigaCode skills</strong> («навыки») — это способ расширить возможности ИИ-агента: по сути, это оформленные наборы инструкций, контекста и логики, которые помогают агенту решать конкретные задачи. Я бы сравнила их с готовыми «рецептами» или шаблонами workflow — один раз настроили навык, а потом используете многократно.</p>
+    <hr id="system-readmore"/>
+
+    <pre><code>навык1/
+    SKILL.md
+    scripts/ — исполняемый код (Python, Bash и т.п.);
+    references/ — документация;
+    assets/ — шаблоны, иконки, шрифты и другие ресурсы.
+навык2/
+    SKILL.md</code></pre>
+
+    <h2>Как это устроено</h2>
+    <p>Каждый навык — это папка. В ней обязательно лежит файл <strong>SKILL.md</strong>. Внутри этого файла есть YAML-блок (frontmatter) с метаданными (имя, описание, приоритет) и основной текст с пошаговыми инструкциями в Markdown. Дополнительно могут быть подпапки:</p>
+    <ul>
+        <li><strong>scripts/</strong> — исполняемый код (Python, Bash и т.п.);</li>
+        <li><strong>references/</strong> — документация;</li>
+        <li><strong>assets/</strong> — шаблоны, иконки, шрифты и другие ресурсы.</li>
+    </ul>
+
+    <h2>Зачем это нужно</h2>
+
+    <p>Навыки особенно полезны, когда:</p>
+    <ul>
+        <li>задача повторяется регулярно;</li>
+        <li>есть чёткий, стандартизированный workflow;</li>
+        <li>важно соблюдать определённый формат результата;</li>
+        <li>нужно стандартизировать работу в команде.</li>
+    </ul>
+
+    <h2>Плюсы</h2>
+    <ul>
+        <li><strong>повторяемость</strong>: один раз настроили — и используете сколько угодно раз;</li>
+        <li><strong>консистентность</strong>: результаты становятся одинаково качественными;</li>
+        <li><strong>экономия времени</strong>: не нужно каждый раз заново писать инструкции;</li>
+        <li><strong>масштабируемость</strong>: навыки можно передавать коллегам.</li>
+    </ul>
+
+    <h2>Как это работает</h2>
+
+    <p>Есть два способа вызова:</p>
+    <ul>
+        <li><strong>Model-invoked</strong> — модель сама решает, когда активировать навык, опираясь на запрос пользователя и описание в SKILL.md.</li>
+        <li><strong>User-invoked</strong> — вы вызываете навык явно через команду <code>/skills &lt;название-навыка&gt;</code>. При этом автодополнение в интерфейсе покажет доступные навыки и их описания.</li>
+    </ul>
+
+    <h2>Где хранятся навыки</h2>
+
+    <ul>
+        <li><strong>Личные (personal skills)</strong> — лежат в <code>~/.gigacode/skills/</code>. Подходят для персональных workflow, productivity-хелперов.</li>
+        <li><strong>Проектные (project skills)</strong> — хранятся внутри репозитория проекта (в папке <code>.gigacode/skills/</code>). Их удобно использовать для командных соглашений, проектно-специфичной экспертизы или общих утилит. Project skills можно коммитить в git — тогда они станут доступны всей команде.</li>
+    </ul>
+
+    <h2>Пример</h2>
+
+    <p>Допустим, вы работаете над Java-проектом и хотите, чтобы GigaCode стабильно следовал стандартам Clean Architecture: для каждого эндпоинта предлагал создавать DTO, добавлять валидацию, генерировать юнит-тесты и использовать централизованную обработку ошибок. Вы можете оформить это в навык (например, «Spring Boot Standarts»), чтобы в будущем просто вызывать его при необходимости.</p>
+
+    <h2>Несколько советов по созданию</h2>
+
+    <ul>
+        <li>Перед написанием продумайте 2–3 конкретных сценария использования.</li>
+        <li>В <strong>SKILL.md</strong> используйте постепенное раскрытие информации: сначала YAML-блок для быстрого распознавания агентом, затем основной текст с инструкциями, а при необходимости — дополнительные файлы для детальной справки.</li>
+        <li>Следите за правильностью имени папки и файла (kebab-case, без пробелов) — именно по frontmatter агент понимает, нужно ли подключать навык в конкретном запросе.</li>
+        <li>Навык работает хорошо, если он срабатывает в большинстве релевантных запросов, сокращает число вызовов инструментов и расход токенов, не требует от пользователя подсказок и даёт стабильные результаты.</li>
+    </ul>
+</body>
+
+Пример: <a href="https://github.com/Podtverzhdeno/skills/blob/main/SKILL.md" target="_blank">https://github.com/Podtverzhdeno/skills/blob/main/SKILL.md</a>
+</html>
