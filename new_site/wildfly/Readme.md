@@ -383,6 +383,26 @@ https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jst.ws.cxf.doc.us
 wsimport -s src -d generated -verbose http://localhost:5000/hello?wsdl
 ````
 
+### PostgesSQL
+
+**2. Добавьте драйвер в WildFly.** Есть несколько подходов:
+* **Через модули.** В директории `[WILDFLY_HOME]/modules` создайте структуру (например, `org/postgresql/main`) и положите туда JAR-файл драйвера (например, `postgresql-42.7.1.jar`). Внутри создайте `module.xml`, где укажете путь к JAR и зависимости (обычно `javax.api` и `javax.transaction.api`). Альтернативно — использовать `jboss-cli.sh`. [1](https://www.wildfly.org/guides/database-integrating-with-postgresql/)[13](https://www.marmo.dev/use-postgresql-with-wildfly/)
+* **Через веб-консоль.** В консоли администратора (по умолчанию на порту 9990) 
+  перейдите в **Configuration → Subsystems → Datasources → Non-XA**, 
+ нажмите **Add**. Укажите JNDI-имя (например, `java:jboss/datasources/PostgresDS`), 
+ выберите обнаруженный драйвер и заполните параметры подключения: URL 
+ (`jdbc:postgresql://<хост>:<порт>/<имя_базы>`), логин, пароль. После заполнения нажмите **Test connection**, чтобы убедиться, что всё работает. [1](https://www.wildfly.org/guides/database-integrating-with-postgresql/)[3](https://www.tune-it.ru/web/bleizard/blog/-/blogs/1331555)[8](https://bgasparotto.com/add-datasource-wildfly)
+
+**3. Создайте источник данных (DataSource).** Снова в веб-консоли или через редактирование `standalone.xml` определите источник, который будет использовать драйвер. Пример конфигурации:
+```xml
+<datasource jndi-name="java:jboss/datasources/PostgresDS" pool-name="PostgresDS">
+    <connection-url>jdbc:postgresql://localhost:5432/my_db</connection-url>
+    <driver>postgresql</driver>
+    <security>
+        <user-name>my_user</user-name>
+        <password>my_password</password>
+    </security>
+</datasource>
 
 кластер?
 
