@@ -12,6 +12,7 @@ JAVA 17
     <li><a href="#check">Проверка</a></li>
     <li><a href="#hello_world">Hello world</a></li>
     <li><a href="#database">База данных как ресурс</a></li>
+    <li><a href="#examples">Примеры приложений WildFly</a></li>
     <li><a href="#apache_cxf">Apache CXF</a></li>
     <li><a href="#generate_wsdl">Генерация клиентских классов по WSDL</a></li>
 </ul>
@@ -460,10 +461,35 @@ wsimport -s src -d generated -verbose http://localhost:5000/hello?wsdl</pre>
 </div>
 
 Каталог <b>src</b> должны существовать.<br/>
-<b>generated</b> - каталог с сгенерированными классами.<br/>
+<b>generated</b> - каталог со сгенерированными классами.<br/>
 
-<h2>Кластер ???</h2>
-<h2>Apache CXF (описать отдельно по проекту из el59) ???</h2>
+<h3 dir="auto">Примеры приложений WildFly:</h3>
+<p><a id="examples"></a></p>
+
+В Apache2 в файле /etc/apache2/sites-available/000-default.conf сделал передачу <b>HTTPS</b> трафика на WildFly:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+&lt;IfModule mod_ssl.c&gt;
+    &lt;VirtualHost *:443&gt;
+        #wildfly project /ClickToAnotherPage-1.0
+        ProxyPass        /ClickToAnotherPage-1.0 http://192.168.1.20:8080/ClickToAnotherPage-1.0
+        ProxyPassReverse /ClickToAnotherPage-1.0 http://192.168.1.20:8080/ClickToAnotherPage-1.0
+        
+        #wildfly project /gwt-material-demo-2.1.1
+        ProxyPass        /gwt-material-demo-2.1.1 http://192.168.1.20:8080/gwt-material-demo-2.1.1
+        ProxyPassReverse /gwt-material-demo-2.1.1 http://192.168.1.20:8080/gwt-material-demo-2.1.1
+        
+        ProxyPreserveHost On
+    &lt;/VirtualHost&gt;
+&lt;/IfModule&gt;
+    </pre>
+</div>
+
+Результаты:
+<ul>
+    <li><a href="https://v.perm.ru/gwt-material-demo-2.1.1/">https://v.perm.ru/gwt-material-demo-2.1.1/</a></li>
+    <li><a href="https://v.perm.ru/ClickToAnotherPage-1.0">https://v.perm.ru/ClickToAnotherPage-1.0</a></li>
+</ul>
 
 <h3 dir="auto">Ссылки:</h3>
 <ul>
@@ -471,4 +497,8 @@ wsimport -s src -d generated -verbose http://localhost:5000/hello?wsdl</pre>
     <li><a href="https://github.com/LeonisX/soap-examples/tree/master">Простые примеры серверов и клиентов SOAP JAX-WS для Maven и Java 8</a></li>
     <li><a href="http://javatut.tv-games.ru/page/java-ws">Java SOAP, JAX-WS, WSDL, Web Service, Apache CXF</a></li>
 </ul>
+
+<h2>Кластер ???</h2>
+<h2>Apache CXF (описать отдельно по проекту из el59) ???</h2>
+
 
