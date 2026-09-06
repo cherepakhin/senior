@@ -46,6 +46,12 @@ enabled
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">$ systemctl start my_service.service
 </pre></div>
 
+Сколько памяти занимает сервис:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+$ ps aux --no-headers | grep "apache2" | awk '{sum+=$6} END {print "Total RSS:", sum/1024, "MB"}'
+Total RSS: 411.844 MB
+</pre></div>
+
 <h3>Ссылки:</h3>
 <a style="text-decoration: underline; color: #3366ff;"
    href="https://help.skysilk.com/support/solutions/articles/9000162390--basic-how-to-start-a-program-or-script-on-linux-automatically-on-boot-with-systemd"
