@@ -1,0 +1,39 @@
+Проект на GitHub: <a href="https://github.com/cherepakhin/vite_app" target="_blank" rel="noopener">https://github.com/cherepakhin/vite_app</a>
+
+Vite — это инструмент для сборки фронтенд-проектов из фреймворка Vue.js.
+
+<hr id="system-readmore" />
+
+<h3 dir="auto">Подготовка к работе.</h3>
+
+После клонирования проекта установить NVM (version v20.19.0):
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;"><pre style="margin: 0; line-height: 125%;">
+nvm use v20.19.0
+yarn
+</pre>
+</div>
+
+<h3 dir="auto">Запуск проекта в dev режиме.</h3>
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;"><pre style="margin: 0; line-height: 125%;">
+yarn dev
+</pre>
+</div>
+
+Открыть в браузере: <a href="http://localhost:5173/" target="_blank" rel="noopener">http://localhost:5173/</a>
+
+<p><img style="display: block; margin-left: auto; margin-right: auto;" title="vite_demo.png" src="images/vite_react/vite_demo.png"
+        alt="minikube_start.png" width="435" height="534"/></p>
+
+<h3 dir="auto">Размещение на сайте с apache2.</h3>
+
+Выполнить:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;"><pre style="margin: 0; line-height: 125%;">
+yarn build
+</pre>
+</div>
+
+После этого, содержимое папки <code>dist</code> нужно скопировать в /var/www/main/vite_app (/var/www/main/ - это корень моего сайта apache2).
+<br/>
+Результат <a href="https://v.perm.ru/vite_app/" target="_blank" rel="noopener">https://v.perm.ru/vite_app/</a>
