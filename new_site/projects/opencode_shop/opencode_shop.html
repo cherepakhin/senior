@@ -1,0 +1,219 @@
+    <h1>Пример небольшого магазина на Java, SpringBoot сгенерированного OpenCode</h1>
+    <p>Сделано с помощью <a href="https://opencode.ai/" target="_blank">OpenCode</a> (ниже см. промпты).</p>
+    <p>Аккуратный css UI.</p>
+    <p>Развернуто <a href="https://v.perm.ru/shop/" target="_blank">https://v.perm.ru/shop/</a></p>
+    <h2>Shop Application with AI OpenCode</h2>
+    <p>A Spring Boot shop application with products and product categories.</p>
+    <hr id="system-readmore" />
+
+
+    Git проекта: <a href="https://gitverse.ru/v_cherepakhin/opencode_shop" target="_blank">https://gitverse.ru/v_cherepakhin/opencode_shop</a></p>
+
+    <h3>Technologies</h3>
+    <ul>
+        <li><strong>Java 11</strong></li>
+        <li><strong>Spring Boot 2.7.18</strong></li>
+        <li><strong>Spring Data JPA</strong> persistence</li>
+        <li><strong>H2</strong> file-based database (data persists across restarts)</li>
+        <li><strong>Thymeleaf</strong> view technology</li>
+        <li><strong>Maven</strong> build tool</li>
+    </ul>
+
+    <h2>Start</h2>
+
+    <p>Install opencode <a href="https://opencode.ai/docs/ru" target="_blank">https://opencode.ai/docs/ru</a>.</p>
+
+    <p>Start:</p>
+
+    <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">opencode</pre>
+    </div>
+
+    <h2>Features</h2>
+    <ul>
+        <li>Shop home page with inventory summary</li>
+        <li><strong>Product</strong> CRUD operations:
+            <ul>
+                <li>List all products (with category name)</li>
+                <li>View product details</li>
+                <li>Create, edit, delete products</li>
+                <li>Assign products to categories</li>
+            </ul>
+        </li>
+        <li><strong>Category</strong> CRUD operations:
+            <ul>
+                <li>List all categories</li>
+                <li>View category details with its products</li>
+                <li>Create, edit, delete categories</li>
+            </ul>
+        </li>
+        <li>Persistent storage in an H2 database file (<code>./data/shopdb.mv.db</code>)</li>
+        <li>Sample data seeded automatically on first run</li>
+        <li>Runs at context path <code>/shop</code> (ready for reverse proxy)</li>
+    </ul>
+
+    <h2>Prompts OpenCode</h2>
+    <ul>
+        <li>generate project spring mvc with maven</li>
+        <li>use themleaf</li>
+        <li>use java 11</li>
+        <li>convert to spring boot</li>
+        <li>create run script</li>
+        <li>commit</li>
+        <li>change theme gmail</li>
+        <li>примени стиль material design</li>
+        <li>возьми цветовую схему с сайта v.perm.ru</li>
+        <li>write unit tests for classes in package service</li>
+        <li>commit</li>
+        <li>write unit tests for classes in package controller</li>
+        <li>прогони тесты</li>
+    </ul>
+
+    <h2>Project Structure</h2>
+
+    <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">src/main/java/com/example/
+├── Application.java          # Spring Boot main class
+├── config/
+│   └── DataSeeder.java       # Seeds sample data on first start
+├── controller/
+│   ├── HomeController.java
+│   ├── ProductController.java
+│   └── CategoryController.java
+├── model/
+│   ├── Product.java          # JPA entity
+│   └── Category.java         # JPA entity
+├── repository/
+│   ├── ProductRepository.java
+│   └── CategoryRepository.java
+└── service/
+    ├── ProductService.java
+    └── CategoryService.java
+
+src/main/resources/
+├── application.properties
+├── static/css/gmail.css      # Material Design theme
+└── templates/
+    ├── fragments.html        # shared top navigation
+    ├── home.html
+    ├── productList.html
+    ├── productForm.html
+    ├── productDetail.html
+    ├── categoryList.html
+    ├── categoryForm.html
+    └── categoryDetail.html</pre>
+    </div>
+
+    <h2>Prerequisites</h2>
+    <ul>
+        <li>Java 11 or higher</li>
+        <li>Maven 3.8+</li>
+    </ul>
+
+    <h2>Build &amp; Run</h2>
+
+    <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%"># Build the project
+mvn clean package
+
+# Run the application (or ./run.sh)
+mvn spring-boot:run</pre>
+    </div>
+
+    <p>Access the application at: <code>http://localhost:8089/shop</code></p>
+
+    <p>The application is configured with context path <code>/shop</code>, so all URLs are prefixed with <code>/shop</code>. The H2 console is available at <code>/shop/h2-console</code> (user <code>sa</code>, empty password).</p>
+
+    <h2>Endpoints</h2>
+
+    <p>All endpoints are prefixed with the context path <code>/shop</code> (e.g. <code>/shop/products</code>).</p>
+
+    <h3>Products</h3>
+    <table>
+        <tr><th>Method</th><th>Path</th><th>Description</th></tr>
+        <tr><td>GET</td><td><code>/products</code></td><td>List all products</td></tr>
+        <tr><td>GET</td><td><code>/products/new</code></td><td>Create product form</td></tr>
+        <tr><td>POST</td><td><code>/products</code></td><td>Save new product</td></tr>
+        <tr><td>GET</td><td><code>/products/{id}</code></td><td>Product details</td></tr>
+        <tr><td>GET</td><td><code>/products/{id}/edit</code></td><td>Edit product form</td></tr>
+        <tr><td>POST</td><td><code>/products/{id}</code></td><td>Update product</td></tr>
+        <tr><td>POST</td><td><code>/products/{id}/delete</code></td><td>Delete product</td></tr>
+    </table>
+
+    <h3>Categories</h3>
+    <table>
+        <tr><th>Method</th><th>Path</th><th>Description</th></tr>
+        <tr><td>GET</td><td><code>/categories</code></td><td>List all categories</td></tr>
+        <tr><td>GET</td><td><code>/categories/new</code></td><td>Create category form</td></tr>
+        <tr><td>POST</td><td><code>/categories</code></td><td>Save new category</td></tr>
+        <tr><td>GET</td><td><code>/categories/{id}</code></td><td>Category details</td></tr>
+        <tr><td>GET</td><td><code>/categories/{id}/edit</code></td><td>Edit category form</td></tr>
+        <tr><td>POST</td><td><code>/categories/{id}</code></td><td>Update category</td></tr>
+        <tr><td>POST</td><td><code>/categories/{id}/delete</code></td><td>Delete category</td></tr>
+    </table>
+
+    <h3>Deployment</h3>
+
+    <p>See <a href="DEPLOY.md" target="_blank">DEPLOY.md</a> for instructions on deploying to <a href="https://v.perm.ru/shop" target="_blank">https://v.perm.ru/shop</a> (systemd service + Apache reverse proxy).</p>
+
+    <p>or</p>
+
+    <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">scp target/shop-1.0-SNAPSHOT.jar vasi@v:/home/vasi/temp/shop.jar</pre>
+    </div>
+
+    <h3>Config for Apache2</h3>
+
+    <p>Add to <code>/etc/apache2/sites-enabled/000-default.conf</code>:</p>
+
+    <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">&lt;VirtualHost&gt;
+....
+    ProxyPass        /shop http://localhost:8092/shop
+    ProxyPassReverse /shop http://localhost:8092/shop
+....
+&lt;/VirtualHost&gt;</pre>
+    </div>
+
+    <p>Open <a href="https://v.perm.ru/shop" target="_blank">https://v.perm.ru/shop</a>.</p>
+
+    <h3>Linux service</h3>
+
+    <p><a href="doc/shop.service" target="_blank">/etc/systemd/system/shop.service</a>:</p>
+
+    <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">[Unit]
+Description=ShopHub Spring Boot Application
+Documentation=https://v.perm.ru/shop
+After=network.target
+
+[Service]
+Type=simple
+User=shop
+WorkingDirectory=/home/vasi/temp/shop
+ExecStart=/usr/bin/java -jar -Xms256m -Xmx512m /home/vasi/temp/shop/shop.jar
+SuccessExitStatus=143
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target</pre>
+    </div>
+
+    <h3>Результат</h3>
+
+    <p><img src="images/projects/opencode_shop/main_screen.png" alt="main_screen"></p>
+
+    <p><img src="images/projects/opencode_shop/categories.png" alt="categories"></p>
+
+    <p><img src="images/projects/opencode_shop/category_view.png" alt="category_view"></p>
+
+    <p><img src="images/projects/opencode_shop/edit_category.png" alt="edit_category"></p>
+
+    <p><img src="images/projects/opencode_shop/products.png" alt="products"></p>
+
+    <p><img src="images/projects/opencode_shop/product_view.png" alt="product_view"></p>
+
+    <p><img src="images/projects/opencode_shop/product_edit.png" alt="product_edit"></p>
