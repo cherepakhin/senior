@@ -1,4 +1,74 @@
+<p>Sample code from:</p>
 <ul>
-    <li><a href="https://github.com/cherepakhin/device-resolution/milestones" target="_blank">device-resolution</a></li>
-    <li><a href="https://www.baeldung.com/spring-mobile" target="_blank">A Guide to Spring Mobile</a></li>
+    <li><a href="https://github.com/cherepakhin/device-resolution" target="_blank">https://github.com/cherepakhin/device-resolution</a></li>
+    <li><a href="https://www.yihaomen.com/blog/article/169.html" target="_blank">https://www.yihaomen.com/blog/article/169.html</a></li>
 </ul>
+<hr id="system-readmore"/>
+
+<p>Generate maven wrapper:</p>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">./mvn -N wrapper:wrapper -Dmaven=3.5.2</pre>
+</div>
+
+<br/>
+<h2>Demo</h2>
+
+<p>Run (./run.sh):</p>
+
+<p><strong>Java 11</strong></p>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64
+./mvnw clean spring-boot:run</pre>
+</div>
+
+<p>Open: <a href="http://localhost:8081" target="_blank">http://localhost:8081</a></p>
+
+<h3>View from computer:</h3>
+<p><img src="images/device_resolution/standard.png" alt="standard"></p>
+
+<p>Log:</p>
+
+<p>see <strong>'Hello desktop user!'</strong></p>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">INFO 785161 --- [nio-8081-exec-6] c.m.mobile.GreetingController            : Hello desktop user!
+INFO 785161 --- [nio-8081-exec-1] c.m.mobile.GreetingController            : device: [LiteDevice type=NORMAL]
+INFO 785161 --- [nio-8081-exec-1] c.m.mobile.GreetingController            : device form request: [LiteDevice type=NORMAL]
+INFO 785161 --- [nio-8081-exec-1] c.m.mobile.GreetingController            : device platform: UNKNOWN</pre>
+</div>
+
+<br/>
+<h3>View from mobile (ANDROID phone):</h3>
+
+<p><img src="images/device_resolution/mobile.png" alt="mobile"></p>
+
+<p>see <strong>'Hello mobile user!'</strong> message (NOT <strong>Hello desktop user!</strong>).</p>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">INFO 785161 --- [nio-8081-exec-6] c.m.mobile.GreetingController            : Hello mobile user!
+INFO 785161 --- [nio-8081-exec-6] c.m.mobile.GreetingController            : device: [LiteDevice type=MOBILE]
+INFO 785161 --- [nio-8081-exec-6] c.m.mobile.GreetingController            : device form request: [LiteDevice type=MOBILE]
+INFO 785161 --- [nio-8081-exec-6] c.m.mobile.GreetingController            : device platform: ANDROID</pre>
+</div>
+
+<p>The directories <strong>src/main/resources/templates/mobile</strong>,
+    <strong>src/main/resources/templates/tablet</strong> in <strong>/resources</strong> is hardcoded, and the framework
+    automatically determines which folder to retrieve the template from.</p>
+
+<ul>
+    <li><a href="https://github.com/cherepakhin/device-resolution/blob/main/src/main/resources/templates/greeting.html"
+           target="_blank">src/main/resources/templates/greeting.html</a> - for <strong>DESKTOP</strong> devices
+    </li>
+    <li>
+        <a href="https://github.com/cherepakhin/device-resolution/blob/main/src/main/resources/templates/tablet/greeting.html"
+           target="_blank">src/main/resources/templates/tablet/greeting.html</a> - for <strong>TABLET</strong> devices
+    </li>
+    <li>
+        <a href="https://github.com/cherepakhin/device-resolution/blob/main/src/main/resources/templates/mobile/greeting.html"
+           target="_blank">src/main/resources/templates/mobile/greeting.html</a> - for <strong>MOBILE</strong> devices
+    </li>
+</ul>
+
+<p>Used <strong>thymeleaf</strong> template framework.</p>
