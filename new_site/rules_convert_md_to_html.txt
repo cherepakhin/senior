@@ -1,0 +1,27 @@
+1. **Блоки кода** оформлять так:
+```html
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+код
+    </pre>
+</div>
+
+2. Margin страницы справа и слева: margin: 0 1em;
+
+3. Картинки — пути менять на images/название_проекта/ (например, images/project_name/image.png)
+
+4. Перед каждым <h2> вставить <br/>
+
+5. Ссылки — открывать в новой вкладке (target="_blank")
+
+6. Стили заголовков:
+
+h1: нижний бордер 2px solid #3498db, padding-bottom 10px
+h2: нижний бордер 1px solid #ecf0f1, padding-bottom 8px, margin-top 30px
+h3: цвет #34495e
+
+7. Ссылки — цвет #2980b9, при hover #3498db
+
+8. Фон страницы: #fafafa, основной текст #333
+
+9. max-width контейнера: 900px, центрирование

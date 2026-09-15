@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camel Spring</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 1em;
+            padding: 20px;
+            color: #333;
+            background-color: #fafafa;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            border-bottom: 1px solid #ecf0f1;
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #34495e;
+        }
+        a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+            color: #3498db;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px 0;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        strong {
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <h1>Различные способы задания конфигурации Spring Beans</h1>
+
+    <ul>
+        <li><a href="#xml_file">С помощью xml-файла resources/beans.xml</a></li>
+        <li><a href="#configuration">С помощью @Configuration и @Bean в conf/ConfigFromJava</a></li>
+    </ul>
+
+    <p><a href="#other">Примечания</a></p>
+    <hr id="system-readmore" />
+
+    <br/>
+    <h2><a id="xml_file"></a>С помощью xml-файла <a href="https://github.com/cherepakhin/camel_spring/blob/main/src/main/resources/beans.xml" target="_blank">resources/beans.xml</a></h2>
+
+    <p>Определение <a href="https://github.com/cherepakhin/camel_spring/blob/main/src/main/resources/beans.xml" target="_blank">resources/beans.xml</a>:</p>
+
+    <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">&lt;bean id="russianGreeter" class="ru.perm.v.springconfig.greeters.RussianGreeter"/&gt;
+&lt;bean id="danishGreeter" class="ru.perm.v.camelinaction.greeters.greeters.DanishGreeter"/&gt;
+&lt;bean id="englishGreeter" class="ru.perm.v.springconfig.greeters.EnglishGreeter"/&gt;
+
+&lt;bean id="greetMain" class="ru.perm.v.springconfig.greeters.GreetMainApplication"&gt;
+&lt;property name="greeter" ref="russianGreeter"/&gt;
+&lt;/bean&gt;</pre>
+    </div>
+
+    <p>Импорт в проект:</p>
+
+    <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">@Configuration
+@ImportResource({"classpath*:beans.xml"})
+public class BeansConfiguration {
+}</pre>
+    </div>
+
+    <p>Или можно так подгрузить и получить bean :</p>
+
+    <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">@SpringBootApplication
+public class GreetMainApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(GreetMainApplication.class, args);
+        ApplicationContext context =
+                new ClassPathXmlApplicationContext("beans.xml");
+
+        GreeterService greeterService =
+                (GreeterService) context.getBean("selectedGreeterService");
+        System.out.println(greeterService.getHello()); // Hello, vasi!
+    }
+}</pre>
+    </div>
+
+    <p>или как обычно:</p>
+
+    <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">@RestController
+@RequestMapping("/greet")
+public class GreeterRest {
+
+    /**
+     * inject from beans.xml property &lt;property name="greeter" ref="russianGreeter"/&gt;
+     */
+    @Autowired
+    GreeterService selectedGreeterService;</pre>
+    </div>
+
+    <p>Запуск:</p>
+
+    <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">$ mvn compile exec:java -Dexec.mainClass=ru.perm.v.camelinaction.springconfig.GreetMainApplication</pre>
+    </div>
+
+    <br/>
+    <h2><a id="configuration"></a>С помощью @Configuration и @Bean в <a href="https://github.com/cherepakhin/camel_spring/blob/main/src/main/java/ru/perm/v/springconfig/conf/ConfigFromJava.java" target="_blank">conf/ConfigFromJava</a></h2>
+
+    <p>С помощью @Configuration и @Bean. Показано в <a href="https://github.com/cherepakhin/camel_spring/blob/main/src/main/java/ru/perm/v/springconfig/conf/ConfigFromJava.java" target="_blank">conf/ConfigFromJava</a>:</p>
+
+    <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">@Configuration
+public class ConfigFromJava {
+    @Bean
+    public String beanOneFromConfigFromJava() {
+    return "beanOne";
+    }
+
+    @Bean
+    public String beanTwoFromConfigFromJava() {
+        return "beanTwo";
+    }
+}</pre>
+    </div>
+
+    <p><a href="https://github.com/cherepakhin/camel_spring/blob/main/src/main/resources/beans.xml" target="_blank">resources/beans.xml</a> Использование в <a href="https://github.com/cherepakhin/camel_spring/blob/main/src/main/java/ru/perm/v/springconfig/rest/ConfigFromJavaRest.java" target="_blank">ru.perm.v.springconfig.rest.ConfigFromJavaRest.java</a> как обычно:</p>
+
+    <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">@RestController
+@RequestMapping("/simple_conf")
+public class ConfigFromJavaRest {
+@Autowired
+String beanOneFromConfigFromJava;
+
+    @Autowired
+    String beanTwoFromConfigFromJava;
+
+    ....</pre>
+    </div>
+
+    <br/>
+    <h2>Unit tests</h2>
+
+    <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">$ mvn test</pre>
+    </div>
+
+    <br/>
+    <h2>Сборка исполняемого jar</h2>
+
+    <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">$ mvn package</pre>
+    </div>
+
+    <p>Запуск:</p>
+
+    <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">java -jar target/camel-spring-0.0.1.jar</pre>
+    </div>
+
+    <br/>
+    <h2><a id="other"></a>Примечания:</h2>
+
+    <ul>
+        <li>Удален WARNING "172 [main] WARN org.springframework.beans.factory.xml.ResourceEntityResolver - DTD/XSD XML entity http://www.springframework.org/schema/beans/spring-beans.xsd not found, falling back to remote https resolution". Исправлен заголовок файла beans.xml.</li>
+    </ul>
+
+    <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd"&gt;</pre>
+    </div>
+
+    <ul>
+        <li>Исправление ошибки: An exception occured while executing the Java class. Line 15 in XML document from class path resource [beans.xml] is invalid: Attribute "xmlns" must be declared for elementtype "beans". Причина - удален заголовок:</li>
+    </ul>
+
+    <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">&lt;!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd"&gt;</pre>
+    </div>
+</body>
+</html>
