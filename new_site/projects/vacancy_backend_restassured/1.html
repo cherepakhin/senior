@@ -1,0 +1,199 @@
+<article class="markdown-body entry-content container-lg" itemprop="text"><div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto">Rest тесты для проекта vacancy_backend</h3><a id="user-content-rest-тесты-для-проекта-vacancy_backend" class="anchor" aria-label="Permalink: Rest тесты для проекта vacancy_backend" href="#rest-тесты-для-проекта-vacancy_backend"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+    <p dir="auto"><a href="https://github.com/cherepakhin/family/tree/master/src/main/resources/db/migration">vacancy_backend</a></p>
+    <p dir="auto">Перед проведением тестов запустить проект <a href="https://github.com/cherepakhin/family/tree/master/src/main/resources/db/migration">vacancy_backend</a>.</p>
+    <p dir="auto">Адрес backend указан в <a href="/cherepakhin/vacancy_backend_restassured/blob/master/src/test/ru/perm/v/vacancy_backend_restassured/stepdefinitions/Setting.java">ru.perm.v.vacancy_backend_restassured.stepdefinitions.Setting</a></p>
+    <hr id="system-readmore" />
+    <div class="highlight highlight-source-java notranslate position-relative overflow-auto" dir="auto"><pre><span class="pl-smi">String</span> <span class="pl-c1">BASE_URL</span> = <span class="pl-s">"http://127.0.0.1:8090/api"</span>;</pre><div class="zeroclipboard-container">
+        <clipboard-copy aria-label="Copy code to clipboard" class="ClipboardButton btn btn-invisible js-clipboard-copy m-2 p-0 d-flex flex-justify-center flex-items-center" data-copy-feedback="Copied!" data-tooltip-direction="w" value="String BASE_URL = &quot;http://127.0.0.1:8090/api&quot;;" tabindex="0" role="button">
+            <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon">
+                <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+            </svg>
+            <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none">
+                <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+            </svg>
+        </clipboard-copy>
+    </div></div>
+    <div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto">Используется RestAssured и Cucumber</h3><a id="user-content-используется-restassured-и-cucumber" class="anchor" aria-label="Permalink: Используется RestAssured и Cucumber" href="#используется-restassured-и-cucumber"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+    <p dir="auto">С помощью RestAssured делаются HTTP-запросы. С помощью Cucumber общая оршанизация тестов и получение отчетов.</p>
+    <p dir="auto">Проведение тестов (./run_test.sh):</p>
+    <div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto"><pre>./mvnw <span class="pl-c1">test</span></pre><div class="zeroclipboard-container">
+        <clipboard-copy aria-label="Copy code to clipboard" class="ClipboardButton btn btn-invisible js-clipboard-copy m-2 p-0 d-flex flex-justify-center flex-items-center" data-copy-feedback="Copied!" data-tooltip-direction="w" value="./mvnw test" tabindex="0" role="button">
+            <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon">
+                <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+            </svg>
+            <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none">
+                <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+            </svg>
+        </clipboard-copy>
+    </div></div>
+    <p dir="auto">Отчеты в target/cucumber-reports/cucumber.html
+        <a target="_blank" rel="noopener noreferrer" href="/cherepakhin/vacancy_backend_restassured/blob/master/doc/test_result.png"><img src="/cherepakhin/vacancy_backend_restassured/raw/master/doc/test_result.png" alt="Результаты тестов" title="Результаты тестов" style="max-width: 100%;"></a>
+        <a target="_blank" rel="noopener noreferrer" href="/cherepakhin/vacancy_backend_restassured/blob/master/doc/cucumber_result.png"><img src="/cherepakhin/vacancy_backend_restassured/raw/master/doc/cucumber_result.png" alt="Результаты тестов1" title="Результаты тестов" style="max-width: 100%;"></a>
+        <a target="_blank" rel="noopener noreferrer" href="/cherepakhin/vacancy_backend_restassured/blob/master/doc/cucumber_timeline.png"><img src="/cherepakhin/vacancy_backend_restassured/raw/master/doc/cucumber_timeline.png" alt="Продолжительность тестов" title="Продолжительность тестов" style="max-width: 100%;"></a>
+        <a target="_blank" rel="noopener noreferrer" href="/cherepakhin/vacancy_backend_restassured/blob/master/doc/cucumber_timeline_one_test.png"><img src="/cherepakhin/vacancy_backend_restassured/raw/master/doc/cucumber_timeline_one_test.png" alt="Продолжительность одного из тестов" title="Продолжительность одного из тестов" style="max-width: 100%;"></a></p>
+    <p dir="auto">(можно смотреть Allure report. См. ниже)</p>
+    <p dir="auto">Отчет о времени провежении тестов в target/test-results/timeline/index.html</p>
+    <p dir="auto">Вид в Idea:
+        <a target="_blank" rel="noopener noreferrer" href="/cherepakhin/vacancy_backend_restassured/blob/master/doc/idea_report.png"><img src="/cherepakhin/vacancy_backend_restassured/raw/master/doc/idea_report.png" alt="Вид в Idea" style="max-width: 100%;"></a></p>
+    <p dir="auto">Cucumber для Before, Given, Then, When:</p>
+    <div class="highlight highlight-source-java notranslate position-relative overflow-auto" dir="auto"><pre><span class="pl-k">import</span> <span class="pl-s1">io</span>.<span class="pl-s1">cucumber</span>.<span class="pl-s1">java</span>.<span class="pl-s1">Before</span>;
+<span class="pl-k">import</span> <span class="pl-s1">io</span>.<span class="pl-s1">cucumber</span>.<span class="pl-s1">java</span>.<span class="pl-s1">en</span>.<span class="pl-s1">Given</span>;
+<span class="pl-k">import</span> <span class="pl-s1">io</span>.<span class="pl-s1">cucumber</span>.<span class="pl-s1">java</span>.<span class="pl-s1">en</span>.<span class="pl-s1">Then</span>;
+<span class="pl-k">import</span> <span class="pl-s1">io</span>.<span class="pl-s1">cucumber</span>.<span class="pl-s1">java</span>.<span class="pl-s1">en</span>.<span class="pl-s1">When</span>;
+
+....
+
+<span class="pl-c1">@</span><span class="pl-c1">Given</span>(<span class="pl-s">"Given. the Echo API is available. Message = {string}."</span>) <span class="pl-c">// string - указать тип</span>
+<span class="pl-k">public</span> <span class="pl-smi">void</span> <span class="pl-en">the_vacancy_api_is_available</span>(<span class="pl-smi">String</span> <span class="pl-s1">message</span>) {
+    ....
+}
+
+<span class="pl-c1">@</span><span class="pl-c1">When</span>(<span class="pl-s">"When. I request GET echo MESSAGE. Message = {string}."</span>)
+<span class="pl-k">public</span> <span class="pl-smi">void</span> <span class="pl-en">i_request_echo_message</span>(<span class="pl-smi">String</span> <span class="pl-s1">message</span>) {
+    ....
+}
+
+<span class="pl-c1">@</span><span class="pl-c1">Then</span>(<span class="pl-s">"Status OK."</span>)
+<span class="pl-k">public</span> <span class="pl-smi">void</span> <span class="pl-en">statusOk</span>() {
+    ....
+}</pre><div class="zeroclipboard-container">
+        <clipboard-copy aria-label="Copy code to clipboard" class="ClipboardButton btn btn-invisible js-clipboard-copy m-2 p-0 d-flex flex-justify-center flex-items-center" data-copy-feedback="Copied!" data-tooltip-direction="w" value="import io.cucumber.java.Before;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+
+....
+
+@Given(&quot;Given. the Echo API is available. Message = {string}.&quot;) // string - указать тип
+public void the_vacancy_api_is_available(String message) {
+    ....
+}
+
+@When(&quot;When. I request GET echo MESSAGE. Message = {string}.&quot;)
+public void i_request_echo_message(String message) {
+    ....
+}
+
+@Then(&quot;Status OK.&quot;)
+public void statusOk() {
+    ....
+}
+" tabindex="0" role="button">
+            <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon">
+                <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+            </svg>
+            <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none">
+                <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+            </svg>
+        </clipboard-copy>
+    </div></div>
+    <p dir="auto">RestAssured для request, response</p>
+    <div class="highlight highlight-source-java notranslate position-relative overflow-auto" dir="auto"><pre>    <span class="pl-c1">@</span><span class="pl-c1">When</span>(<span class="pl-s">"When. I request GET echo MESSAGE. Message = {string}."</span>)
+    <span class="pl-k">public</span> <span class="pl-smi">void</span> <span class="pl-en">i_request_echo_message</span>(<span class="pl-smi">String</span> <span class="pl-s1">message</span>) {
+        <span class="pl-s1">logger</span>.<span class="pl-en">info</span>(<span class="pl-s">"When stage. Message = "</span> + <span class="pl-s1">message</span> + <span class="pl-s">"."</span>);
+        <span class="pl-s1">response</span> = <span class="pl-s1">request</span>.<span class="pl-en">get</span>(<span class="pl-s">"/"</span>+ <span class="pl-s1">message</span>);
+    }
+
+    <span class="pl-c1">@</span><span class="pl-c1">Then</span>(<span class="pl-s">"Status OK."</span>)
+    <span class="pl-k">public</span> <span class="pl-smi">void</span> <span class="pl-en">statusOk</span>() {
+        <span class="pl-s1">logger</span>.<span class="pl-en">info</span>(<span class="pl-s">"Then stage"</span>);
+<span class="pl-c">//        assert "aaa".equals("bbb"); // example bad test</span>
+        <span class="pl-k">assert</span> <span class="pl-s1">response</span>.<span class="pl-en">getStatusCode</span>() == <span class="pl-c1">200</span>;
+    }</pre><div class="zeroclipboard-container">
+        <clipboard-copy aria-label="Copy code to clipboard" class="ClipboardButton btn btn-invisible js-clipboard-copy m-2 p-0 d-flex flex-justify-center flex-items-center" data-copy-feedback="Copied!" data-tooltip-direction="w" value="    @When(&quot;When. I request GET echo MESSAGE. Message = {string}.&quot;)
+    public void i_request_echo_message(String message) {
+        logger.info(&quot;When stage. Message = &quot; + message + &quot;.&quot;);
+        response = request.get(&quot;/&quot;+ message);
+    }
+
+    @Then(&quot;Status OK.&quot;)
+    public void statusOk() {
+        logger.info(&quot;Then stage&quot;);
+//        assert &quot;aaa&quot;.equals(&quot;bbb&quot;); // example bad test
+        assert response.getStatusCode() == 200;
+    }
+" tabindex="0" role="button">
+            <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon">
+                <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+            </svg>
+            <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none">
+                <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+            </svg>
+        </clipboard-copy>
+    </div></div>
+    <div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto">Ручные тесты с помощью httpie</h3><a id="user-content-ручные-тесты-с-помощью-httpie" class="anchor" aria-label="Permalink: Ручные тесты с помощью httpie" href="#ручные-тесты-с-помощью-httpie"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+    <div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto"><pre>$ https -v https://v.perm.ru:8443/api/echo/aaa</pre><div class="zeroclipboard-container">
+        <clipboard-copy aria-label="Copy code to clipboard" class="ClipboardButton btn btn-invisible js-clipboard-copy m-2 p-0 d-flex flex-justify-center flex-items-center" data-copy-feedback="Copied!" data-tooltip-direction="w" value="$ https -v https://v.perm.ru:8443/api/echo/aaa" tabindex="0" role="button">
+            <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon">
+                <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+            </svg>
+            <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none">
+                <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+            </svg>
+        </clipboard-copy>
+    </div></div>
+    <div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto">HTTPS</h3><a id="user-content-https" class="anchor" aria-label="Permalink: HTTPS" href="#https"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+    <p dir="auto">Установить параметр <strong>RestAssured.useRelaxedHTTPSValidation()</strong>.</p>
+    <p dir="auto">Настройка:</p>
+    <div class="highlight highlight-source-java notranslate position-relative overflow-auto" dir="auto"><pre><span class="pl-c1">@</span><span class="pl-c1">Given</span>(<span class="pl-s">"The Echo API is available. Message = {string}."</span>) <span class="pl-c">// string - указать тип</span>
+<span class="pl-k">public</span> <span class="pl-smi">void</span> <span class="pl-en">the_vacancy_api_is_available</span>(<span class="pl-smi">String</span> <span class="pl-s1">message</span>) {
+    <span class="pl-s1">logger</span>.<span class="pl-en">info</span>(<span class="pl-s">"Given stage: Message = "</span> + <span class="pl-s1">message</span> + <span class="pl-s">"."</span>);
+    <span class="pl-smi">RestAssured</span>.<span class="pl-s1">baseURI</span> = <span class="pl-smi">Setting</span>.<span class="pl-c1">BASE_URL</span> + <span class="pl-s">"/echo"</span>;
+    <span class="pl-s1">logger</span>.<span class="pl-en">info</span>(<span class="pl-s">"RestAssured.baseURI = "</span> + <span class="pl-smi">RestAssured</span>.<span class="pl-s1">baseURI</span>);
+    <span class="pl-smi">RestAssured</span>.<span class="pl-en">useRelaxedHTTPSValidation</span>(); <span class="pl-c">// SKIP SSL VERIFY !!!!</span>
+    <span class="pl-s1">request</span> = <span class="pl-en">given</span>()
+            .<span class="pl-en">header</span>(<span class="pl-s">"Content-Type"</span>, <span class="pl-s">"text/plain"</span>);
+}</pre><div class="zeroclipboard-container">
+        <clipboard-copy aria-label="Copy code to clipboard" class="ClipboardButton btn btn-invisible js-clipboard-copy m-2 p-0 d-flex flex-justify-center flex-items-center" data-copy-feedback="Copied!" data-tooltip-direction="w" value="@Given(&quot;The Echo API is available. Message = {string}.&quot;) // string - указать тип
+public void the_vacancy_api_is_available(String message) {
+    logger.info(&quot;Given stage: Message = &quot; + message + &quot;.&quot;);
+    RestAssured.baseURI = Setting.BASE_URL + &quot;/echo&quot;;
+    logger.info(&quot;RestAssured.baseURI = &quot; + RestAssured.baseURI);
+    RestAssured.useRelaxedHTTPSValidation(); // SKIP SSL VERIFY !!!!
+    request = given()
+            .header(&quot;Content-Type&quot;, &quot;text/plain&quot;);
+}" tabindex="0" role="button">
+            <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon">
+                <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+            </svg>
+            <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none">
+                <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+            </svg>
+        </clipboard-copy>
+    </div></div>
+    <p dir="auto">(см. <a href="https://github.com/cherepakhin/vacancy_backend_restassured/blob/master/src/test/java/ru/perm/v/vacancy_backend_restassured/stepdefinitions/EchoSteps.java">EchoSteps.java</a>)</p>
+    <div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto">Allure report</h3><a id="user-content-allure-report" class="anchor" aria-label="Permalink: Allure report" href="#allure-report"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+    <p dir="auto"><a href="https://github.com/allure-framework/allure3">https://github.com/allure-framework/allure3</a>
+        [Allure-framework. Часть 1][<a href="https://habr.com/ru/companies/sberbank/articles/358836/" rel="nofollow">https://habr.com/ru/companies/sberbank/articles/358836/</a>]</p>
+    <p dir="auto">Установка:</p>
+    <div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto"><pre>sudo apt install default-jre-headless
+sudo dpkg -i allure_2.34.1-1_all.deb</pre><div class="zeroclipboard-container">
+        <clipboard-copy aria-label="Copy code to clipboard" class="ClipboardButton btn btn-invisible js-clipboard-copy m-2 p-0 d-flex flex-justify-center flex-items-center" data-copy-feedback="Copied!" data-tooltip-direction="w" value="sudo apt install default-jre-headless
+sudo dpkg -i allure_2.34.1-1_all.deb" tabindex="0" role="button">
+            <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon">
+                <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+            </svg>
+            <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none">
+                <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+            </svg>
+        </clipboard-copy>
+    </div></div>
+    <p dir="auto">Просмотр отчетов (после выполнения тестов):</p>
+    <div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto"><pre>./<span class="pl-s"><span class="pl-pds">`</span>allure serve target/surefire-reports/<span class="pl-pds">`</span></span></pre><div class="zeroclipboard-container">
+        <clipboard-copy aria-label="Copy code to clipboard" class="ClipboardButton btn btn-invisible js-clipboard-copy m-2 p-0 d-flex flex-justify-center flex-items-center" data-copy-feedback="Copied!" data-tooltip-direction="w" value="./`allure serve target/surefire-reports/`" tabindex="0" role="button">
+            <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon">
+                <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+            </svg>
+            <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none">
+                <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+            </svg>
+        </clipboard-copy>
+    </div></div>
+    <p dir="auto"><a target="_blank" rel="noopener noreferrer" href="/cherepakhin/vacancy_backend_restassured/blob/master/doc/allure_results.png"><img src="/cherepakhin/vacancy_backend_restassured/raw/master/doc/allure_results.png" alt="Отчет Allure" title="allure results" style="max-width: 100%;"></a></p>
+    <div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto">Ссылки</h3><a id="user-content-ссылки" class="anchor" aria-label="Permalink: Ссылки" href="#ссылки"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+    <ul dir="auto">
+        <li><a href="https://cucumber.io/" rel="nofollow">https://cucumber.io/</a></li>
+        <li><a href="https://cucumber.io/docs/guides/10-minute-tutorial/" rel="nofollow">Cucumber 10-minute tutorial</a></li>
+        <li><a href="https://www.codecrumbs.dev/posts/cucumber-integration-tests/" rel="nofollow">Integration testing bdd-style</a></li>
+    </ul>
+</article>

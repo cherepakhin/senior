@@ -1,0 +1,110 @@
+<p>GitHub: <a href="https://github.com/cherepakhin/vacancy_backend_restassured" target="_blank" rel="noopener">https://github.com/cherepakhin/vacancy_backend_restassured</a></p>
+<p> </p>
+<h2>Rest тесты для проекта vacancy_backend</h2>
+<ul>
+    <li><a href="https://github.com/cherepakhin/family/tree/master/src/main/resources/db/migration" target="_blank" rel="noopener">vacancy_backend</a></li>
+</ul>
+<p>Перед проведением тестов запустить проект <a href="https://github.com/cherepakhin/family/tree/master/src/main/resources/db/migration" target="_blank" rel="noopener">vacancy_backend</a>.</p>
+<p>Адрес backend указан в <a href="src/test/ru/perm/v/vacancy_backend_restassured/stepdefinitions/Setting.java" target="_blank" rel="noopener">ru.perm.v.vacancy_backend_restassured.stepdefinitions.Setting</a></p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #020274; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <pre style="margin: 0; line-height: 125%;">String BASE_URL = "http://127.0.0.1:8090/api";</pre>
+</div>
+<p> </p>
+<h2>Используется RestAssured и Cucumber</h2>
+<p>С помощью RestAssured делаются HTTP-запросы. С помощью Cucumber общая организация тестов и получение отчетов.</p>
+<p>Проведение тестов (./run_test.sh):</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #020274; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <pre style="margin: 0; line-height: 125%;">./mvnw test</pre>
+</div>
+<p>Отчеты в target/cucumber-reports/cucumber.html</p>
+<p><img src="images/vacancy_backend_restassured/test_result.png" alt="Результаты тестов" /></p>
+<p><img src="images/vacancy_backend_restassured/cucumber_result.png" alt="Результаты тестов1" /></p>
+<p><img src="images/vacancy_backend_restassured/cucumber_timeline.png" alt="Продолжительность тестов" /></p>
+<p><img src="images/vacancy_backend_restassured/cucumber_timeline_one_test.png" alt="Продолжительность одного из тестов" /></p>
+<p>(можно смотреть Allure report. См. ниже)</p>
+<p>Отчет о времени проведении тестов в target/test-results/timeline/index.html</p>
+<p>Вид в Idea:</p>
+<p><img src="images/vacancy_backend_restassured/idea_report.png" alt="Вид в Idea" /></p>
+<h3>Cucumber для Before, Given, Then, When:</h3>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #020274; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">import io.cucumber.java.Before;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+
+....
+
+@Given("Given. the Echo API is available. Message = {string}.") // string - указать тип
+public void the_vacancy_api_is_available(String message) {
+    ....
+}
+
+@When("When. I request GET echo MESSAGE. Message = {string}.")
+public void i_request_echo_message(String message) {
+    ....
+}
+
+@Then("Status OK.")
+public void statusOk() {
+    ....
+}</pre>
+</div>
+<h3>RestAssured для request, response</h3>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #020274; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">    @When("When. I request GET echo MESSAGE. Message = {string}.")
+    public void i_request_echo_message(String message) {
+        logger.info("When stage. Message = " + message + ".");
+        response = request.get("/"+ message);
+    }
+
+    @Then("Status OK.")
+    public void statusOk() {
+        logger.info("Then stage");
+//        assert "aaa".equals("bbb"); // example bad test
+        assert response.getStatusCode() == 200;
+    }</pre>
+</div>
+<p> </p>
+<h2>Ручные тесты с помощью httpie</h2>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #020274; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <pre style="margin: 0; line-height: 125%;">$ https -v https://v.perm.ru:8443/api/echo/aaa</pre>
+</div>
+<p> </p>
+<h2>HTTPS</h2>
+<p>Установить параметр <strong>RestAssured.useRelaxedHTTPSValidation()</strong>.</p>
+<p>Настройка:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #020274; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">@Given("The Echo API is available. Message = {string}.") // string - указать тип
+public void the_vacancy_api_is_available(String message) {
+    logger.info("Given stage: Message = " + message + ".");
+    RestAssured.baseURI = Setting.BASE_URL + "/echo";
+    logger.info("RestAssured.baseURI = " + RestAssured.baseURI);
+    RestAssured.useRelaxedHTTPSValidation(); // SKIP SSL VERIFY !!!!
+    request = given()
+            .header("Content-Type", "text/plain");
+}</pre>
+</div>
+<p>(см. <a href="https://github.com/cherepakhin/vacancy_backend_restassured/blob/master/src/test/java/ru/perm/v/vacancy_backend_restassured/stepdefinitions/EchoSteps.java" target="_blank" rel="noopener">EchoSteps.java</a>)</p>
+<p> </p>
+<h2>Allure report</h2>
+<ul>
+    <li><a href="https://github.com/allure-framework/allure3" target="_blank" rel="noopener">https://github.com/allure-framework/allure3</a></li>
+    <li><a href="https://habr.com/ru/companies/sberbank/articles/358836/" target="_blank" rel="noopener">Allure-framework. Часть 1</a></li>
+</ul>
+<p>Установка:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #020274; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">sudo apt install default-jre-headless
+sudo dpkg -i allure_2.34.1-1_all.deb</pre>
+</div>
+<p>Просмотр отчетов (после выполнения тестов):</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #020274; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+    <pre style="margin: 0; line-height: 125%;">./`allure serve target/surefire-reports/`</pre>
+</div>
+<p><img src="images/vacancy_backend_restassured/allure_results.png" alt="Отчет Allure" /></p>
+<p> </p>
+<h2>Ссылки</h2>
+<ul>
+    <li><a href="https://cucumber.io/" target="_blank" rel="noopener">https://cucumber.io/</a></li>
+    <li><a href="https://cucumber.io/docs/guides/10-minute-tutorial/" target="_blank" rel="noopener">Cucumber 10-minute tutorial</a></li>
+    <li><a href="https://www.codecrumbs.dev/posts/cucumber-integration-tests/" target="_blank" rel="noopener">Integration testing bdd-style</a></li>
+</ul>
