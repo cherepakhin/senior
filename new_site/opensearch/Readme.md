@@ -7,6 +7,7 @@
 run_opensearch.sh 
 ````
 (B.._.7)
+
 2. Просмотр nodes 
 ````shell
  curl -X GET "https://localhost:9200/_cat/nodes?v" -ku admin:<password>
