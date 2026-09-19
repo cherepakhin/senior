@@ -1,0 +1,29 @@
+Установка admin пароля OpenSearch:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+export ES_PASS=B.._.7
+    </pre>
+</div>
+
+Запустить OpenSearch:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+docker run -it -p 9200:9200 -p 9600:9600 -e OPENSEARCH_INITIAL_ADMIN_PASSWORD=$ES_PASS -e "discovery.type=single-node"  --name opensearch-node opensearchproject/opensearch:latest
+    </pre>
+</div>
+<hr id="system-readmore" />
+
+Просмотр nodes:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+curl -X GET "https://localhost:9200/_cat/nodes?v" -ku admin:$ES_PASS
+    </pre>
+</div>
+
+Просмотр plugins:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+curl -X GET "https://localhost:9200/_cat/plugins?v" -ku admin:$ES_PASS
+    </pre>
+</div>
+
