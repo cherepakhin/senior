@@ -16,4 +16,4 @@ docker run -it -p 9200:9200 -p 9600:9600 -e OPENSEARCH_INITIAL_ADMIN_PASSWORD=$E
 ````shell
 curl -X GET "https://localhost:9200/_cat/plugins?v" -ku admin:<password>
 ````
-
+4. Примеры запросов к OpenSearch в папке __query__.  
