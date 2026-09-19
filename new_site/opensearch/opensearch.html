@@ -1,29 +1,30 @@
 Установка admin пароля OpenSearch:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-    <pre style="margin: 0; line-height: 125%">
-export ES_PASS=B.._.7
-    </pre>
+    <pre style="margin: 0; line-height: 125%">export ES_PASS=B.._.7</pre>
 </div>
 
 Запустить OpenSearch:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-    <pre style="margin: 0; line-height: 125%">
-docker run -it -p 9200:9200 -p 9600:9600 -e OPENSEARCH_INITIAL_ADMIN_PASSWORD=$ES_PASS -e "discovery.type=single-node"  --name opensearch-node opensearchproject/opensearch:latest
-    </pre>
+    <pre style="margin: 0; line-height: 125%">docker run -it -p 9200:9200 -p 9600:9600 -e OPENSEARCH_INITIAL_ADMIN_PASSWORD=$ES_PASS -e "discovery.type=single-node"  --name opensearch-node opensearchproject/opensearch:latest</pre>
 </div>
 <hr id="system-readmore" />
 
 Просмотр nodes:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-    <pre style="margin: 0; line-height: 125%">
-curl -X GET "https://localhost:9200/_cat/nodes?v" -ku admin:$ES_PASS
-    </pre>
+    <pre style="margin: 0; line-height: 125%">curl -X GET "https://localhost:9200/_cat/nodes?v" -ku admin:$ES_PASS</pre>
 </div>
 
 Просмотр plugins:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-    <pre style="margin: 0; line-height: 125%">
-curl -X GET "https://localhost:9200/_cat/plugins?v" -ku admin:$ES_PASS
-    </pre>
+    <pre style="margin: 0; line-height: 125%">curl -X GET "https://localhost:9200/_cat/plugins?v" -ku admin:$ES_PASS</pre>
 </div>
-
+Опыты:<br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/senior/tree/main/new_site/opensearch" target="_blank" rel="noopener noreferrer">Мои опыты с OpenSearch</a>
+<br/>
+<h3>Ссылки</h3>
+<ul>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://docs.opensearch.org/latest/index.html" target="_blank" rel="noopener noreferrer">OpenSearch Documentation</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/senior/tree/main/new_site/opensearch" target="_blank" rel="noopener noreferrer">Мои опыты с OpenSearch</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://github.com/M-Razavi/Spring-Data-OpenSearch-Example?ysclid=mu8cuvuf3327864113" target="_blank" rel="noopener noreferrer">Spring-Data-OpenSearch-Example</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;" href="https://docs.opensearch.org/latest/install-and-configure/install-dashboards/index/" target="_blank" rel="noopener noreferrer">Installing OpenSearch Dashboards</a></li>
+</ul>
