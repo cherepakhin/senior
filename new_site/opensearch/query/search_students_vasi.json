@@ -1,0 +1,29 @@
+{
+  "took": 4,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 1,
+      "relation": "eq"
+    },
+    "max_score": 0.44583148,
+    "hits": [
+      {
+        "_index": "students",
+        "_id": "1",
+        "_score": 0.44583148,
+        "_source": {
+          "name": "Vasi",
+          "gpa": 3.89,
+          "grad_year": 1967
+        }
+      }
+    ]
+  }
+}

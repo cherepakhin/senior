@@ -1,0 +1,36 @@
+Загрузил deb пакеты с
+https://opensearch.org/downloads/
+
+
+root@v:/usr/share/opensearch/plugins/opensearch-security/tools# ./securityadmin.sh -cd /etc/opensearch/opensearch-security/ -icl -nhnv  -cacert /etc/opensearch/root-ca.pem  -cert /etc/opensearch/kirk.pem  -key /etc/opensearch/kirk-key.pem
+Security Admin v7
+Will connect to localhost:9200 ... done
+Connected as "CN=kirk,OU=client,O=client,L=test,C=de"
+OpenSearch Version: 3.8.0
+Contacting opensearch cluster 'opensearch' and wait for YELLOW clusterstate ...
+Clustername: opensearch
+Clusterstate: GREEN
+Number of nodes: 1
+Number of data nodes: 1
+.opendistro_security index already exists, so we do not need to create one.
+Populate config from /etc/opensearch/opensearch-security/
+Will update '/config' with /etc/opensearch/opensearch-security/config.yml
+   SUCC: Configuration for 'config' created or updated
+Will update '/roles' with /etc/opensearch/opensearch-security/roles.yml
+   SUCC: Configuration for 'roles' created or updated
+Will update '/rolesmapping' with /etc/opensearch/opensearch-security/roles_mapping.yml
+   SUCC: Configuration for 'rolesmapping' created or updated
+Will update '/internalusers' with /etc/opensearch/opensearch-security/internal_users.yml
+   SUCC: Configuration for 'internalusers' created or updated
+Will update '/actiongroups' with /etc/opensearch/opensearch-security/action_groups.yml
+   SUCC: Configuration for 'actiongroups' created or updated
+Will update '/tenants' with /etc/opensearch/opensearch-security/tenants.yml
+   SUCC: Configuration for 'tenants' created or updated
+Will update '/nodesdn' with /etc/opensearch/opensearch-security/nodes_dn.yml
+   SUCC: Configuration for 'nodesdn' created or updated
+Will update '/audit' with /etc/opensearch/opensearch-security/audit.yml
+   SUCC: Configuration for 'audit' created or updated
+Will update '/allowlist' with /etc/opensearch/opensearch-security/allowlist.yml
+   SUCC: Configuration for 'allowlist' created or updated
+SUCC: Expected 9 config types for node {"updated_config_types":["allowlist","tenants","rolesmapping","nodesdn","audit","roles","actiongroups","config","internalusers"],"updated_config_size":9,"message":null} is 9 (["allowlist","tenants","rolesmapping","nodesdn","audit","roles","actiongroups","config","internalusers"]) due to: null
+Done with success

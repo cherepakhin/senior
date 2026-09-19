@@ -1,0 +1,2 @@
+ip         heap.percent ram.percent cpu load_1m load_5m load_15m node.role node.roles                                        cluster_manager name
+172.17.0.2           18          97   5    0.30    0.81     0.79 dimr      cluster_manager,data,ingest,remote_cluster_client *               d990c7a69503
