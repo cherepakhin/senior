@@ -1,7 +1,7 @@
 1. Установка переменной пароля OpenSearch
 ````shell
-   export ES_PASS=B.._.7
-   ````
+export ES_PASS=B.._.7
+````
 2. Запустить (run_opensearch.sh)
  ````shell
 docker run -it -p 9200:9200 -p 9600:9600 -e OPENSEARCH_INITIAL_ADMIN_PASSWORD=$ES_PASS -e "discovery.type=single-node"  --name opensearch-node opensearchproject/opensearch:latest 
