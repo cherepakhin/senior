@@ -2,9 +2,9 @@
 ````shell
    export ES_PASS=B.._.7
    ````
-2. Запустить
+2. Запустить (run_opensearch.sh)
  ````shell
-run_opensearch.sh 
+docker run -it -p 9200:9200 -p 9600:9600 -e OPENSEARCH_INITIAL_ADMIN_PASSWORD=$ES_PASS -e "discovery.type=single-node"  --name opensearch-node opensearchproject/opensearch:latest 
 ````
 (B.._.7)
 
