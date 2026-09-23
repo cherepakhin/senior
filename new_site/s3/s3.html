@@ -1,0 +1,86 @@
+Amazon S3 - объектное хранилище.
+Для работы с S3 (Amazon S3 или любым S3-совместимым хранилищем — MinIO, Yandex Object Storage и т.п.) в Java чаще всего используют AWS SDK for Java.
+
+<hr id="system-readmore" />
+
+<b>Создать бакет (bucket):</b><br>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+String bucketName = "my-java-bucket";
+try {
+    s3.createBucket(CreateBucketRequest.builder()
+        .bucket(bucketName)
+        .build());
+    System.out.println("Бакет создан: " + bucketName);
+} catch (S3Exception e) {
+    System.err.println("Ошибка: " + e.awsErrorDetails().errorMessage());
+}
+    </pre>
+</div>
+<br/>
+Адресация в S3 по имени бакета и ключу.
+<br/>
+
+<b>Загрузить файл.</b>
+
+Можно загрузить из локального файла, из строки или потока:
+<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+s3.putObject(PutObjectRequest.builder()
+    .bucket(bucketName)
+    .key("docs/report.pdf")
+    .build(),
+    RequestBody.fromFile(Paths.get("/home/user/report.pdf")));
+
+// Или загрузка строки
+s3.putObject(PutObjectRequest.builder()
+    .bucket(bucketName)
+    .key("hello.txt")
+    .build(),
+    RequestBody.fromString("Hello, S3!"));
+    </pre>
+</div>
+<br/>
+<b>Получить объект.</b>
+<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+s3.getObject(GetObjectRequest.builder()
+    .bucket(bucketName)
+    .key("docs/report.pdf")
+    .build());
+    </pre>
+</div>
+
+<b>Удалить объект.</b>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+s3.deleteObject(DeleteObjectRequest.builder()
+    .bucket(bucketName)
+    .key("docs/report.pdf")
+    .build());
+    </pre>
+</div>
+
+<b>Удалить БАКЕТ.</b>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+DeleteBucketRequest deleteRequest = DeleteBucketRequest.builder()
+    .bucket(bucketName)
+    .build();
+s3.deleteBucket(deleteRequest);
+    </pre>
+</div>
+
+В SDK есть методы для работы с метаданными объекта (metadata), для получения списка объектов
+в бакете (listObjectsV2).
+<br/>
+<br/>
+<b>Ссылки:</b><br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://www.baeldung.com/java-aws-s3" target="_blank" rel="noopener noreferrer">https://www.baeldung.com/java-aws-s3</a><br/>
+
+
