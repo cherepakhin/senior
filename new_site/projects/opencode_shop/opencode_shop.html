@@ -2,13 +2,12 @@
     <p>Аккуратный css UI.</p>
     <p>Развернуто <a href="https://v.perm.ru/shop/" target="_blank">https://v.perm.ru/shop/</a></p>
     <h2>Shop Application with AI OpenCode</h2>
-    <p>A Spring Boot shop application with products and product categories.</p>
+    <p>Приложение Spring Boot shop с товарами и категориями товаров.</p>
     <hr id="system-readmore" />
-
 
     Git проекта: <a href="https://gitverse.ru/v_cherepakhin/opencode_shop" target="_blank">https://gitverse.ru/v_cherepakhin/opencode_shop</a></p>
 
-    <h3>Technologies</h3>
+    <h3>Используемые технологии</h3>
     <ul>
         <li><strong>Java 11</strong></li>
         <li><strong>Spring Boot 2.7.18</strong></li>
@@ -18,40 +17,38 @@
         <li><strong>Maven</strong> build tool</li>
     </ul>
 
-    <h2>Start</h2>
+    <h2>Начало</h2>
 
-    <p>Install opencode <a href="https://opencode.ai/docs/ru" target="_blank">https://opencode.ai/docs/ru</a>.</p>
-
-    <p>Start:</p>
+    <p>Установка OpenCode: <a href="https://opencode.ai/docs/ru" target="_blank">https://opencode.ai/docs/ru</a>.</p>
 
     <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
         <pre style="margin: 0; line-height: 125%">opencode</pre>
     </div>
 
-    <h2>Features</h2>
+    <h2>Требования</h2>
     <ul>
-        <li>Shop home page with inventory summary</li>
-        <li><strong>Product</strong> CRUD operations:
+        <li>Домашняя страница магазина со сводкой запасов</li>
+        <li><strong>Product</strong> CRUD операции:
             <ul>
-                <li>List all products (with category name)</li>
-                <li>View product details</li>
-                <li>Create, edit, delete products</li>
-                <li>Assign products to categories</li>
+                <li>Список всех товаров (с категорией)</li>
+                <li>Просмотр товара с деталями</li>
+                <li>Создание, редактирование, удаление товаров</li>
+                <li>Назначение категории товару</li>
             </ul>
         </li>
-        <li><strong>Category</strong> CRUD operations:
+        <li><strong>Категория</strong> CRUD операции:
             <ul>
-                <li>List all categories</li>
-                <li>View category details with its products</li>
-                <li>Create, edit, delete categories</li>
+                <li>Просмотр списка категорий</li>
+                <li>Просмотр подробной информации о категории и ее продуктах</li>
+                <li>Создание, редактирование, удаление категории</li>
             </ul>
         </li>
-        <li>Persistent storage in an H2 database file (<code>./data/shopdb.mv.db</code>)</li>
-        <li>Sample data seeded automatically on first run</li>
-        <li>Runs at context path <code>/shop</code> (ready for reverse proxy)</li>
+        <li>Для хранения данных используется H2 database file (<code>./data/shopdb.mv.db</code>)</li>
+        <li>Загрузка стартовых данных при первом запуске.</li>
+        <li>Запуск на web сервере <code>/shop</code></li>
     </ul>
 
-    <h2>Prompts OpenCode</h2>
+    <h2>Начальные prompts OpenCode</h2>
     <ul>
         <li>generate project spring mvc with maven</li>
         <li>use themleaf</li>
@@ -68,7 +65,7 @@
         <li>прогони тесты</li>
     </ul>
 
-    <h2>Project Structure</h2>
+    <h2>Структура проекта</h2>
 
     <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
         <pre style="margin: 0; line-height: 125%">src/main/java/com/example/
@@ -103,31 +100,34 @@ src/main/resources/
     └── categoryDetail.html</pre>
     </div>
 
-    <h2>Prerequisites</h2>
+    <h2>Использованое ПО</h2>
     <ul>
         <li>Java 11 or higher</li>
         <li>Maven 3.8+</li>
     </ul>
 
-    <h2>Build &amp; Run</h2>
+    <h2>Сборка и запуск</h2>
 
+    Сборка<br/>
     <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
         <pre style="margin: 0; line-height: 125%"># Build the project
 mvn clean package
+</pre></div>
+Запуск<br/>
+run.sh:<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+  <pre style="margin: 0; line-height: 125%">mvn spring-boot:run
+  </pre>
+</div>
 
-# Run the application (or ./run.sh)
-mvn spring-boot:run</pre>
-    </div>
+<p>Доступ по адресу: <code>http://localhost:8089/shop</code></p>
 
-    <p>Access the application at: <code>http://localhost:8089/shop</code></p>
+<p>Приложение сделано для запуска с URL <code>/shop</code></p>
+Консоль H2 по адресу: <code>http://127.0.0.1:8089/shop/h2-console/</code> (пользователь <code>sa</code>, без пароля).</p>
 
-    <p>The application is configured with context path <code>/shop</code>, so all URLs are prefixed with <code>/shop</code>. The H2 console is available at <code>/shop/h2-console</code> (user <code>sa</code>, empty password).</p>
+<h2>Endpoints</h2>
 
-    <h2>Endpoints</h2>
-
-    <p>All endpoints are prefixed with the context path <code>/shop</code> (e.g. <code>/shop/products</code>).</p>
-
-    <h3>Products</h3>
+<h3>Products</h3>
     <table>
         <tr><th>Method</th><th>Path</th><th>Description</th></tr>
         <tr><td>GET</td><td><code>/products</code></td><td>List all products</td></tr>
@@ -151,9 +151,9 @@ mvn spring-boot:run</pre>
         <tr><td>POST</td><td><code>/categories/{id}/delete</code></td><td>Delete category</td></tr>
     </table>
 
-    <h3>Deployment</h3>
+<h3>Deployment</h3>
 
-    <p>See <a href="DEPLOY.md" target="_blank">DEPLOY.md</a> for instructions on deploying to <a href="https://v.perm.ru/shop" target="_blank">https://v.perm.ru/shop</a> (systemd service + Apache reverse proxy).</p>
+    <p>Смотри <a href="DEPLOY.md" target="_blank">DEPLOY.md</a> for instructions on deploying to <a href="https://v.perm.ru/shop" target="_blank">https://v.perm.ru/shop</a> (systemd service + Apache reverse proxy).</p>
 
     <p>or</p>
 
@@ -161,20 +161,20 @@ mvn spring-boot:run</pre>
         <pre style="margin: 0; line-height: 125%">scp target/shop-1.0-SNAPSHOT.jar vasi@v:/home/vasi/temp/shop.jar</pre>
     </div>
 
-    <h3>Config for Apache2</h3>
+    <h3>Конфигурация Apache2</h3>
 
-    <p>Add to <code>/etc/apache2/sites-enabled/000-default.conf</code>:</p>
+    <p>Добавить в <code>/etc/apache2/sites-enabled/000-default-le-ssl.conf</code>:</p>
 
     <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
         <pre style="margin: 0; line-height: 125%">&lt;VirtualHost&gt;
 ....
-    ProxyPass        /shop http://localhost:8092/shop
-    ProxyPassReverse /shop http://localhost:8092/shop
+	ProxyPass        /shop http://localhost:8092/shop
+	ProxyPassReverse /shop http://localhost:8092/shop
 ....
 &lt;/VirtualHost&gt;</pre>
     </div>
 
-    <p>Open <a href="https://v.perm.ru/shop" target="_blank">https://v.perm.ru/shop</a>.</p>
+    <p>Открыть в браузере <a href="https://v.perm.ru/shop" target="_blank">https://v.perm.ru/shop</a>.</p>
 
     <h3>Linux service</h3>
 
@@ -196,6 +196,7 @@ Restart=always
 RestartSec=10
 StandardOutput=journal
 StandardError=journal
+Environment=PORT=8092
 
 [Install]
 WantedBy=multi-user.target</pre>
