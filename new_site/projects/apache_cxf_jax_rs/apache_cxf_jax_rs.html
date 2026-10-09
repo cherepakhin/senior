@@ -1,0 +1,47 @@
+<p>Apache CXF — это открытый фреймворк для разработки и развёртывания веб-сервисов и REST-API на Java. Он помогает создавать сервисы, используя стандартные API, такие как JAX-WS (для SOAP) и JAX-RS (для REST).</p>
+
+<p>Здесь демонстрируется использование Apache CXF для создания JAX-RS (для REST-API).</p>
+<a href="https://github.com/cherepakhin/apache_cxf_jaxrs">Мой пример Apache CXF сервиса и клиента REST-API</a>
+<hr id="system-readmore" />
+
+<h3>Сборка:</h3>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<code>mvn clean package
+</code>
+</pre>
+
+<h3>Проверка:</h3>
+
+<p>Запуск сервиса:</p>
+<div class="shell">
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<code>/usr/lib/jvm/java-8-openjdk-amd64/bin/java -jar target/jaxrs-1.0.0.jar
+</code>
+</pre>
+
+<p>http запрос:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<code>http http://127.0.0.1:5000/movieservice/movie/1001/
+</code>
+</pre>
+
+<p>Ответ:</p>
+<pre style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<code>HTTP/1.1 200 OK
+Content-Type: application/json
+Server: Jetty(9.4.12.v20180830)
+Transfer-Encoding: chunked
+
+{
+    "id": 1001,
+    "name": "Aquaman"
+}
+</code>
+</pre>
+
+<h2>Ссылки</h2>
+
+<ul>
+    <li><a href="https://github.com/apache/cxf/blob/main/distribution/src/main/release/samples">Apache CXF Samples</a></li>
+    <li><a href="https://github.com/cherepakhin/apache_cxf_jaxrs">Мой пример Apache CXF сервиса и клиента REST-API</a></li>
+</ul>
