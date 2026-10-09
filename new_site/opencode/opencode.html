@@ -29,7 +29,8 @@ curl -fsSL https://opencode.ai/install | bash
 <li>возьми цветовую схему с сайта v.perm.ru</li>
 </ol>
 
-Результат: <a href="https://gitverse.ru/cherepakhin/opencode_shop" target="_blank">https://gitverse.ru/cherepakhin/opencode_shop</a>
+Исходный код: <a href="https://gitverse.ru/cherepakhin/opencode_shop" target="_blank">https://gitverse.ru/cherepakhin/opencode_shop</a><br/>
+Результат: <a href="https://v.perm.ru/shop/" target="_blank">https://v.perm.ru/shop/</a><br/>
 
 <p><span style="font-weight: 400;">
     <img class="pull-center" src="images/projects/opencode_shop/main_screen.png" alt="" />
@@ -59,4 +60,26 @@ curl -fsSL https://opencode.ai/install | bash
     <img class="pull-center" src="images/projects/opencode_shop/product_edit.png" alt="" />
 </span></p>
 <br/>
+Запуск как сервис в linux <b>shop.service</b>:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+[Unit]
+Description=ShopHub Spring Boot Application
+Documentation=https://v.perm.ru/shop
+After=network.target
 
+[Service]
+Type=simple
+User=shop
+WorkingDirectory=/home/vasi/temp/shop
+ExecStart=/usr/bin/java -jar -Xms256m -Xmx512m /home/vasi/temp/shop/shop.jar
+SuccessExitStatus=143
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+Environment=PORT=8092
+
+[Install]
+WantedBy=multi-user.target
+</pre></div><br/>
