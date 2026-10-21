@@ -1,9 +1,80 @@
+Camunda больше не будет поддерживаться.
+<a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/companies/diasoft_company/articles/1083734/" target="_blank" rel="noopener noreferrer">Camunda 7 все. Что делать тем, кто на ней остался</a><br/>
+Camunda 7 Community Edition закрыта. Последний релиз 7.24 вышел 14 октября 2025 года,
+дальше нет ни исправлений, ни патчей безопасности.
+<hr id="system-readmore" />
+Не рекомендуют начинать на ней новый проект. Но, приемлемо если:
+<div><pre style="margin: 0; line-height: 125%">Не готовы в настоящее время приобретать лицензию или SaaS подписку?
+Критично использование решения со свободной лицензией? СВОБОДНАЯ ЛИЦЕНЗИЯ!!!
+Уже используйте Camunda 7 Run + External Task (Remote Engine).
+Это позволит в дальнейшем с минимальными затратами мигрировать на Camunda 8.
+
+Кроме того, использование Camunda сейчас сопряжено с рисками: с 1 января 2025 года её запрещено применять на таких объектах согласно Указу № 166.
+Поэтому многие в России ищут отечественные альтернативы — например,
+форки, такие как <a style="text-decoration: underline; color: #3366ff;" href="https://openbpm.ru/price" target="_blank" rel="noopener noreferrer">Российский BPM-движок с открытым исходным кодом OpenBPM</a>.
+<br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://openbpm.ru/blog/openbpm-reestr" target="_blank" rel="noopener noreferrer">OpenBPM — первый форк Camunda 7 в реестре российского ПО</a>
+<br/>
+<div><pre style="margin: 0; line-height: 125%">Enterprise-ветку Camunda 7 поддерживают до 9 апреля 2030 года. Это запас времени на миграцию.
+</pre></div>
+
+Из статьи  <a style="text-decoration: underline; color: #3366ff;" href="https://reunico.com/blog/camunda-7-vs-camunda-8-2025/" target="_blank" rel="noopener noreferrer">Camunda 7 vs Camunda 8 в 2025 году: актуальное и честное сравнение</a><br/>
+
+В статье:
+<b>Camunda 7 — End of Life</b>
+<div><pre style="margin: 0; line-height: 125%"><b>С октября 2025 года</b>:
+- поддержка Camunda 7 community завершена
+- community-версия платформы больше не развивается
+- новые функции не выпускаются
+</pre></div>
+
+
+<b>Самая главная проблема</b> - это изменение лицензионной политики.
+Начиная с версии 8.6 камунда становится <b>платной</b>.
+
+<h3>Camunda 8</h3><br/>
+Особое удовольствие от использования Embedded Engine получат пользователи Spring Boot – Camunda имеет готовые starter’ы, Camunda Initialzr.
+<br/>
+В Camunda8 не делегаты, а External Task.<br/>
+Принципы работы External Task в целом схожи с Java Delegate – получить задачу и нужные переменные процесса,
+вызвать сервис или отправить сообщение, после чего – завершить задачу,
+при необходимости установив значения переменных процесса.
+<br/>
+Ключевым фактором, оказывающим негативное влияние на производительность Camunda 7 (помимо ошибок проектирования)
+ЯВЛЯЕТСЯ ХРАНЕНИЕ ДАННЫХ В РЕЛЯЦИОННОЙ БАЗЕ.<br/>
+<br/>
+Camunda 7 имеет огромное преимущество в виде открытого исходного кода и лицензии Apache 2.0.<br/>
+<br/>
+Замена:<br/>
+<ul>
+    <li>Zeebe, она же Camunda 8</li>
+    <li>У "Диасофт" есть поддерживаемый форк Camunda 7 Digital Q.BPM <a style="text-decoration: underline; color: #3366ff;" href="https://q.diasoft.ru/products/tekhnologicheskie-platformy/digital-q-bpm/?utm_source=habr" target="_blank" rel="noopener noreferrer">https://q.diasoft.ru/products/tekhnologicheskie-platformy/digital-q-bpm/?utm_source=habr</a></li>
+    <li>Flowable</li>
+    <li>Apache Activity</li>
+    <li>Temporal</li>
+</ul>
+<br/>
+Camunda 7 и Camunda 8 (Zeebe) - это <b>СОВЕРШЕННО</b> разные продукты.
+<br/>
+К легким процессуальным движкам относятся
+jBPM, Activiti (часть системы документооборота Alfresco),Камунда 7.х и Flowable.
+<br/>
+Из статьи:<br/>
+<div><pre style="margin: 0; line-height: 125%">
+Насколько мне известно Activiti является форком jBPM, а Камунда 7.x и Flowable – форками Activiti.
+В приватной беседе представитель Flowable утверждал, что их продукт сделан разработчиками Activiti.
+Процессуальный движок при этом полностью переписан (в отличии от Камунды 7.х).
+</pre></div>
+
 <h3 dir="auto">Ссылки:</h3>
 <a style="text-decoration: underline; color: #3366ff;" title="https://github.com/holunda-io/camunda-bpm-data" href="https://www.holunda.io/camunda-bpm-data/snapshot/index.html" target="_blank" rel="noopener noreferrer">https://www.holunda.io/camunda-bpm-data/snapshot/</a><br/>
 <a style="text-decoration: underline; color: #3366ff;" title="https://github.com/holunda-io/camunda-bpm-data" href="https://github.com/holunda-io/camunda-bpm-data" target="_blank" rel="noopener noreferrer">Camunda BPM Data с примерами от энтузиастов. Добавлена типизация переменных.</a><br/>
 <a style="text-decoration: underline; color: #3366ff;" title="https://github.com/holunda-io/camunda-bpm-data/tree/develop/example/example-java" href="https://github.com/holunda-io/camunda-bpm-data/tree/develop/example/example-java" target="_blank" rel="noopener noreferrer">Пример на Java</a><br/>
 <a style="text-decoration: underline; color: #3366ff;" title="https://github.com/holunda-io/camunda-bpm-data/tree/develop/example/example-java" href="https://github.com/holunda-io/camunda-bpm-data/tree/develop/example/example-kotlin" target="_blank" rel="noopener noreferrer">Пример на Kotlin</a><br/>
 <br/>
+Тем не менее с Camunda 7 можно работать. Примеры:
+<a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/camunda_springboot_db" target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/camunda_springboot_db</a><br/>
+
 Для запуска выполнить:
 <div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
 <pre style="margin: 0; line-height: 125%;">cd ~/prog/java/spring-boot/camunda_springboot_db
@@ -26,4 +97,23 @@
 <br/>
 Cocpit (админка для Camunda):<br/>
 <p><img style="display: block; margin-left: auto; margin-right: auto;" src="images/camunda/after_login1.png" width="1363" height="592" /></p>
-
+<br/>
+Ссылки:<br/>
+<ul>
+    <li><a style="text-decoration: underline; color: #3366ff;"
+           href="https://camunda.com/"
+           target="_blank"
+           rel="noopener noreferrer">https://camunda.com/</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;"
+           href="https://habr.com/ru/companies/clevertec/articles/822333/"
+           target="_blank"
+           rel="noopener noreferrer">Camunda для backend-разработчика — как ей пользоваться (habr)</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;"
+           href="https://downloads.camunda.cloud/release/camunda-modeler/4.12.0/"
+           target="_blank"
+           rel="noopener noreferrer">Camunda Modeler</a></li>
+    <li><a style="text-decoration: underline; color: #3366ff;"
+           href="https://v.perm.ru/index.php/component/content/article/openbpm?catid=15"
+           target="_blank"
+           rel="noopener noreferrer">OpenBPM (альтернатива Camunda)</a></li>
+</ul>
