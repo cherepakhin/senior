@@ -179,3 +179,6 @@ alter table test_db.address delete where n=2;
     <li>Если нужно гарантированно и немедленно удалить большой объём или это требование compliance — используйте ALTER TABLE ... DELETE, но будьте готовы к нагрузке на систему.</li>
     <li>Если задача — очистить всю таблицу — однозначно TRUNCATE TABLE.</li>
 </ul>
+Может интегрироваться с ZooKeeper для балансировки.<br/>
+Можно шардировать.<br/>
+Метрики можно снимать с помощью <a style="text-decoration: underline; color: #3366ff;" href="https://graphite.readthedocs.io/en/latest/tools.html" target="_blank" rel="noopener noreferrer">Graphite</a>.
