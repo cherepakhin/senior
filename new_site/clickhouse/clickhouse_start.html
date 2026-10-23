@@ -11,22 +11,17 @@ sudo apt install apt-transport-https ca-certificates dirmngr
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 8919F6BD2B48D754
 sudo echo "deb https://packages.clickhouse.com/deb stable main" > /etc/apt/sources.list.d/clickhouse.list
 sudo apt update
-sudo apt install clickhouse-server clickhouse-client
-    </pre>
+sudo apt install clickhouse-server clickhouse-client</pre>
 </div>
 
 Конфигурация сервера :
 <a style="text-decoration: underline; color: #3366ff;" href="https://github.com/cherepakhin/senior/blob/main/new_site/clickhouse/config.xml" target="_blank" rel="noopener noreferrer">/etc/clickhouse-server/config.xml</a><br/>
 После установки clickhouse мы можем подключиться к серверу без ввода логина и пароля под пользователем default. Для этого в консоли ввести команду:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-    <pre style="margin: 0; line-height: 125%">
-clickhouse-client
-    </pre>
+    <pre style="margin: 0; line-height: 125%">clickhouse-client</pre>
 </div>
 
 или с удаленной машины:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-    <pre style="margin: 0; line-height: 125%">
-clickhouse-client -h v
-    </pre>
+    <pre style="margin: 0; line-height: 125%">clickhouse-client -h v</pre>
 </div>
