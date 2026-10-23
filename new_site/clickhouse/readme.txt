@@ -83,3 +83,7 @@ alter table address update  house = '50б' where n=3;
 ---------------------------------------------------------
 alter table address delete where n=3;
 ---------------------------------------------------------
+
+Ссылки:
+
+https://multigenesys.com/blog/how-to-install-and-connect-to-clickhouse-using-java
