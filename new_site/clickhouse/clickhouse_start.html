@@ -25,3 +25,157 @@ sudo apt install clickhouse-server clickhouse-client</pre>
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
     <pre style="margin: 0; line-height: 125%">clickhouse-client -h v</pre>
 </div>
+
+<h4>Команды</h4>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+$ clickhouse-client -h v
+ClickHouse client version 18.16.1.
+Connecting to v:9000.
+Connected to ClickHouse server version 18.16.1 revision 54412.
+
+v.perm.ru :) SHOW DATABASES
+
+SHOW DATABASES
+
+┌─name────┐
+│ default │
+│ system  │
+│ test_db │
+└─────────┘
+
+3 rows in set. Elapsed: 0.007 sec.</pre>
+</div>
+
+Список баз с дополнительными сведениями:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">SELECT name, data_path, engine FROM system.databases
+
+SELECT
+    name,
+    data_path,
+    engine
+FROM system.databases
+
+┌─name────┬─data_path─────────────────────────┬─engine───┐
+│ default │ /var/lib/clickhouse/data/default/ │ Ordinary │
+│ system  │ /var/lib/clickhouse/data/system/  │ Ordinary │
+│ test_db │ /var/lib/clickhouse/data/test_db/ │ Ordinary │
+└─────────┴───────────────────────────────────┴──────────┘
+
+3 rows in set. Elapsed: 0.009 sec.</pre>
+</div>
+
+Список баз без служебных и системных:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">SELECT name, data_path, engine FROM system.databases WHERE NOT match(name, '^__.*')
+
+┌─name────┬─data_path─────────────────────────┬─engine───┐
+│ default │ /var/lib/clickhouse/data/default/ │ Ordinary │
+│ system  │ /var/lib/clickhouse/data/system/  │ Ordinary │
+│ test_db │ /var/lib/clickhouse/data/test_db/ │ Ordinary │
+└─────────┴───────────────────────────────────┴──────────┘
+
+3 rows in set. Elapsed: 0.009 sec.</pre>
+</div>
+
+<h4>2. Работа с базами данных</h4>
+
+Создание, удаление и редактирование баз.
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">CREATE DATABASE IF NOT EXISTS db_test_1
+    </pre>
+</div>
+
+Удаление базы:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">DROP DATABASE IF EXISTS db_test_1
+    </pre>
+</div>
+
+<h4>3. Работа с таблицами</h4>
+
+Список таблиц для базы:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">SHOW TABLES FROM test_db
+    </pre>
+</div>
+
+Создание таблицы:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">USE test_db
+create table address(n UInt32, street String, house String) ENGINE = MergeTree PRIMARY KEY(n) order by n;
+    </pre>
+</div>
+
+<b>Получение информации о таблице:</b>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">DESCRIBE TABLE test_db.address
+┌─name───┬─type───┬─default_type─┬─default_expression─┬─comment_expression─┐
+│ n      │ UInt32 │              │                    │                    │
+│ street │ String │              │                    │                    │
+│ house  │ String │              │                    │                    │
+└────────┴────────┴──────────────┴────────────────────┴────────────────────┘
+    </pre>
+</div>
+
+<b>Вставка данных</b>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">INSERT INTO address (n, street, house) VALUES (1, 'Леонова', '7');</pre>
+</div>
+
+<b>Получение данных</b>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">select * from address;
+
+┌─n─┬─street──┬─house─┐
+│ 1 │ Леонова │ 7     │
+└───┴─────────┴───────┘
+
+1 rows in set. Elapsed: 0.006 sec.</pre>
+</div>
+
+Еще вставка данных:
+INSERT INTO address (n, street, house) VALUES (2, 'Комсомольский пр-т', '96а'), (3, 'Пушкина', '3');
+
+<b>Ограничения ClickHouse</b>
+
+ClickHouse подходит не для всех задач. Она не рассчитана на частые изменения данных. Также она не поддерживает сложные транзакции, как это делают другие базы. Разберём ограничения подробнее.
+
+<b>Ограниченная поддержка обновлений и удаления данных</b>. ClickHouse не работает с командами UPDATE и DELETE так, как привычные базы данных.
+Такие операции выполняются через другие механизмы.
+Они менее гибкие и не совершаются мгновенно.
+Не предназначена для транзакционной нагрузки. В мире баз данных есть два основных типа работы:
+аналитическая (OLAP) и транзакционная (OLTP).
+OLTP — это когда система часто вносит изменения в данные, проверяет их на согласованность и обрабатывает запросы, где важны блокировки и точность каждой операции.
+Если важно, чтобы все изменения происходили строго по правилам, например в банковских переводах, то ClickHouse не подойдёт.
+Ограничения при объединении таблиц. В ClickHouse можно использовать JOIN — это операция, которая объединяет данные из нескольких таблиц. Но при работе с большими таблицами JOIN может сильно замедлить систему.
+Требует аккуратной настройки. Если данных становится много, важно правильно организовать структуру базы. Нужно продумать, как разбивать таблицы на части, как настраивать сжатие и партиции — деление таблицы в базе данных на части. Без этого ClickHouse может начать работать медленно или нестабильно.
+
+<b>Удаление данных</b>
+
+В ClickHouse для удаления данных есть несколько подходов — выбор зависит от задачи, объёма данных и требований к времени удаления.
+<br/>
+<br/>
+<b>1. DELETE FROM (легковесное удаление)</b>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">select * from address;
+DELETE FROM [db.]table [ON CLUSTER cluster] [IN PARTITION partition_expr] WHERE expr
+</pre></div>
+<b>Доступно только для таблиц семейства MergeTree.</b>
+<br/>
+<br/>
+<b>2. ALTER TABLE ... DELETE (удаляющая мутация)</b><br/>
+Пример:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">select * from address;
+alter table test_db.address delete where n>0;
+alter table test_db.address delete where n=2;
+</pre></div>
+Какой вариант выбрать?<br/>
+<ul>
+    <li>Если удаляете небольшой объём данных и допустимо, что они временно останутся на диске — берите DELETE FROM.</li>
+    <li>Если нужно гарантированно и немедленно удалить большой объём или это требование compliance — используйте ALTER TABLE ... DELETE, но будьте готовы к нагрузке на систему.</li>
+    <li>Если задача — очистить всю таблицу — однозначно TRUNCATE TABLE.</li>
+</ul>
