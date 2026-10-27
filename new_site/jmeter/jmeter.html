@@ -1,0 +1,46 @@
+Загрузка с сайта: <a style="text-decoration: underline; color: #3366ff;" href="https://jmeter.apache.org/download_jmeter.cgi" target="_blank" rel="noopener noreferrer">https://jmeter.apache.org/download_jmeter.cgi</a><br/>
+<br/>
+<a style="text-decoration: underline; color: #3366ff;" href="https://www.dmosk.ru/miniinstruktions.php?mini=jmeter-install-linux" target="_blank" rel="noopener noreferrer">Установка и запуск JMeter на Linux CentOS</a><br/>
+<br/>
+Установка в несколько шагов:
+<ul>
+     <li>Генерация ключей</li>
+     <li>Настройка сервера</li>
+     <li>Настройка клиента</li>
+</ul>
+<hr id="system-readmore"/>
+<h3>Генерация ключей</h3>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+note:~/tools/jmeter/bin$ ./create-rmi-keystore.sh
+Enter the distinguished name. Provide a single dot (.) to leave a sub-component empty or press ENTER to use the default value in braces.
+What is your first and last name?
+[Unknown]:  Vasi
+What is the name of your organizational unit?
+[Unknown]:  Che
+What is the name of your organization?
+[Unknown]:  Pt
+What is the name of your City or Locality?
+[Unknown]:  Perm
+What is the name of your State or Province?
+[Unknown]:
+What is the two-letter country code for this unit?
+[Unknown]:  RU
+Is CN=Vasi, OU=Che, O=Pt, L=Perm, ST=Unknown, C=RU correct?
+[no]:  yes
+
+Generating 2,048 bit RSA key pair and self-signed certificate (SHA384withRSA) with a validity of 7 days
+for: CN=Vasi, OU=Che, O=Pt, L=Perm, ST=Unknown, C=RU
+Copy the generated rmi_keystore.jks to jmeter/bin folder or reference it in property 'server.rmi.ssl.keystore.file'
+    </pre>
+</div>
+<br/>
+<h3>Настройка сервера</h3>
+<br/>
+Создать файл: jmeter_start_v.sh:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+    <pre style="margin: 0; line-height: 125%">
+bin/jmeter-server -Djava.rmi.server.hostname=192.168.1.79
+    </pre>
+</div>
