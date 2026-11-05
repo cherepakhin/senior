@@ -1,0 +1,487 @@
+Git проекта: <a style="text-decoration: underline; color: #3366ff;" href="https://gitverse.ru/cherepakhin/companies" target="_blank" rel="noopener noreferrer">https://gitverse.ru/cherepakhin/companies</a>
+<p><strong>Задание:</strong></p>
+<hr id="system-readmore" />
+<ol>
+<li>Создать новый пустой Spring (5) Java-проект Web-приложения с поддержкой Maven, Java 11.<br/>
+   Проект должен поддерживать подключение к PostgreSQL (12 и выше) и механизм миграций на базе Liquibase.<br/>
+   Необходимые настройки проекта (в том числе и параметры подключения к БД) должны храниться в профиле.<br/>
+   При запуске проекта должны автоматически формироваться необходимые структуры данных в БД, а так же<br/>
+   должны сразу же автоматически добавляться сами объекты тестовых данных (не менее 50 организаций, которые описаны в п.3). Должно поддерживаться открытие и запуск проекта в IntelliJ Idea.</li>
+
+<li>В собранном web-приложении должна быть реализована REST-архитектура, предоставляющая доступ без авторизации к следующим web-методам:
+   <ol type="a">
+   <li>Метод получения списка объектов данных (описаны в п.3) в формате JSON с возможностью получения как всего списка данных, так и списка данных, отфильтрованного по переданной в этот метод поисковой строке.</li>
+   <li>Метод получения одного объекта данных (описан в п.3) в формате JSON по его уникальному идентификатору.</li>
+   </ol>
+</li>
+<li>Описание одного объекта данных для использования при реализации п.1, 2:<br/>
+   Объект данных представляет собой сведения по одной организации, в которые входят:<br/>
+   3.1 Полное наименование организации<br/>
+   3.2 Краткое наименования организации<br/>
+   3.3 ИНН<br/>
+   3.4 ОГРН<br/>
+   3.5 Почтовый адрес<br/>
+   3.6 Юридический адрес<br/>
+   3.5 Сведения о генеральном директоре, включая Фамилию, Имя, Отчество, дату рождения<br/>
+   3.6 Сведения о филиалах (может быть несколько), включая наименование, почтовый адрес,<br/>
+   сведения о руководителе (Фамилия, Имя отчество, дата рождения)</li>
+
+<li>Все классы, методы и свойства должны иметь комментарии в формате Javadoc.</li>
+<li>Необходимо создать файл с описанием:<br/>
+   5.1 Необходимых для запуска web-приложения настроек в профиле<br/>
+   5.2 REST API web-приложения</li>
+<li>Показать работу с БД разными способами (sql native запросы, qbe-запросы)</li>
+<li>flyway database migration</li>
+<li>Интеграционно протестировать</li>
+<li>Кэши для REST</li>
+<li>Docker</li>
+<li>log</li>
+<li>Профили для dev и prod</li>
+<li>Использован Thymeleaf</li>
+</ol>
+
+<h2>Установка версии java</h2>
+
+<p>в Linux:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64
+</pre>
+</div>
+
+<p>в Windows:<br/>
+(выполнять из cmd.exe)</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+C:&gt;echo %JAVA_HOME%
+C:\po\jdk-21
+
+Z:\prog\java\companies&gt; export JAVA_HOME=c:\po\open-jdk11 ?????
+</pre>
+</div>
+
+<p>Проверка:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+$ ./mvnw -version
+
+Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
+Maven home: /home/vasi/.m2/wrapper/dists/apache-maven-3.6.3-bin/1iopthnavndlasol9gbrbg6bf2/apache-maven-3.6.3
+Java version: 11.0.19, vendor: Ubuntu, runtime: /usr/lib/jvm/java-11-openjdk-amd64
+Default locale: ru_RU, platform encoding: UTF-8
+OS name: "linux", version: "5.4.0-150-generic", arch: "amd64", family: "unix"
+</pre>
+</div>
+
+<h2>Использование базы данных</h2>
+
+<p>Используется программа psql из дистрибутива PostgreSQL.</p>
+
+<p>Создание базы:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+psql
+# create database companies;
+</pre>
+</div>
+
+<p>Для подключения к БД используются user/password из переменных операционной системы PG_USER, PG_PASSWORD. По умолчанию значения обеих переменных 'postgres'.</p>
+
+<p>Подключение через psql:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+psql --dbname=companies
+</pre>
+</div>
+
+<p>Подключение через psql с бД на хосте 192.168.1.20:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+psql -U vasi -d companies -h 192.168.1.20
+</pre>
+</div>
+
+<p>Backup:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+pg_dump -U vasi -W companies &gt; companies.backup
+</pre>
+</div>
+
+<p>Restore:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+psql -U vasi -d companies &lt; companies.backup
+</pre>
+</div>
+
+<p>После восстановления предоставить права:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+GRANT ALL PRIVILEGES ON DATABASE "companies" to vasi;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO vasi;
+</pre>
+</div>
+
+<p>Для версионирования БД используется <a href="https://flywaydb.org/">flyway</a>. Автообновление БД отключено. В application.yaml установлен флаг:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+flyway:
+    enabled: false
+</pre>
+</div>
+
+<p>Миграции в src/resources/migration. При изменении структуры вручную выполнить:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./mvnw flyway:migrate -Dflyway.user=postgres -Dflyway.password=postgres -Dflyway.url=jdbc:postgresql://127.0.0.1:5432/companies
+</pre>
+</div>
+
+<h2>Тестирование</h2>
+
+<p>Прогон всех тестов (включая интеграционные):</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./mvnw test
+</pre>
+</div>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0
+</pre>
+</div>
+
+<p>Прогон только интеграционных тестов:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./mvnw test -Dtest=*_IntegrationTest
+</pre>
+</div>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0
+</pre>
+</div>
+
+<p>Прогон только unit тестов:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+$ ./mvnw test -Dtest=\!*_IntegrationTest
+</pre>
+</div>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
+</pre>
+</div>
+
+<p>Из Windows:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./mvnw test -Dtest=!*_IntegrationTest
+.\mvnw.cmd test -Dtest=!*_IntegrationTest
+</pre>
+</div>
+
+<p>Прогон конкретного тестового класса:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./mvnw test -Dtest=CompanyServiceImplTest -DfailIfNoTests=false
+</pre>
+</div>
+<p>NOTE: No tests were executed! -DfailIfNoTests=false to ignore this error</p>
+
+<p>Прогон конкретного метода конкретного тестового класса:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./mvnw test -Dtest="CompanyServiceImplTest#getAll"
+./mvnw test -Dtest="EmployeeServiceImpl_IntegrationTest#findByLastNameLikeOrderByN"
+./mvnw test -Dtest=CompanyServiceImplTest#getAll
+</pre>
+</div>
+
+<p>Разные варианты прогона тестов:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./mvnw test -Dtest=*ImplTest -DfailIfNoTests=false
+./mvnw test -Dtest=*IntegrationTest -DfailIfNoTests=false
+</pre>
+</div>
+
+<p>Прогон теста в Windows:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+// из cmd.exe
+companies&gt;echo %JAVA_HOME%
+C:\po\jdk-21
+// из PowerShell
+companies&gt;.\mvnw.cmd test -Dtest=*_IntegrationTest
+companies&gt;.\mvnw.cmd test -Dtest=!*_IntegrationTest
+companies&gt;.\mvnw.cmd test
+</pre>
+</div>
+
+<p>Сборка без тестов:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./mvnw package -DskipTests
+</pre>
+</div>
+
+<h2>Покрытие тестами</h2>
+
+<p>Использован <a href="https://www.eclemma.org/jacoco/">jacoco</a>. Генерация отчета:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+$./mvnw test
+$./mvnw jacoco:report
+</pre>
+</div>
+
+<p>Отчет будет в папке target/site/jacoco/index.html</p>
+
+<p><img src="https://v.perm.ru/images/companies/jacoco_report.png" alt="jacoco_report"/></p>
+
+<p>Пример отчета по конкретному классу:</p>
+
+<p><img src="https://v.perm.ru/images/companies/jacoco_class.png" alt="jacoco_class"/></p>
+
+<p>Красным или желтым выделены непротестированные участки кода.</p>
+
+<h2>Запуск проекта</h2>
+
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+$./mvnw clean spring-boot:run
+</pre>
+</div>
+
+<p>Для удобства есть скрипт <code>run.sh</code>, который запускает проект через Maven wrapper с нужным профилем:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./run.sh          # профиль dev (по умолчанию)
+./run.sh prod     # профиль prod
+./run.sh --help   # справка
+</pre>
+</div>
+
+<p>Скрипт выполняет <code>./mvnw spring-boot:run -Dspring-boot.run.profiles=&lt;profile&gt;</code>. Приложение будет доступно на <code>http://localhost:8080/api</code>.</p>
+
+<h2>Интерфейс</h2>
+
+<p style="margin: 16px 0; line-height: 1.6; color: #24292e;">Основной экран:</p><p
+        style="margin: 16px 0; line-height: 1.6; color: #24292e;"><img title="" style="max-width: 100%; height: auto;" src="images/companies/companies_1.png">
+<p>Стили общие для всех страниц: <code>src/main/resources/static/css/app.css</code>.</p>
+
+<p>Web-интерфейс выполнен в стиле Gmail: шапка с логотипом, поисковой строкой и кнопкой Compose, список с карточками, аватарами и действиями, карточка просмотра и формы редактирования.</p>
+
+<p>Поиск по спискам выполняется через параметр <code>q</code>: <code>http://localhost:8080/api/companies?q=foo</code>.</p>
+
+<h2>Логирование</h2>
+
+<p>Сделана настройка вывода протоколв работы через logback в папку logs. Настройки в файле resources/logback-spring.xml</p>
+
+<h2>Конфигурации (spring profiles)</h2>
+
+<p>Конфигурация для разработки расположена в application-dev.yml, для production версии в application-prod.yml. С какой конфигурацией запускать указано в application.yml</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+spring:
+  profiles:
+    active: dev
+</pre>
+</div>
+
+<p>Профиль можно указать при запуске:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+$java -jar target/companies-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+</pre>
+</div>
+
+<h2>Validate DTO</h2>
+
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+http POST :8080/api/employee/validate &lt; src/test/test_jsons/empl_err1.json
+HTTP/1.1 400
+Connection: close
+Content-Type: application/json
+Date: Mon, 23 Oct 2023 07:24:22 GMT
+Transfer-Encoding: chunked
+
+{
+    "errors": [
+        "field: firstname, error: Firstname empty"
+    ],
+    "message": "Errors in input dto: EmployeeDto{n=null, firstname='', lastname='LASTNAME_31', fathername='FATHERNAME_31', birthday='2023/01/01'}",
+    "status": "BAD_REQUEST"
+}
+</pre>
+</div>
+
+<h2>Ручная проверка REST</h2>
+
+<p>Проверка ответа при ошибке:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+$ http :8080/api/company/1000
+
+HTTP/1.1 502
+Connection: keep-alive
+Content-Length: 25
+Content-Type: text/plain;charset=UTF-8
+
+Company not found id=1000
+</pre>
+</div>
+
+<p>app.log:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+ERROR [http-nio-8080-exec-1] ru.perm.v.companies.rest.CompanyRest: Company not found id=1000
+</pre>
+</div>
+
+<h2>ResponseEntity</h2>
+
+<p>Показаны разные способы возврата ошибки.</p>
+
+<p><strong>1) Простой:</strong></p>
+<p>CompanyRest.deleteById(...)</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+@DeleteMapping("/{id}")
+public ResponseEntity&lt;Long&gt; deleteById(@PathVariable Long id) {
+    try {
+        companyService.deleteById(id);
+        return ResponseEntity.ok(id);
+    } catch (Exception e) {
+        log.error(e.getMessage());
+        return new ResponseEntity(e.getMessage(), HttpStatus.BAD_GATEWAY);
+    }
+}
+</pre>
+</div>
+
+<p><strong>2) И через ApiError:</strong></p>
+<p>EmployeeRest.update():</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+if (errors.size() &gt; 0) {
+    ApiError apiError =
+            new ApiError(HttpStatus.BAD_REQUEST, String.format("Errors in input dto: %s", dto), errors);
+    return new ResponseEntity(
+            apiError, new HttpHeaders(), apiError.getStatus());
+}
+</pre>
+</div>
+
+<h2>CI/CD</h2>
+
+<p>Скрипт Jenkinsfile для сборки для Jenkins. Вставлены некоторые команды для отладки и понятия работы Jenkinsfile:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+pipeline {
+    agent any
+    options {internal
+        durabilityHint 'MAX_SURVIVABILITY'
+    }
+    stages {
+        stage('git clone') {
+            steps {
+                sh 'pwd'
+                sh 'rm -rf compaines'
+                sh 'git clone https://github.com/cherepakhin/companies.git'
+                sh 'ls'
+            }
+        }
+        stage('unit tests') {
+            steps {
+                sh 'ls'
+                sh 'cd companies;chmod +x mvnw;ls -al;pwd'
+                sh 'pwd;ls -al;cd companies;./mvnw test -Dtest=!*_IntegrationTest'
+                sh 'ls'
+            }
+        }
+        stage('deploy to nexus') {
+            steps {
+                sh 'ls'
+                sh 'cd companies;ls;./mvnw -Dmaven.test.skip=true deploy'
+                sh 'ls'
+            }
+        }
+    }
+}
+</pre>
+</div>
+
+<p>Примечание: каждый sh в stage начинает работу от рабочего каталога проекта Jenkins (см. stage('unit tests')):</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+sh 'ls'
+sh 'cd companies;chmod +x mvnw;ls -al;pwd'
+sh 'pwd;ls -al;cd companies;./mvnw test -Dtest=!*_IntegrationTest'
+sh 'ls'
+</pre>
+</div>
+
+<p><img src="https://v.perm.ru/images/companies/jenkins_pipeline.png" alt="jenkins_pipeline"/></p>
+
+<p>Jenkins user: vasi<br/>
+Jenkins password: pass</p>
+
+<p>Deploy:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+./mvnw deploy
+</pre>
+</div>
+
+<h2>Примечания</h2>
+
+<p>Для гибкой работы с СУБД используется <a href="http://querydsl.com/">QueryDSL</a></p>
+
+<h2>Ссылки</h2>
+
+<ul>
+<li><a href="https://habr.com/ru/articles/346782/">Optional: Кот Шрёдингера в Java 8</a></li>
+<li><a href="https://dzone.com/articles/integration-tests-with-maven">Integration Tests With Maven (dzone)</a></li>
+<li><a href="https://github.com/gkatzioura/egkatzioura.wordpress.com/tree/master/IntegrationTestMaven/src">example project</a></li>
+</ul>
+
+<h2>Разное</h2>
+
+<ul>
+<li><a href="https://www.jetbrains.com/help/idea/reference-keymap-win-default.html">IntelliJ IDEA's top keyboard shortcuts</a></li>
+</ul>
+
+<p>keyboard shortcuts:<br/>
+Alt-F12 - переход в терминал</p>
+
+<p>Разные варианты LIKE <a href="https://www.baeldung.com/spring-jpa-like-queries">https://www.baeldung.com/spring-jpa-like-queries</a></p>
+
+<p>Неожиданно стал СИЛЬНО ТОРМОЗИТЬ запуск тестов в Idea. Удалил папку <code>.idea</code>.</p>
+
+<p>Просмотр и установка переменных в Windows из PowerShell:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+C:&gt;$env:PG_USER="vasi"
+C:&gt;ls env:
+C:&gt;&gt; ls env:PG_USER
+
+Name                           Value
+----                           -----
+PG_USER                        vasi
+</pre>
+</div>
+
+<p>Перестройка миграций flyway(при ошибках "Flyway: Found non-empty schema(s) "public" without schema history table! Use baseline() - on Empty database") установить в application.yaml:</p>
+<div style="background: #f6f8fa; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+spring:
+   flyway:
+      baseline-on-migrate = true
+</pre>
+</div>
