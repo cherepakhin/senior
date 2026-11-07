@@ -1,0 +1,14 @@
+[Unit]
+Description=Registration login demo
+Wants=network-online.target
+After=network-online.target
+[Service]
+Type=simple
+User=vasi
+Group=vasi
+ExecReload=/bin/kill -HUP
+ExecStart=/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar /home/vasi/po/registration-login-demo-0.0.1.jar --server.port=8089
+SyslogIdentifier=registration-login-demo
+Restart=always
+[Install]
+WantedBy=multi-user.target

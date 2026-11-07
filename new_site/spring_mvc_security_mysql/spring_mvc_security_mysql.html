@@ -79,6 +79,28 @@ spring.jpa.hibernate.ddl-auto=update
 </pre></div>
 <br/>
 
+Настройка сервиса в linux для автозапуска при старте сервера
+<a href="https://github.com/cherepakhin/senior/tree/main/new_site/spring_mvc_security_mysql/registration-login-demo.service" target="_blank">registration-login-demo.service</a>:
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+[Unit]
+Description=Registration login demo
+Wants=network-online.target
+After=network-online.target
+[Service]
+Type=simple
+User=vasi
+Group=vasi
+ExecReload=/bin/kill -HUP
+ExecStart=/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar /home/vasi/po/registration-login-demo-0.0.1.jar --server.port=8089
+SyslogIdentifier=registration-login-demo
+Restart=always
+[Install]
+WantedBy=multi-user.target
+</pre></div>
+<br/>
+
 Результат:
 
 <a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/registration/" target="_blank" rel="noopener noreferrer">https://v.perm.ru/registration/</a>
