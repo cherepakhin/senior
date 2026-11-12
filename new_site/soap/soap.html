@@ -1,13 +1,14 @@
 Что такое SOAP?<br/>
-<a href="https://systems.education/soap-integration">Применение SOAP при интеграции систем</a>
-
+<a href="https://systems.education/soap-integration">Применение SOAP при интеграции систем</a><br/>
+Пример <a href="https://github.com/cherepakhin/soap-producer-web-service">https://github.com/cherepakhin/soap-producer-web-service</a>
+<br/>
 <hr id="system-readmore" />
 (note:/home/vasi/prog/java/soap)
 
-<h5>SOAP and Spring Boot</h5>
+<h5>SOAP и Spring Boot</h5>
 
 <a href="https://kosenkov.pro/spring/soap-spring-boot-web-service/">Создание SOAP Web-сервиса</a><br/>
-<a href="https://github.com/Bouncer77/soap-producer-web-service">Создание веб-службы SOAP (github)</a><br/>
+<a href="https://github.com/Bouncer77/soap-producer-web-service">Пример работы с SOAP (java, github)</a><br/>
 (note:/home/vasi/prog/java/soap/soap-producer-web-service)<br/>
 
 <h5>WSDL</h5>
@@ -27,6 +28,155 @@ http http://localhost:8080/ws/countries.wsdl > test1_result.xml
 </pre></div>
 
 Результат:<br/>
-<a href="https://github.com/Bouncer77/soap-producer-web-service">Создание веб-службы SOAP (github)</a><br/>
+<a href="https://github.com/cherepakhin/senior/blob/main/new_site/soap/test1_result.xml">test1_result.xml</a><br/>
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;&lt;wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://spring.io/guides/gs-producing-web-service" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://spring.io/guides/gs-producing-web-service" targetNamespace="http://spring.io/guides/gs-producing-web-service"&gt;
+    &lt;wsdl:types&gt;
+        &lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://spring.io/guides/gs-producing-web-service"&gt;
+
+            &lt;xs:element name="getCountryRequest"&gt;
+                &lt;xs:complexType&gt;
+                    &lt;xs:sequence&gt;
+                        &lt;xs:element name="name" type="xs:string"/&gt;
+                    &lt;/xs:sequence&gt;
+                &lt;/xs:complexType&gt;
+            &lt;/xs:element&gt;
+
+            &lt;xs:element name="getCountryResponse"&gt;
+                &lt;xs:complexType&gt;
+                    &lt;xs:sequence&gt;
+                        &lt;xs:element name="country" type="tns:country"/&gt;
+                    &lt;/xs:sequence&gt;
+                &lt;/xs:complexType&gt;
+            &lt;/xs:element&gt;
+
+            &lt;xs:complexType name="country"&gt;
+                &lt;xs:sequence&gt;
+                    &lt;xs:element name="name" type="xs:string"/&gt;
+                    &lt;xs:element name="population" type="xs:int"/&gt;
+                    &lt;xs:element name="capital" type="xs:string"/&gt;
+                    &lt;xs:element name="currency" type="tns:currency"/&gt;
+                &lt;/xs:sequence&gt;
+            &lt;/xs:complexType&gt;
+
+            &lt;xs:simpleType name="currency"&gt;
+                &lt;xs:restriction base="xs:string"&gt;
+                    &lt;xs:enumeration value="GBP"/&gt;
+                    &lt;xs:enumeration value="EUR"/&gt;
+                    &lt;xs:enumeration value="PLN"/&gt;
+                &lt;/xs:restriction&gt;
+            &lt;/xs:simpleType&gt;
+        &lt;/xs:schema&gt;
+    &lt;/wsdl:types&gt;
+    &lt;wsdl:message name="getCountryResponse"&gt;
+        &lt;wsdl:part element="tns:getCountryResponse" name="getCountryResponse"&gt;
+        &lt;/wsdl:part&gt;
+    &lt;/wsdl:message&gt;
+    &lt;wsdl:message name="getCountryRequest"&gt;
+        &lt;wsdl:part element="tns:getCountryRequest" name="getCountryRequest"&gt;
+        &lt;/wsdl:part&gt;
+    &lt;/wsdl:message&gt;
+    &lt;wsdl:portType name="CountriesPort"&gt;
+        &lt;wsdl:operation name="getCountry"&gt;
+            &lt;wsdl:input message="tns:getCountryRequest" name="getCountryRequest"&gt;
+            &lt;/wsdl:input&gt;
+            &lt;wsdl:output message="tns:getCountryResponse" name="getCountryResponse"&gt;
+            &lt;/wsdl:output&gt;
+        &lt;/wsdl:operation&gt;
+    &lt;/wsdl:portType&gt;
+    &lt;wsdl:binding name="CountriesPortSoap11" type="tns:CountriesPort"&gt;
+        &lt;soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/&gt;
+        &lt;wsdl:operation name="getCountry"&gt;
+            &lt;soap:operation soapAction=""/&gt;
+            &lt;wsdl:input name="getCountryRequest"&gt;
+                &lt;soap:body use="literal"/&gt;
+            &lt;/wsdl:input&gt;
+            &lt;wsdl:output name="getCountryResponse"&gt;
+                &lt;soap:body use="literal"/&gt;
+            &lt;/wsdl:output&gt;
+        &lt;/wsdl:operation&gt;
+    &lt;/wsdl:binding&gt;
+    &lt;wsdl:service name="CountriesPortService"&gt;
+        &lt;wsdl:port binding="tns:CountriesPortSoap11" name="CountriesPortSoap11"&gt;
+            &lt;soap:address location="http://localhost:8080/ws"/&gt;
+        &lt;/wsdl:port&gt;
+    &lt;/wsdl:service&gt;
+&lt;/wsdl:definitions&gt;
+</pre></div>
+<br/>
+<h5>Примеры использования WSDL (для проекта из примера выше)</h5>
+<br/>
+Параметры запроса <b>request.xml</b>(получить информацию об Испании):<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:gs="http://spring.io/guides/gs-producing-web-service"&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;gs:getCountryRequest&gt;
+         &lt;gs:name&gt;Spain&lt;/gs:name&gt;
+      &lt;/gs:getCountryRequest&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre></div>
+
+Выполнение запроса с параметром <b>request.xml</b> к SOAP сервису http://localhost:8080/ws:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+curl --header "content-type: text/xml" -d @request.xml http://localhost:8080/ws
+</pre></div>
+Или с форматированием результата:<br/>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+curl --header "content-type: text/xml" -d @request.xml http://localhost:8080/ws  | xmllint --format - | source-highlight -s xml -f esc
+</pre></div>
+Ответ:
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   721  100   416  100   305  61647  45198 --:--:-- --:--:-- --:--:--  117k
+&lt;?xml version="1.0"?&gt;
+&lt;SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"&gt;
+  &lt;SOAP-ENV:Header/&gt;
+  &lt;SOAP-ENV:Body&gt;
+    &lt;ns2:getCountryResponse xmlns:ns2="http://spring.io/guides/gs-producing-web-service"&gt;
+      &lt;ns2:country&gt;
+        &lt;ns2:name&gt;Spain&lt;/ns2:name&gt;
+        &lt;ns2:population&gt;46704314&lt;/ns2:population&gt;
+        &lt;ns2:capital&gt;Madrid&lt;/ns2:capital&gt;
+        &lt;ns2:currency&gt;EUR&lt;/ns2:currency&gt;
+      &lt;/ns2:country&gt;
+    &lt;/ns2:getCountryResponse&gt;
+  &lt;/SOAP-ENV:Body&gt;
+&lt;/SOAP-ENV:Envelope&gt;
+</pre></div>
+<br/>
+<h5>Tydy</h5>
+Tidy - программа для форматирования HTML, XML и других форматов кода.
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+curl --header "content-type: text/xml" -d @request.xml http://localhost:8080/ws  | tidy -xml -iq
+</pre></div>
+<br/>
+<h5>Xmlstarlet</h5>
+Xmlstarlet - программа для форматирования XML кода.
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+curl --header "content-type: text/xml" -d @request.xml http://localhost:8080/ws  | xmlstarlet fo
+</pre></div>
+<br/>
+<h5>Подсвечивание синтаксиса XML</h5>
+
+С форматированием (xmllint) и выделение цветом (source-highlight):
+
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">
+curl --header "content-type: text/xml" -d @request.xml http://localhost:8080/ws  | xmllint --format - | source-highlight -s xml -f esc
+</pre></div>
 
 
