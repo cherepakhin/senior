@@ -1,0 +1,67 @@
+<p>TestNG - еще одна система тестирвания. Можно использовать для интеграционных тестов.
+<hr id="system-readmore" />
+TestNG в отличие от JUnit, работает для <b>функционального и более высоких уровней тестирования</b>.</p>
+для класса теста @BeforeClass, @AfterClass<br/>
+для методов класса теста @BeforeMethod, @AfterMethod<br/>
+<ul>
+    <li>@BeforeClass</li>
+    <li>@BeforeMethod</li>
+    <li>@Test</li>
+    <li>@AfterMethod</li>
+    <li>@AfterClass</li>
+</ul>
+
+TestNG также предлагает аннотации @BeforeSuite, @AfterSuite, @BeforeGroups и @AfterGroups
+для конфигураций на уровне набора (suite) и группы.<br/>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">@BeforeGroup(<span style="color: #0000FF">"positive_tests"</span>)
+<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> runBeforeEachGroup() {
+    numbers.<span style="color: #FF0000">add</span>(<span style="color: #0000FF">1</span>);
+    numbers.<span style="color: #FF0000">add</span>(<span style="color: #0000FF">2</span>);
+    numbers.<span style="color: #FF0000">add</span>(<span style="color: #0000FF">3</span>);
+}
+
+@Test(groups= {<span style="color: #0000FF">"positive_tests"</span>})
+<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> testcase2()  {
+    System.<span style="color: #FF0000">out</span>.<span style="color: #FF0000">println</span>(<span style="color: #0000FF">"---"</span>);
+}
+
+@AfterGroup(<span style="color: #0000FF">"positive_tests"</span>)
+<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> runAfterEachGroup() {
+    numbers.<span style="color: #FF0000">clear</span>();
+}
+</pre></div>
+<br/>
+<h3>Тестирование с помощью DataProvider</h3><br />
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">@DataProvider(name = <span style="color: #0000ff;">"numbers"</span>)
+<span style="color: #000080; font-weight: bold;">public</span> <span style="color: #000080; font-weight: bold;">static</span> Object[][] evenNumbers() {
+    <span style="color: #000080; font-weight: bold;">return</span> <span style="color: #000080; font-weight: bold;">new</span> Object[][]{{<span style="color: #0000ff;">1</span>, <span style="color: #000080; font-weight: bold;">false</span>}, {<span style="color: #0000ff;">2</span>, <span style="color: #000080; font-weight: bold;">true</span>}, {<span style="color: #0000ff;">4</span>, <span style="color: #000080; font-weight: bold;">true</span>}};
+}
+
+@Test(dataProvider = <span style="color: #0000ff;">"numbers"</span>)
+<span style="color: #000080; font-weight: bold;">public</span> <span style="color: #000080; font-weight: bold;">void</span>
+  givenNumberFromDataProvider_ifEvenCheckOK_thenCorrect(Integer number, <span style="color: #000080; font-weight: bold;">boolean</span> expected) {
+    assertEquals(expected, number % <span style="color: #0000ff;">2</span> == <span style="color: #0000ff;">0</span>);
+}
+</pre>
+</div>
+<p>Еще пример с DataProvider:</p>
+<div style="background: #ffffff; overflow: auto; width: auto; border: solid #092A8F; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;">@Test(dataProvider = <span style="color: #0000ff;">"numbersObject"</span>)
+<span style="color: #000080; font-weight: bold;">public</span> <span style="color: #000080; font-weight: bold;">void</span> givenNumberObjectFromDataProvider_ifEvenCheckOK_thenCorrect(EvenNumber number) {
+    assertEquals(number.<span style="color: #ff0000;">isEven</span>(), number.<span style="color: #ff0000;">getValue</span>() % <span style="color: #0000ff;">2</span> == <span style="color: #0000ff;">0</span>);
+}
+
+@DataProvider(name = <span style="color: #0000ff;">"numbersObject"</span>)
+<span style="color: #000080; font-weight: bold;">public</span> Object[][] parameterProvider() {
+    <span style="color: #000080; font-weight: bold;">return</span> <span style="color: #000080; font-weight: bold;">new</span> Object[][]{{<span style="color: #000080; font-weight: bold;">new</span> EvenNumber(<span style="color: #0000ff;">1</span>, <span style="color: #000080; font-weight: bold;">false</span>)},
+      {<span style="color: #000080; font-weight: bold;">new</span> EvenNumber(<span style="color: #0000ff;">2</span>, <span style="color: #000080; font-weight: bold;">true</span>)}, {<span style="color: #000080; font-weight: bold;">new</span> EvenNumber(<span style="color: #0000ff;">4</span>, <span style="color: #000080; font-weight: bold;">true</span>)}};
+}
+</pre>
+</div>
+<p>Ссылки:<br />
+<ul>
+  <li><a title="TestNG @DataProvider for Repeated Tests" href="https://howtodoinjava.com/testng/testng-dataprovider/" target="_blank" rel="noopener noreferrer">TestNG @DataProvider for Repeated Tests</a></li>
+  <li><a style="text-decoration: underline; color: #3366ff;" title="https://www.baeldung.com/testng" href="https://www.baeldung.com/testng" target="_blank" rel="noopener noreferrer">https://www.baeldung.com/testng</a></li>
+</ul>
+</p>
