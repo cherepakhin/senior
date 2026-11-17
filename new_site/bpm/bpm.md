@@ -1,0 +1,11 @@
+Camel:<br/>
+    <a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/index.php/component/finder/search?q=camel" target="_blank" rel="noopener noreferrer">Ссылки на Camel с v.perm.ru</a><br/>
+Camunda:<br/>
+    <a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/index.php/component/finder/search?q=camunda" target="_blank" rel="noopener noreferrer">Ссылки на Camunda с v.perm.ru</a><br/>
+OpenBPM:<br/>
+    <a style="text-decoration: underline; color: #3366ff;" href="https://v.perm.ru/index.php/component/content/article/openbpm?catid=15" target="_blank" rel="noopener noreferrer">OpenBPM (альтернатива Camunda)</a><br/>
+Pega (Ланит):<br/>
+    <a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/companies/lanit/articles/651705/#comment_24161427" target="_blank" rel="noopener noreferrer">Весь этот low-code моментально перестает работать, в реальных проектах где бизнес хочет функционал которого нет в коробке. В итоге разработчики не могут использовать git, нормально писать тесты и деплоить свой продукт. Pega обрастает кастомными костылями для удовлетворения потребностей бизнеса. Часть этих костылей поставляется Ланитом, что образует вендор лок не только на Pega, но и на Ланит. При обновлении версии Pega эти костыли ломаются и вместо них нужно писать новые. Говорю об этом на своем опыте - я работал на проекте Pega в сбере с Ланитом и Люксофтом в течении года.</a><br/>
+    <a style="text-decoration: underline; color: #3366ff;" href="~/doc/senior/new_site/pega/" target="_blank" rel="noopener noreferrer">~/doc/senior/new_site/pega/</a><br/>
+temporal.io:<br/>
+    <a style="text-decoration: underline; color: #3366ff;" href="https://habr.com/ru/articles/970730/" target="_blank" rel="noopener noreferrer">Темпорал для начинающих</a><br/>
