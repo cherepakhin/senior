@@ -48,7 +48,17 @@ CGroup: /system.slice/redis-server.service
 
 </pre></div>
 
-<b>port 6379</b>
+<b>port 6379</b>.
+<br/>
+Полная конфигурация Redis (/etc/redis/redis.conf) находится в файле <a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/cherepakhin/senior/blob/main/new_site/redis/redis.conf"
+   target="_blank" rel="noopener noreferrer">https://github.com/cherepakhin/senior/blob/main/new_site/redis/redis.conf</a>
+
+<br/>
+Файл настройки сервиса в Linux
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/cherepakhin/senior/blob/main/new_site/redis/redis.service"
+   target="_blank" rel="noopener noreferrer">/etc/systemd/system/redis.service</a>
 <br/>
 Нагрузочный тест:
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
@@ -64,3 +74,8 @@ Summary:
 </pre></div>
 Эта команда симулирует 50 клиентов (параметр -c 50), выполняющих 100 000 запросов (-n 100 000).
 Результаты отображают время ответа в миллисекундах.
+<br/>
+Ссылки:<br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://practicum.yandex.ru/blog/chto-takoe-redis-i-dlya-chego-nuzhen"
+   target="_blank" rel="noopener noreferrer">Redis: что это и как использовать</a>
