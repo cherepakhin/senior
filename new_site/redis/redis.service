@@ -1,0 +1,15 @@
+[Unit]
+Description=Redis Service
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target
+
+[Service]
+Type=simple
+User=vasi
+ExecStart=/usr/bin/redis-server *:6379
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+

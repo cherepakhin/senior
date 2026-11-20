@@ -1,6 +1,6 @@
 Redis — это база данных, размещаемая в памяти, которая используется, в основном,
 в роли кеша, находящегося перед другой, "настоящей" базой данных, вроде MySQL или PostgreSQL.
-
+<br/>
 Может использоваться в реализациях механизма издатель/подписчик, в задачах потоковой обработки данных, в системах, где нужно работать с очередями.
 
 Вот какие типы данных поддерживает Redis:
@@ -47,7 +47,25 @@ CGroup: /system.slice/redis-server.service
 └─1307637 "/usr/bin/redis-server 127.0.0.1:6379"
 
 </pre></div>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://github.com/cherepakhin/senior/blob/main/new_site/redis/redis.service"
+   target="_blank" rel="noopener noreferrer">redis.service</a>:
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #020274;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+[Unit]
+Description=Redis Service
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target
 
+[Service]
+Type=simple
+User=vasi
+ExecStart=/usr/bin/redis-server *:6379
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+</pre></div>
 <b>port 6379</b>.
 <br/>
 Полная конфигурация Redis (/etc/redis/redis.conf) находится в файле <a style="text-decoration: underline; color: #3366ff;"
@@ -57,7 +75,7 @@ CGroup: /system.slice/redis-server.service
 <br/>
 Файл настройки сервиса в Linux
 <a style="text-decoration: underline; color: #3366ff;"
-   href="https://github.com/cherepakhin/senior/blob/main/new_site/redis/redis.service"
+   href="https://github.com/cherepakhin/senior/blob/main/new_site/redis/redis-server.service"
    target="_blank" rel="noopener noreferrer">/etc/systemd/system/redis.service</a>
 <br/>
 Нагрузочный тест:
@@ -67,15 +85,30 @@ $ redis-benchmark -h localhost -p 6379 -n 100000 -c 50 -d 100
 
 ...
 Summary:
-  throughput summary: 62111.80 requests per second
+  throughput summary: 6573.76 requests per second
   latency summary (msec):
           avg       min       p50       p95       p99       max
-        0.427     0.112     0.423     0.503     0.559     0.895
+        7.098     1.296     5.583    14.407    30.415   230.143
 </pre></div>
 Эта команда симулирует 50 клиентов (параметр -c 50), выполняющих 100 000 запросов (-n 100 000).
 Результаты отображают время ответа в миллисекундах.
 <br/>
-Ссылки:<br/>
+<h4>Redisson is a Redis client for Java</h4>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid #092A8F;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+&lt;dependency&gt;
+    &lt;groupId&gt;org.redisson&lt;/groupId&gt;
+    &lt;artifactId&gt;redisson&lt;/artifactId&gt;
+    &lt;version&gt;3.20.0&lt;/version&gt;
+&lt;/dependency&gt;
+</pre>
+</div>
+<h4>Ссылки:</h4><br/>
 <a style="text-decoration: underline; color: #3366ff;"
    href="https://practicum.yandex.ru/blog/chto-takoe-redis-i-dlya-chego-nuzhen"
-   target="_blank" rel="noopener noreferrer">Redis: что это и как использовать</a>
+   target="_blank" rel="noopener noreferrer">Redis: что это и как использовать</a><br/>
+<a style="text-decoration: underline; color: #3366ff;"
+   href="https://www.baeldung.com/redis-redisson"
+   target="_blank" rel="noopener noreferrer">A Guide to Redis with Redisson (baeldung)</a>
+
